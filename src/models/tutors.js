@@ -16,6 +16,12 @@ const schema = new mongoose.Schema({
         date : Date
         }],
     price:Number,
+    profile:{
+        about:String,
+        style:String,
+        certifications:String,
+        experience:String
+    }
 });
 
 module.exports = mongoose.model('tutor' , schema)
