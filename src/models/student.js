@@ -8,5 +8,5 @@ const schema = new mongoose.Schema({
     favorit_list:
    [mongoose.Schema.Types.Mixed],
     profile:mongoose.Schema.Types.Mixed
-})
+});
 module.exports=mongoose.model('student',schema);
