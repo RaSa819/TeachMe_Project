@@ -9,3 +9,4 @@ const schema = new mongoose.Schema({
    [mongoose.Schema.Types.Mixed],
     profile:mongoose.Schema.Types.Mixed
 })
+module.exports=mongoose.model('student',schema);
