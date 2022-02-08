@@ -13,7 +13,7 @@ const schema = new mongoose.Schema({
     reviews:[{
         Studentid :mongoose.Schema.Types.ObjectId,
         rev_content : String,
-        date : Date
+        date :Date
         }],
     price:Number,
     profile:{
