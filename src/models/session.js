@@ -10,4 +10,4 @@ const session = mongoose.Schema({
   request:mongoose.Schema.Types.ObjectId
 })
 
-module.exports = mongoose.model('session',session);
+module.exports = mongoose.model('sessions',session);
