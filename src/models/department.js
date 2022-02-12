@@ -5,4 +5,4 @@ const schema = new mongoose.Schema({
     price:Number
 });
 
-module.exports = mongoose.model('department',schema);
+module.exports = mongoose.model('departments',schema);
