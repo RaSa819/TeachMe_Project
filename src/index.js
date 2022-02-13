@@ -17,14 +17,15 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
-app.use('/',router);
-app.use('/user',userRouter);
 var cors = require('cors');
 app.use(cors({
   cors:{
     origin:'*'
   }
 }));
+app.use('/',router);
+app.use('/user',userRouter);
+
 
 // app.get('/', (req, res) => {
 //   // const deptData = dept.find({}).
