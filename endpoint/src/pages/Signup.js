@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from 'axios'
 import validator from 'validator';
+import { useNavigate } from "react-router-dom";
 
 // to align items in center 
 const styleCenter = {
@@ -11,7 +12,7 @@ const styleCenter = {
 
 const styleLabel = {
   paddingTop: '20px',
-  color:'black'
+  color: 'black'
 
 }
 const styleInput = {
@@ -79,18 +80,7 @@ const Signup = () => {
   const street = useRef();
   const ZIP = useRef();
   const dept = useRef();
-  // const [firstName, setFirstName] = useState('')
-  // const [middleName, setmiddleName] = useState('')
-  // const [lastName, setlastName] = useState('')
-  // const [username, setUsername] = useState('')
-  // const [password, setPassword] = useState('')
-  // const [confirmPassword, setConfirmPassword] = useState('')
-  // const [email, setEmail] = useState('')
-  // const [phoneNumber, setphoneNumber] = useState('')
-  // const [country, setCountry] = useState('')
-  // const [city, setCity] = useState('')
-  // const [street, setStreet] = useState('')
-  // const [zip, setZip] = useState('')
+
   // 
 
   const [cardInfo, setCardInfo] = useState({})
@@ -102,25 +92,20 @@ const Signup = () => {
   // send data to api by using axios 
   const signUp = async (e) => {
     e.preventDefault();
-
-    // if (!checkPassword()) {
-    //   alert("the password is not compatible ");
-    //   return;
-    // }
     const data = {
-      username:username.current.value,
-      firstName:firstName.current.value,
-      middleName:middleName.current.value,
-      lastName:lastName.current.value,
-      email:email.current.value,
-      password:password.current.value,
+      username: username.current.value,
+      firstName: firstName.current.value,
+      middleName: middleName.current.value,
+      lastName: lastName.current.value,
+      email: email.current.value,
+      password: password.current.value,
       address: {
-        country:country.current.value,
-        city:city.current.value,
-        street:street.current.value,
+        country: country.current.value,
+        city: city.current.value,
+        street: street.current.value,
         ZIP: ZIP.current.value,
       },
-      phoneNumber:phoneNumber.current.value
+      phoneNumber: phoneNumber.current.value
     }
 
     await axios.post('http://localhost:4000/user/register', {
@@ -134,32 +119,35 @@ const Signup = () => {
   }
 
 
-  // validation message ==> show if there is error in input or not
-  // validation 
-
-
-
-  const checkUserName = () => {
-    var check = validator.isEmail(username.toString())
-    console.log(check);
-  }
-
-  const checkEmail = () => {
-
-  }
-
-  const checkPassword = () => {
-    if (password === confirmPassword)
-      return true;
-  }
-
-
+  let navigate = useNavigate();
 
   return (
     <div className="row">
       <div className="col-md-2" />
       <div className="col-md-8">
-        <form onSubmit={(event)=>signUp(event)}>
+
+        <button style={{
+          float: 'left'
+        }} className="btn btn-success"
+          onClick={() => {
+            navigate('/users')
+          }}
+
+        >
+          Show Users
+        </button>
+
+        <button style={{
+          float: 'right'
+        }}
+        onClick={
+          ()=> navigate('/depts')
+        }
+          className="btn btn-success">
+          Show Departments
+        </button>
+
+        <form onSubmit={(event) => signUp(event)}>
           <h3 className="text-center mt-2"
             style={{
               color: color[1]
