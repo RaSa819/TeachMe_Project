@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
         header:String,
         content:String,
         time: { type: Date, default: Date.now },
-        type:Number// to determine kind of notification,
+        type:Number // to determine kind of notification,
 
     }
 });

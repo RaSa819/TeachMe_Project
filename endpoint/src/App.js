@@ -12,11 +12,11 @@ import Login from "./pages/Login";
 import axios from "axios";
 export default function App() {
 
-  
+
   return (
     <div className="container-fluid">
-      <Signup/>
-      <Login/>
+      <Signup />
+      <Login />
     </div>
   )
 }

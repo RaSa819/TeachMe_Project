@@ -15,8 +15,9 @@ const schema = new mongoose.Schema({
         ZIP:String
     },
     email:String,
-    phoneNumber:[]
-
+    phoneNumber:[],
+    gender:Number,
+    type:Number
 })
 
 module.exports = mongoose.model('users' , schema);
