@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from 'axios'
 import validator from 'validator';
-//import { options } from "../../../src/routers/fetchDataRouter";
+import { useNavigate } from "react-router-dom";
 
 // to align items in center 
 const styleCenter = {
@@ -10,6 +10,28 @@ const styleCenter = {
   justifyContent: "center"
 }
 
+const styleLabel = {
+  paddingTop: '20px',
+  color: 'black'
+
+}
+const styleInput = {
+  border: '0',
+  borderBottom: 'solid gray 2px',
+  outline: 0,
+  borderRadius: '0',
+
+}
+const styleRowInput = {
+  marginTop: '-5px'
+}
+const styleRow = {
+  marginTop: '-15px'
+}
+
+const styleInline = {
+  marginTop: '-15px'
+}
 const Signup = () => {
 
   //
@@ -20,6 +42,8 @@ const Signup = () => {
 
   // data 
 
+
+
   const [deptData, setDeptData] = useState([])
 
   React.useEffect(async () => {
@@ -28,54 +52,60 @@ const Signup = () => {
       await axios.get('http://localhost:4000/fetchDept').
 
         //represnt data to state 
+
         then((res) => {
           setDeptData(res.data)
           console.log(res.data)
         }).
-
         catch((err) => {
           console.log('there is error is' + err)
         })
     }
   }, [tutor])
 
+
+
   //  data for sign up 
-  const [firstName, setFirstName] = useState('')
-  const [middleName, setmiddleName] = useState('')
-  const [lastName, setlastName] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [email, setEmail] = useState('')
-  const [phoneNumber, setphoneNumber] = useState('')
-  const [country, setCountry] = useState('')
-  const [city, setCity] = useState('')
-  const [street, setStreet] = useState('')
-  const [zip, setZip] = useState('')
-  const [dept, setDept] = useState('')
+
+  const firstName = useRef();
+  const middleName = useRef();
+  const lastName = useRef();
+  const username = useRef();
+  const password = useRef();
+  const confirmPassword = useRef();
+  const email = useRef();
+  const phoneNumber = useRef();
+  const country = useRef();
+  const city = useRef();
+  const street = useRef();
+  const ZIP = useRef();
+  const dept = useRef();
+
+  // 
 
   const [cardInfo, setCardInfo] = useState({})
   // 
+
+  const [isReadyToSubmit, setReadyToSubmit] = useState(false);
 
 
   // send data to api by using axios 
   const signUp = async (e) => {
     e.preventDefault();
-
     const data = {
-      username,
-      firstName,
-      middleName,
-      lastName,
-      email,
-      password,
+      username: username.current.value,
+      firstName: firstName.current.value,
+      middleName: middleName.current.value,
+      lastName: lastName.current.value,
+      email: email.current.value,
+      password: password.current.value,
       address: {
-        country,
-        city,
-        street,
-        ZIP: zip,
+        country: country.current.value,
+        city: city.current.value,
+        street: street.current.value,
+        ZIP: ZIP.current.value,
       },
-      phoneNumber
+      phoneNumber: phoneNumber.current.value
     }
 
     await axios.post('http://localhost:4000/user/register', {
@@ -89,27 +119,34 @@ const Signup = () => {
   }
 
 
-  // validation message ==> show if there is error in input or not
-  // validation 
-
-  const checkUserName = () => {
-    var check = validator.isEmail(username.toString())
-    console.log(check);
-  }
-
-  const checkEmail = () => {
-
-  }
-
-  const checkPassword = () => {
-
-  }
-
+  let navigate = useNavigate();
 
   return (
     <div className="row">
       <div className="col-md-2" />
       <div className="col-md-8">
+
+        <button style={{
+          float: 'left'
+        }} className="btn btn-success"
+          onClick={() => {
+            navigate('/users')
+          }}
+
+        >
+          Show Users
+        </button>
+
+        <button style={{
+          float: 'right'
+        }}
+        onClick={
+          ()=> navigate('/depts')
+        }
+          className="btn btn-success">
+          Show Departments
+        </button>
+
         <form onSubmit={(event) => signUp(event)}>
           <h3 className="text-center mt-2"
             style={{
@@ -117,133 +154,197 @@ const Signup = () => {
             }}
           >Sign Up</h3>
 
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>username</label>
+            </div>
+            <div className="col-md-9 col-lg-10" >
+              <input type="text" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={username}
+              />
+            </div>
+          </div>
 
-          <input type="text" className="form-control mt-3"
-            placeholder="username"
-            onKeyPress={(event) => {
-              if (event.charCode === 13)
-                checkUserName()
-            }}
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>email</label>
+            </div>
+            <div className="col-md-9 col-lg-10">
+              <input type="text" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={email}
+              />
+            </div>
+          </div>
 
-            onChange={(event) => setUsername(event.target.value)}
-            value={username}
-          />
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>password</label>
+            </div>
+            <div className="col-md-9 col-lg-10">
+              <input type="password" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={password}
+              />
+            </div>
+          </div>
 
-          <input type="email" className="form-control mt-2"
-            placeholder="email address"
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>confirm Password</label>
+            </div>
+            <div className="col-md-9 col-lg-10">
+              <input type="password" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={confirmPassword}
+              />
+            </div>
+          </div>
 
-            onChange={(event) => setEmail(event.target.value)}
-            value={email}
-          />
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>first name</label>
+            </div>
+            <div className="col-md-9 col-lg-10">
+              <input type="text" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={firstName}
+              />
+            </div>
+          </div>
 
-          <input type="password" className="form-control mt-2"
-            placeholder="password"
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>middle name</label>
+            </div>
+            <div className="col-md-9 col-lg-10">
+              <input type="text" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={middleName}
+              />
+            </div>
+          </div>
 
-            onChange={(event) => setPassword(event.target.value)}
-            value={password}
-          />
-          <input type="password" className="form-control mt-2"
-            placeholder="confirm password"
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            value={confirmPassword}
-          />
-          <input type="text" className="form-control mt-2"
-            placeholder="first name"
 
-            onChange={(event) => setFirstName(event.target.value)}
-            value={firstName}
-          />
-          <input type="text" className="form-control mt-2"
-            placeholder="middle name"
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>last name</label>
+            </div>
+            <div className="col-md-9 col-lg-10">
+              <input type="text" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={lastName}
+              />
+            </div>
+          </div>
 
-            onChange={(event) => setmiddleName(event.target.value)}
-            value={middleName}
-          />
-          <input type="text" className="form-control mt-2"
-            placeholder="last name"
 
-            onChange={(event) => setlastName(event.target.value)}
-            value={lastName}
-          />
 
           {/* Address fields  */}
           <div className="row">
             <div className="col">
-              <input type="text" className="form-control mt-2"
-                placeholder="country"
+              <label>country</label>
+              <input type="text" className="form-control mt-2 shadow-none"
+                placeholder=""
+                style={styleInput}
+                ref={country}
 
-                onChange={(event) => setCountry(event.target.value)}
-                value={country}
               />
             </div>
             <div className="col">
-              <input type="text" className="form-control mt-2"
-                placeholder="current city"
-
-                onChange={(event) => setCity(event.target.value)}
-                value={city}
+              <label>current city</label>
+              <input type="text" className="form-control mt-2 shadow-none"
+                placeholder=""
+                style={styleInput}
+                ref={city}
               />
             </div>
             <div className="col">
-              <input type="text" className="form-control mt-2"
-                placeholder="street"
-
-                onChange={(event) => setStreet(event.target.value)}
-                value={street}
+              <label>street</label>
+              <input type="text" className="form-control mt-2 shadow-none"
+                placeholder=""
+                style={styleInput}
+                ref={street}
               />
             </div>
             <div className="col">
-              <input type="number" className="form-control mt-2"
-                placeholder="ZIP"
-
-                onChange={(event) => setZip(event.target.value)}
-                value={zip}
+              <label>ZIP</label>
+              <input type="number" className="form-control mt-2 shadow-none"
+                placeholder=""
+                style={styleInput}
+                ref={ZIP}
               />
             </div>
           </div>
           {/* end scope of address fields */}
 
 
-          <input type="text" className="form-control mt-2"
-            placeholder="phone number"
 
-            onChange={(event) => setphoneNumber(event.target.value)}
-            value={phoneNumber}
-          />
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>phone number</label>
+            </div>
+            <div className="col-md-9 col-lg-10">
+              <input type="number" style={styleInput} className="form-control mt-3 shadow-none"
+                placeholder=""
+                ref={phoneNumber}
+              />
+            </div>
+          </div>
+
 
 
           {/* begin of tutor data */}
           <div style={{
-            display: tutor === true ? "block" : "none"
+            display: tutor === true ? 'block' : 'none'
           }}>
-            <div>
-              <input type="text" className="form-control mt-2"
-                placeholder="choose your department" list="dept"
-              />
-              <datalist id="dept">
-                {
-                  deptData.map((item, index) => (
-                    <option key={index} value={item.name} />
-                  ))
-                }
-              </datalist>
-            </div>
-            <div>
-              <input type="text" className="form-control mt-2"
-                placeholder="choose type of card for payment operation" list="cardType"
-              />
-              <datalist id="cardType">
-                <option value="Master Cart" />
-                <option value="Visa Card" />
-              </datalist>
-            </div>
-            <div>
-              <input type="password" className="form-control mt-2"
-                placeholder="Enter the id of your card" list="cardType"
-              />
+            <div className="row" style={styleRow}>
+              <div className="col-md-3 col-lg-2">
+                <label style={styleLabel}>Department</label>
+              </div>
+              <div className="col-md-9 col-lg-10">
+                <input type="text" style={styleInput} list="dept" className="form-control mt-3 shadow-none"
+                  placeholder=""
+                />
+                <datalist id="dept">
+                  {
+                    deptData.map((item, index) => (
+                      <option key={index} value={item.name} />
+                    ))
+                  }
+                </datalist>
+              </div>
             </div>
 
+
+            <div className="row" style={styleRow}>
+              <div className="col-md-3 col-lg-2">
+                <label style={styleLabel}>type of card</label>
+              </div>
+              <div className="col-md-9 col-lg-10">
+                <input type="text" list="cardType" style={styleInput} className="form-control mt-3 shadow-none"
+                  placeholder=""
+                />
+                <datalist id="cardType">
+                  <option value="visa card" />
+                  <option value="master card" />
+                </datalist>
+              </div>
+            </div>
+
+            <div className="row" style={styleRow}>
+              <div className="col-md-3 col-lg-2">
+                <label style={styleLabel}>ID of card</label>
+              </div>
+              <div className="col-md-9 col-lg-10">
+                <input type="password" style={styleInput} className="form-control mt-3 shadow-none"
+                  placeholder=""
+                />
+              </div>
+            </div>
           </div>
+
           {/* end of tutor data */}
           <div style={styleCenter} className="mt-2">
             <div className="form-check form-check-inline">
@@ -283,12 +384,14 @@ const Signup = () => {
           </div>
 
           <div style={styleCenter}>
-            <input type="submit" className="btn mt-2"
+            <input type="submit"
               disabled={!privacy}
               value="Create Acount"
               style={{
                 backgroundColor: color[0],
-                color: color[2]
+                color: color[2],
+                borderRadius: '4px',
+                marginTop: '30px'
               }}
             />
           </div>

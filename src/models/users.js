@@ -15,8 +15,10 @@ const schema = new mongoose.Schema({
         ZIP:String
     },
     email:String,
-    phoneNumber:[]
-
+    phoneNumber:[],
+    gender:Number,
+    type:Number,
+    date:{type:Date, default:Date.now}
 })
 
 module.exports = mongoose.model('users' , schema);
