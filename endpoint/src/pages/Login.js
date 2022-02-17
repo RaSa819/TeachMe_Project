@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 import { BsFillPersonFill } from 'react-icons/bs';
 
 // to align items in center 
@@ -11,6 +11,20 @@ const styleCenter = {
 
 export default () => {
 
+    const userName = React.useRef();
+    const password = React.useRef();
+
+    const login = (event) => {
+        event.preventDefault();
+        axios.post('http://localhost:4000/user/login', {
+            userName:userName.current.value,
+            password:password.current.value
+        }).then((data) => {
+            console.log(data)
+        }).catch((error) => {
+            console.log("there is some error " + error)
+        })
+    }
     return (
         <div className="row">
             <div className="col-md-2" />
@@ -22,48 +36,52 @@ export default () => {
                         color="gray"
                     />
                 </div>
-                <input type="text" className="form-control mt-3"
-                    placeholder="username"
-                />
-
-                <input type="password" className="form-control mt-2"
-                    placeholder="password"
-                />
-
-                <div style={{
-                    display: "flex",
-                    justifyContent: 'space-between'
-                }}>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="privacy"
-                        />
-                        <label class="form-check-label" for="privacy">
-                            Remember me
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <a href="#" style={{
-                            textDecoration: 'none',
-                            color: 'black'
-                        }}>Forget Password ?</a>
-                    </div>
-                </div>
-
-                <div style={styleCenter}>
-                    you don't have an acount ? <a href="#" style={{
-                        textDecoration:'none'
-                    }}> Register </a>
-                </div>
-                <div style={styleCenter}>
-                    <input type="submit" className="btn mt-2"
-
-                        value="Login"
-                        style={{
-                            backgroundColor: color[0],
-                            color: color[2]
-                        }}
+                <form onSubmit={(event) => { login(event) }}>
+                    <input type="text" className="form-control mt-3"
+                        placeholder="username"
+                        ref={userName}
                     />
-                </div>
+
+                    <input type="password" className="form-control mt-2"
+                        placeholder="password"
+                        ref={password}
+                    />
+
+                    <div style={{
+                        display: "flex",
+                        justifyContent: 'space-between'
+                    }}>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="privacy"
+                            />
+                            <label class="form-check-label" for="privacy">
+                                Remember me
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <a href="#" style={{
+                                textDecoration: 'none',
+                                color: 'black'
+                            }}>Forget Password ?</a>
+                        </div>
+                    </div>
+
+                    <div style={styleCenter}>
+                        you don't have an acount ? <a href="#" style={{
+                            textDecoration: 'none'
+                        }}> Register </a>
+                    </div>
+                    <div style={styleCenter}>
+                        <input type="submit" className="btn mt-2"
+
+                            value="Login"
+                            style={{
+                                backgroundColor: color[0],
+                                color: color[2]
+                            }}
+                        />
+                    </div>
+                </form>
             </div>
         </div>
 

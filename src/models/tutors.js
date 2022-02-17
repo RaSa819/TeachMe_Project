@@ -1,14 +1,18 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-    dep_id : mongoose.Schema.Types.ObjectId,
+    dept_id : mongoose.Schema.Types.ObjectId,
     user_id:mongoose.Schema.Types.ObjectId,
-    cardInfo:{
-        cardNumber:String,
-        cardHolderName:String,
-        security_code:String,
-        exp_date:Date
-    },
+    // cardInfo:{
+    //     cardNumber:String,
+    //     cardHolderName:String,
+    //     security_code:String,
+    //     exp_date:Date
+    // },
+
+    // if the tutor is busy or available
+    status:{type:Number,default:1},
+    cardInfo:mongoose.Schema.Types.Mixed,
     rate:Number,
     reviews:[{
         Studentid :mongoose.Schema.Types.ObjectId,

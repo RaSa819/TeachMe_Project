@@ -5,12 +5,14 @@ const user = require('./models/users.js');
 const dept = require('./models/department');
 const router = require('./routers/fetchDataRouter')
 const userRouter = require('./routers/userRouter')
+const adminRouter = require('./routers/adminRouter')
 const app = express()
+const session = require('express-session')
 
-
+const server = require('http').createServer(app);
 mongoose.connect("mongodb+srv://RaSa819:Rr112233@teachme.hztfd.mongodb.net/teachme?retryWrites=true&w=majority")
 
-
+console.warn = () => {};
 
 
 // to allow to app to send and recieve data as json format 
@@ -23,13 +25,15 @@ app.use(bodyParser.json())
 var cors = require('cors');
 app.use(cors());
 
+// set session 
+
+
 // Router 
-app.use('/',router);
-app.use('/user',userRouter);
-
-
+app.use('/',router)
+app.use('/user',userRouter)
+app.use('/admin',adminRouter)
 
 // The server will listen on 4000 port 
-app.listen(4000, (req, res) => {
+server.listen(4000, (req, res) => {
   console.log("The server is running on 4000 port ");
 });

@@ -38,7 +38,7 @@ const Signup = () => {
   const [lan, setLan] = useState(0)// the zero means that language is English
   const [privacy, setPrivacy] = useState(false)
   const [tutor, setTutor] = useState(false)
-
+  var dept_id = null;
 
   // data 
 
@@ -65,12 +65,15 @@ const Signup = () => {
 
 
 
-  //  data for sign up 
+  // 1 == make , 0 == female 
+  const [gender, setGender] = useState(1)
 
+  //  data for sign up 
+  const [isValid, setValid] = useState(true);
   const firstName = useRef();
   const middleName = useRef();
   const lastName = useRef();
-  const username = useRef();
+  const userName = useRef();
   const password = useRef();
   const confirmPassword = useRef();
   const email = useRef();
@@ -80,7 +83,11 @@ const Signup = () => {
   const street = useRef();
   const ZIP = useRef();
   const dept = useRef();
-
+  const cardID = useRef();
+  const cardType = useRef();
+  const certifications = useRef();
+  const experience = useRef();
+  const about = useRef();
   // 
 
   const [cardInfo, setCardInfo] = useState({})
@@ -92,8 +99,70 @@ const Signup = () => {
   // send data to api by using axios 
   const signUp = async (e) => {
     e.preventDefault();
+    var errorCount = 0;
+
+    // to validate the input fields 
+
+    [userName, email, password, confirmPassword,
+      firstName, middleName, lastName, country, city, street, ZIP,
+      phoneNumber
+    ].forEach((item) => {
+      if (item.current.value.length <= 0) {
+        item.current.focus();
+        errorCount++;
+      }
+    })
+
+    if (errorCount > 0)
+      return
+
+
+
+
+    var tutorData = null;
+    if (tutor === true) {
+      var errorTutorCode = 0;
+
+      // to validate input field of tutor
+      [dept, cardID, cardType,about,experience,certifications].map((item) => {
+        if (item.current.value.length <= 0) {
+          item.current.focus();
+          errorTutorCode++;
+        }
+      })
+
+      if (errorTutorCode > 0)
+        return
+      deptData.forEach((item) => {
+        if (item.name === dept.current.value) {
+          dept_id = item._id;
+
+          return;
+        }
+      })
+
+      // assign data of tutor to send it 
+      tutorData = {
+        dept_id: dept_id,
+        cardID: cardID.current.value,
+        cardType: cardType.current.value,
+        certifications:certifications.current.value,
+        about:about.current.value,
+        experience:experience.current.value
+      }
+    }
+
+    // to validate password with confirm password
+    if (password.current.value != confirmPassword.current.value) {
+      confirmPassword.current.focus();
+      console.log("confirmPassword is not equel original password")
+      return;
+    }
+
+
+    // the data of student and tutor
     const data = {
-      username: username.current.value,
+      userName: userName.current.value,
       firstName: firstName.current.value,
       middleName: middleName.current.value,
       lastName: lastName.current.value,
@@ -105,11 +174,14 @@ const Signup = () => {
         street: street.current.value,
         ZIP: ZIP.current.value,
       },
-      phoneNumber: phoneNumber.current.value
+      phoneNumber: phoneNumber.current.value,
+      gender: gender
     }
 
+    // push the data to the server 
     await axios.post('http://localhost:4000/user/register', {
-      data: data
+      data: data,
+      tutorData: tutorData
     }).
       then((response) => {
         console.log(response)
@@ -140,9 +212,9 @@ const Signup = () => {
         <button style={{
           float: 'right'
         }}
-        onClick={
-          ()=> navigate('/depts')
-        }
+          onClick={
+            () => navigate('/depts')
+          }
           className="btn btn-success">
           Show Departments
         </button>
@@ -161,8 +233,10 @@ const Signup = () => {
             <div className="col-md-9 col-lg-10" >
               <input type="text" style={styleInput} className="form-control mt-3 shadow-none"
                 placeholder=""
-                ref={username}
+                ref={userName}
+
               />
+              {!isValid && <span>HHH</span>}
             </div>
           </div>
 
@@ -239,6 +313,35 @@ const Signup = () => {
             </div>
           </div>
 
+          {/* Gender  */}
+
+          <div className="row" style={styleRow}>
+            <div className="col-md-3 col-lg-2">
+              <label style={styleLabel}>Gender</label>
+            </div>
+            <div style={styleCenter} className="mt-2">
+
+              <div className="form-check form-check-inline">
+                <input className="form-check-input" required type="radio" name="gender" id="male"
+                  onChange={() => {
+                    setGender(1)
+                  }}
+                />
+                <label className="form-check-label" for="male"> male </label>
+              </div>
+
+              <div className="form-check form-check-inline">
+                <input className="form-check-input" type="radio" required name="gender" id="female"
+                  onChange={() => {
+                    setGender(0)
+                  }}
+                />
+                <label className="form-check-label" for="female">female </label>
+              </div>
+            </div>
+          </div>
+
+
 
 
           {/* Address fields  */}
@@ -249,7 +352,6 @@ const Signup = () => {
                 placeholder=""
                 style={styleInput}
                 ref={country}
-
               />
             </div>
             <div className="col">
@@ -280,7 +382,6 @@ const Signup = () => {
           {/* end scope of address fields */}
 
 
-
           <div className="row" style={styleRow}>
             <div className="col-md-3 col-lg-2">
               <label style={styleLabel}>phone number</label>
@@ -306,6 +407,7 @@ const Signup = () => {
               <div className="col-md-9 col-lg-10">
                 <input type="text" style={styleInput} list="dept" className="form-control mt-3 shadow-none"
                   placeholder=""
+                  ref={dept}
                 />
                 <datalist id="dept">
                   {
@@ -317,6 +419,48 @@ const Signup = () => {
               </div>
             </div>
 
+            <div className="row" style={styleRow}>
+              <div className="col-md-3 col-lg-2">
+                <label style={styleLabel}>About You</label>
+              </div>
+              <div className="col-md-9 col-lg-10" >
+                <textarea style={styleInput} className="form-control mt-3 shadow-none"
+                  placeholder=""
+                  ref={about}
+                />
+              </div>
+            </div>
+
+            <div className="row" style={styleRow}>
+              <div className="col-md-3 col-lg-2">
+                <label style={styleLabel}>Your certifications</label>
+              </div>
+              <div className="col-md-9 col-lg-10" >
+                <input type="text" list="certifications" style={styleInput} className="form-control mt-3 shadow-none"
+                  placeholder=""
+                  ref={certifications}
+                />
+                <datalist id="certifications">
+                  <option value="bachelor" />
+                  <option value="Master" />
+                  <option value="Doctor" />
+                  <option value="Freelancer and own experience" />
+                  <option value="Another" />
+                </datalist>
+              </div>
+            </div>
+
+            <div className="row" style={styleRow}>
+              <div className="col-md-3 col-lg-2">
+                <label style={styleLabel}>Your experiences</label>
+              </div>
+              <div className="col-md-9 col-lg-10" >
+                <textarea style={styleInput} className="form-control mt-3 shadow-none"
+                  placeholder=""
+                  ref={experience}
+                />
+              </div>
+            </div>
 
             <div className="row" style={styleRow}>
               <div className="col-md-3 col-lg-2">
@@ -325,6 +469,7 @@ const Signup = () => {
               <div className="col-md-9 col-lg-10">
                 <input type="text" list="cardType" style={styleInput} className="form-control mt-3 shadow-none"
                   placeholder=""
+                  ref={cardType}
                 />
                 <datalist id="cardType">
                   <option value="visa card" />
@@ -340,15 +485,17 @@ const Signup = () => {
               <div className="col-md-9 col-lg-10">
                 <input type="password" style={styleInput} className="form-control mt-3 shadow-none"
                   placeholder=""
+                  ref={cardID}
                 />
               </div>
             </div>
           </div>
 
           {/* end of tutor data */}
+
           <div style={styleCenter} className="mt-2">
             <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="typeUser" id="tutor" value="tutor"
+              <input className="form-check-input" type="radio" required name="typeUser" id="tutor" value="tutor"
                 onChange={() => {
                   setTutor(true)
                 }}
@@ -356,7 +503,7 @@ const Signup = () => {
               <label className="form-check-label" for="tutor">I am a tutor </label>
             </div>
             <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="typeUser" id="student" value="student"
+              <input className="form-check-input" required type="radio" name="typeUser" id="student" value="student"
                 onChange={() => {
                   setTutor(false)
                 }}
