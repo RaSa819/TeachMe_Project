@@ -17,7 +17,7 @@ const schema = new mongoose.Schema({
     email:String,
     phoneNumber:[],
     gender:Number,
-    type:Number,
+    type:Number, // one => tutor . zero => student
     date:{type:Date, default:Date.now}
 })
 
