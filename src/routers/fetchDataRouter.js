@@ -1,8 +1,7 @@
-const express = require('express')
 const fetchData = require('./../controllers/fetchData')
-const router = express.Router();
 
-router.get('/',fetchData.index)
-router.get('/fetchDept',fetchData.fetchDetp)
-router.get('/fetchUser',fetchData.fetchUsers)
-module.exports = router
+module.exports = (app) => {
+    app.get('/', fetchData.index)
+    app.get('/fetchDept', fetchData.fetchDetp)
+    app.get('/fetchUser', fetchData.fetchUsers)
+}

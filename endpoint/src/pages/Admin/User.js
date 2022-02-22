@@ -36,6 +36,7 @@ function Row(props) {
             console.log('the error is ' + error)
         })
     }
+
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -120,17 +121,16 @@ export default function User() {
         await axios.get('http://localhost:4000/fetchUser').
             then((response) => {
                 setData(response.data)
-                console.log(data)
                 //console.log(response.data)
             }).catch((error) => {
                 console.log("there is some error " + error)
             })
     }
-    React.useEffect( () => {
+    React.useEffect(() => {
         fetchUser();
     }, [])
 
-    console.log(data)
+    
     return (
         <TableContainer component={Paper}
             style={{

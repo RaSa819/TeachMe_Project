@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BsFillPersonFill } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom";
 
 // to align items in center 
 const styleCenter = {
@@ -11,16 +12,21 @@ const styleCenter = {
 
 export default () => {
 
+    let navigate = useNavigate();
     const userName = React.useRef();
     const password = React.useRef();
 
     const login = (event) => {
         event.preventDefault();
         axios.post('http://localhost:4000/user/login', {
-            userName:userName.current.value,
-            password:password.current.value
+            userName: userName.current.value,
+            password: password.current.value
         }).then((data) => {
-            console.log(data)
+           
+            if (data.data.type == 0) {
+                localStorage.setItem('token', data.data.id)
+                navigate('/student')
+            }
         }).catch((error) => {
             console.log("there is some error " + error)
         })

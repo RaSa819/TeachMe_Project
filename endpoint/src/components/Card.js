@@ -1,14 +1,15 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { BsFillPersonFill } from 'react-icons/bs';
 import { MdFavorite } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
+import axios from 'axios'
 
 const styleFavorite = {
     width: '20px',
     height: '20px',
-    color: 'red'
+    color: 'gray'
 }
 
 const styleProfileImage = {
@@ -25,10 +26,11 @@ const styleStar = {
     color: 'yellow'
 }
 
-const styleRated =
+const styleDescription =
 {
-    fontSize: '9px',
-    width: '101px',
+    fontSize: '11px',
+    height: '50px',
+    overflow: 'hidden',
     marginTop: '-15px'
 }
 
@@ -83,19 +85,22 @@ const stylebtnRandomRequest = {
     borderRadius: '25px',
     marginTop: '10px',
     color: 'white',
-    marginBottom:'30px'
+    marginBottom: '30px'
 }
 
-const styleRandomRequestIcon={
-    color:'white',
-    marginRight:'20px',
-    width:'24px',
-    height:'24px'
+const styleRandomRequestIcon = {
+    color: 'white',
+    marginRight: '20px',
+    width: '24px',
+    height: '24px'
 }
+
 const Item = (props) => {
 
-    const {name,dateJoined, about,experience,status} = props;
+    const { name, dateJoined, about, experience,
+        rate } = props;
 
+        const [status,setStatus] = useState(props.status)
 
     return (
         <div className='col-md-4 col-lg-3  col-xs-12'
@@ -120,7 +125,14 @@ const Item = (props) => {
                             style={styleProfileImage} />
                     </div>
                     <div>
-                        <p style={styleAvailabe}>Available</p>
+                        <p style={
+                            status===1?styleAvailabe:styleBusy
+                        }>
+                            {
+                                status===1?'Available':'Busy'
+                            }
+
+                        </p>
                     </div>
                 </div>
                 <div className='col' style={{
@@ -130,22 +142,26 @@ const Item = (props) => {
                         <p style={{
                             fontSize: '13px',
                             marginBottom: '0'
-                        }}>Mohammed gamal</p>
+                        }}>
+                            {name.firstName + ' '}
+                            {name.lastName}
+                        </p>
                     </div>
                     <div>
-                        <AiFillStar
-                            style={styleStar}
-                        />
-                        <AiFillStar
-                            style={styleStar} />
-                        <AiFillStar
-                            style={styleStar} />
-                        <AiFillStar
-                            style={styleStar} />
+                        {
+                            Array(4).fill('&').map((x, i) => (
+                                <AiFillStar
+                                    key={i}
+                                    style={styleStar}
+                                />
+                            ))
+                        }
                         <span>4.5</span>
-                        <p style={styleJoinde}>Joined at 2021</p>
-                        <p style={styleRated}>
-                            my name is mohammed gamal mmoghae
+                        <p style={styleJoinde}>Joined at {dateJoined}</p>
+                        <p style={styleDescription}>
+                            {
+                                about.slice(0, 150)
+                            }
                         </p>
                     </div>
                 </div>
@@ -157,8 +173,10 @@ const Item = (props) => {
             </div>
 
             <div className='row'>
-                <p>IT and CS professional .. Teaches in IBB univercity
-                    .... <a href='#'>Read more</a> </p>
+                <p >{
+                    experience.slice(0, 40) + ' ... '
+                }
+                    <a href='#'>Read more</a> </p>
             </div>
 
             <div className='row' style={{
@@ -173,15 +191,45 @@ const Item = (props) => {
 }
 export default function Card() {
 
-    const data = []
-    for (var i = 0; i < 10; i++)
-        data.push(<Item />)
+
+    const [tutors, setTutor] = useState([])
+
+
+    const fetTutors = async () => {
+        await axios.get('http://localhost:4000/user/fetchTutors').
+            then((response) => {
+                setTutor(response.data)
+                console.log(tutors)
+            })
+    }
+    React.useEffect(() => {
+        fetTutors()
+    }, [])
+
+
     return (
         <div className='container-fluid'>
             <div className='row'>
                 {
-                    data.map((item) => (
-                        <Item />
+                    tutors.map((item) => (
+                        <Item
+                            name={
+                                item.name
+                            }
+                            dateJoined={
+                                item.date
+                            }
+
+                            about={
+                                item.profile.about
+                            }
+                            experience={
+                                item.profile.experience
+                            }
+                            status={
+                                item.status
+                            }
+                        />
                     ))
                 }
 
@@ -194,8 +242,8 @@ export default function Card() {
                 <div>
 
                     <button style={stylebtnRandomRequest}>
-                        <GiPerspectiveDiceSixFacesRandom 
-                        style={styleRandomRequestIcon}
+                        <GiPerspectiveDiceSixFacesRandom
+                            style={styleRandomRequestIcon}
                         />
                         Random Request</button>
                 </div>
