@@ -1,8 +1,22 @@
-const express = require('express')
 const userController = require('./../controllers/userController')
+module.exports=(app)=>{
 
-const Router = express.Router();
+    app.use('/',(req,res,next)=>{
+        //res.json('hhh')
+        next()
+    })
+    app.get('/',(req,res)=>{
+        res.json('welcome')
+    })
+    
+    app.get('/student/profile',userController.getStudent);
+    app.post('/user/register', userController.registerTutor);
+    app.post('/user/login',userController.Login);
+    app.get('/user/fetchTutors',userController.fetchTutors)
+    app.get('/user/getSession',userController.getSession);
+    app.post('/user/updateImage' , userController.updateImg);
+    app.post('/student/updateProfile',userController.updateStudentProfile)
 
-Router.post('/register', userController.registerTutor);
-Router.post('/login',userController.Login);
-module.exports = Router;
+
+    app.get('/fetch',userController.fetchImage)
+}

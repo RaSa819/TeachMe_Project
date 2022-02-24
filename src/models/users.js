@@ -18,7 +18,9 @@ const schema = new mongoose.Schema({
     phoneNumber:[],
     gender:Number,
     type:Number, // one => tutor . zero => student
-    date:{type:Date, default:Date.now}
+    date:{type:Date, default:Date.now},
+    token:String,
+    img:{type:String, default:'unknow.png'}
 })
 
 module.exports = mongoose.model('users' , schema);

@@ -10,9 +10,13 @@ const app = express()
 const session = require('express-session')
 
 const server = require('http').createServer(app);
-mongoose.connect("mongodb+srv://RaSa819:Rr112233@teachme.hztfd.mongodb.net/teachme?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://RaSa819:Rr112233@teachme.hztfd.mongodb.net/teachme?retryWrites=true&w=majority", (err) => {
+  if (err)
+    throw err;
+})
 
-console.warn = () => {};
+
+app.use(express.static('public')); 
 
 
 // to allow to app to send and recieve data as json format 
@@ -26,12 +30,28 @@ var cors = require('cors');
 app.use(cors());
 
 // set session 
+app.use(session({
+  secret: 'my session'
+}))
 
+app.use((req, res, next) => {
+  req.session.token = 1234;
 
-// Router 
-app.use('/',router)
-app.use('/user',userRouter)
-app.use('/admin',adminRouter)
+  // req.originalUrl ==> get the path like user/fetchUser
+  // fetchDept 
+  if (req.originalUrl === '/')
+    console.log('welcome in Teach me website ')
+
+  next();
+})
+
+// -----------Router--------------
+
+require('./controllers/testController')(app)
+require('./routers/userRouter')(app)
+require('./routers/adminRouter')(app)
+require('./routers/fetchDataRouter')(app)
+
 
 // The server will listen on 4000 port 
 server.listen(4000, (req, res) => {
