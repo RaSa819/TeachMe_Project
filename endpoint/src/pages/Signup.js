@@ -3,6 +3,7 @@ import axios from 'axios'
 import validator from 'validator';
 import { useNavigate } from "react-router-dom";
 
+import { io } from "socket.io-client";
 // to align items in center 
 const styleCenter = {
   display: "flex",
@@ -33,6 +34,24 @@ const styleInline = {
   marginTop: '-15px'
 }
 const Signup = () => {
+
+
+  const client = io('http://localhost:4000', {
+    reconnection: false,
+    autoConnect: false
+  })
+
+  React.useEffect(() => {
+    // here to connect the socket server 
+    client.connect();
+  }, [])
+
+  client.on('res', (data) => {
+    console.log(data)
+  })
+  client.on('connect', () => {
+    console.log('Successfully connected!');
+  });
 
   //
   const [lan, setLan] = useState(0)// the zero means that language is English
@@ -124,7 +143,7 @@ const Signup = () => {
       var errorTutorCode = 0;
 
       // to validate input field of tutor
-      [dept, cardID, cardType,about,experience,certifications].map((item) => {
+      [dept, cardID, cardType, about, experience, certifications].map((item) => {
         if (item.current.value.length <= 0) {
           item.current.focus();
           errorTutorCode++;
@@ -146,9 +165,9 @@ const Signup = () => {
         dept_id: dept_id,
         cardID: cardID.current.value,
         cardType: cardType.current.value,
-        certifications:certifications.current.value,
-        about:about.current.value,
-        experience:experience.current.value
+        certifications: certifications.current.value,
+        about: about.current.value,
+        experience: experience.current.value
       }
     }
 
@@ -197,28 +216,6 @@ const Signup = () => {
     <div className="row">
       <div className="col-md-2" />
       <div className="col-md-8">
-
-        <button style={{
-          float: 'left'
-        }} className="btn btn-success"
-          onClick={() => {
-            navigate('/users')
-          }}
-
-        >
-          Show Users
-        </button>
-
-        <button style={{
-          float: 'right'
-        }}
-          onClick={
-            () => navigate('/depts')
-          }
-          className="btn btn-success">
-          Show Departments
-        </button>
-
         <form onSubmit={(event) => signUp(event)}>
           <h3 className="text-center mt-2"
             style={{

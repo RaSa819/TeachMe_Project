@@ -14,33 +14,17 @@ import { Divider } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-
-//
-import PropTypes from 'prop-types';
-
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
+import { useDialog } from 'react-mui-dialog';
 
 import axios from 'axios';
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
+import { MessageBox } from '../../components/MessageBox';
 
 
 export default function EditProfile() {
 
-
+  // for dialog 
+  const { openDialog } = useDialog();
+  
   let token = localStorage.getItem('token')
 
   const username = useRef()
@@ -58,6 +42,7 @@ export default function EditProfile() {
 
   const [img, setImg] = useState(null);
 
+  const [showDialog, setDialog] = useState(false)
 
 
   var errorCount = 0;
@@ -91,10 +76,15 @@ export default function EditProfile() {
 
     axios.post('http://localhost:4000/student/updateProfile', {
       data: data,
-      id:token
+      id: token
     }).
       then((data) => {
         console.log(data)
+        MessageBox(openDialog,
+          'Editing Result',
+          'The Editing has been successfully',
+          'Ok'
+          );   
       }).
       catch((error) => {
         console.log('the error ' + error)
