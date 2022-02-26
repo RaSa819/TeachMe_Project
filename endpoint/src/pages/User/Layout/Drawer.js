@@ -70,6 +70,13 @@ function ResponsiveDrawer(props) {
                 }}>
                     History
                 </ListItem>
+
+                
+                <ListItem button onClick={() => {
+                    navigate('/student/StudentSetting')
+                }}>
+                    Setting 
+                </ListItem>
             </List>
             <Divider />
         </div>

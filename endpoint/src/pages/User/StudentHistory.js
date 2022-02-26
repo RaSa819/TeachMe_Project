@@ -232,6 +232,7 @@ const SettingsButton = () => {
 
   const defaultSettings = {
     username: "myUsername",
+    password:"myPassword",
     onMailingList: true,
     notificationRetention: "2_weeks"
   };
@@ -245,6 +246,7 @@ const SettingsButton = () => {
           initialValue: defaultSettings.username
           // NOTE: we omit passing a label
         },
+        
         // here we render something other than a text field by modifying
         // the props that are passed to the formik <Field /> component.
         onMailingList: {

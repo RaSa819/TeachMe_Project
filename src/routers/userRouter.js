@@ -1,4 +1,5 @@
 const userController = require('./../controllers/userController')
+
 module.exports = (app, io) => {
 
     // event when the client connect to the server

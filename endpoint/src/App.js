@@ -25,11 +25,12 @@ import StudentHome from "./pages/User/StudentHome";
 import StudentFavoriteList from "./pages/User/StudentFavoriteList";
 import StudentHistory from "./pages/User/StudentHistory";
 import StudentEditProfile from './pages/User/StudentEditProfile'
-
+import StudentSetting from "./pages/User/StudentSetting";
 // Admin side
 import AdminHome from "./pages/Admin/AdminHome";
 import AllUser from "./pages/Admin/AllUser";
-
+import AdminActivity from "./pages/Admin/AdminActivity";
+import AdminSupport from "./pages/Admin/AdminSupport";
 // the real time 
 
 export default function App() {
@@ -46,6 +47,8 @@ export default function App() {
 
               <Route path="Admin/AdminHome" element={<AdminHome />} />
               <Route path="Admin/AllUsers" element={<AllUser />} />
+              <Route path="Admin/AdminActivity" element={<AdminActivity />} />
+              <Route path="/Admin/AdminSupport" element={<AdminSupport/>}/>
 
 
               <Route path="/fetchTutors" element={<Filter />} />
@@ -53,7 +56,7 @@ export default function App() {
               <Route path="/student/StudentEditProfile" element={<StudentEditProfile />} />
               <Route path="/student/StudentFavoriteList" element={<StudentFavoriteList />} />
               <Route path="/student/StudentHistory" element={<StudentHistory />} />
-
+              <Route path="/student/StudentSetting" element={<StudentSetting />} />
 
 
               <Route

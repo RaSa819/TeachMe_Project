@@ -22,6 +22,8 @@ exports.registerTutor = (req, res) => {
 
 
 
+
+    
     //const hash = bcrypt.hashSync(password,10);
     //var flag=bcrypt.compareSync(password, hash); // true
 
@@ -30,6 +32,7 @@ exports.registerTutor = (req, res) => {
     // create document for user 
 
     var type = 0; // student 
+    
     if (req.body.tutorData != null)
         type = 1 // tutor 
 
@@ -153,6 +156,8 @@ exports.fetchTutors = async (req, res) => {
         })
     }
 
+
+       
     getTutorsID().then((data) => {
         var IDs = data.map(({ _id }) => _id)
 
@@ -205,14 +210,14 @@ exports.updateStudentProfile = (req, res) => {
 
     user.updateOne({ _id: req.body.id },
         {
-           userName:userName,
-           email:email,
-           address:{
-               country:country,
-               city:city,
-               street:street,
-               ZIP:ZIP
-           }
+            userName: userName,
+            email: email,
+            address: {
+                country: country,
+                city: city,
+                street: street,
+                ZIP: ZIP
+            }
         },
         (err, data) => {
             res.json(data)

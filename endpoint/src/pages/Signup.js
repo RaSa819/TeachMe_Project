@@ -46,12 +46,18 @@ const Signup = () => {
     client.connect();
   }, [])
 
-  client.on('res', (data) => {
-    console.log(data)
-  })
-  client.on('connect', () => {
-    console.log('Successfully connected!');
+  // this is to list to all event which catched by client
+  client.onAny((event, ...args) => {
+    console.log(event, args);
   });
+  
+  // client.on('res', (data) => {
+  //   console.log(data)
+  // })
+
+  // client.on('connect', () => {
+  //   console.log('Successfully connected!');
+  // });
 
   //
   const [lan, setLan] = useState(0)// the zero means that language is English
