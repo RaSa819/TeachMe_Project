@@ -24,6 +24,7 @@ export default () => {
         }).then((data) => {
            
             if (data.data.type == 0) {
+                localStorage.removeItem('token');
                 localStorage.setItem('token', data.data.id)
                 navigate('/student')
             }
