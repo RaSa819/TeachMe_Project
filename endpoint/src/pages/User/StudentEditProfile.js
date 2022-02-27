@@ -24,7 +24,7 @@ export default function EditProfile() {
 
   // for dialog 
   const { openDialog } = useDialog();
-  
+
   let token = localStorage.getItem('token')
 
   const username = useRef()
@@ -84,7 +84,7 @@ export default function EditProfile() {
           'Editing Result',
           'The Editing has been successfully',
           'Ok'
-          );   
+        );
       }).
       catch((error) => {
         console.log('the error ' + error)
@@ -152,276 +152,238 @@ export default function EditProfile() {
   return (
     <Drawer>
       <div style={{
-        height: '100px',
-        display: 'flex',
-        justifyContent: 'center',
-        marginBottom: '30px'
+        marginTop: '50px'
       }}>
-        <Avatar alt="Mohammed" src={img}
-          sx={{
-            height: '100px',
-            width: '100px',
+        <div style={{
+          height: '100px',
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '30px'
+        }}>
+          <Avatar src={img}
+            sx={{
+              height: '100px',
+              width: '100px',
+            }}
 
-          }}
-        />
-      </div>
-
-      <div className='container'>
-        <div className='row'>
-          <div className='col-md-12'>
-            <TextField
-              fullWidth
-              label="User name"
-              id="outlined-start-adornment"
-              inputRef={username}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">User name</InputAdornment>,
-              }}
-            />
-          </div>
+            style={{
+              borderWidth: '3px',
+              borderStyle: 'solid',
+              borderColor: color[1],
+              outlineWidth: '2px',
+              outlineColor: color[0],
+              outlineStyle: 'solid'
+            }}
+          />
         </div>
 
-        <Divider
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px'
-          }}
-        />
-
-        <div className='row'>
-          <div className='col-md-6'>
-            <FormControl
-              fullWidth
-              inputRef={passwordRef}
-              variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={values.showPassword ? 'text' : 'password'}
-                onChange={handleChange('password')}
-                startAdornment={
-
-                  <InputAdornment position="start">Password</InputAdornment>
-                }
-
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-12'>
+              <TextField
+                fullWidth
+                label="User name"
+                id="outlined-start-adornment"
+                inputRef={username}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">User name</InputAdornment>,
+                }}
               />
-            </FormControl>
+            </div>
           </div>
 
-          <div className='col-md-6'>
-            <FormControl
-              fullWidth
-              variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={values.showPassword ? 'text' : 'password'}
-                inputRef={newPassword}
-                onChange={handleChange('password')}
-                startAdornment={
+          <Divider
+            style={{
+              marginBottom: '20px',
+              marginTop: '20px'
+            }}
+          />
 
-                  <InputAdornment position="start">New Password</InputAdornment>
-                }
 
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="New Password"
+
+
+
+
+          <div className='row'>
+            <div className='col-md-4' style={{
+              marginBottom: '20px'
+            }}>
+              <TextField
+                fullWidth
+                label="First name"
+                id="outlined-start-adornment"
+                inputRef={firstName}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">First name</InputAdornment>,
+                }}
               />
-            </FormControl>
+            </div>
+
+            <div className='col-md-4' style={{
+              marginBottom: '20px'
+            }}>
+              <TextField
+                fullWidth
+                label="Middle name"
+                id="outlined-start-adornment"
+                inputRef={middleName}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">Middle name</InputAdornment>,
+                }}
+              />
+            </div>
+
+            <div className='col-md-4'>
+              <TextField
+                fullWidth
+                label="Last name"
+                inputRef={lastName}
+                id="outlined-start-adornment"
+
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">Last name</InputAdornment>,
+                }}
+              />
+
+            </div>
           </div>
+          <Divider
+            style={{
+              marginBottom: '20px',
+              marginTop: '20px'
+            }}
+          />
+          <div className='row'>
+            <div className='col-md-12'>
+              <TextField
+                fullWidth
+                label="Email"
+                id="outlined-start-adornment"
+                inputRef={email}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">Email</InputAdornment>,
+                }}
+              />
+            </div>
+          </div>
+          <Divider
+            style={{
+              marginBottom: '20px',
+              marginTop: '20px'
+            }}
+          />
+
+          <div className='row'>
+            <div className='col-md-12'>
+              <TextField
+                fullWidth
+                label="Phone Number"
+                id="outlined-start-adornment"
+                inputRef={phoneNumber}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">Phone Number</InputAdornment>,
+                }}
+              />
+            </div>
+
+          </div>
+
+          <Divider
+            style={{
+              marginBottom: '20px',
+              marginTop: '20px'
+            }}
+          />
+
+          <div className='row'>
+            <div className='col-md-3' style={{
+              marginBottom: '20px'
+            }}>
+              <TextField
+                fullWidth
+                label="country"
+                id="outlined-start-adornment"
+                inputRef={country}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">country</InputAdornment>,
+                }}
+              />
+            </div>
+
+            <div className='col-md-3' style={{
+              marginBottom: '20px'
+            }}>
+              <TextField
+                fullWidth
+                label="city"
+                inputRef={city}
+                id="outlined-start-adornment"
+
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">city</InputAdornment>,
+                }}
+              />
+            </div>
+
+            <div className='col-md-3' style={{
+              marginBottom: '20px'
+            }}>
+              <TextField
+                fullWidth
+                label="street"
+                id="outlined-start-adornment"
+                inputRef={street}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">street</InputAdornment>,
+                }}
+              />
+
+            </div>
+
+            <div className='col-md-3' style={{
+              marginBottom: '20px'
+            }}>
+              <TextField
+                fullWidth
+                label="ZIP"
+                inputRef={ZIP}
+                id="outlined-start-adornment"
+
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">ZIP</InputAdornment>,
+                }}
+              />
+            </div>
+          </div>
+
+          <Divider
+            style={{
+              marginBottom: '20px',
+              marginTop: '20px'
+            }} />
         </div>
-
-        <Divider
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px'
-          }}
-        />
-
-        <div className='row'>
-          <div className='col-md-4'>
-            <TextField
-              fullWidth
-              label="First name"
-              id="outlined-start-adornment"
-              inputRef={firstName}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">First name</InputAdornment>,
-              }}
-            />
-          </div>
-
-          <div className='col-md-4'>
-            <TextField
-              fullWidth
-              label="Middle name"
-              id="outlined-start-adornment"
-              inputRef={middleName}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">Middle name</InputAdornment>,
-              }}
-            />
-          </div>
-
-          <div className='col-md-4'>
-            <TextField
-              fullWidth
-              label="Last name"
-              inputRef={lastName}
-              id="outlined-start-adornment"
-
-              InputProps={{
-                startAdornment: <InputAdornment position="start">Last name</InputAdornment>,
-              }}
-            />
-
-          </div>
-        </div>
-        <Divider
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px'
-          }}
-        />
-        <div className='row'>
-          <div className='col-md-12'>
-            <TextField
-              fullWidth
-              label="Email"
-              id="outlined-start-adornment"
-              inputRef={email}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">Email</InputAdornment>,
-              }}
-            />
-          </div>
-        </div>
-        <Divider
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px'
-          }}
-        />
-
-        <div className='row'>
-          <div className='col-md-12'>
-            <TextField
-              fullWidth
-              label="Phone Number"
-              id="outlined-start-adornment"
-              inputRef={phoneNumber}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">Phone Number</InputAdornment>,
-              }}
-            />
-          </div>
-
-        </div>
-
-        <Divider
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px'
-          }}
-        />
-
-        <div className='row'>
-          <div className='col-md-3'>
-            <TextField
-              fullWidth
-              label="country"
-              id="outlined-start-adornment"
-              inputRef={country}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">country</InputAdornment>,
-              }}
-            />
-          </div>
-
-          <div className='col-md-3'>
-            <TextField
-              fullWidth
-              label="city"
-              inputRef={city}
-              id="outlined-start-adornment"
-
-              InputProps={{
-                startAdornment: <InputAdornment position="start">city</InputAdornment>,
-              }}
-            />
-          </div>
-
-          <div className='col-md-3'>
-            <TextField
-              fullWidth
-              label="street"
-              id="outlined-start-adornment"
-              inputRef={street}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">street</InputAdornment>,
-              }}
-            />
-
-          </div>
-
-          <div className='col-md-3'>
-            <TextField
-              fullWidth
-              label="ZIP"
-              inputRef={ZIP}
-              id="outlined-start-adornment"
-
-              InputProps={{
-                startAdornment: <InputAdornment position="start">ZIP</InputAdornment>,
-              }}
-            />
-          </div>
-        </div>
-
-        <Divider
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px'
-          }} />
-      </div>
-      <Stack direction="row" spacing={2}
-        justifyContent="center"
-      >
-        <Button variant="contained" color="success"
-          onClick={() => {
-            update()
-          }}
+        <Stack direction="row" spacing={2}
+          justifyContent="center"
         >
-          Save
-        </Button>
-        <Button variant="outlined" color="error">
-          Cancel
-        </Button>
-      </Stack>
+          <Button variant="contained" color="success"
+            onClick={() => {
+              update()
+            }}
+          >
+            Save
+          </Button>
+          <Button variant="outlined" color="error">
+            Cancel
+          </Button>
+        </Stack>
+      </div>
     </Drawer>
   )
 }
+
+
+const color = [
+  "#000052",
+  "#D90429",
+  "#F4F4F8",
+]

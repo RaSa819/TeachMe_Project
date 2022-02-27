@@ -3,8 +3,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  useNavigate
+  Navigate,
+  Outlet
 } from "react-router-dom";
 
 
@@ -20,44 +20,66 @@ import Filter from "./pages/Filter";
 import axios from "axios";
 
 import { DialogProvider } from 'react-mui-dialog'
+
 // Student Side
+import Drawer1 from './pages/User/Layout/Drawer'
 import StudentHome from "./pages/User/StudentHome";
 import StudentFavoriteList from "./pages/User/StudentFavoriteList";
 import StudentHistory from "./pages/User/StudentHistory";
 import StudentEditProfile from './pages/User/StudentEditProfile'
 import StudentSetting from "./pages/User/StudentSetting";
+
 // Admin side
+import Drawer from './pages/Admin/Layout/Drawer'
 import AdminHome from "./pages/Admin/AdminHome";
 import AllUser from "./pages/Admin/AllUser";
 import AdminActivity from "./pages/Admin/AdminActivity";
-import AdminSupport from "./pages/Admin/AdminSupport";
-// the real time 
+import AdminSupport from "./pages/Admin/AdminSupport";// the real time 
 
 export default function App() {
+
+  const isAuth = localStorage.getItem('token')
+  const type = localStorage.getItem('type')
+  const clearLocalStorage = () => {
+    localStorage.removeItem('token');
+  }
+
+
+  //alert(localStorage.getItem('token'))
   return (
-   
+
+    <SocketProvider>
       <DialogProvider>
         <div className="container-fluid">
           <Router>
             <Routes>
-              <Route path="/" element={<Signup />} />
-              <Route path="/tutors" element={<Card />} />
-              <Route path="/req" element={<RequestInfo />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Signup" element={<Signup />} />
 
-              <Route path="Admin/AdminHome" element={<AdminHome />} />
-              <Route path="Admin/AllUsers" element={<AllUser />} />
-              <Route path="Admin/AdminActivity" element={<AdminActivity />} />
-              <Route path="/Admin/AdminSupport" element={<AdminSupport/>}/>
+              <Route path="Admin" element={
+                isAuth  ?
+                  <><Outlet /></> :
+                  <Navigate to="/Login" />
+              }>
 
+                <Route path="Home" element={<AdminHome />} />
+                <Route path="AllUsers" element={<AllUser />} />
+                <Route path="Activity" element={<AdminActivity />} />
+                <Route path="Support" element={<AdminSupport />} />
 
-              <Route path="/fetchTutors" element={<Filter />} />
-              <Route path="/student" element={<StudentHome />} />
-              <Route path="/student/StudentEditProfile" element={<StudentEditProfile />} />
-              <Route path="/student/StudentFavoriteList" element={<StudentFavoriteList />} />
-              <Route path="/student/StudentHistory" element={<StudentHistory />} />
-              <Route path="/student/StudentSetting" element={<StudentSetting />} />
+              </Route>
 
+              <Route path="student" element={
+                isAuth ?
+                  <><Outlet /></> :
+                  <Navigate to="/Login" />
+              }>
+                <Route path="Profile" element={<StudentHome />} />
+                <Route path="EditProfile" element={<StudentEditProfile />} />
+                <Route path="FavoriteList" element={<StudentFavoriteList />} />
+                <Route path="History" element={<StudentHistory />} />
+                <Route path="Setting" element={<StudentSetting />} />
+              </Route>
 
               <Route
                 path="*"
@@ -69,9 +91,18 @@ export default function App() {
               />
             </Routes>
           </Router>
+
+          {/* <Router>
+            <Routes>
+              <Route path="/" element={<Signup />} />
+              
+
+              
+            </Routes>
+          </Router> */}
         </div>
       </DialogProvider>
-    
+    </SocketProvider>
   )
 }
 

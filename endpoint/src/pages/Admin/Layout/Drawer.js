@@ -137,10 +137,11 @@ export default function PersistentDrawerLeft(props) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
+                
                 <List>
 
                     <ListItem button onClick={() => {
-                        navigate('/Admin/AdminHome')
+                        navigate('/Admin/Home')
                     }}>
                         <ListItemIcon>
                             <HomeIcon />
@@ -159,7 +160,7 @@ export default function PersistentDrawerLeft(props) {
 
 
                     <ListItem button button onClick={() => {
-                        navigate('/Admin/AdminActivity')
+                        navigate('/Admin/Activity')
                     }}>
                         <ListItemIcon>
                             <AttachMoneyIcon />
@@ -167,10 +168,11 @@ export default function PersistentDrawerLeft(props) {
                         <ListItemText primary="Activity" />
                     </ListItem>
                 </List>
+                
                 <Divider />
                 <List>
                     <ListItem button button button onClick={() => {
-                        navigate('/Admin/AdminSupport')
+                        navigate('/Admin/Support')
                     }}>
                         <ListItemIcon>
                             <NotificationsActiveIcon />

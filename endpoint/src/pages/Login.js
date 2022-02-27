@@ -18,14 +18,17 @@ export default () => {
 
     const login = (event) => {
         event.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('type')
         axios.post('http://localhost:4000/user/login', {
             userName: userName.current.value,
             password: password.current.value
         }).then((data) => {
-           
+
+
             if (data.data.type == 0) {
-                localStorage.removeItem('token');
                 localStorage.setItem('token', data.data.id)
+                localStorage.setItem('type', data.data.type);
                 navigate('/student')
             }
         }).catch((error) => {
@@ -86,6 +89,7 @@ export default () => {
                                 backgroundColor: color[0],
                                 color: color[2]
                             }}
+
                         />
                     </div>
                 </form>

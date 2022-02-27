@@ -13,12 +13,6 @@ const schema = new mongoose.Schema({
     // if the tutor is busy or available
     status:{type:Number,default:1},
     cardInfo:mongoose.Schema.Types.Mixed,
-    rate:Number,
-    reviews:[{
-        Studentid :mongoose.Schema.Types.ObjectId,
-        rev_content : String,
-        date :Date
-        }],
     price:Number,
     profile:{
         about:String,
