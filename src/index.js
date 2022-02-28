@@ -6,6 +6,7 @@ const dept = require('./models/department');
 const router = require('./routers/fetchDataRouter')
 const userRouter = require('./routers/userRouter')
 const adminRouter = require('./routers/adminRouter')
+const tutorRouter = require('./routers/tutorRouter')
 const app = express()
 const session = require('express-session')
 

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import axios from 'axios'
-import validator from 'validator';
 import { useNavigate } from "react-router-dom";
 
 import { io } from "socket.io-client";
@@ -43,24 +42,10 @@ const Signup = () => {
 
   React.useEffect(() => {
     // here to connect the socket server 
-    client.connect();
+    //client.connect();
   }, [])
 
-  // this is to list to all event which catched by client
-  client.onAny((event, ...args) => {
-    console.log(event, args);
-  });
   
-  // client.on('res', (data) => {
-  //   console.log(data)
-  // })
-
-  // client.on('connect', () => {
-  //   console.log('Successfully connected!');
-  // });
-
-  //
-  const [lan, setLan] = useState(0)// the zero means that language is English
   const [privacy, setPrivacy] = useState(false)
   const [tutor, setTutor] = useState(false)
   var dept_id = null;
@@ -90,7 +75,7 @@ const Signup = () => {
 
 
 
-  // 1 == make , 0 == female 
+  // 1 == male , 0 == female 
   const [gender, setGender] = useState(1)
 
   //  data for sign up 
@@ -118,8 +103,7 @@ const Signup = () => {
   const [cardInfo, setCardInfo] = useState({})
   // 
 
-  const [isReadyToSubmit, setReadyToSubmit] = useState(false);
-
+  
 
   // send data to api by using axios 
   const signUp = async (e) => {
@@ -209,7 +193,13 @@ const Signup = () => {
       tutorData: tutorData
     }).
       then((response) => {
-        console.log(response)
+        console.log(response.data.token)
+        localStorage.removeItem('token')
+        localStorage.removeItem('token')
+        localStorage.setItem('token',response.data.token)
+        var type = tutor===false?0:1;
+        localStorage.setItem('type',type);
+        
       }).catch((error) => {
         console.log(error)
       })

@@ -3,8 +3,9 @@ import Drawer from './Layout/Drawer'
 export default function StudentSetting() {
     return (
         <Drawer>
-            <div>Student Setting</div>
+            <div style={{
+                marginTop:'50px'
+            }}>Student Setting</div>
         </Drawer>
-
     )
 }

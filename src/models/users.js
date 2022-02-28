@@ -20,7 +20,9 @@ const schema = new mongoose.Schema({
     type:Number, // one => tutor . zero => student
     date:{type:Date, default:Date.now},
     token:String,
-    img:{type:String, default:'unknow.png'}
+    img:{type:String, default:'unknow.png'},
+    rate:{type:Number,default:0},
+    reviews:[mongoose.Schema.Types.Mixed],
 })
 
 module.exports = mongoose.model('users' , schema);

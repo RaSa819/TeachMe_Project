@@ -67,7 +67,7 @@ export default (openDialog) => {
         }),
         cancelButton: { children: "Close" },
         submitButton: {
-            children: "Save",
+            children: "Send",
             props: { variant: "contained", color: "secondary" }
         },
         onSubmit: async () =>

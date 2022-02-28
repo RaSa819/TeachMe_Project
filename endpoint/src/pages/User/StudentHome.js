@@ -1,9 +1,7 @@
 import React from "react";
 import Drawer from './Layout/Drawer'
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -17,26 +15,27 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {GoLocation} from "react-icons/go";
-
-import Paper from '@mui/material/Paper';
+import { GoLocation } from "react-icons/go";
 
 import axios from 'axios'
-
-import { imageListItemBarClasses } from "@mui/material";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import { MdOutlineMailOutline } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5"
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 const Content = () => {
 
 
     const [img, setImg] = React.useState('')
     const [data, setData] = React.useState({})
     const [name, setName] = React.useState({})
-    const[address,setAddress]=React.useState({})
+    const [address, setAddress] = React.useState({})
 
     React.useEffect(async () => {
         const axi1 = axios.get('http://localhost:4000/fetch', {
-            responseType: 'blob'
+            responseType: 'blob',
+            id: token
         });
 
         const axi2 = axios.get('http://localhost:4000/student/profile', {
@@ -62,62 +61,89 @@ const Content = () => {
     }, [])
 
 
+
     let token = localStorage.getItem('token')
 
     return (
-        <div>
-            <List sx={{ width: '100%', maxWidth: '95%', bgcolor: 'background.paper' }}>
-                <ListItem
-                    sx={{
-                        flexDirection: 'row'
-                    }}
-                >
-                    <ListItem sx={{
-                        width: '10%'
-                    }}>
-                        <ListItemAvatar>
-                            <Avatar alt={name.firstNam} src={img}
-                                sx={{
-                                    height: '100px',
-                                    width: '100px'
-                                }}
-                            />
+        <div style={{
+            marginTop: '50px'
+        }}>
+            <List sx={{ width: '100%', maxWidth: '95%', bgcolor: 'background.paper',
+         }}>
+                <div className="container-fluid">
+                    <h2 style={{
+                        color:color[1]
+                    }}>Dashboard</h2>
+                    <div className="row">
+                        <div className="col-sm-2">
+                            <ListItemAvatar>
+                                <Avatar alt={name.firstNam} src={img}
+                                    sx={{
+                                        height: '100px',
+                                        width: '100px',
+                                    }}
 
-                            <ListItemText sx={{
-                                marginLeft: '15px',
-                                color: '#00e600'
+                                    style={{
+                                        borderWidth: '3px',
+                                        borderStyle: 'solid',
+                                        borderColor: color[1],
+                                        outlineWidth: '2px',
+                                        outlineColor: color[0],
+                                        outlineStyle: 'solid'
+                                    }}
+                                />
+                            </ListItemAvatar>
+                        </div>
+                        <div className="col">
+                            <Stack direction='row' spacing={20}>
+                                <p>{name.firstName + '  ' + name.lastName}</p>
+                                <Divider orientation="vertical" variant="middle" flexItem />
+                                <Rating
+                                    name="read-only"
+                                    value={4}
+                                    readOnly
+                                />
+                            </Stack>
+                            <div style={{
+                                marginTop: '-13px'
                             }}>
-                                Available
-                            </ListItemText>
-                        </ListItemAvatar>
+                                <Divider component="li" />
+                            </div>
+                            <div>
+                                <p style={{
+                                    fontSize: '12px',
 
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText
-                            primary={name.firstName}
-                            sx={{
-                                flexDirection: 'column'
-                            }}
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        sx={{ display: 'inline' }}
-                                        component="span"
-                                        variant="body2"
-                                        color="text.primary"
-                                    >
-                                        Joined at
-                                    </Typography>
-                                    {" — " + data.date}
-                                </React.Fragment>
-                            }
-                        />
-                    </ListItem>
+                                }}>
+                                    Joined at  {" — " + data.date}
 
-                </ListItem>
+                                </p>
+                            </div>
 
-                <Divider variant="inset" component="li" />
+
+                            <p style={{
+                                fontSize: '12px',
+                                marginTop: '-15px'
+                            }}>
+                                Rated by  {data.rate}+ tutors and have no previews
+                            </p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <Divider variant="inset" component="li"
+                style={{
+                    marginTop:'50px'
+                }}
+                />
             </List>
+            
+            <div>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -175,7 +201,7 @@ const Content = () => {
                     <Typography>Address</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Table  size="small" aria-label="a dense table">
+                    <Table size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
                                 <TableCell >Country</TableCell>
@@ -186,20 +212,43 @@ const Content = () => {
                         </TableHead>
                         <TableBody>
                             <TableRow
-                                
+
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                
+
                                 <TableCell>{address.country}</TableCell>
                                 <TableCell>{address.city}</TableCell>
                                 <TableCell>{address.street}</TableCell>
                                 <TableCell>{address.ZIP}</TableCell>
-                                
+
                             </TableRow>
                         </TableBody>
                     </Table>
                 </AccordionDetails>
             </Accordion>
+            </div>
+            <Stack spacing={4} direction="row"
+                sx={{
+                    marginTop: '20px',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <Button variant="contained"
+                    style={{
+                        backgroundColor: color[0]
+                    }}
+                >PReviews</Button>
+                <Button variant="contained"
+                    style={{
+                        backgroundColor: color[0]
+                    }}
+                >Rate</Button>
+                <Button variant="contained"
+                    style={{
+                        backgroundColor: color[0]
+                    }}>Close</Button>
+            </Stack>
         </div>
     )
 }
@@ -211,3 +260,9 @@ export default () => {
         </Drawer>
     )
 }
+
+const color = [
+    "#000052",
+    "#D90429",
+    "#F4F4F8",
+]
