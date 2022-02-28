@@ -100,7 +100,7 @@ const Item = (props) => {
     const { name, dateJoined, about, experience,
         rate } = props;
 
-        const [status,setStatus] = useState(props.status)
+    const [status,setStatus] = useState(props.status)
 
     return (
         <div className='col-md-4 col-lg-3  col-xs-12'
@@ -202,6 +202,7 @@ export default function Card() {
                 console.log(tutors)
             })
     }
+    
     React.useEffect(() => {
         fetTutors()
     }, [])

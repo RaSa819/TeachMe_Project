@@ -14,6 +14,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Divider } from '@mui/material';
 import Drawer from './Layout/Drawer'
 
+
+// notifications Dialog 
+import NotificationDialog from './../../components/NotificationDialog'
+import { useDialog } from 'react-mui-dialog';
 const Root = styled('div')`
   table {
     font-family: arial, sans-serif;
@@ -88,6 +92,7 @@ function Content() {
     })
   }
 
+  const { openDialog, closeDialog } = useDialog();
   const deptName = React.useRef()
   const deptPrice = React.useRef()
 
@@ -102,6 +107,7 @@ function Content() {
       url = 'http://localhost:4000/admin/EditDept'
 
 
+   
 
     var errorCount = 0;
     [deptPrice, deptName].map((item) => {
@@ -321,6 +327,20 @@ function Content() {
 
         </Box>
         <Divider />
+
+        <Box sx={{
+          margin: '10px'
+        }}>
+          <Button variant="contained"
+            onClick={() => {
+              NotificationDialog(openDialog)
+            }}
+          >
+
+            Send notification
+          </Button>
+
+        </Box>
       </div>
     </div>
   );
@@ -328,8 +348,8 @@ function Content() {
 
 export default function AdminHome() {
   return (
-      <Drawer>
-        {Content()}
-      </Drawer>
+    <Drawer>
+      {Content()}
+    </Drawer>
   )
 }

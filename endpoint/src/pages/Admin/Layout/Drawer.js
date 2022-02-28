@@ -81,7 +81,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft(props) {
-    
+
     let navigate = useNavigate();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -137,10 +137,11 @@ export default function PersistentDrawerLeft(props) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
+                
                 <List>
 
                     <ListItem button onClick={() => {
-                        navigate('/Admin/AdminHome')
+                        navigate('/Admin/Home')
                     }}>
                         <ListItemIcon>
                             <HomeIcon />
@@ -157,30 +158,27 @@ export default function PersistentDrawerLeft(props) {
                         <ListItemText primary="All Users" />
                     </ListItem>
 
-                    <ListItem button>
-                        <ListItemIcon>
-                            <NotificationsActiveIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Send Notifications" />
-                    </ListItem>
 
-                    <ListItem button >
+                    <ListItem button button onClick={() => {
+                        navigate('/Admin/Activity')
+                    }}>
                         <ListItemIcon>
                             <AttachMoneyIcon />
                         </ListItemIcon>
                         <ListItemText primary="Activity" />
                     </ListItem>
                 </List>
+                
                 <Divider />
                 <List>
-                    {['All Users', 'Trash'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                    <ListItem button button button onClick={() => {
+                        navigate('/Admin/Support')
+                    }}>
+                        <ListItemIcon>
+                            <NotificationsActiveIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Support" />
+                    </ListItem>
                 </List>
             </Drawer>
 

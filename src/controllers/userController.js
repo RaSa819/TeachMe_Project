@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const _ = require('lodash');
 const { dirname } = require('path');
 const { dir } = require('console');
+const { has } = require('lodash');
 
 
 exports.registerTutor = (req, res) => {
@@ -22,7 +23,9 @@ exports.registerTutor = (req, res) => {
 
 
 
-    //const hash = bcrypt.hashSync(password,10);
+
+    
+    const hash = bcrypt.hashSync(password,10);
     //var flag=bcrypt.compareSync(password, hash); // true
 
     //password=hash
@@ -30,6 +33,7 @@ exports.registerTutor = (req, res) => {
     // create document for user 
 
     var type = 0; // student 
+    
     if (req.body.tutorData != null)
         type = 1 // tutor 
 
@@ -40,7 +44,7 @@ exports.registerTutor = (req, res) => {
             lastName,
         },
         userName,
-        password,
+        password:hash,
         address: {
             country,
             city,
@@ -67,8 +71,7 @@ exports.registerTutor = (req, res) => {
                     about: tutorData.about,
                     certifications: tutorData.certifications,
                     experience: tutorData.experience
-                },
-                rate: 0
+                }
             }).save((response) => {
                 console.log("the tutor has added")
             }).catch((error) => {
@@ -87,7 +90,7 @@ exports.registerTutor = (req, res) => {
             })
         }
 
-        res.json("add student is has be successfully ")
+        res.json({msg:"The added has been successfully",token:response._id})
     }).catch((error) => {
         console.log(error)
         res.json(error)
@@ -153,6 +156,8 @@ exports.fetchTutors = async (req, res) => {
         })
     }
 
+
+       
     getTutorsID().then((data) => {
         var IDs = data.map(({ _id }) => _id)
 
@@ -205,14 +210,14 @@ exports.updateStudentProfile = (req, res) => {
 
     user.updateOne({ _id: req.body.id },
         {
-           userName:userName,
-           email:email,
-           address:{
-               country:country,
-               city:city,
-               street:street,
-               ZIP:ZIP
-           }
+            userName: userName,
+            email: email,
+            address: {
+                country: country,
+                city: city,
+                street: street,
+                ZIP: ZIP
+            }
         },
         (err, data) => {
             res.json(data)

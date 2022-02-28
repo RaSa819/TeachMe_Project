@@ -1,11 +1,11 @@
 import React from 'react'
 import Drawer from './Layout/Drawer'
-export default function StudentFavoriteList() {
+export default function StudentSetting() {
     return (
         <Drawer>
             <div style={{
                 marginTop:'50px'
-            }}>Student Favorite List</div>
+            }}>Student Setting</div>
         </Drawer>
     )
 }

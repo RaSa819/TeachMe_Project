@@ -12,6 +12,7 @@ const session = require('express-session')
 
 
 const server = require('http').Server(app);
+
 mongoose.connect("mongodb+srv://RaSa819:Rr112233@teachme.hztfd.mongodb.net/teachme?retryWrites=true&w=majority", (err) => {
   if (err)
     throw err;
@@ -28,6 +29,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(bodyParser.json())
+
+
 
 // to allow browser to send and recieve data from Javascript source
 var cors = require('cors');
