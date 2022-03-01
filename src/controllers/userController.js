@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 const user = require('./../models/users')
 const tutor = require('./../models/tutors');
 const student = require('./../models/student')
@@ -24,11 +24,14 @@ exports.registerTutor = (req, res) => {
 
 
 
-    
-    const hash = bcrypt.hashSync(password,10);
-    //var flag=bcrypt.compareSync(password, hash); // true
 
-    //password=hash
+  
+
+    const hash = bcrypt.hashSync(password,10);
+    var flag=bcrypt.compareSync(password, hash); // true
+
+
+    password=hash
 
     // create document for user 
 
