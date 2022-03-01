@@ -14,12 +14,13 @@ const session = require('express-session')
 
 const server = require('http').Server(app);
 
-mongoose.connect("mongodb+srv://RaSa819:Rr112233@teachme.hztfd.mongodb.net/teachme?retryWrites=true&w=majority", (err) => {
-  if (err)
-    throw err;
-})
+// mongoose.connect("mongodb+srv://RaSa819:Rr112233@teachme.hztfd.mongodb.net/teachme?retryWrites=true&w=majority", (err) => {
+//   if (err)
+//     throw err;
+// })
 
 
+mongoose.connect('mongodb://localhost:27017/teachme');
 
 
 app.use(express.static('public'));
