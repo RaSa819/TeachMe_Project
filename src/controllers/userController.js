@@ -6,9 +6,7 @@ const mongoose = require('mongoose')
 
 // utilities, we use it to merge between objects
 const _ = require('lodash');
-const { dirname } = require('path');
-const { dir } = require('console');
-const { has } = require('lodash');
+
 
 
 exports.registerTutor = (req, res) => {
@@ -27,8 +25,8 @@ exports.registerTutor = (req, res) => {
 
   
 
-    const hash = bcrypt.hashSync(password,10);
-    var flag=bcrypt.compareSync(password, hash); // true
+   const hash = bcrypt.hashSync(password,10);
+   var flag=bcrypt.compareSync(password, hash); // true
 
 
     password=hash
@@ -47,7 +45,7 @@ exports.registerTutor = (req, res) => {
             lastName,
         },
         userName,
-        password:hash,
+        password,
         address: {
             country,
             city,
