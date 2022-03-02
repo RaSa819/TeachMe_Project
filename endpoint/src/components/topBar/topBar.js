@@ -125,9 +125,6 @@ const ResponsiveAppBar = () => {
           </Box>
 
 
-
-
-
             {/* language menu */}
           <Box sx={{ flexGrow: 0}}>
           <IconButton onClick={handleOpenLanguageMenu} sx={{ p: 0 , marginRight:2 ,color:'#D90429' }}>

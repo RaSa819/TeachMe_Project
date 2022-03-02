@@ -24,8 +24,7 @@ export default () => {
             userName: userName.current.value,
             password: password.current.value
         }).then((data) => {
-
-
+            console.log(data)
             if (data.data.type == 0) {
                 localStorage.setItem('token', data.data.id)
                 localStorage.setItem('type', data.data.type);
