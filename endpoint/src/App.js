@@ -36,6 +36,9 @@ import AllUser from "./pages/Admin/AllUser";
 import AdminActivity from "./pages/Admin/AdminActivity";
 import AdminSupport from "./pages/Admin/AdminSupport";// the real time 
 
+//Tutor side
+// import tutorDashboard from './pages/Tutor/tutorDashboard';
+
 export default function App() {
 
   // const isAuth = localStorage.getItem('token')
@@ -107,6 +110,8 @@ export default function App() {
                   </main>
                 }
               />
+
+              {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */}
             </Routes>
           </Router>
 
