@@ -25,11 +25,13 @@ const validationSchema = yup.object({
       (value) => {
         return new Promise((resolve, reject) => {
           axios.get(`http://localhost:4000/middleware/isValidEmail/${value}`)
-          .then((data)=>{
-            if(!(data.data==='yes'))
-              reject()
-          })
-          
+            .then((data) => {
+              if (!(data.data === 'yes'))
+                resolve(true)
+              else
+                resolve(false)
+            })
+
         })
       })
   ,

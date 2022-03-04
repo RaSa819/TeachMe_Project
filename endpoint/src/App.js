@@ -38,6 +38,9 @@ import AdminSupport from "./pages/Admin/AdminSupport";// the real time
 
 
 import SingupWithValidation from './components/SingupWithValidation'
+//Tutor side
+// import tutorDashboard from './pages/Tutor/tutorDashboard';
+
 export default function App() {
 
   // const isAuth = localStorage.getItem('token')
@@ -115,6 +118,7 @@ export default function App() {
                 <SingupWithValidation/>
               }
               />
+              {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */}
             </Routes>
           </Router>
 
