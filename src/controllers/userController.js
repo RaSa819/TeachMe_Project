@@ -23,18 +23,18 @@ exports.registerTutor = (req, res) => {
 
 
 
-  
-
-   const hash = bcrypt.hashSync(password,10);
-   var flag=bcrypt.compareSync(password, hash); // true
 
 
-    password=hash
+    const hash = bcrypt.hashSync(password, 10);
+    var flag = bcrypt.compareSync(password, hash); // true
+
+
+    password = hash
 
     // create document for user 
 
     var type = 0; // student 
-    
+
     if (req.body.tutorData != null)
         type = 1 // tutor 
 
@@ -91,7 +91,7 @@ exports.registerTutor = (req, res) => {
             })
         }
 
-        res.json({msg:"The added has been successfully",token:response._id})
+        res.json({ msg: "The added has been successfully", token: response._id })
     }).catch((error) => {
         console.log(error)
         res.json(error)
@@ -100,6 +100,8 @@ exports.registerTutor = (req, res) => {
 
 
 exports.Login = (req, res) => {
+
+
 
     user.findOne({ userName: req.body.userName, password: req.body.password }).then((data) => {
         if (data != null) {
@@ -158,7 +160,7 @@ exports.fetchTutors = async (req, res) => {
     }
 
 
-       
+
     getTutorsID().then((data) => {
         var IDs = data.map(({ _id }) => _id)
 
@@ -223,4 +225,15 @@ exports.updateStudentProfile = (req, res) => {
         (err, data) => {
             res.json(data)
         })
+}
+
+exports.isEmailVaild = (req, res) => {
+    user.findOne({ userName: req.params.email }).then((data) => {
+        if (data === null)
+            res.json('yes')
+        else
+            res.json('no')
+    }).catch((error) => {
+        res.json(error)
+    })
 }

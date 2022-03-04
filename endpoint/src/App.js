@@ -36,6 +36,8 @@ import AllUser from "./pages/Admin/AllUser";
 import AdminActivity from "./pages/Admin/AdminActivity";
 import AdminSupport from "./pages/Admin/AdminSupport";// the real time 
 
+
+import SingupWithValidation from './components/SingupWithValidation'
 export default function App() {
 
   // const isAuth = localStorage.getItem('token')
@@ -106,6 +108,12 @@ export default function App() {
                     <p>There's nothing here to display!</p>
                   </main>
                 }
+              />
+
+              <Route
+              path="test" element={
+                <SingupWithValidation/>
+              }
               />
             </Routes>
           </Router>

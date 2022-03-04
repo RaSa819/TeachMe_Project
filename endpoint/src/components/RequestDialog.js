@@ -21,6 +21,7 @@ const defaultSettings = {
 };
 
 export default (openDialog,name) => {
+    //const[a,setA]=useState()
     openDialog({
         title: "Send Request to "+name,
         contentText: null,

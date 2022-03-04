@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+
 const mongoose = require('mongoose');
 const user = require('./models/users.js');
 const dept = require('./models/department');
@@ -9,8 +10,6 @@ const adminRouter = require('./routers/adminRouter')
 const tutorRouter = require('./routers/tutorRouter')
 const app = express()
 const session = require('express-session')
-
-
 
 const server = require('http').Server(app);
 
@@ -61,6 +60,7 @@ app.use((req, res, next) => {
   next();
 })
 
+
 // -----------Router--------------
 
 require('./controllers/testController')(app)
@@ -75,6 +75,9 @@ server.listen(4000, (req, res) => {
   console.log("The server is running on 4000 port ");
 });
 
+app.get('/add/:id',(req,res)=>{
+  res.json(req.params.id)
+})
 
 // when i want get the IP address it return 
 //::1 is the compressed format IPV6 loopback address 0:0:0:0:0:0:0:1.
