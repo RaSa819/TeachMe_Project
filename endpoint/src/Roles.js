@@ -2,16 +2,16 @@
 //a closure gives you access to an outer function's scope from an inner function
 
 
-var role =((roleType)=>{
-    var roleType=null;
+var role = (() => {
+    var data = 'hello mohammed'
 
-    function setRole(type)
-    {
-        roleType=type;
-    }
-
-    function getRole(){
-        return role;
+    return {
+        setData: function (dt) {
+            data = dt;
+        },
+        value: function () {
+            return data
+        }
     }
 })
 

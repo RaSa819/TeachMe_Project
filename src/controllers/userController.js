@@ -10,33 +10,27 @@ const _ = require('lodash');
 
 
 exports.registerTutor = (req, res) => {
+
+
+    // res.json(req.body)
+    //console.log(req.body)
+    //return
+
     var { firstName, middleName, lastName,
         userName, password, email, phoneNumber,
-        gender
+        gender, country, city,
+        street, ZIP, type
     } = req.body.data;
-
-    var { country, city,
-        street, ZIP } = req.body.data.address
-
-
-
-
-
-
-
 
     const hash = bcrypt.hashSync(password, 10);
     var flag = bcrypt.compareSync(password, hash); // true
+
+    console.log(flag)
 
 
     password = hash
 
     // create document for user 
-
-    var type = 0; // student 
-
-    if (req.body.tutorData != null)
-        type = 1 // tutor 
 
     const user1 = new user({
         name: {
@@ -103,13 +97,15 @@ exports.Login = (req, res) => {
 
 
 
-    user.findOne({ userName: req.body.userName, password: req.body.password }).then((data) => {
+    user.findOne({ userName: req.body.userName }).then((data) => {
         if (data != null) {
-            req.session.token = data._id
-            res.json({ id: data._id, type: data.type })
+            var a = bcrypt.compareSync(req.body.password, data.password)
+            if (a === true) {
+                res.json({ id: data._id, type: data.type })
+            }
         }
         else {
-            res.json('there is no user ')
+            res.json('no')
         }
     }).catch((error) => {
         res.json('the error is ' + error)
@@ -227,7 +223,9 @@ exports.updateStudentProfile = (req, res) => {
         })
 }
 
-exports.isEmailVaild = (req, res) => {
+
+// to check if the enterd username is valid or not
+exports.isUsernameValid = (req, res) => {
     user.findOne({ userName: req.params.email }).then((data) => {
         if (data === null)
             res.json('yes')

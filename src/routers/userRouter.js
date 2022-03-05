@@ -31,7 +31,7 @@ module.exports = (app, io) => {
     app.get('/user/fetchTutors', userController.fetchTutors)
     app.get('/user/getSession', userController.getSession);
     app.post('/user/updateImage', userController.updateImg);
-    app.get('/middleware/isValidEmail/:email',userController.isEmailVaild)
+    app.get('/middleware/isUsernameValid/:email',userController.isUsernameValid)
     app.post('/student/updateProfile', userController.updateStudentProfile)
 
 

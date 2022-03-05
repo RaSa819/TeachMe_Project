@@ -63,7 +63,7 @@ const Content = () => {
 
 
     let token = localStorage.getItem('token')
-
+    console.log(token)
     return (
         <div style={{
             marginTop: '50px'

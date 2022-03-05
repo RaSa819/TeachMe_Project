@@ -285,7 +285,7 @@ const SettingsButton = () => {
       validationSchema: Yup.object({
         username: Yup.string().required("username cannot be empty"),
         onMailingList: Yup.boolean(),
-        notificationRetention: Yup.string()
+        notificationRetention: Yup.string().required('is necessary')
       }),
       cancelButton: { children: "Close" },
       submitButton: {

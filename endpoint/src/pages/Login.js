@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BsFillPersonFill } from 'react-icons/bs';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 // to align items in center 
 const styleCenter = {
@@ -16,22 +18,42 @@ export default () => {
     const userName = React.useRef();
     const password = React.useRef();
 
+
+    React.useEffect(() => {
+        var type = localStorage.getItem('type')
+        
+        if (type == 0)
+            navigate('/student/profile')
+        else if (type == 2)
+            navigate('/admin/home')
+
+    }, [])
+
+    const [error, setError] = React.useState(0)
     const login = (event) => {
         event.preventDefault();
-        localStorage.removeItem('token');
-        localStorage.removeItem('type')
-
         axios.post('http://localhost:4000/user/login', {
             userName: userName.current.value,
             password: password.current.value
         }).then((data) => {
-            console.log(data.data)
-           
-            // if (data.data.type == 0) {
-            //     localStorage.setItem('token', data.data.id)
-            //     localStorage.setItem('type', data.data.type);
-            //     navigate('/student')
-            // }
+            console.log(data)
+            if (data.data === 'no') {
+                setError(404)
+            }
+            else if (data.data.type != null) {
+                var type = data.data.type;
+                var token = data.data.id;
+                localStorage.removeItem('token')
+                localStorage.removeItem('type')
+
+                localStorage.setItem('token', token)
+                localStorage.setItem('type', type);
+
+                if (type === 2)
+                    navigate('/admin/home')
+                else if (type === 0)
+                    navigate('/student/profile')
+            }
         }).catch((error) => {
             console.log("there is some error " + error)
         })
@@ -47,15 +69,24 @@ export default () => {
                         color="gray"
                     />
                 </div>
+                <Stack sx={{
+                    width: '100%',
+                    display: error === 404 ? 'block' : 'none'
+                }} spacing={2}>
+                    <Alert severity="error" variant='filled'>There is no user, may be username or password is correct</Alert>
+                </Stack>
                 <form onSubmit={(event) => { login(event) }}>
                     <input type="text" className="form-control mt-3"
                         placeholder="username"
                         ref={userName}
+
+                        required={true}
                     />
 
                     <input type="password" className="form-control mt-2"
                         placeholder="password"
                         ref={password}
+                        required={true}
                     />
 
                     <div style={{
@@ -78,9 +109,9 @@ export default () => {
                     </div>
 
                     <div style={styleCenter}>
-                        you don't have an acount ? <a href="#" style={{
+                        you don't have an acount ? <Link to="/signup" style={{
                             textDecoration: 'none'
-                        }}> Register </a>
+                        }}> Register </Link>
                     </div>
                     <div style={styleCenter}>
                         <input type="submit" className="btn mt-2"

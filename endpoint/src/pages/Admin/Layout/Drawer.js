@@ -83,6 +83,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft(props) {
 
     let navigate = useNavigate();
+
+    React.useEffect(() => {
+        var type = localStorage.getItem('type')
+
+        if (type != 2)
+            navigate('/login')
+    }, [])
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -137,7 +144,7 @@ export default function PersistentDrawerLeft(props) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                
+
                 <List>
 
                     <ListItem button onClick={() => {
@@ -159,7 +166,7 @@ export default function PersistentDrawerLeft(props) {
                     </ListItem>
 
 
-                    <ListItem button button onClick={() => {
+                    <ListItem button onClick={() => {
                         navigate('/Admin/Activity')
                     }}>
                         <ListItemIcon>
@@ -168,16 +175,30 @@ export default function PersistentDrawerLeft(props) {
                         <ListItemText primary="Activity" />
                     </ListItem>
                 </List>
-                
+
                 <Divider />
                 <List>
-                    <ListItem button button button onClick={() => {
+                    <ListItem button onClick={() => {
                         navigate('/Admin/Support')
                     }}>
                         <ListItemIcon>
                             <NotificationsActiveIcon />
                         </ListItemIcon>
                         <ListItemText primary="Support" />
+                    </ListItem>
+                </List>
+
+                <Divider />
+                <List>
+                    <ListItem button onClick={() => {
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('type')
+                        navigate('/login')
+                    }}>
+                        <ListItemIcon>
+                            <NotificationsActiveIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Sign out" />
                     </ListItem>
                 </List>
             </Drawer>

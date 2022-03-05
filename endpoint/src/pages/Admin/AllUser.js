@@ -59,7 +59,7 @@ const deleteUser = (id) => {
         console.log('the error is ' + error)
     })
 }
-const MessageBoxDelete = (openDialog, closeDialog,id) => {
+const MessageBoxDelete = (openDialog, closeDialog, id) => {
     openDialog({
         title: "Delete this document?",
         // a component this time
@@ -84,10 +84,12 @@ const MessageBoxDelete = (openDialog, closeDialog,id) => {
                     Yes I'm sure, delete this document
                 </RedCapitalizedButton>
             )
-            
+
         },
-        onSubmit: async () =>
+        onSubmit: async () => {
             deleteUser(id)
+            window.location.reload(false);
+        }
     });
 
 }
@@ -130,6 +132,7 @@ function Row(props) {
                         onClick={
                             () => {
                                 MessageBoxDelete(openDialog, closeDialog, row._id);
+
                                 //deleteUser(row._id)
                                 //console.log(row._id)
                             }
@@ -220,13 +223,16 @@ function User() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((row) => (
-                        <Row key={row._id} row={row}
+                    {data.map((row) => {
+                        if (row.type != 2) {
+                            return (<Row key={row._id} row={row}
 
-                            openDialog={openDialog}
-                            closeDialog={closeDialog}
-                        />
-                    ))}
+                                openDialog={openDialog}
+                                closeDialog={closeDialog}
+
+                            />)
+                        }
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>

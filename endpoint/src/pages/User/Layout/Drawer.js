@@ -65,10 +65,19 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft(props) {
 
+
+
     let navigate = useNavigate();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
+
+    React.useEffect(() => {
+        var type = localStorage.getItem('type')
+
+        if (type != 0)
+            navigate('/login')
+    }, [])
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -171,12 +180,21 @@ export default function PersistentDrawerLeft(props) {
 
 
 
-
                     <ListItem button onClick={() => {
                         navigate('/student/Setting')
                     }}>
                         Security
                     </ListItem>
+
+                    <ListItem button onClick={() => {
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('type')
+                        navigate('/login')
+
+                    }}>
+                        Sign out
+                    </ListItem>
+
                 </List>
             </Drawer>
             <Main open={open}>

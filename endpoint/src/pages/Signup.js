@@ -194,11 +194,6 @@ const Signup = () => {
     }).
       then((response) => {
         console.log(response.data.token)
-        localStorage.removeItem('token')
-        localStorage.removeItem('token')
-        localStorage.setItem('token',response.data.token)
-        var type = tutor===false?0:1;
-        localStorage.setItem('type',type);
         
       }).catch((error) => {
         console.log(error)

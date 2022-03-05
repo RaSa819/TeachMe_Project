@@ -37,92 +37,91 @@ import AdminActivity from "./pages/Admin/AdminActivity";
 import AdminSupport from "./pages/Admin/AdminSupport";// the real time 
 
 
+import TutorProvider from "./components/Data/TutorProvider";
 import SingupWithValidation from './components/SingupWithValidation'
+
+
 //Tutor side
-// import tutorDashboard from './pages/Tutor/tutorDashboard';
+import TutorDashboard from './pages/Tutor/tutorDashboard';
 
 export default function App() {
 
   // const isAuth = localStorage.getItem('token')
   const isAuth = 1
   const type = localStorage.getItem('type')
-  const clearLocalStorage = () => {
-    localStorage.removeItem('token');
-  }
-
+  console.log('the type is ' + type)
 
   //alert(localStorage.getItem('token'))
   return (
 
     <SocketProvider>
       <DialogProvider>
-        <div className="container-fluid">
-          <Router>
-            <Routes>
-              <Route path="/" element={
+        <TutorProvider>
+          <div className="container-fluid">
+            <Router>
+              <Routes>
+                <Route path="/" element={
 
-                <Navigate to="/Login" />
-              } />
-              <Route path="/Login" element={<Login />} />
-              <Route path="/Signup" element={<Signup />} />
-
-
-              <Route path="Admin" element={
-                isAuth ?
-                  <><Outlet /></> :
                   <Navigate to="/Login" />
-              }>
-
-                <Route path="Home" element={<AdminHome />} />
-                <Route path="AllUsers" element={<AllUser />} />
-                <Route path="Activity" element={<AdminActivity />} />
-                <Route path="Support" element={<AdminSupport />} />
-
-              </Route>
-
-              <Route path="student" element={
-                isAuth ?
-                  <><Outlet /></> :
-                  <Navigate to="/Login" />
-              }>
-                <Route path="Profile" element={<StudentHome />} />
-                <Route path="EditProfile" element={<StudentEditProfile />} />
-                <Route path="FavoriteList" element={<StudentFavoriteList />} />
-                <Route path="History" element={<StudentHistory />} />
-                <Route path="Setting" element={<StudentSetting />} />
-              </Route>
+                } />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/Signup" element={<SingupWithValidation />} />
 
 
-              <Route path="global" element={
-                isAuth ?
-                  <><Outlet /></> :
-                  <Navigate to="/Login" />
-              }>
-                <Route path="tutors" element={
-                  <Card/>
-                }/>
+                <Route path="Admin" element={
 
-              </Route>
+                  <><Outlet /></>
+                }>
 
-              <Route
-                path="*"
-                element={
-                  <main style={{ padding: "1rem" }}>
-                    <p>There's nothing here to display!</p>
-                  </main>
-                }
-              />
+                  <Route path="Home" element={<AdminHome />} />
+                  <Route path="AllUsers" element={<AllUser />} />
+                  <Route path="Activity" element={<AdminActivity />} />
+                  <Route path="Support" element={<AdminSupport />} />
 
-              <Route
-              path="test" element={
-                <SingupWithValidation/>
-              }
-              />
-              {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */}
-            </Routes>
-          </Router>
+                </Route>
 
-          {/* <Router>
+                <Route path="student" element={
+
+                  <><Outlet /></>
+                }>
+                  <Route path="Profile" element={<StudentHome />} />
+                  <Route path="EditProfile" element={<StudentEditProfile />} />
+                  <Route path="FavoriteList" element={<StudentFavoriteList />} />
+                  <Route path="History" element={<StudentHistory />} />
+                  <Route path="Setting" element={<StudentSetting />} />
+                </Route>
+
+
+                <Route path="global" element={
+                  isAuth ?
+                    <><Outlet /></> :
+                    <Navigate to="/Login" />
+                }>
+                  <Route path="tutors" element={
+                    <Card />
+                  } />
+
+                </Route>
+
+                <Route
+                  path="*"
+                  element={
+                    <main style={{ padding: "1rem" }}>
+                      <p>There's nothing here to display!</p>
+                    </main>
+                  }
+                />
+                <Route
+                  path="testDash" element={
+                    <TutorDashboard />
+                  }
+
+                />
+                {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */}
+              </Routes>
+            </Router>
+
+            {/* <Router>
             <Routes>
               <Route path="/" element={<Signup />} />
               
@@ -130,7 +129,8 @@ export default function App() {
               
             </Routes>
           </Router> */}
-        </div>
+          </div>
+        </TutorProvider>
       </DialogProvider>
     </SocketProvider >
   )
