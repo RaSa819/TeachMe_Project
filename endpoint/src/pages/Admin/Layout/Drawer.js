@@ -159,7 +159,7 @@ export default function PersistentDrawerLeft(props) {
                     </ListItem>
 
 
-                    <ListItem button button onClick={() => {
+                    <ListItem button onClick={() => {
                         navigate('/Admin/Activity')
                     }}>
                         <ListItemIcon>
@@ -171,7 +171,7 @@ export default function PersistentDrawerLeft(props) {
                 
                 <Divider />
                 <List>
-                    <ListItem button button button onClick={() => {
+                    <ListItem button onClick={() => {
                         navigate('/Admin/Support')
                     }}>
                         <ListItemIcon>
