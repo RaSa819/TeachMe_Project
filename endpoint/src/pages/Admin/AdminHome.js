@@ -17,6 +17,7 @@ import Drawer from './Layout/Drawer'
 
 // notifications Dialog 
 import NotificationDialog from './../../components/NotificationDialog'
+import RequestDialogs from './../../components/RequestDialogs'
 import { useDialog } from 'react-mui-dialog';
 const Root = styled('div')`
   table {
@@ -338,6 +339,16 @@ function Content() {
           >
 
             Send notification
+          </Button>
+
+
+          <Button variant="contained"
+            onClick={() => {
+             RequestDialogs(openDialog)
+            }}
+          >
+
+            Test
           </Button>
 
         </Box>

@@ -4,8 +4,10 @@ import { MdFavorite } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
-import axios from 'axios'
 
+import { useDialog } from 'react-mui-dialog';
+import axios from 'axios'
+import RequestDialog from './RequestDialog';
 const styleFavorite = {
     width: '20px',
     height: '20px',
@@ -100,6 +102,7 @@ const Item = (props) => {
     const { name, dateJoined, about, experience,
         rate } = props;
 
+    const {openDialog} = useDialog();
     const [status,setStatus] = useState(props.status)
 
     return (
@@ -184,7 +187,12 @@ const Item = (props) => {
                 padding: '5px'
             }}>
                 <button style={styleBtnView}>View Profile</button>
-                <button style={styleBtnRequest}> Request</button>
+                <button style={styleBtnRequest}
+                onClick={()=>{
+                    RequestDialog(openDialog,name.firstName)
+                }}
+                
+                > Request</button>
             </div>
         </div>
     )

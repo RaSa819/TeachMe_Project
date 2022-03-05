@@ -1,0 +1,36 @@
+#button{
+    float:right;
+    margin: 0.2em;
+  
+    background-color: #000052;
+    
+
+}
+
+#card{
+    width: 1310px;
+    border-radius: 20px;
+    height: 120px;
+    padding: 0%;
+}
+
+#cardBodyContainer{
+    padding: 0;
+}
+#rating{
+    display: inline;
+    float: right;
+}
+#avatar{
+    float: right;
+    width: 80px;
+    height: 80px;
+    margin: 0%;
+    padding: 0%;
+
+    
+}
+
+#button-group{
+    margin-top:3.5%;
+}

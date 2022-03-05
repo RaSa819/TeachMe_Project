@@ -36,9 +36,15 @@ import AllUser from "./pages/Admin/AllUser";
 import AdminActivity from "./pages/Admin/AdminActivity";
 import AdminSupport from "./pages/Admin/AdminSupport";// the real time 
 
+
+import SingupWithValidation from './components/SingupWithValidation'
+//Tutor side
+// import tutorDashboard from './pages/Tutor/tutorDashboard';
+
 export default function App() {
 
-  const isAuth = localStorage.getItem('token')
+  // const isAuth = localStorage.getItem('token')
+  const isAuth = 1
   const type = localStorage.getItem('type')
   const clearLocalStorage = () => {
     localStorage.removeItem('token');
@@ -53,11 +59,16 @@ export default function App() {
         <div className="container-fluid">
           <Router>
             <Routes>
+              <Route path="/" element={
+
+                <Navigate to="/Login" />
+              } />
               <Route path="/Login" element={<Login />} />
               <Route path="/Signup" element={<Signup />} />
 
+
               <Route path="Admin" element={
-                isAuth  ?
+                isAuth ?
                   <><Outlet /></> :
                   <Navigate to="/Login" />
               }>
@@ -81,6 +92,18 @@ export default function App() {
                 <Route path="Setting" element={<StudentSetting />} />
               </Route>
 
+
+              <Route path="global" element={
+                isAuth ?
+                  <><Outlet /></> :
+                  <Navigate to="/Login" />
+              }>
+                <Route path="tutors" element={
+                  <Card/>
+                }/>
+
+              </Route>
+
               <Route
                 path="*"
                 element={
@@ -89,6 +112,13 @@ export default function App() {
                   </main>
                 }
               />
+
+              <Route
+              path="test" element={
+                <SingupWithValidation/>
+              }
+              />
+              {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */}
             </Routes>
           </Router>
 
@@ -102,7 +132,7 @@ export default function App() {
           </Router> */}
         </div>
       </DialogProvider>
-    </SocketProvider>
+    </SocketProvider >
   )
 }
 

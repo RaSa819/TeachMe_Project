@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+body{
+    background-color: #F4F4F8;
+}
+
+#cardContainer{
+    background-color: #E5E5E5;
+
+width: 1334px;
+height: 1953px;
+border-radius: 20px;
+padding: 1%;
+
+}
+
+#dashboard{
+margin-left: 2%;
+margin-top: 0%;
+font-family: 'Open Sans', sans-serif;
+font-style: 'normal';
+font-size: 24px;
+color: #D90429;
+}
+
+#requestsContainer{
+    margin: 0;
+    padding: 0;
+    width: inherit;
+}
