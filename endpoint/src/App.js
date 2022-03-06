@@ -47,10 +47,10 @@ import TutorDashboard from './pages/Tutor/tutorDashboard';
 export default function App() {
 
   // const isAuth = localStorage.getItem('token')
-  const isAuth = 1
-  const type = localStorage.getItem('type')
-  console.log('the type is ' + type)
-
+ 
+  localStorage.removeItem('token')
+  localStorage.removeItem('type')
+ 
   //alert(localStorage.getItem('token'))
   return (
 
@@ -93,9 +93,8 @@ export default function App() {
 
 
                 <Route path="global" element={
-                  isAuth ?
-                    <><Outlet /></> :
-                    <Navigate to="/Login" />
+                  
+                    <><Outlet /></> 
                 }>
                   <Route path="tutors" element={
                     <Card />

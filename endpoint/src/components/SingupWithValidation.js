@@ -99,10 +99,10 @@ export default () => {
       email: '',
       password: '',
       confirmPassword: '',
-      country: 'yemen',
-      city: 'IBB',
-      street: '22',
-      ZIP: 12,
+      country: '',
+      city: '',
+      street: '',
+      ZIP: '',
       gender: genderDt,
       phoneNumber: '',
       type: typeDt
@@ -128,11 +128,13 @@ export default () => {
             localStorage.removeItem('type')
 
             var type = values.type
+            var token= response.data.token;
             localStorage.setItem('type', type);
-
-            if (type === 2)
+            localStorage.setItem('token', token);
+            console.log(type)
+            if (type == 2)
               navigate('/admin/home')
-            else if (type === 0)
+            else if (type == 0)
               navigate('/student/profile')
 
           }).catch((error) => {
