@@ -1,5 +1,5 @@
 import React from 'react';
-import TopBar from '../../components/topBar/TopBar'
+import TopBar from '../../components/topBar/topBar'
 import SideBar from '../../components/sideBar'
 import ReqCard from '../../components/reqCard/reqCard'
 
