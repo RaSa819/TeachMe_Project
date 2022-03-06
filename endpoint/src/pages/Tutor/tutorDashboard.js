@@ -11,30 +11,26 @@ import './tutorDashboard.css';
 
 export default function TutorDashboard() {
   return (
-<Container>
-  <Row className="justify-content-md-center">
-    <Col xs lg="2">
-      <TopBar/>
-    </Col>
+    <Container fluid id='gridContainer'>
+  <Row>
+    <Col id='navCol'><TopBar/></Col>
   </Row>
   <Row>
-  <Col><SideBar/><h1 id='dashboard'>Dashboard</h1></Col>
-  <Col></Col>
-  <Col></Col>
+    <Col xs sm md={12} lg={1} id='sidebarCol'><SideBar/></Col>
+    <Col id='contentCol' lg={9}>
+      <h2 id='dashboardH2'>Dashboard</h2>
+      <div id='content'>
+      <Container id='contentContainer'>
+  <Row>
+    <Col><ReqCard/></Col>
   </Row>
   <Row>
-    <Col></Col>
-    <Col md="auto"><div id='cardContainer'>
-      <Container id ='requestsContainer'>
-        <Row>
-          <Col><ReqCard/></Col>
-        </Row>
-      </Container>
-      
-      </div></Col>
-    <Col xs lg="2">
-      3 of 3
+    <Col><ReqCard/></Col>
+  </Row>
+</Container>
+      </div>
     </Col>
+
   </Row>
 </Container>
   );

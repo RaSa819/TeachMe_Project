@@ -170,7 +170,7 @@ const ResponsiveAppBar = () => {
 
               {/* user menu */}
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar id='avatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar id='navavatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu

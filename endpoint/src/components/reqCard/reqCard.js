@@ -9,18 +9,16 @@ import Rating from '../rating'
 import "./reqCard.css";
 export default function reqCard() {
   return (
-    <Card id="card">
-      <Card.Body>
-        <Container fluid id='cardBodyContainer'>
-          <Row>
-            <Col md="auto">
-            <Avatar id='avatar' src=""></Avatar>
-            </Col>
-            <Col md="auto"> 
-            <Card.Title>Request Title</Card.Title>
-            <Card.Text>student name <Rating id='rating'/> </Card.Text>
-            </Col>
-            <Col id='button-group'><Button id="button" variant="primary">
+
+    <Container id='card'>
+    <Row>
+      <Col xs sm md={1} lg={1}><Avatar id='avatar' src=""></Avatar></Col>
+      <Col xs={6}>
+        <h4>Request Title</h4>
+        <h6>Student name <Rating/></h6>
+      </Col>
+      <Col>
+      <Button id="button" variant="primary">
               Decline
             </Button>
             <Button id="button" variant="primary">
@@ -29,15 +27,12 @@ export default function reqCard() {
             <Button id="button" variant="primary">
               View
             </Button></Col>
-          </Row>
+    </Row>
+  </Container>
+
+
 
          
-         
-
- 
- 
-        </Container>
-      </Card.Body>
-    </Card>
+      
   );
 }

@@ -22,43 +22,12 @@ export default function ClippedDrawer() {
     setSelectedIndex(index);
   };
   return (
-    <Box sx={{ display: 'flex'  }}>
-       {/* <TopBar/> */}
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ 
-          overflow: 'auto' ,
-          backgroundColor:'#000052'  ,
-          color:'#f4f4f8',
-
-          paddingBottom:'100%',
-
-
-
-          }}>
-            <Box sx={{
-              align:'center',
-              color:'white',
-              marginTop:'10%',
-              marginLeft:'6%',
-              fontWeight:'Bold'
-            }}>
-             <Typography>Tutor Options</Typography>
-            </Box>
-
-        <List component="nav" aria-label="Tutor Options">
+        <List component="nav" aria-label="Tutor Options" sx={{width:'100%' , backgroundColor:'#000052' , color:'#f2f2f2' }}>
         <ListItemButton
           selected={selectedIndex === 0}
           onClick={(event) => handleListItemClick(event, 0)}
           sx={{
-            marginTop:'40%'
+            marginTop:'20%'
 }}
         >
  
@@ -84,7 +53,9 @@ export default function ClippedDrawer() {
         <ListItemButton
           selected={selectedIndex === 1}
           onClick={(event) => handleListItemClick(event, 1)}
-
+          sx={{
+            marginBottom:'20%'
+}}
           
         >
 
@@ -92,12 +63,5 @@ export default function ClippedDrawer() {
         </ListItemButton>
 
       </List>  
-        </Box>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar />
-       
-      </Box>
-    </Box>
   );
 }

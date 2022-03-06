@@ -3,27 +3,44 @@ body{
     background-color: #F4F4F8;
 }
 
-#cardContainer{
+#content{
     background-color: #E5E5E5;
 
-width: 1334px;
-height: 1953px;
+width: 100%;
+height: inherit;
 border-radius: 20px;
-padding: 1%;
-
+padding: 10px;
+margin: 0;
+align-items: center;
+}
+#contentContainer{
+    padding: 0%;
+}
+#contentCol{
+    margin: 0 0;
+    padding-right: 0;
+    
 }
 
-#dashboard{
+#gridContainer{
+    margin: 0px 0px;
+    padding: 0px;
+    
+}
+#navCol{
+    padding: 0%;
+}
+#sidebarCol{
+    padding: 0%;
+    width: 20%;
+}
+
+#dashboardH2{
 margin-left: 2%;
-margin-top: 0%;
+margin-top: 2%;
 font-family: 'Open Sans', sans-serif;
 font-style: 'normal';
-font-size: 24px;
+font-size: 29px;
 color: #D90429;
 }
 
-#requestsContainer{
-    margin: 0;
-    padding: 0;
-    width: inherit;
-}
