@@ -44,6 +44,8 @@ import SingupWithValidation from './components/SingupWithValidation'
 //Tutor side
 import TutorDashboard from './pages/Tutor/tutorDashboard';
 
+import HomePage from './pages/homePage/homePage.js';
+
 export default function App() {
 
   // const isAuth = localStorage.getItem('token')
@@ -113,6 +115,13 @@ export default function App() {
                 <Route
                   path="testDash" element={
                     <TutorDashboard />
+                  }
+
+                />
+
+<Route
+                  path="/home" element={
+                    <HomePage />
                   }
 
                 />
