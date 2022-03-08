@@ -158,13 +158,13 @@ export default function App() {
                   }
                 />
 
-
+{/* 
                 <Route
                   path="/home" element={
                     <HomePage />
                   }
 
-                />
+                /> */}
                 {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */}
 
               </Routes>
