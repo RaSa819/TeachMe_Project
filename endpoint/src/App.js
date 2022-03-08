@@ -46,8 +46,14 @@ import SingupWithValidation from './components/SingupWithValidation'
 
 //Tutor side
 import TutorDashboard from './pages/Tutor/tutorDashboard';
+<<<<<<< HEAD
 import IsStudent from "./auth/IsStudent";
 import IsAuth from "./auth/IsAuth";
+=======
+
+import HomePage from './pages/homePage/homePage.js';
+
+>>>>>>> 68b8657be3689fe12b016dc1213880410ccd014d
 export default function App() {
 
   // const isAuth = localStorage.getItem('token')
@@ -155,8 +161,18 @@ export default function App() {
                   }
                 />
 
+<<<<<<< HEAD
 
 
+=======
+<Route
+                  path="/home" element={
+                    <HomePage />
+                  }
+
+                />
+                {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */}
+>>>>>>> 68b8657be3689fe12b016dc1213880410ccd014d
               </Routes>
             </Router>
 

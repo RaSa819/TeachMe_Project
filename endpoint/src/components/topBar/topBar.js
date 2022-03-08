@@ -49,7 +49,7 @@ const ResponsiveAppBar = () => {
 
   return (
     <AppBar position="static" style={{backgroundColor:'#F4F4F8'}}>
-      <Container maxWidth="xl" >
+      <Container fluid maxWidth="xxl" >
         <Toolbar disableGutters >
           <Typography
             variant="h6"
@@ -62,7 +62,7 @@ const ResponsiveAppBar = () => {
             Teach me.
           </Typography>
 
-          <Box  sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' , color:'#D90429'} }}>
+          <Box  sx={{margin:0, flexGrow: 1, display: { xs: 'flex', md: 'none' , color:'#D90429'} }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -90,7 +90,8 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none'},
+                margin:0,
+                display: { xs: 'flex', md: 'none'},
               }}
             >
               {pages.map((page) => (
@@ -98,9 +99,14 @@ const ResponsiveAppBar = () => {
                   <Typography sx={{color:"black"}} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+            <MenuItem>
+                  <Typography sx={{color:"black"}} textAlign="center">language</Typography>
+                </MenuItem>
+                <MenuItem>
+                  <Typography sx={{color:"black"}} textAlign="center">Login<LoginIcon/></Typography>
+                </MenuItem>
             </Menu>
-          </Box>
-          <Typography
+            <Typography
             variant="h6"
             noWrap
             component="div"
@@ -109,6 +115,8 @@ const ResponsiveAppBar = () => {
           >
             Teach me.
           </Typography>
+
+          </Box>
 
 
           {/* empty box */}
@@ -126,9 +134,9 @@ const ResponsiveAppBar = () => {
 
 
             {/* language menu */}
-          <Box sx={{ flexGrow: 0}}>
+          <Box sx={{ flexGrow: 0 , display:{xs:'none' , sm:'none' , lg:'flex'}}}>
           <IconButton onClick={handleOpenLanguageMenu} sx={{ p: 0 , marginRight:2 ,color:'#D90429' }}>
-                <Typography sx={{color:'black'}}>English</Typography><KeyboardArrowDownIcon/>
+                <Typography sx={{color:'black' }}>English</Typography><KeyboardArrowDownIcon/>
               </IconButton>
               <Menu
               sx={{ mt: '45px' }}
@@ -161,16 +169,17 @@ const ResponsiveAppBar = () => {
           <IconButton sx={{ p: 0 , marginRight:5 ,color:'#D90429' }}>
                 <Typography sx={{color:'black'}}>Login</Typography><LoginIcon/>
               </IconButton>
-            <Tooltip title="Open settings">
+            
 
 
+</Box>
 
 
-
-
+                  <Box>
+                    <Tooltip title="Open settings">
               {/* user menu */}
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar id='navavatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar  id='navavatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
