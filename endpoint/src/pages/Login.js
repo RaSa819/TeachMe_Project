@@ -49,10 +49,10 @@ export default () => {
                 localStorage.setItem('token', token)
                 localStorage.setItem('type', type);
 
-                if (type === 2)
-                    navigate('/admin/home')
-                else if (type === 0)
-                    navigate('/student/profile')
+                // if (type === 2)
+                //     navigate('/admin/home')
+                // else if (type === 0)
+                //     navigate('/student/profile')
             }
         }).catch((error) => {
             console.log("there is some error " + error)

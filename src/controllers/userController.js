@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 
 // utilities, we use it to merge between objects
 const _ = require('lodash');
+const { intersection } = require('lodash');
 
 
 
@@ -53,7 +54,7 @@ exports.registerTutor = (req, res) => {
     })
 
     user1.save().then((response) => {
-        if (type === 1) {
+        if (parseInt(type) === 1) {
             var tutorData = req.body.tutorData;
             var newTutor = new tutor({
                 dept_id: tutorData.dept_id,
@@ -122,7 +123,8 @@ exports.fetchTutors = async (req, res) => {
                 _id: 1,
                 name: 1,
                 date: 1,
-                gender: 1
+                gender: 1,
+                type:1
             }, (err, data) => {
                 if (err)
                     reject(err)

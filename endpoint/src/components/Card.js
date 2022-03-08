@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { BsFillPersonFill } from 'react-icons/bs';
 import { MdFavorite } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
 
+
+import TopBar from './topBar/topBar'
+
 import { useDialog } from 'react-mui-dialog';
 import axios from 'axios'
 import RequestDialog from './RequestDialog';
+
+import { SocketContext } from '../Socket';
+import TutorDialog from './TutorDialog';
 const styleFavorite = {
     width: '20px',
     height: '20px',
@@ -100,10 +106,11 @@ const styleRandomRequestIcon = {
 const Item = (props) => {
 
     const { name, dateJoined, about, experience,
-        rate } = props;
+        rate, type, id, openDialog, socket } = props;
 
-    const {openDialog} = useDialog();
-    const [status,setStatus] = useState(props.status)
+
+
+    const [status, setStatus] = useState(props.status)
 
     return (
         <div className='col-md-4 col-lg-3  col-xs-12'
@@ -129,10 +136,10 @@ const Item = (props) => {
                     </div>
                     <div>
                         <p style={
-                            status===1?styleAvailabe:styleBusy
+                            status === 1 ? styleAvailabe : styleBusy
                         }>
                             {
-                                status===1?'Available':'Busy'
+                                status === 1 ? 'Available' : 'Busy'
                             }
 
                         </p>
@@ -188,10 +195,10 @@ const Item = (props) => {
             }}>
                 <button style={styleBtnView}>View Profile</button>
                 <button style={styleBtnRequest}
-                onClick={()=>{
-                    RequestDialog(openDialog,name.firstName)
-                }}
-                
+                    onClick={() => {
+                        RequestDialog(openDialog, id, type, 'Just moment, to be your request ready', socket)
+                    }}
+
                 > Request</button>
             </div>
         </div>
@@ -200,25 +207,35 @@ const Item = (props) => {
 export default function Card() {
 
 
+    const socket = useContext(SocketContext)
+
+    const { openDialog } = useDialog();
     const [tutors, setTutor] = useState([])
 
+    const [isReady, setReady] = useState(false)
 
     const fetTutors = async () => {
         await axios.get('http://localhost:4000/user/fetchTutors').
             then((response) => {
                 setTutor(response.data)
-                console.log(tutors)
+                setReady(true)
+
+            })
+            .catch((error) => {
+                console.log(error)
             })
     }
-    
+
     React.useEffect(() => {
         fetTutors()
     }, [])
-
+    console.log(tutors)
 
     return (
         <div className='container-fluid'>
+           
             <div className='row'>
+            <TopBar/>
                 {
                     tutors.map((item) => (
                         <Item
@@ -238,6 +255,14 @@ export default function Card() {
                             status={
                                 item.status
                             }
+
+                            type={item.type}
+
+                            id={item._id}
+
+                            openDialog={openDialog}
+
+                            socket={socket}
                         />
                     ))
                 }
@@ -249,12 +274,21 @@ export default function Card() {
                 alignItems: 'center'
             }}>
                 <div>
+                    {
+                        isReady && <button style={stylebtnRandomRequest}
+                            onClick={() => {
+                                RequestDialog(openDialog, null, 0, 'make sure that we will help you to be better', socket)
+                            }}
 
-                    <button style={stylebtnRandomRequest}>
-                        <GiPerspectiveDiceSixFacesRandom
-                            style={styleRandomRequestIcon}
-                        />
-                        Random Request</button>
+                        >
+                            <GiPerspectiveDiceSixFacesRandom
+                                style={styleRandomRequestIcon}
+                            />
+                            Random Request
+
+
+                        </button>
+                    }
                 </div>
             </div>
         </div>

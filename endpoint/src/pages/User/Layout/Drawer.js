@@ -13,6 +13,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import LoginIcon from '@mui/icons-material/Login';
+import Tooltip from '@mui/material/Tooltip';
+import Avatar from '@mui/material/Avatar';
+
+import { IoLogOut } from 'react-icons/io5';
 
 import { useNavigate } from "react-router-dom";
 const drawerWidth = 240;
@@ -65,19 +73,35 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft(props) {
 
+    const [anchorElLanguage, setAnchorElLanguage] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+    var type = localStorage.getItem('type')
+
+    const settings = ['Dashboard', 'Logout'];
+    const languages = ['English', 'Arabic']
+
+    const handleOpenLanguageMenu = (event) => {
+        setAnchorElLanguage(event.currentTarget)
+    }
+    const handleCloseLanguageMenu = (event) => {
+        setAnchorElLanguage(null)
+    }
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
 
     let navigate = useNavigate();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
 
-    React.useEffect(() => {
-        var type = localStorage.getItem('type')
-
-        if (type != 0)
-            navigate('/login')
-    }, [])
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -92,7 +116,8 @@ export default function PersistentDrawerLeft(props) {
             <AppBar position="fixed" open={open}
 
                 style={{
-                    backgroundColor: color[2]
+                    backgroundColor: color[2],
+
                 }}
             >
                 <Toolbar>
@@ -105,13 +130,105 @@ export default function PersistentDrawerLeft(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div"
-                        sx={{
-                            color: color[1]
-                        }}
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+
+                        id='logo'
                     >
-                        Teach me
+                        Teach me.
                     </Typography>
+                    <Box sx={{
+                        flexGrow: 1
+                    }}>
+
+                    </Box>
+                    <Box>
+                        <IconButton onClick={handleOpenLanguageMenu} sx={{ p: 0, marginRight: 2, color: '#D90429' }}>
+                            <Typography sx={{ color: 'black' }}>English</Typography><KeyboardArrowDownIcon />
+                        </IconButton>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElLanguage}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElLanguage)}
+                            onClose={handleCloseLanguageMenu}
+                        >
+                            {languages.map((language) => (
+                                <MenuItem key={language} onClick={handleCloseLanguageMenu}>
+                                    <Typography textAlign="center">{language}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+
+
+
+
+
+                        {/* logout button */}
+                        <IconButton sx={{ p: 0, marginRight: open === true ? 0 : 1, color: '#D90429' }}
+                            onClick={() => {
+                                localStorage.removeItem('token')
+                                localStorage.removeItem('type')
+                                navigate('/login')
+                            }}>
+
+                            <Typography sx={{ color: 'black' }}>Logout</Typography><LoginIcon />
+                        </IconButton>
+                        <Tooltip title="Options">
+
+
+
+
+
+
+                            {/* user menu */}
+                            <IconButton sx={{
+                                p: 0
+                                , display: open === true ? 'none' : 'inline'
+                            }}
+
+                                onClick={() => {
+                                    setOpen(true)
+                                }}>
+                                <Avatar id='navavatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">{setting}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -129,11 +246,25 @@ export default function PersistentDrawerLeft(props) {
                 anchor="left"
                 open={open}>
                 <DrawerHeader>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ display: { xs: 'flex', md: 'none' } }}
+                        style={{
+                            marginRight: 50
+                        }}
+                        id='logo'
+                    >
+                        Teach me.
+                    </Typography>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon style={{
                             color: 'white'
                         }} /> : <ChevronRightIcon />}
                     </IconButton>
+
+
                 </DrawerHeader>
 
 
@@ -145,7 +276,7 @@ export default function PersistentDrawerLeft(props) {
 
                 <List>
                     <ListItem button onClick={() => {
-                        navigate('/student/Profile')
+                        navigate('/user/Profile')
                     }}>
                         View Profile
                     </ListItem>
@@ -155,25 +286,24 @@ export default function PersistentDrawerLeft(props) {
 
 
                     <ListItem button onClick={() => {
-                        navigate('/student/EditProfile')
+                        navigate('/user/EditProfile')
                     }}>
                         Edit Profile
                     </ListItem>
 
+                    {
+                        parseInt(type) === 0 && <ListItem button onClick={() => {
+                            navigate('/student/FavoriteList')
+                        }}>
+                            Favorite Tutors List
+                        </ListItem>
+                    }
+
 
 
 
                     <ListItem button onClick={() => {
-                        navigate('/student/FavoriteList')
-                    }}>
-                        Favorite Tutors List
-                    </ListItem>
-
-
-
-
-                    <ListItem button onClick={() => {
-                        navigate('/student/History')
+                        navigate('/user/History')
                     }}>
                         Previous Request History
                     </ListItem>
@@ -181,18 +311,9 @@ export default function PersistentDrawerLeft(props) {
 
 
                     <ListItem button onClick={() => {
-                        navigate('/student/Setting')
+                        navigate('/user/Setting')
                     }}>
                         Security
-                    </ListItem>
-
-                    <ListItem button onClick={() => {
-                        localStorage.removeItem('token')
-                        localStorage.removeItem('type')
-                        navigate('/login')
-
-                    }}>
-                        Sign out
                     </ListItem>
 
                 </List>

@@ -342,15 +342,6 @@ function Content() {
           </Button>
 
 
-          <Button variant="contained"
-            onClick={() => {
-             RequestDialogs(openDialog)
-            }}
-          >
-
-            Test
-          </Button>
-
         </Box>
       </div>
     </div>

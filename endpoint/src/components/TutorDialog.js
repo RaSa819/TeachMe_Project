@@ -18,20 +18,12 @@ const certifications = [
     "Another"
 ]
 
-const dept = [
-    {name:"IT",id:1},
-    {name:"CS",id:2},
-    {name:"Math",id:3},
-    {name:"Physics",id:4}
-]
-
 const CardType = [
     "master card",
     "visa card"
 ]
 
-export default (openDialog, dt) => {
-
+export default (openDialog, dt, dept) => {
     const push = async (data, tutorData) => {
         await axios.post('http://localhost:4000/user/register', {
             data: data,
@@ -71,7 +63,7 @@ export default (openDialog, dt) => {
 
                             {
                                 dept.map((item) => (
-                                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                                    <MenuItem key={item._id} value={item._id}>{item.name}</MenuItem>
                                 ))
                             }
 

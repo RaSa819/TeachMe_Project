@@ -112,7 +112,15 @@ export default () => {
       isUsernameValid(values.userName)
       if (isTutor && error === 0) {
         dt.setData(values)
-        TutorDialog(openDialog, dt)
+
+        axios.get('http://localhost:4000/fetchDept').
+          then((res) => {
+            let dept = res.data
+            TutorDialog(openDialog, dt, dept)
+          }).
+          catch((err) => {
+            console.log('there is error is' + err)
+          })
       }
 
       else if (error != 0) {
@@ -128,14 +136,14 @@ export default () => {
             localStorage.removeItem('type')
 
             var type = values.type
-            var token= response.data.token;
+            var token = response.data.token;
             localStorage.setItem('type', type);
             localStorage.setItem('token', token);
             console.log(type)
-            if (type == 2)
-              navigate('/admin/home')
-            else if (type == 0)
-              navigate('/student/profile')
+            // if (type == 2)
+            //   navigate('/admin/home')
+            // else if (type == 0)
+            //   navigate('/student/profile')
 
           }).catch((error) => {
             alert(JSON.stringify(error, null, 2))
@@ -177,7 +185,6 @@ export default () => {
       <div className='row' style={{
         marginTop: '20px'
       }}>
-
 
         <div className='col-md-2 col-sm-0' />
         <div className='col-md-8 col-sm-12'>

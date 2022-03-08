@@ -1,91 +1,97 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import * as Yup from "yup";
 import {
     FormControl,
+    FormLabel,
+    MenuItem,
+
 } from "@material-ui/core";
-
-import FormGroup from '@mui/material/FormGroup';
-import TextField from '@mui/material/TextField';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import { yupToFormErrors } from 'formik';
-import { Button } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
+import { Select, TextField } from "formik-material-ui";
+import { Field } from "formik";
+import axios from 'axios';
+import { SocketContext } from '../Socket';
 
 
-const defaultSettings = {
-    username: "myUsername",
-    onMailingList: true,
-    notificationRetention: "2_weeks"
-};
 
-export default (openDialog,name) => {
-    //const[a,setA]=useState()
+export default (openDialog, id = null, type = 0, title, socket) => {
     openDialog({
-        title: "Send Request to "+name,
-        contentText: null,
+        title: title,
+        contentText: 'this is the information is important to success your request',
         fields: {
-            notificationRetention: {
-                initialValue: defaultSettings.notificationRetention,
+            title: {
+                initialValue: '',
+                name: 'title'
+            },
+            subject: {
+                initialValue: '',
+                name: 'subject',
+                fieldProps: {
+                    multiline: true,
+                    maxRows: 4
+                }
+            },
+            time: {
+                initialValue: '',
                 component: (
-                    <FormControl>
-                        <FormControl fullWidth sx={{ m: 1 }}>
-                            <InputLabel htmlFor="outlined-adornment-amount">Title of Subject</InputLabel>
-                            <OutlinedInput
-                                sx={{
-                                    marginTop: '10px'
-                                }}
-                                id="outlined-adornment-amount"
-                                startAdornment={<InputAdornment position="start">Sub:</InputAdornment>}
-                                label="Amount"
-                            />
-                        </FormControl>
-                        <TextField
-                            sx={{
-                                marginTop: '20px'
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">Choose your card type</FormLabel>
+                        <Field
+                            component={Select}
+                            name="time"
+                            inputProps={{
+                                id: "time"
                             }}
-                            fullWidth
-                            id="outlined-multiline-static"
-                            label="Description"
-                            multiline
-                            rows={5}
-                        />
-                        <Button>
-                            Attachment file (images, pdf)
-                        </Button>
-                        <FormGroup>
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={time}
-                                sx={{ width: '100%' }}
-                                renderInput={(params) => <TextField {...params} label="time" />}
-                            />
-                        </FormGroup>
+                        >
 
+                            {
+                                time.map((item) => (
+                                    <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
+                                ))
+                            }
+
+                        </Field>
                     </FormControl>
                 )
             }
         },
+
         validationSchema: Yup.object({
-            notificationRetention: Yup.string()
+            title: Yup.string().required('the dept option is required'),
+            subject: Yup.string().required('You must talk about your self'),
+            time: Yup.string().required('you must input your last certification')
         }),
         cancelButton: { children: "Close" },
         submitButton: {
-            children: "Send",
+            children: "Save",
             props: { variant: "contained", color: "secondary" }
         },
-        onSubmit: async () =>
-            alert(
-                'Saving settings Username Keep notifications for')
-    })
+        onSubmit: async (values) => {
+            alert(JSON.stringify(values, null, 2))
+            if (id === null)
+                socket.emit('request', {
+                    student: localStorage.getItem('token'),
+                    time: values.time,
+                    title: values.title,
+                    to: 'all',
+                    subject: values.subject
+                })
+            else
+                socket.emit('request', {
+                    student: localStorage.getItem('token'),
+                    time: values.time,
+                    title: values.title,
+                    to: id,
+                    subject: values.subject
+                })
+            // socket.emit('request', 'this is direct request = ' + id)
+        }
+
+    });
 }
 
-
 const time = [
-    { label: 'one hour', value: 1 },
-    { label: 'tow hours', value: 2 },
-    { label: 'three hours', value: 3 },
-    { label: 'four hours', value: 4 }, ,
+    { name: "one houre", value: 1 },
+    { name: "tow houres", value: 2 },
+    { name: "three houres", value: 3 },
+    { name: "four houres", value: 4 }
 ]

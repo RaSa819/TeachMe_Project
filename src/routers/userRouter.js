@@ -4,7 +4,7 @@ module.exports = (app, io) => {
 
     // event when the client connect to the server
     io.on('connection', socket => {
-       // to get the IP of client 
+        // to get the IP of client 
         //console.log(socket.request.connection.remoteAddress)
         //console.log(socket.conn.remoteAddress);
 
@@ -14,7 +14,10 @@ module.exports = (app, io) => {
         //console.log(socket.handshake.headers);
         console.log('connection is done')
 
-        socket.emit('res','Hello mr mohammed');
+        socket.emit('res', 'Hello mr mohammed');
+        socket.on('request', (data) => {
+            console.log('there is incoming request == > ' + JSON.stringify(data, null, 2))
+        })
     });
 
     app.use('/', (req, res, next) => {
@@ -31,7 +34,7 @@ module.exports = (app, io) => {
     app.get('/user/fetchTutors', userController.fetchTutors)
     app.get('/user/getSession', userController.getSession);
     app.post('/user/updateImage', userController.updateImg);
-    app.get('/middleware/isUsernameValid/:email',userController.isUsernameValid)
+    app.get('/middleware/isUsernameValid/:email', userController.isUsernameValid)
     app.post('/student/updateProfile', userController.updateStudentProfile)
 
 
