@@ -5,6 +5,7 @@ import { AiFillStar } from "react-icons/ai";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
 
+import { useLocation } from 'react-router-dom';
 
 import TopBar from './topBar/topBar'
 
@@ -214,8 +215,11 @@ export default function Card() {
 
     const [isReady, setReady] = useState(false)
 
+
+    const {state} = useLocation();
+    let id = state.id;
     const fetTutors = async () => {
-        await axios.get('http://localhost:4000/user/fetchTutors').
+        await axios.get(`http://localhost:4000/user/fetchTutors/${id}`).
             then((response) => {
                 setTutor(response.data)
                 setReady(true)
@@ -233,9 +237,9 @@ export default function Card() {
 
     return (
         <div className='container-fluid'>
-           
+
             <div className='row'>
-            <TopBar/>
+                <TopBar />
                 {
                     tutors.map((item) => (
                         <Item

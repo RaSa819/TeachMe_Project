@@ -151,7 +151,7 @@ export default (openDialog, dt, dept) => {
         },
         onSubmit: async (values) =>
             push(dt.value(), values)
-        //alert(JSON.stringify(dt.value(), null, 2))
+            //alert(JSON.stringify(values, null, 2))
     });
     return (
         <></>

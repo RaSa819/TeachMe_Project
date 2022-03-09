@@ -1,21 +1,24 @@
 const bcrypt = require('bcrypt');
 const user = require('./../models/users')
-const tutor = require('./../models/tutors');
+const tutor = require('./../models/tutors')
 const student = require('./../models/student')
 const mongoose = require('mongoose')
 
 // utilities, we use it to merge between objects
 const _ = require('lodash');
 const { intersection } = require('lodash');
+const { collection } = require('./../models/users');
 
 
 
 exports.registerTutor = (req, res) => {
 
 
-    // res.json(req.body)
-    //console.log(req.body)
-    //return
+
+    console.log(req.body)
+
+
+
 
     var { firstName, middleName, lastName,
         userName, password, email, phoneNumber,
@@ -23,10 +26,10 @@ exports.registerTutor = (req, res) => {
         street, ZIP, type
     } = req.body.data;
 
-    const hash = bcrypt.hashSync(password, 10);
-    var flag = bcrypt.compareSync(password, hash); // true
 
-    console.log(flag)
+    type = parseInt(type)
+
+    const hash = bcrypt.hashSync(password, 10);
 
 
     password = hash
@@ -35,7 +38,7 @@ exports.registerTutor = (req, res) => {
 
     const user1 = new user({
         name: {
-            firstName: firstName,
+            firstName,
             middleName,
             lastName,
         },
@@ -53,11 +56,14 @@ exports.registerTutor = (req, res) => {
         type
     })
 
+
+    var stackOperation = "";
+
     user1.save().then((response) => {
-        if (parseInt(type) === 1) {
+        if (type === 1) {
             var tutorData = req.body.tutorData;
             var newTutor = new tutor({
-                dept_id: tutorData.dept_id,
+                dept_id: tutorData.dept,
                 user_id: response._id,
                 cardInfo: {
                     cardID: tutorData.cardID,
@@ -69,10 +75,8 @@ exports.registerTutor = (req, res) => {
                     experience: tutorData.experience
                 }
             }).save((response) => {
-                console.log("the tutor has added")
-            }).catch((error) => {
-                console.log("there are some error when add tutor " + error)
-
+                stackOperation += "The tutor has been  successfully added"
+                console.log(stackOperation)
             })
         }
         else {
@@ -80,13 +84,17 @@ exports.registerTutor = (req, res) => {
             new student({
                 user_id: response._id
             }).save().then((response) => {
-                console.log("the student has added")
+
+                stackOperation += "\nThe student has been succfully added "
+                console.log(stackOperation)
+
             }).catch((error) => {
-                console.log("there are some error when add student " + error)
+                stackOperation += "We got errors when trying adding student : " + error;
+                console.log(stackOperation)
             })
         }
 
-        res.json({ msg: "The added has been successfully", token: response._id })
+        res.json({ msg: stackOperation, token: response._id })
     }).catch((error) => {
         console.log(error)
         res.json(error)
@@ -95,9 +103,6 @@ exports.registerTutor = (req, res) => {
 
 
 exports.Login = (req, res) => {
-
-
-
     user.findOne({ userName: req.body.userName }).then((data) => {
         if (data != null) {
             var a = bcrypt.compareSync(req.body.password, data.password)
@@ -114,18 +119,94 @@ exports.Login = (req, res) => {
 }
 
 
+
+// to check if the token is available or not 
+exports.isExisted = (req, response) => {
+    let token = req.params.token;
+    user.findOne({ _id: token }).then((data) => {
+        if (data === null)
+            response.json({ res: null })
+        else
+            response.json({ res: 1 })
+    }).catch((error) => {
+        response.json({ error: error })
+    })
+
+}
+
+
+exports.fetchTutorsByDeptID = (req, res) => {
+
+
+    let id = req.params.id
+    const objectID = mongoose.Types.ObjectId
+    mongoose.model('tutor').aggregate([
+        {
+            $match: {
+                dept_id: objectID(id)
+            }
+        },
+
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "_id",
+                "foreignField": "user_id",
+                "as": "result"
+            }
+
+        }
+    ]).exec((err, data) => {
+        if (!err)
+            res.json(data.length)
+        else
+            res.json(err)
+    })
+
+}
+
+
 exports.fetchTutors = async (req, res) => {
 
+    const objectID = mongoose.Types.ObjectId
+    // mongoose.model('users').aggregate([
+    //     {
+    //         $match:{
+    //             type:1
+    //         }
+    //     }
+    //     ,{
+    //         "$lookup": {
+    //             "from": "tutors",
+    //             "localField": "_id",
+    //             "foreignField": "user_id",
+    //             "as": "result"
+    //         }
+
+    //     },
+
+    // ]).exec((err, data) => {
+    //     if (!err)
+    //         res.json(data)
+    //     else
+    //         res.json(err)
+    // })
+
+
+
+
+
+    let id = req.params.id
     // fetch ID from the user collection 
-    const getTutorsID = () => {
+    const getTutorsID = (ID) => {
         return new Promise((resolve, reject) => {
             user.find({ type: 1 }, {
                 _id: 1,
                 name: 1,
                 date: 1,
                 gender: 1,
-                type:1
-            }, (err, data) => {
+                type: 1
+            }).where('_id').in(ID).exec((err, data) => {
                 if (err)
                     reject(err)
                 else {
@@ -141,14 +222,15 @@ exports.fetchTutors = async (req, res) => {
 
 
     // Fetch data about tutor from the tutor collection
-    const getTutor = (ID) => {
+    const getTutor = () => {
         return new Promise((resolve, reject) => {
-            tutor.find({}, {
+            tutor.find({ dept_id: objectID(id) }, {
                 status: 1,
                 _id: 0,
                 rate: 1,
-                profile: 1
-            }).where('user_id').in(ID).exec((err, data) => {
+                profile: 1,
+                user_id: 1
+            }, (err, data) => {
                 if (err)
                     reject('error')
                 else
@@ -159,16 +241,18 @@ exports.fetchTutors = async (req, res) => {
 
 
 
-    getTutorsID().then((data) => {
-        var IDs = data.map(({ _id }) => _id)
+    getTutor().then((data) => {
+        var IDs = data.map(({ user_id }) => user_id)
 
         // format the data 
-        getTutor(IDs).then((tutor) => {
+        getTutorsID(IDs).then((tutor) => {
 
             var newData = []
             for (var i = 0; i < data.length; i++) {
-                var row = _.merge(data[i], tutor[i])
-                newData.push(row)
+                {
+                    var row = _.merge(data[i], tutor[i])
+                    newData.push(row)
+                }
             }
 
             res.json(newData)

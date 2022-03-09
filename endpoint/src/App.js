@@ -29,7 +29,7 @@ import UserEditProfile from './pages/User/UserEditProfile'
 import UserHistory from './pages/User/UserHistory'
 import UserSettings from './pages/User/UserSettings'
 import StudentFavoriteList from "./pages/User/StudentFavoriteList";
-
+import PrepareRequest from "./pages/User/PrepareRequest";
 
 
 // Admin side
@@ -53,12 +53,24 @@ import HomePage from './pages/homePage/homePage.js';
 
 export default function App() {
 
-  // const isAuth = localStorage.getItem('token')
+  console.log(localStorage.getItem('token'))
+  React.useEffect(() => {
+    let token = localStorage.getItem('token')
+    if (token != null) {
+      axios.get(`http://localhost:4000/IsExisted/${token}`)
+        .then((response) => {
+          if (response.data.res != true) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('type')
+          }
 
-  //localStorage.removeItem('token')
-  //localStorage.removeItem('type')
+        }).catch((error) => {
+          alert(JSON.stringify(error, null, 2))
+        })
+    }
+  }, [])
 
-  //alert(localStorage.getItem('token'))
+
   return (
 
     <SocketProvider>
@@ -67,15 +79,13 @@ export default function App() {
           <div className="container-fluid">
             <Router>
               <Routes>
-
-
                 <Route path="/" element={
                   <Navigate to="/Login" />
                 } />
 
                 <Route path="/Login" element={<Login />} />
-
                 <Route path="/Signup" element={<SingupWithValidation />} />
+
 
                 <Route path="Admin" element={
                   <><Outlet /></>
@@ -158,7 +168,15 @@ export default function App() {
                   }
                 />
 
-{/* 
+                <Route
+                path="home"
+                element={
+                  <PrepareRequest/>
+                }
+                
+                />
+
+                {/* 
                 <Route
                   path="/home" element={
                     <HomePage />
