@@ -9,7 +9,6 @@ import {
 import { Select } from "formik-material-ui";
 import { Field } from "formik";
 import axios from 'axios';
-
 const certifications = [
     "Bachelor",
     "Master",
@@ -23,7 +22,7 @@ const CardType = [
     "visa card"
 ]
 
-export default (openDialog, dt, dept) => {
+export default (openDialog, dt, dept,navigate) => {
     const push = async (data, tutorData) => {
         await axios.post('http://localhost:4000/user/register', {
             data: data,
@@ -31,12 +30,13 @@ export default (openDialog, dt, dept) => {
         }).
             then((response) => {
                 alert(JSON.stringify(response.data, null, 2))
-                //console.log(response.data)
-                // localStorage.removeItem('token')
-                // localStorage.removeItem('token')
-                // localStorage.setItem('token', response.data.token)
-                // var type = tutor === false ? 0 : 1;
-                // localStorage.setItem('type', type);
+                console.log(response.data)
+                localStorage.removeItem('token')
+                localStorage.removeItem('type')
+                localStorage.setItem('token', response.data.token)
+                localStorage.setItem('type', 1);
+                navigate('/home')
+                
 
             }).catch((error) => {
                 alert(JSON.stringify(error, null, 2))
@@ -76,7 +76,6 @@ export default (openDialog, dt, dept) => {
                 initialValue: '',
                 name: 'about'
             },
-
             certifications: {
                 initialValue: '',
                 component: (
@@ -151,7 +150,7 @@ export default (openDialog, dt, dept) => {
         },
         onSubmit: async (values) =>
             push(dt.value(), values)
-            //alert(JSON.stringify(values, null, 2))
+        //alert(JSON.stringify(values, null, 2))
     });
     return (
         <></>

@@ -8,7 +8,7 @@ export default ({ children }) => {
     // to check if the user is student type or not ,
     // if the user is tutor, it well come back previouse page,
     // if he student it well show the children page 
-    var type = localStorage.getItem('type')
+    var type = parseInt(localStorage.getItem('type'))
 
 
     return type === 0 ?

@@ -116,7 +116,7 @@ export default () => {
         axios.get('http://localhost:4000/fetchDept').
           then((res) => {
             let dept = res.data
-            TutorDialog(openDialog, dt, dept)
+            TutorDialog(openDialog, dt, dept,navigate)
           }).
           catch((err) => {
             console.log('there is error is' + err)
@@ -140,10 +140,7 @@ export default () => {
             localStorage.setItem('type', type);
             localStorage.setItem('token', token);
             console.log(type)
-            // if (type == 2)
-            //   navigate('/admin/home')
-            // else if (type == 0)
-            //   navigate('/student/profile')
+            navigate('/home')
 
           }).catch((error) => {
             alert(JSON.stringify(error, null, 2))
@@ -185,7 +182,11 @@ export default () => {
       <div className='row' style={{
         marginTop: '20px'
       }}>
-
+        <Button onClick={() => {
+          TutorDialog(openDialog, dt, ["c++","IT","C#"],navigate)
+        }}>
+          Dialog
+        </Button>
         <div className='col-md-2 col-sm-0' />
         <div className='col-md-8 col-sm-12'>
           <Stack sx={{

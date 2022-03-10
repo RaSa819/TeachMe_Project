@@ -11,9 +11,7 @@ export default function StudentFavoriteList() {
                 marginTop: '50px',
                 overflowX:'auto'
             }}>
-            <ReqCard title="request 1" name="mohammed " />
-            <ReqCard title="request 2" name="Ali "/>
-            <ReqCard title="request 3" name="Mosa "/>
+           
                 
             </div>
 

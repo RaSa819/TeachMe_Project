@@ -1,4 +1,7 @@
+const { default: mongoose } = require('mongoose');
 const userController = require('./../controllers/userController')
+const request = require('./../models/request')
+const ObjectId = mongoose.Types.ObjectId
 
 module.exports = (app, io) => {
 
@@ -16,7 +19,24 @@ module.exports = (app, io) => {
 
         socket.emit('res', 'Hello mr mohammed');
         socket.on('request', (data) => {
-            console.log('there is incoming request == > ' + JSON.stringify(data, null, 2))
+            console.log(data)
+
+            let from = ObjectId(data.student)
+            let to = ObjectId(data.to)
+
+            let info ={
+                time:parseInt(data.time),
+                title:data.title,
+                description:data.description
+            }
+
+            let newRequest = new request({
+                student:from,
+                tutor:to,
+                requestInfo:info
+            }).save((data)=>{
+                console.log(data)
+            })
         })
     });
 
@@ -39,6 +59,12 @@ module.exports = (app, io) => {
     app.get('/middleware/isUsernameValid/:email', userController.isUsernameValid)
     app.post('/student/updateProfile', userController.updateStudentProfile)
     app.get('/student/fetchTutorsByDeptID/:id',userController.fetchTutorsByDeptID)
+
+    app.get('/tutor/fetchRequest/:id',userController.fetchTutorRequest)
+    app.get('/student/fetchHistory/:id',userController.fetchStudentHistory)
+    app.get('/tutor/fetchHistory/:id',userController.fetchTutorHistory)
+
+    app.post('/tutor/editRequestStatus',userController.editRequestStatus)
 
     app.get('/fetch', userController.fetchImage)
 }

@@ -299,6 +299,13 @@ export default function PersistentDrawerLeft(props) {
                         </ListItem>
                     }
 
+                    {
+                        parseInt(type) === 1 && <ListItem button onClick={() => {
+                            navigate('/tutor/pendingRequest')
+                        }}>
+                           Pending Request 
+                        </ListItem>
+                    }
 
 
 

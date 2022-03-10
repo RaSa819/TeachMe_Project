@@ -48,8 +48,12 @@ import SingupWithValidation from './components/SingupWithValidation'
 import TutorDashboard from './pages/Tutor/tutorDashboard';
 import IsStudent from "./auth/IsStudent";
 import IsAuth from "./auth/IsAuth";
+import Redirect from "./auth/Redirect";
+import NotFound from "./auth/NotFound";
+import PendingRequest from './pages/User/PendingRequest'
 
 import HomePage from './pages/homePage/homePage.js';
+import IsTutor from "./auth/IsTutor";
 
 export default function App() {
 
@@ -124,6 +128,16 @@ export default function App() {
                   } />
                 </Route>
 
+                <Route path="tutor">
+                  <Route
+                  path="pendingRequest"
+                  element={
+                    <IsTutor>
+                      <PendingRequest/>
+                    </IsTutor>
+                  }
+                  />
+                </Route>
                 <Route path="student" element={
                   <><Outlet /></>
                 }>
@@ -149,7 +163,9 @@ export default function App() {
                   <><Outlet /></>
                 }>
                   <Route path="tutors" element={
-                    <Card />
+                    <IsStudent>
+                      <Card />
+                    </IsStudent>
                   } />
 
                 </Route>
@@ -157,9 +173,7 @@ export default function App() {
                 <Route
                   path="*"
                   element={
-                    <main style={{ padding: "1rem" }}>
-                      <p>There's nothing here to display!</p>
-                    </main>
+                    <NotFound />
                   }
                 />
                 <Route
@@ -169,11 +183,14 @@ export default function App() {
                 />
 
                 <Route
-                path="home"
-                element={
-                  <PrepareRequest/>
-                }
-                
+                  path="home"
+                  element={
+                    <Redirect>
+                      <PrepareRequest />
+                    </Redirect>
+
+                  }
+
                 />
 
                 {/* 

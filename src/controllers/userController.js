@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const user = require('./../models/users')
 const tutor = require('./../models/tutors')
 const student = require('./../models/student')
+const request = require('./../models/request')
 const mongoose = require('mongoose')
 
 // utilities, we use it to merge between objects
@@ -9,7 +10,7 @@ const _ = require('lodash');
 const { intersection } = require('lodash');
 const { collection } = require('./../models/users');
 
-
+const objectID = mongoose.Types.ObjectId
 
 exports.registerTutor = (req, res) => {
 
@@ -319,5 +320,59 @@ exports.isUsernameValid = (req, res) => {
             res.json('no')
     }).catch((error) => {
         res.json(error)
+    })
+}
+
+
+
+// to fetch the pending request 
+exports.fetchTutorRequest = (req, res) => {
+    let id = req.params.id
+    id = objectID(id)
+
+    console.log(id)
+    request.find({ tutor: id, status: 2 }).then((data) => {
+        res.json(data)
+    }).catch((error) => {
+        console.log('the error is ' + error)
+    })
+}
+
+function getNameOfStudent() {
+
+}
+
+exports.fetchTutorHistory = (req, res) => {
+    let id = req.params.id;
+    id = objectID(id)
+
+    request.find({ tutor: id, status: 1 }).then((data) => {
+        res.json(data)
+    }).catch((error) => {
+        console.log('the error is ' + error)
+    })
+}
+
+exports.fetchStudentHistory = (req, res) => {
+    let id = req.params.id;
+    id = objectID(id)
+
+    request.find({ student: id, status: 1 }).then((data) => {
+        res.json(data)
+    }).catch((error) => {
+        console.log('the error is ' + error)
+    })
+}
+
+exports.editRequestStatus = (req, res) => {
+    let { id, status } = req.body;
+
+    id = objectID(id)
+    request.updateOne({
+        _id: id,
+        status: status
+    }, (error, data) => {
+        if (!error)
+            res.json(data)
     })
 }

@@ -22,14 +22,24 @@ export default (openDialog, id = null, type = 0, title, socket) => {
                 initialValue: '',
                 name: 'title'
             },
-            subject: {
+            description: {
                 initialValue: '',
-                name: 'subject',
+                name: 'description',
                 fieldProps: {
                     multiline: true,
                     maxRows: 4
                 }
             },
+            attachment:{
+                initialValue:null,
+                component:(
+                    <input type="file"
+                    name='attachment'
+                    multiple
+                    />
+                )
+            },
+           
             time: {
                 initialValue: '',
                 component: (
@@ -56,9 +66,9 @@ export default (openDialog, id = null, type = 0, title, socket) => {
         },
 
         validationSchema: Yup.object({
-            title: Yup.string().required('the dept option is required'),
-            subject: Yup.string().required('You must talk about your self'),
-            time: Yup.string().required('you must input your last certification')
+            title: Yup.string().required('the title  is required'),
+            description: Yup.string().required('the description is required'),
+            time: Yup.string().required('the time is required')
         }),
         cancelButton: { children: "Close" },
         submitButton: {
@@ -66,22 +76,20 @@ export default (openDialog, id = null, type = 0, title, socket) => {
             props: { variant: "contained", color: "secondary" }
         },
         onSubmit: async (values) => {
-            alert(JSON.stringify(values, null, 2))
             if (id === null)
                 socket.emit('request', {
                     student: localStorage.getItem('token'),
                     time: values.time,
                     title: values.title,
-                    to: 'all',
-                    subject: values.subject
+                    to: 'all'
                 })
             else
                 socket.emit('request', {
                     student: localStorage.getItem('token'),
                     time: values.time,
                     title: values.title,
-                    to: id,
-                    subject: values.subject
+                    description:values.description,
+                    to: id
                 })
             // socket.emit('request', 'this is direct request = ' + id)
         }

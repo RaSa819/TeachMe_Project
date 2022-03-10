@@ -7,7 +7,7 @@ const session = mongoose.Schema({
   endTime:Date,
   TransactionPayInfo:mongoose.Schema.Types.Mixed,
   chat:[mongoose.Schema.Types.Mixed],
-  request:mongoose.Schema.Types.ObjectId
+  request:mongoose.Schema.Types.ObjectId,
 })
 
 module.exports = mongoose.model('sessions',session);

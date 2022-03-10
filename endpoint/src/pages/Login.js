@@ -4,6 +4,7 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate, Link } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import ProgressBar from './../components/ProgressBar'
 
 // to align items in center 
 const styleCenter = {
@@ -18,41 +19,38 @@ export default () => {
     const userName = React.useRef();
     const password = React.useRef();
 
+    const [isReady, setReady] = React.useState(null)
 
     React.useEffect(() => {
-        var type = localStorage.getItem('type')
-        
-        if (type == 0)
-            navigate('/student/profile')
-        else if (type == 2)
-            navigate('/admin/home')
+        let type = parseInt(localStorage.getItem('type'))
+        if (type >= 0)
+            navigate('/home')
 
     }, [])
 
     const [error, setError] = React.useState(0)
     const login = (event) => {
+        setReady(0)
         event.preventDefault();
         axios.post('http://localhost:4000/user/login', {
             userName: userName.current.value,
             password: password.current.value
         }).then((data) => {
             console.log(data)
+            setReady(1)
             if (data.data === 'no') {
                 setError(404)
             }
             else if (data.data.type != null) {
                 var type = data.data.type;
                 var token = data.data.id;
+
                 localStorage.removeItem('token')
                 localStorage.removeItem('type')
 
                 localStorage.setItem('token', token)
                 localStorage.setItem('type', type);
-
-                // if (type === 2)
-                //     navigate('/admin/home')
-                // else if (type === 0)
-                //     navigate('/student/profile')
+                navigate('/home')
             }
         }).catch((error) => {
             console.log("there is some error " + error)
@@ -60,6 +58,10 @@ export default () => {
     }
     return (
         <div className="row">
+            {
+                isReady === 0 &&
+                <ProgressBar />
+            }
             <div className="col-md-2" />
             <div className="col-md-8">
                 <div style={{

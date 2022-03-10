@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import TopBar from './../../components/topBar/topBar'
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -6,10 +6,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { FixedSizeList } from 'react-window';
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 function renderRow(props) {
-    const { index, style,data } = props;
+    const { index, style, data } = props;
     let item = data.dept[index]
     let navigate = data.navigate
 
@@ -20,16 +21,16 @@ function renderRow(props) {
             <ListItemButton style={{
                 textAlign: 'center'
             }}
-            onClick={()=>{
-                navigate('/global/tutors',{
-                    state:{
-                        id:item._id
-                    }
-                })
-            }}
+                onClick={() => {
+                    navigate('/global/tutors', {
+                        state: {
+                            id: item._id
+                        }
+                    })
+                }}
             >
 
-                <ListItemText primary={item.name}/>
+                <ListItemText primary={item.name} />
             </ListItemButton>
         </ListItem>
     );
@@ -38,12 +39,12 @@ export default (props) => {
     const [dept, setDept] = useState([])
     const fetchDept = async () => {
         axios.get('http://localhost:4000/fetchDept').
-          then((res) => {
-            setDept(res.data)
-          }).
-          catch((err) => {
-            console.log('there is error is' + err)
-          })
+            then((res) => {
+                setDept(res.data)
+            }).
+            catch((err) => {
+                console.log('there is error is' + err)
+            })
     }
     React.useEffect(() => {
         fetchDept()
@@ -54,6 +55,15 @@ export default (props) => {
     return (
         <div>
             <TopBar />
+            <div>
+                <Link to="/user/profile"
+                    style={{
+                        textAlign: 'center'
+                    }}
+                >
+                    Go to Your Profile
+                </Link>
+            </div>
             <Box
 
                 display="flex"
@@ -64,7 +74,8 @@ export default (props) => {
                 <FixedSizeList
                     height={400}
                     width="100%"
-                    itemData={{dept,
+                    itemData={{
+                        dept,
                         navigate
                     }}
                     itemSize={35}
