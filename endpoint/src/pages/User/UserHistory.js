@@ -16,11 +16,11 @@ export default function StudentFavoriteList() {
   if (type === 0)
     url = `http://localhost:4000/student/fetchHistory/${token}`
   else if (type === 1)
-    url = `http://localhost:4000/student/fetchHistory/${token}`
+    url = `http://localhost:4000/tutor/fetchHistory/${token}`
+
 
   const fetchData = async () => {
     await axios.get(url).then((data) => {
-      alert(JSON.stringify(data, null, 2))
       setData(data.data)
       setReady(1)
 
@@ -44,7 +44,8 @@ export default function StudentFavoriteList() {
         {
           isReady === 1 && data.length > 0 &&
           data.map((item, index) => (
-            <ReqCard title={item.requestInfo.title} name={item.student}
+            <ReqCard title={item.requestInfo.title} 
+            name={item.info.name.firstName}
               id={item._id}
             />
           ))

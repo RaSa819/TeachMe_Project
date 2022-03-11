@@ -16,9 +16,9 @@ export default (props) => {
       id: id,
       status: status
     }).then((data) => {
-      alert(data)
+      window.location.reload();
     }).catch((error) => {
-      alert(error)
+
     })
   }
   return (

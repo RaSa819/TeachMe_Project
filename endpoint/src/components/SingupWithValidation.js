@@ -182,11 +182,6 @@ export default () => {
       <div className='row' style={{
         marginTop: '20px'
       }}>
-        <Button onClick={() => {
-          TutorDialog(openDialog, dt, ["c++","IT","C#"],navigate)
-        }}>
-          Dialog
-        </Button>
         <div className='col-md-2 col-sm-0' />
         <div className='col-md-8 col-sm-12'>
           <Stack sx={{

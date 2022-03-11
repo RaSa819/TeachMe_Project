@@ -329,13 +329,53 @@ exports.isUsernameValid = (req, res) => {
 exports.fetchTutorRequest = (req, res) => {
     let id = req.params.id
     id = objectID(id)
-
-    console.log(id)
-    request.find({ tutor: id, status: 2 }).then((data) => {
-        res.json(data)
-    }).catch((error) => {
-        console.log('the error is ' + error)
+    request.aggregate([
+        {
+            $match: {
+                tutor: id
+            }
+        },
+        {
+            $match: {
+                status: 2
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "student",
+                foreignField: "_id",
+                as: "info"
+            }
+        },
+        {
+            $unwind: '$info'
+        },
+        {
+            $project: {
+                _id: 1,
+                info: {
+                    _id: 1,
+                    name: {
+                        firstName: 1,
+                        lastName: 1
+                    },
+                    rate: 1
+                },
+                requestInfo: {
+                    title: 1
+                }
+            }
+        },
+    ]).exec((error, result) => {
+        if (!error) {
+            res.json(result)
+            console.log(result)
+        }
+        else
+            res.json('the error', error)
     })
+
 }
 
 function getNameOfStudent() {
@@ -346,10 +386,51 @@ exports.fetchTutorHistory = (req, res) => {
     let id = req.params.id;
     id = objectID(id)
 
-    request.find({ tutor: id, status: 1 }).then((data) => {
-        res.json(data)
-    }).catch((error) => {
-        console.log('the error is ' + error)
+    request.aggregate([
+        {
+            $match: {
+                tutor: id
+            }
+        },
+        {
+            $match: {
+                status: 1
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "student",
+                foreignField: "_id",
+                as: "info"
+            }
+        },
+        {
+            $unwind: '$info'
+        },
+        {
+            $project: {
+                _id: 1,
+                info: {
+                    _id: 1,
+                    name: {
+                        firstName: 1,
+                        lastName: 1
+                    },
+                    rate: 1
+                },
+                requestInfo: {
+                    title: 1
+                }
+            }
+        },
+    ]).exec((error, result) => {
+        if (!error) {
+            res.json(result)
+            console.log(result)
+        }
+        else
+            res.json('the error', error)
     })
 }
 
@@ -357,10 +438,48 @@ exports.fetchStudentHistory = (req, res) => {
     let id = req.params.id;
     id = objectID(id)
 
-    request.find({ student: id, status: 1 }).then((data) => {
-        res.json(data)
-    }).catch((error) => {
-        console.log('the error is ' + error)
+
+    request.aggregate([
+        {
+            $match: {
+                student: id
+            }
+
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "tutor",
+                foreignField: "_id",
+                as: "info"
+            }
+        },
+        {
+            $unwind: '$info'
+        },
+        {
+            $project: {
+                _id: 1,
+                info: {
+                    _id: 1,
+                    name: {
+                        firstName: 1,
+                        lastName: 1
+                    },
+                    rate: 1
+                },
+                requestInfo: {
+                    title: 1
+                }
+            }
+        },
+    ]).exec((error, result) => {
+        if (!error) {
+            res.json(result)
+            console.log(result)
+        }
+        else
+            res.json('the error', error)
     })
 }
 
@@ -368,11 +487,16 @@ exports.editRequestStatus = (req, res) => {
     let { id, status } = req.body;
 
     id = objectID(id)
+
     request.updateOne({
         _id: id,
-        status: status
-    }, (error, data) => {
-        if (!error)
-            res.json(data)
-    })
+    },
+        {
+            status: status
+        }, (error, data) => {
+            if (!error) {
+                res.json(data)
+                console.log(data)
+            }
+        })
 }
