@@ -21,6 +21,7 @@ import { MessageBox } from './MessageBox';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { Typography } from '@mui/material';
 
 const genderDt = [
   1,
@@ -182,11 +183,7 @@ export default () => {
       <div className='row' style={{
         marginTop: '20px'
       }}>
-        <Button onClick={() => {
-          TutorDialog(openDialog, dt, ["c++","IT","C#"],navigate)
-        }}>
-          Dialog
-        </Button>
+        <Typography color="#D90429" align="center" variant="h4" >Sign Up</Typography>
         <div className='col-md-2 col-sm-0' />
         <div className='col-md-8 col-sm-12'>
           <Stack sx={{
@@ -203,7 +200,7 @@ export default () => {
                 '& > :not(style)': { mt: 1 }
               }}
             >
-              <TextField label="user name" variant='filled'
+              <TextField label="User name" variant='filled' size='small'
                 name="userName"
                 fullWidth
                 value={formik.values.userName}
@@ -225,7 +222,7 @@ export default () => {
               }}
             >
 
-              <TextField label="email" variant='filled'
+              <TextField label="Email" variant='filled' size='small'
                 name="email"
                 fullWidth
                 value={formik.values.email}
@@ -242,7 +239,7 @@ export default () => {
                 '& > :not(style)': { mt: 1 },
               }}
             >
-              <TextField label="password" variant='filled'
+              <TextField label="Password" variant='filled' size='small'
                 name="password"
                 fullWidth
                 type="password"
@@ -259,7 +256,7 @@ export default () => {
               sx={{
                 '& > :not(style)': { mt: 1 },
               }}>
-              <TextField label="confirm password" variant='filled'
+              <TextField label="Confirm Password" variant='filled' size='small'
                 name="confirmPassword"
                 type="password"
                 fullWidth
@@ -277,7 +274,7 @@ export default () => {
                 '& > :not(style)': { mt: 1 },
               }}
             >
-              <TextField label="first name" variant='filled'
+              <TextField label="First Name" variant='filled' size='small'
                 name="firstName"
                 style={{
                   width: '30%',
@@ -288,7 +285,7 @@ export default () => {
                 error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                 helperText={formik.touched.firstName && formik.errors.firstName}
               />
-              <TextField label="middle name" variant='filled'
+              <TextField label="Middle Name" variant='filled' size='small'
                 name="middleName"
                 style={{
                   width: '30%',
@@ -300,7 +297,7 @@ export default () => {
                 helperText={formik.touched.middleName && formik.errors.middleName}
               />
 
-              <TextField label="last name" variant='filled'
+              <TextField label="Last Name" variant='filled' size='small'
                 name="lastName"
                 style={{
                   width: '30%',
@@ -320,7 +317,7 @@ export default () => {
                 '& > :not(style)': { mt: 1 }
               }}
               autoComplete="off">
-              <TextField label="country" variant='filled'
+              <TextField label="Country" variant='filled' size='small'
                 name="country"
                 style={{
                   width: '47%',
@@ -332,7 +329,7 @@ export default () => {
                 helperText={formik.touched.country && formik.errors.country}
               />
 
-              <TextField label="city" variant='filled'
+              <TextField label="City" variant='filled' size='small'
                 name="city"
                 style={{
                   width: '47%',
@@ -355,7 +352,7 @@ export default () => {
 
               }}
               autoComplete="off">
-              <TextField label="street" variant='filled'
+              <TextField label="Street" variant='filled' size='small'
                 name="street"
                 style={{
                   width: '47%',
@@ -367,7 +364,7 @@ export default () => {
                 helperText={formik.touched.street && formik.errors.street}
               />
 
-              <TextField label="ZIP" variant='filled'
+              <TextField label="ZIP" variant='filled' size='small'
                 name="ZIP"
                 style={{
                   width: '47%',
@@ -386,7 +383,7 @@ export default () => {
               sx={{
                 '& > :not(style)': { mt: 1 },
               }}>
-              <TextField label="phone number" variant='filled'
+              <TextField label="Phone Number" variant='filled' size='small'
                 name="phoneNumber"
 
                 fullWidth
@@ -419,8 +416,8 @@ export default () => {
 
 
                 >
-                  <FormControlLabel value={genderDt[0]} control={<Radio />} label="male" />
-                  <FormControlLabel value={genderDt[1]} control={<Radio />} label="female" />
+                  <FormControlLabel value={genderDt[0]} control={<Radio />} label="Male" />
+                  <FormControlLabel value={genderDt[1]} control={<Radio />} label="Female" />
 
                 </RadioGroup>
               </FormControl>
@@ -464,9 +461,10 @@ export default () => {
             </Box>
 
 
-            <Button color="primary" variant="contained" fullWidth type="submit">
+            <Button  style={{backgroundColor:"#000052" , color:"#fff"}} variant="contained" fullWidth type="submit">
               Register
             </Button>
+            <Box sx={{mt:10}}></Box>
           </form>
         </div>
         <div className='col-md-2 col-sm-0' />
