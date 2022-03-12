@@ -36,7 +36,8 @@ export default function StudentFavoriteList() {
                 {
                     data.length > 0 && isReady === 1 &&
                     data.map((item, index) => (
-                        <ReqCard title={item.requestInfo.title} name={item.student}
+                        <ReqCard title={item.requestInfo.title} 
+                            name={item.info.name.firstName}
                             id={item._id}
                             enable={true}
                         />

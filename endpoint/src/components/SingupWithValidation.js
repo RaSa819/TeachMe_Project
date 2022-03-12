@@ -183,7 +183,10 @@ export default () => {
       <div className='row' style={{
         marginTop: '20px'
       }}>
+<<<<<<< HEAD
         <Typography color="#D90429" align="center" variant="h4" >Sign Up</Typography>
+=======
+>>>>>>> a37f0f8f9d38a893ea5d7cd44413243519213377
         <div className='col-md-2 col-sm-0' />
         <div className='col-md-8 col-sm-12'>
           <Stack sx={{
