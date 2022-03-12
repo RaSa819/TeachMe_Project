@@ -11,7 +11,7 @@ import {
 import { SocketProvider } from "./Socket";
 
 import Card from "./components/Card";
-import Signup from './pages/Signup'
+
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import Depts from "./pages/Depts";

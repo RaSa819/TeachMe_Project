@@ -22,6 +22,10 @@ import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { Typography } from '@mui/material';
+import { blueGrey } from '@mui/material/colors';
+
+
+const color=blueGrey[5]
 
 const genderDt = [
   1,
@@ -186,7 +190,7 @@ export default () => {
 
         <Typography color="#D90429" align="center" variant="h4" >Sign Up</Typography>
 
-
+        <Box sx={{mt:5}}></Box>
         <div className='col-md-2 col-sm-0' />
         <div className='col-md-8 col-sm-12'>
           <Stack sx={{
@@ -206,6 +210,7 @@ export default () => {
               <TextField label="User name" variant='filled' size='small'
                 name="userName"
                 fullWidth
+                style={{backgroundColor: color}}
                 value={formik.values.userName}
                 onChange={(e) => {
                   formik.handleChange(e)
@@ -223,6 +228,7 @@ export default () => {
               sx={{
                 '& > :not(style)': { mt: 1 },
               }}
+              
             >
 
               <TextField label="Email" variant='filled' size='small'
@@ -464,7 +470,7 @@ export default () => {
             </Box>
 
 
-            <Button  style={{backgroundColor:"#000052" , color:"#fff"}} variant="contained" fullWidth type="submit">
+            <Button  style={{backgroundColor:"#000052" , color:"#fff" , padding:"13px"}} variant="contained" fullWidth type="submit">
               Register
             </Button>
             <Box sx={{mt:10}}></Box>

@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import ProgressBar from './../components/ProgressBar'
+import { Box, display } from "@mui/system";
+import { Block } from "@mui/icons-material";
 
 // to align items in center 
 const styleCenter = {
@@ -53,7 +55,7 @@ export default () => {
                 navigate('/home')
             }
         }).catch((error) => {
-            console.log("there is some error " + error)
+            console.log("There is some error " + error)
         })
     }
     return (
@@ -65,11 +67,14 @@ export default () => {
             <div className="col-md-2" />
             <div className="col-md-8">
                 <div style={{
-                    ...styleCenter,// for more style attributes
-                }}>
-                    <BsFillPersonFill size={60}
+                    ...styleCenter, // for more style attributes
+                }} >
+                    
+                    <BsFillPersonFill size={100}
                         color="gray"
-                    />
+                        
+                       />
+                      
                 </div>
                 <Stack sx={{
                     width: '100%',
@@ -77,16 +82,16 @@ export default () => {
                 }} spacing={2}>
                     <Alert severity="error" variant='filled'>There is no user, may be username or password is correct</Alert>
                 </Stack>
-                <form onSubmit={(event) => { login(event) }}>
-                    <input type="text" className="form-control mt-3"
-                        placeholder="username"
+                <form onSubmit={(event) => { login(event) }} >
+                    <input type="text" style={{padding:"13px", backgroundColor:'#F8F8F8'}}  className="form-control mt-3"
+                        placeholder="Username" 
                         ref={userName}
 
                         required={true}
                     />
 
-                    <input type="password" className="form-control mt-2"
-                        placeholder="password"
+                    <input style={{padding:"13px" , backgroundColor:'#F8F8F8'}} type="password" className="form-control mt-2"
+                        placeholder="Password"
                         ref={password}
                         required={true}
                     />
@@ -106,22 +111,26 @@ export default () => {
                             <a href="#" style={{
                                 textDecoration: 'none',
                                 color: 'black'
-                            }}>Forget Password ?</a>
+                            }}>Forgot Password ?</a>
                         </div>
                     </div>
 
                     <div style={styleCenter}>
-                        you don't have an acount ? <Link to="/signup" style={{
+                        You don't have an account ? <Link to="/signup" style={{
                             textDecoration: 'none'
                         }}> Register </Link>
                     </div>
                     <div style={styleCenter}>
-                        <input type="submit" className="btn mt-2"
+                        <input type="submit" className="btn mt-2" 
 
                             value="Login"
                             style={{
                                 backgroundColor: color[0],
-                                color: color[2]
+                                color: color[2] ,
+                                display:" block",
+                                 width:"100%",
+                                 padding:"13px"
+                                
                             }}
 
                         />
@@ -136,5 +145,5 @@ export default () => {
 const color = [
     "#000052",
     "#D90429",
-    "#F4F4F8",
+    "#fff",
 ]
