@@ -25,7 +25,7 @@ import { Typography } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 
 
-const color=blueGrey[5]
+
 
 const genderDt = [
   1,
@@ -210,7 +210,6 @@ export default () => {
               <TextField label="User name" variant='filled' size='small'
                 name="userName"
                 fullWidth
-                style={{backgroundColor: color}}
                 value={formik.values.userName}
                 onChange={(e) => {
                   formik.handleChange(e)
