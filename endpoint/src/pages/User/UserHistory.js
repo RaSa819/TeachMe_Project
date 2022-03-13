@@ -5,7 +5,7 @@ import axios from 'axios'
 import ProgressBar from './../../components/ProgressBar'
 
 
-export default function StudentFavoriteList() {
+export default()=> {
   const [data, setData] = React.useState([])
 
   let token = localStorage.getItem('token')

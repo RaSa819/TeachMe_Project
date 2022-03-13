@@ -16,15 +16,20 @@ import LoginIcon from '@mui/icons-material/Login';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './topBar.css';
 
+import { useNavigate } from 'react-router';
+
 const pages = ['find tutors'];
 const settings = ['Dashboard', 'Logout'];
-const languages=['English' , 'Arabic']
+const languages = ['English', 'Arabic']
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElLanguage, setAnchorElLanguage] = React.useState(null);
 
+
+
+  const { onDashClick } = props;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -32,10 +37,10 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleOpenLanguageMenu = (event) =>{
+  const handleOpenLanguageMenu = (event) => {
     setAnchorElLanguage(event.currentTarget)
   }
-  const handleCloseLanguageMenu = (event) =>{
+  const handleCloseLanguageMenu = (event) => {
     setAnchorElLanguage(null)
   }
 
@@ -48,7 +53,7 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static" style={{backgroundColor:'#F4F4F8'}}>
+    <AppBar position="static" style={{ backgroundColor: '#F4F4F8' }}>
       <Container fluid maxWidth="xxl" >
         <Toolbar disableGutters >
           <Typography
@@ -56,13 +61,13 @@ const ResponsiveAppBar = () => {
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-            
+
             id='logo'
           >
             Teach me.
           </Typography>
 
-          <Box  sx={{margin:0, flexGrow: 1, display: { xs: 'flex', md: 'none' , color:'#D90429'} }}>
+          <Box sx={{ margin: 0, flexGrow: 1, display: { xs: 'flex', md: 'none', color: '#D90429' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -90,31 +95,31 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                margin:0,
-                display: { xs: 'flex', md: 'none'},
+                margin: 0,
+                display: { xs: 'flex', md: 'none' },
               }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{color:"black"}} textAlign="center">{page}</Typography>
+                  <Typography sx={{ color: "black" }} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-            <MenuItem>
-                  <Typography sx={{color:"black"}} textAlign="center">language</Typography>
-                </MenuItem>
-                <MenuItem>
-                  <Typography sx={{color:"black"}} textAlign="center">Login<LoginIcon/></Typography>
-                </MenuItem>
+              <MenuItem>
+                <Typography sx={{ color: "black" }} textAlign="center">language</Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography sx={{ color: "black" }} textAlign="center">Login<LoginIcon /></Typography>
+              </MenuItem>
             </Menu>
             <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-            id='logo'
-          >
-            Teach me.
-          </Typography>
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+              id='logo'
+            >
+              Teach me.
+            </Typography>
 
           </Box>
 
@@ -133,12 +138,12 @@ const ResponsiveAppBar = () => {
           </Box>
 
 
-            {/* language menu */}
-          <Box sx={{ flexGrow: 0 , display:{xs:'none' , sm:'none' , lg:'flex'}}}>
-          <IconButton onClick={handleOpenLanguageMenu} sx={{ p: 0 , marginRight:2 ,color:'#D90429' }}>
-                <Typography sx={{color:'black' }}>English</Typography><KeyboardArrowDownIcon/>
-              </IconButton>
-              <Menu
+          {/* language menu */}
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', sm: 'none', lg: 'flex' } }}>
+            <IconButton onClick={handleOpenLanguageMenu} sx={{ p: 0, marginRight: 2, color: '#D90429' }}>
+              <Typography sx={{ color: 'black' }}>English</Typography><KeyboardArrowDownIcon />
+            </IconButton>
+            <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElLanguage}
@@ -160,50 +165,63 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
-            
+
 
 
 
 
             {/* login button */}
-          <IconButton sx={{ p: 0 , marginRight:5 ,color:'#D90429' }}>
-                <Typography sx={{color:'black'}}>Login</Typography><LoginIcon/>
-              </IconButton>
-            
+            <IconButton sx={{ p: 0, marginRight: 5, color: '#D90429' }}>
+              <Typography sx={{ color: 'black' }}>Login</Typography><LoginIcon />
+            </IconButton>
 
 
-</Box>
+
+          </Box>
 
 
-                  <Box>
-                    <Tooltip title="Open settings">
+          <Box>
+            <Tooltip title={
+              onDashClick ?
+                "Go To Profile" :
+                "Tool tips"
+            }
+            >
               {/* user menu */}
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar  id='navavatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={
+
+                onDashClick ? onDashClick :
+                  handleOpenUserMenu
+
+              } sx={{ p: 0 }}>
+                <Avatar id='navavatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {
+              !onDashClick &&
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            }
           </Box>
         </Toolbar>
       </Container>

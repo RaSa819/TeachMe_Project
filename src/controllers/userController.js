@@ -230,7 +230,7 @@ exports.fetchTutors = async (req, res) => {
                 _id: 0,
                 rate: 1,
                 profile: 1,
-                user_id: 1
+                user_id: 1,
             }, (err, data) => {
                 if (err)
                     reject('error')
@@ -255,10 +255,12 @@ exports.fetchTutors = async (req, res) => {
                     newData.push(row)
                 }
             }
-
+            console.log(newData)
             res.json(newData)
         })
     })
+
+
 }
 
 exports.getSession = (req, res) => {
@@ -500,3 +502,39 @@ exports.editRequestStatus = (req, res) => {
             }
         })
 }
+
+
+exports.fetchFavoriteList = (req, res) => {
+    let id = objectID(req.params.id)
+
+    student.findOne({
+        user_id: id
+    }, {
+        favorit_list: 1,
+        _id: 0
+    }).then((data) => {
+        res.json(data)
+    }).catch((error) => {
+        res.json(error)
+    })
+}
+
+// exports.addToFavorite = (req, res) => {
+
+//     let id = objectID(req.params.id)
+
+//     let tutor_id = objectID(req.params.tutor_id)
+
+//     student.updateOne({
+//         user_id: id
+//     }, {
+//         $push: {
+//             favorite_list: [tutor_id]
+//         }
+//     }, (err, data) => {
+//         if (!err)
+//             res.json(data)
+//         else
+//             res.json('the error is ' + err)
+//     })
+// }

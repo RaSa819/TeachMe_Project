@@ -1,6 +1,8 @@
 const { default: mongoose } = require('mongoose');
 const userController = require('./../controllers/userController')
 const request = require('./../models/request')
+
+const student = require('./../models/student')
 const ObjectId = mongoose.Types.ObjectId
 
 module.exports = (app, io) => {
@@ -24,21 +26,67 @@ module.exports = (app, io) => {
             let from = ObjectId(data.student)
             let to = ObjectId(data.to)
 
-            let info ={
-                time:parseInt(data.time),
-                title:data.title,
-                description:data.description
+            let info = {
+                time: parseInt(data.time),
+                title: data.title,
+                description: data.description
             }
 
             let newRequest = new request({
-                student:from,
-                tutor:to,
-                requestInfo:info
-            }).save((data)=>{
+                student: from,
+                tutor: to,
+                requestInfo: info
+            }).save((data) => {
                 console.log(data)
             })
+
         })
+
+        socket.on('addFavorite', (data) => {
+            let id = ObjectId(data.id)
+            let tutor_id = ObjectId(data.tutor_id)
+            student.updateOne({
+                user_id: id
+            }, {
+                $push: {
+                    favorit_list: [tutor_id]
+                }
+            },
+                (err, data) => {
+                    if (!err)
+                        console.log(data)
+                    else
+                        console.log('the error is ' + err)
+                })
+
+        })
+
+
+        socket.on('removeFavorite', (data) => {
+
+            let id = ObjectId(data.id)
+            let tutor_id = ObjectId(data.tutor_id)
+            student.updateOne({
+                user_id: id
+            }, {
+                $pull: {
+                    favorit_list: {
+                        $in: [tutor_id]
+                    }
+                }
+            },
+                (err, data) => {
+                    if (!err)
+                        console.log(data)
+                    else
+                        console.log('the error is ' + err)
+                })
+
+
+        })
+
     });
+
 
     app.use('/', (req, res, next) => {
         //res.json('hhh')
@@ -58,13 +106,17 @@ module.exports = (app, io) => {
     app.post('/user/updateImage', userController.updateImg);
     app.get('/middleware/isUsernameValid/:email', userController.isUsernameValid)
     app.post('/student/updateProfile', userController.updateStudentProfile)
-    app.get('/student/fetchTutorsByDeptID/:id',userController.fetchTutorsByDeptID)
+    app.get('/student/fetchTutorsByDeptID/:id', userController.fetchTutorsByDeptID)
 
-    app.get('/tutor/fetchRequest/:id',userController.fetchTutorRequest)
-    app.get('/student/fetchHistory/:id',userController.fetchStudentHistory)
-    app.get('/tutor/fetchHistory/:id',userController.fetchTutorHistory)
+    app.get('/tutor/fetchRequest/:id', userController.fetchTutorRequest)
+    app.get('/student/fetchHistory/:id', userController.fetchStudentHistory)
+    app.get('/tutor/fetchHistory/:id', userController.fetchTutorHistory)
 
-    app.post('/tutor/editRequestStatus',userController.editRequestStatus)
+    app.post('/tutor/editRequestStatus', userController.editRequestStatus)
+
+    app.get('/student/fetchFavoriteList/:id',userController.fetchFavoriteList)
+
+    //app.post('/student/addToFavorite',userController.addToFavorite);
 
     app.get('/fetch', userController.fetchImage)
 }

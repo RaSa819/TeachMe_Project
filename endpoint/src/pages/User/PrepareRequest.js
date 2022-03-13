@@ -8,6 +8,8 @@ import { FixedSizeList } from 'react-window';
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+
+
 import { useNavigate } from 'react-router-dom'
 function renderRow(props) {
     const { index, style, data } = props;
@@ -54,16 +56,20 @@ export default (props) => {
 
     return (
         <div>
-            <TopBar />
-            <div>
-                <Link to="/user/profile"
-                    style={{
-                        textAlign: 'center'
-                    }}
-                >
-                    Go to Your Profile
-                </Link>
-            </div>
+            <TopBar
+
+                onDashClick={() => {
+                    navigate('/user/profile')
+                }}
+
+            />
+            <h3 style={{
+                textAlign: 'center',
+                color: '#D90429',
+                marginTop:'30px'
+            }}>
+                The Available Department in our website
+            </h3>
             <Box
 
                 display="flex"
@@ -85,6 +91,6 @@ export default (props) => {
                     {renderRow}
                 </FixedSizeList>
             </Box>
-        </div>
+        </div >
     )
 }

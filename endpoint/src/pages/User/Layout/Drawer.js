@@ -140,6 +140,13 @@ export default function PersistentDrawerLeft(props) {
                     >
                         Teach me.
                     </Typography>
+                    <IconButton onClick={() => {
+                        navigate('/home')
+                    }}
+                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+                    >
+                        Get Tutor
+                    </IconButton>
                     <Box sx={{
                         flexGrow: 1
                     }}>
@@ -303,7 +310,7 @@ export default function PersistentDrawerLeft(props) {
                         parseInt(type) === 1 && <ListItem button onClick={() => {
                             navigate('/tutor/pendingRequest')
                         }}>
-                           Pending Request 
+                            Pending Request
                         </ListItem>
                     }
 
@@ -321,6 +328,14 @@ export default function PersistentDrawerLeft(props) {
                         navigate('/user/Setting')
                     }}>
                         Security
+                    </ListItem>
+
+                    <ListItem button onClick={() => {
+                        navigate('/home')
+                    }}
+                    sx={{ display: { xs: 'flex', md: 'none' } }}
+                    >
+                        Git Tutor
                     </ListItem>
 
                 </List>

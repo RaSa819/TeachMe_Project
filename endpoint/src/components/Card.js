@@ -13,12 +13,21 @@ import { useDialog } from 'react-mui-dialog';
 import axios from 'axios'
 import RequestDialog from './RequestDialog';
 
+import { useNavigate } from 'react-router';
+
 import { SocketContext } from '../Socket';
 import TutorDialog from './TutorDialog';
-const styleFavorite = {
+
+const styleUnFavorite = {
     width: '20px',
     height: '20px',
     color: 'gray'
+}
+
+const styleFavorite = {
+    width: '20px',
+    height: '20px',
+    color: 'red'
 }
 
 const styleProfileImage = {
@@ -107,7 +116,35 @@ const styleRandomRequestIcon = {
 const Item = (props) => {
 
     const { name, dateJoined, about, experience,
-        rate, type, id, openDialog, socket } = props;
+        rate, type, id, openDialog, socket, isFavorite } = props;
+
+
+    const [favorite, setFavorite] = useState()
+
+    if(isFavorite)
+       console.log(isFavorite)
+
+     React.useEffect(()=>{
+          setFavorite(isFavorite)
+     },[isFavorite])  
+
+
+    let pushFavorite = () => {
+        if (!favorite) {
+            socket.emit('addFavorite', {
+                tutor_id: id,
+                id: localStorage.getItem('token')
+            })
+        }
+        else {
+            socket.emit('removeFavorite', {
+                tutor_id: id,
+                id: localStorage.getItem('token')
+            })
+        }
+    }
+
+
 
 
 
@@ -178,7 +215,12 @@ const Item = (props) => {
                 </div>
                 <div className='col-2' style={{}}>
                     <MdFavorite
-                        style={styleFavorite}
+                        style={favorite == 1 ? styleFavorite : styleUnFavorite}
+
+                        onClick={() => {
+                            setFavorite(!favorite)
+                            pushFavorite()
+                        }}
                     />
                 </div>
             </div>
@@ -215,60 +257,89 @@ export default function Card() {
 
     const [isReady, setReady] = useState(false)
 
+    const [favoriteList, setFavoriteList] = useState([])
 
-    const {state} = useLocation();
+    let user_id = localStorage.getItem('token')
+    const { state } = useLocation();
     let id = state.id;
-    const fetTutors = async () => {
-        await axios.get(`http://localhost:4000/user/fetchTutors/${id}`).
-            then((response) => {
-                setTutor(response.data)
-                setReady(true)
+    const fetchData = async () => {
 
+
+        const axio1 = axios.get(`http://localhost:4000/student/fetchFavoriteList/${user_id}`)
+        const axio2 = axios.get(`http://localhost:4000/user/fetchTutors/${id}`)
+
+        await axios.all([axio1, axio2]).then(axios.spread((res1, res2) => {
+            setTutor(res2.data)
+            let arr = Array();
+            res1.data.favorit_list.map((item) => {
+                let m = item.toString();
+                arr.push(m)
             })
-            .catch((error) => {
-                console.log(error)
-            })
+            setFavoriteList(arr);
+            setReady(true)
+        })).catch((error) => {
+            alert(JSON.stringify(error, null, 0))
+        })
     }
 
     React.useEffect(() => {
-        fetTutors()
-    }, [])
-    console.log(tutors)
+        fetchData()
 
+
+
+    }, [])
+
+
+    let navigate = useNavigate();
+    //console.log(favoriteList)
     return (
         <div className='container-fluid'>
 
             <div className='row'>
-                <TopBar />
+                <TopBar 
+                
+                onDashClick={()=>{
+                    navigate('/user/profile')
+                }}
+                />
                 {
-                    tutors.map((item) => (
-                        <Item
-                            name={
-                                item.name
-                            }
-                            dateJoined={
-                                item.date
-                            }
+                    tutors.map((item) => {
+                        let flag = 0;
+                        let val = favoriteList.indexOf(item._id)
+                        if (val >= 0)
+                            flag = 1;
+                        //console.log(flag)    
+                        return (
+                            <Item
+                                name={
+                                    item.name
+                                }
+                                dateJoined={
+                                    item.date
+                                }
 
-                            about={
-                                item.profile.about
-                            }
-                            experience={
-                                item.profile.experience
-                            }
-                            status={
-                                item.status
-                            }
+                                about={
+                                    item.profile.about
+                                }
+                                experience={
+                                    item.profile.experience
+                                }
+                                status={
+                                    item.status
+                                }
 
-                            type={item.type}
+                                type={item.type}
 
-                            id={item._id}
+                                id={item._id}
 
-                            openDialog={openDialog}
+                                openDialog={openDialog}
 
-                            socket={socket}
-                        />
-                    ))
+                                socket={socket}
+
+                                isFavorite={flag}
+                            />
+                        )
+                    })
                 }
 
             </div>
