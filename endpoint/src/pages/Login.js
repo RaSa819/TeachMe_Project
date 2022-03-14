@@ -80,7 +80,7 @@ export default () => {
                     width: '100%',
                     display: error === 404 ? 'block' : 'none'
                 }} spacing={2}>
-                    <Alert severity="error" variant='filled'>There is no user, may be username or password is correct</Alert>
+                    <Alert severity="error" variant='filled'>There is no user, username or password is incorrect</Alert>
                 </Stack>
                 <form onSubmit={(event) => { login(event) }} >
                     <input type="text" style={{padding:"13px", backgroundColor:'#F8F8F8'}}  className="form-control mt-3"
