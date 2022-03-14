@@ -30,7 +30,7 @@ const Card = (props) => {
 
                 <div className='title'>
                     <a className='title-name'>
-                        Mohammed Gamal
+                        tutor name
                     </a>
                     <p className='tutor-detail'>
                         10 k Previews
