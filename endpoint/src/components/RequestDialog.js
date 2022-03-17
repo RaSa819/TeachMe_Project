@@ -44,14 +44,13 @@ export default (openDialog, id = null, type = 0, title, socket) => {
                 initialValue: '',
                 component: (
                     <FormControl component="fieldset">
-                        <FormLabel component="legend">Choose your card type</FormLabel>
+                        <FormLabel component="legend">Choose time of lesson</FormLabel>
                         <Field
                             component={Select}
                             name="time"
                             inputProps={{
                                 id: "time"
-                            }}
-                        >
+                            }}>
 
                             {
                                 time.map((item) => (

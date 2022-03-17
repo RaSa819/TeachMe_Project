@@ -3,12 +3,14 @@ const user = require('./../models/users')
 const tutor = require('./../models/tutors')
 const student = require('./../models/student')
 const request = require('./../models/request')
+const session = require('./../models/session')
 const mongoose = require('mongoose')
 
 // utilities, we use it to merge between objects
 const _ = require('lodash');
-const { intersection } = require('lodash');
+const { intersection, reject } = require('lodash');
 const { collection } = require('./../models/users');
+const { resolve } = require('path');
 
 const objectID = mongoose.Types.ObjectId
 
@@ -485,6 +487,87 @@ exports.fetchStudentHistory = (req, res) => {
     })
 }
 
+
+function getFavoriteListID(id) {
+
+    student.findOne({
+        user_id: id
+    }, {
+        favorit_list: 1,
+        _id: 0
+    }).then((data) => {
+        return data
+    }).catch((error) => {
+        return false
+    })
+}
+exports.getFavortieListInfo = (req, res) => {
+    var id = objectID(req.params.id);
+
+
+    const getData = () => new Promise((resolve, reject) => {
+        student.findOne({
+            user_id: id
+        }, {
+            favorit_list: 1,
+            _id: 0
+        }).then((data) => {
+            resolve(data)
+        }).catch((error) => {
+            reject(error)
+        })
+    })
+
+
+    getData().then((ids) => {
+
+
+        var array = Array()
+        // res.json(ids.favorit_list)
+        ids.favorit_list.map((item) => {
+            array.push(objectID(item.toString()))
+        })
+
+        user.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: array
+                    }
+                }
+            },
+            {
+                $lookup: {
+                    from: "tutors",
+                    localField: "_id",
+                    foreignField: "user_id",
+                    as: "info"
+                }
+            },
+            {
+                $unwind: '$info'
+            },
+            {
+                $project: {
+                    name: 1,
+                    info: {
+                        profile: 1
+                    }
+                }
+            }
+        ]).exec((error, data) => {
+            if (!error) {
+                res.json(data)
+                console.log(data)
+            }
+            else {
+                console.log('the error is ' + error)
+            }
+        })
+    })
+}
+
+
 exports.editRequestStatus = (req, res) => {
     let { id, status } = req.body;
 
@@ -499,8 +582,36 @@ exports.editRequestStatus = (req, res) => {
             if (!error) {
                 res.json(data)
                 console.log(data)
+                if (status === 1) {
+                    addSession(id)
+                }
             }
         })
+
+
+}
+
+
+function addSession(idRequest) {
+
+
+
+    const dataOfPayment = {
+        datePay: Date.now,
+        idTransaction: '123-3242-431-23-2333',
+    }
+
+    const newSession = new session({
+        request: objectID(idRequest),
+        TransactionPayInfo: dataOfPayment
+    });
+
+    newSession.save().then((data) => {
+        res.json(data)
+    }).catch((error) => {
+
+    })
+
 }
 
 
@@ -519,22 +630,6 @@ exports.fetchFavoriteList = (req, res) => {
     })
 }
 
-// exports.addToFavorite = (req, res) => {
+function getFavoriteList(id) {
 
-//     let id = objectID(req.params.id)
-
-//     let tutor_id = objectID(req.params.tutor_id)
-
-//     student.updateOne({
-//         user_id: id
-//     }, {
-//         $push: {
-//             favorite_list: [tutor_id]
-//         }
-//     }, (err, data) => {
-//         if (!err)
-//             res.json(data)
-//         else
-//             res.json('the error is ' + err)
-//     })
-// }
+}

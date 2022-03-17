@@ -23,11 +23,13 @@ export default () => {
 
     const [isReady, setReady] = React.useState(null)
 
+
     React.useEffect(() => {
         let type = parseInt(localStorage.getItem('type'))
         if (type >= 0)
             navigate('/home')
 
+          
     }, [])
 
     const [error, setError] = React.useState(0)
@@ -129,11 +131,8 @@ export default () => {
                                 color: color[2] ,
                                 display:" block",
                                  width:"100%",
-                                 padding:"13px"
-                                
-                            }}
-
-                        />
+                                 padding:"13px"  
+                            }}/>
                     </div>
                 </form>
             </div>

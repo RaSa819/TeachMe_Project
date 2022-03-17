@@ -5,11 +5,9 @@ const schema = new mongoose.Schema({
         mongoose.Schema.Types.ObjectId
     ],
     notificationInfo:{
-        header:String,
+        title:String,
         content:String,
         time: { type: Date, default: Date.now },
-        type:Number // to determine kind of notification,
-
     }
 });
 
