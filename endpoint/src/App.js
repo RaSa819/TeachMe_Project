@@ -152,7 +152,7 @@ export default function App() {
                   element={
                     <IsStudent>
                       <p>
-                        hello mohammed gamal al-homaidi
+                        hello just test
                       </p>
                     </IsStudent>
                   }

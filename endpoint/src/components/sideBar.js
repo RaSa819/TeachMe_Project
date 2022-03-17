@@ -53,15 +53,20 @@ export default function ClippedDrawer() {
         <ListItemButton
           selected={selectedIndex === 1}
           onClick={(event) => handleListItemClick(event, 1)}
-          sx={{
-            marginBottom:'20%'
-}}
+         
            >
-        
-
           <ListItemText primary="Previous Requests History" />
           
         </ListItemButton>
+        <ListItemButton
+          selected={selectedIndex === 1}
+          onClick={(event) => handleListItemClick(event, 1)}
+        
+        >
+
+          <ListItemText primary="Sign out" />
+        </ListItemButton>
+        
 
 
       </List>  
