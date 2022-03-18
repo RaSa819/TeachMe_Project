@@ -10,7 +10,7 @@ const request =new mongoose.Schema({
     isCompleted:{type:Boolean,default:false},
     requestInfo:mongoose.Schema.Types.Mixed,
     timestap:{type:Date, default:Date.now},
-    //timeLesson:Number,
+    timeLesson:Number,
     tutor:mongoose.Schema.Types.ObjectId,
     student:mongoose.Schema.Types.ObjectId
 })

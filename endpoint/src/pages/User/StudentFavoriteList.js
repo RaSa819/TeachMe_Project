@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState,useContext } from 'react'
 import Drawer from './Layout/Drawer'
 import ReqCard from '../../components/reqCard/reqCard'
 import axios from 'axios'
@@ -9,17 +9,20 @@ import './style.css'
 
 const Card = (props) => {
 
-    const { info, name } = props;
+
+
+    const { name, about, certifcation, experience } = props;
     return (<div className='card'>
         <div className='info'>
             <p>
-                here we will see every thing about tutor, like
-                certifications, experience , and
-                we will see also some additionals infomation about his/her activities in the website
-                like: the previews, and the rate
-                like: the previews, and the rate
-                like: the previews, and the rate
-                like: the previews, and the rate
+                About this Tutor :
+                {about}
+                <br />
+                And Has 
+                {' '+certifcation} as certifcation 
+                <br />
+                And experiences are
+                {' '+experience}
             </p>
         </div>
         <hr />
@@ -28,19 +31,19 @@ const Card = (props) => {
                 <Avatar id='tutor-img' src="" />
             </div>
 
-                <div className='title'>
-                    <a className='title-name'>
-                        tutor name
-                    </a>
-                    <p className='tutor-detail'>
-                        10 k Previews
-                    </p>
-                    <span>
-                        Has 10 rate
-                    </span>
-                </div>
+            <div className='title'>
+                <a className='title-name'>
+                    {name}
+                </a>
+                <p className='tutor-detail'>
+                    10 k Previews
+                </p>
+                <span>
+                    Has 10 rate
+                </span>
             </div>
-        </div>)
+        </div>
+    </div>)
 }
 
 export const Container = (props) => {
@@ -50,54 +53,64 @@ export const Container = (props) => {
                 {props.children}
             </div>
         </main>
-        )
+    )
 }
 
-        export default function StudentFavoriteList() {
+export default function StudentFavoriteList() {
     const [data, setData] = React.useState([])
+    const [ready, setReady] = useState(0)
 
-        let token = localStorage.getItem('token')
-        let type = parseInt(localStorage.getItem('type'))
+    
+    let token = localStorage.getItem('token')
 
-        const [isReady, setReady] = React.useState(0)
-        let url = ''
-        if (type === 0)
-        url = `http://localhost:4000/student/fetchHistory/${token}`
-        else if (type === 1)
-        url = `http://localhost:4000/tutor/fetchHistory/${token}`
-
+    let url = `http://localhost:4000/student/getFavortieListInfo/${token}`
 
     const fetchData = async () => {
-            await axios.get(url).then((data) => {
-                setData(data.data)
-                setReady(1)
+        await axios.get(url).then((data) => {
+            setData(data.data)
+            setReady(1)
 
-            }).catch((error) => {
-                alert(JSON.stringify(error, null, 2))
-            })
-        }
+        }).catch((error) => {
+            alert(JSON.stringify(error, null, 2))
+        })
+    }
 
     React.useEffect(() => {
-            fetchData()
+        fetchData()
 
-        }, [])
+    }, [])
 
-        return (
+    console.log(data)
+    return (
         <Drawer>
             <Container>
                 {
-                    Array(12).fill(1).map((item) => {
+                    data.map((item) => {
                         return (
-                            <Card>
+                            <Card
+                                name={
+                                    item.name.firstName + ' ' + item.name.lastName
+                                }
 
-                            </Card>
+                                about={
+                                    item.info.profile.about
+                                }
+
+                                certifcation={
+                                    item.info.profile.certifications
+                                }
+
+                                experience={
+                                    item.info.profile.experience
+                                }
+                            />
                         )
                     })
                 }
             </Container>
 
         </Drawer>
-        )
+    )
 }
 
 

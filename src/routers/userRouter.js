@@ -115,6 +115,8 @@ module.exports = (app, io) => {
     app.post('/tutor/editRequestStatus', userController.editRequestStatus)
 
     app.get('/student/fetchFavoriteList/:id',userController.fetchFavoriteList)
+    
+    app.get('/student/getFavortieListInfo/:id',userController.getFavortieListInfo)
 
     //app.post('/student/addToFavorite',userController.addToFavorite);
 

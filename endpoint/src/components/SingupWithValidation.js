@@ -115,6 +115,7 @@ export default () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       isUsernameValid(values.userName)
+     
       if (isTutor && error === 0) {
         dt.setData(values)
 
@@ -164,6 +165,8 @@ export default () => {
       navigate('/student/profile')
 
   }, [])
+
+  
   // to check if the user name is valid or not 
   const isUsernameValid = async (val) => {
     await axios.get(`http://localhost:4000/middleware/isUsernameValid/${val}`)
