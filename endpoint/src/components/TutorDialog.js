@@ -52,7 +52,7 @@ export default (openDialog, dt, dept,navigate) => {
                 initialValue: '',
                 component: (
                     <FormControl component="fieldset">
-                        <FormLabel component="legend">Choose Your Dept</FormLabel>
+                        <FormLabel component="legend">Choose Your Department</FormLabel>
                         <Field
                             component={Select}
                             name="dept"
