@@ -23,6 +23,7 @@ import Avatar from '@mui/material/Avatar';
 import { IoLogOut } from 'react-icons/io5';
 
 import { useNavigate } from "react-router-dom";
+import { height } from '@mui/system';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -68,7 +69,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-    backgroundColor: color[0]
+    backgroundColor: color[0],
+    marginBottom:50
 }));
 
 export default function PersistentDrawerLeft(props) {
@@ -340,7 +342,12 @@ export default function PersistentDrawerLeft(props) {
 
                 </List>
             </Drawer>
-            <Main open={open}>
+            <Main open={open} style={
+                {height:'600px',
+                marginTop:50
+            
+            }}
+                >
                 {props.children}
             </Main>
         </Box>

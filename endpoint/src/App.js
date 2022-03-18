@@ -32,6 +32,9 @@ import StudentFavoriteList from "./pages/User/StudentFavoriteList";
 import PrepareRequest from "./pages/User/PrepareRequest";
 
 
+
+import SessionPage from "./pages/User/SessionPage";
+
 // Admin side
 import Drawer from './pages/Admin/Layout/Drawer'
 import AdminHome from "./pages/Admin/AdminHome";
@@ -80,7 +83,9 @@ export default function App() {
     <SocketProvider>
       <DialogProvider>
         <TutorProvider>
-          <div className="container-fluid">
+          <div className="container-fluid" style={{
+            height:'100%'
+          }}>
             <Router>
               <Routes>
                 <Route path="/" element={
@@ -126,16 +131,24 @@ export default function App() {
                       <UserSettings />
                     </IsAuth>
                   } />
+
+                  <Route path="session"
+                    element={
+
+                      <SessionPage />
+
+                    }
+                  />
                 </Route>
 
                 <Route path="tutor">
                   <Route
-                  path="pendingRequest"
-                  element={
-                    <IsTutor>
-                      <PendingRequest/>
-                    </IsTutor>
-                  }
+                    path="pendingRequest"
+                    element={
+                      <IsTutor>
+                        <PendingRequest />
+                      </IsTutor>
+                    }
                   />
                 </Route>
                 <Route path="student" element={
@@ -192,6 +205,7 @@ export default function App() {
                   }
 
                 />
+
 
                 {/* 
                 <Route
