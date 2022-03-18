@@ -16,7 +16,7 @@ import { SocketContext } from '../Socket';
 export default (openDialog, id = null, type = 0, title, socket) => {
     openDialog({
         title: title,
-        contentText: 'this is the information is important to success your request',
+        contentText: 'This information is important to success your request',
         fields: {
             title: {
                 initialValue: '',
@@ -44,7 +44,7 @@ export default (openDialog, id = null, type = 0, title, socket) => {
                 initialValue: '',
                 component: (
                     <FormControl component="fieldset">
-                        <FormLabel component="legend">Choose your card type</FormLabel>
+                        <FormLabel component="legend">Choose your Time </FormLabel>
                         <Field
                             component={Select}
                             name="time"

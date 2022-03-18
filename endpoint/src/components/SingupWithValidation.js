@@ -188,9 +188,9 @@ export default () => {
         marginTop: '20px'
       }}>
 
-        <Typography color="#D90429" align="center" variant="h4" >Sign Up</Typography>
+        <Typography color="#D90429" align="center" variant="h5" >Sign Up</Typography>
 
-        <Box sx={{mt:5}}></Box>
+        <Box sx={{mt:1}}></Box>
         <div className='col-md-2 col-sm-0' />
         <div className='col-md-8 col-sm-12'>
           <Stack sx={{
@@ -204,7 +204,7 @@ export default () => {
             <Box component="form"
               fullWidth
               sx={{
-                '& > :not(style)': { mt: 1 }
+                '& > :not(style)': { mt: 0 }
               }}
             >
               <TextField label="User name" variant='filled' size='small'
@@ -407,7 +407,7 @@ export default () => {
             <Box component="form"
               fullWidth
               sx={{
-                '& > :not(style)': { mt: 1 },
+                '& > :not(style)': { mt: 0 },
               }}>
 
               <FormControl component="fieldset"
@@ -434,7 +434,7 @@ export default () => {
             <Box component="form"
               fullWidth
               sx={{
-                '& > :not(style)': { mt: 1 },
+                '& > :not(style)': { mt: 0},
               }}>
 
               <FormControl component="fieldset"
@@ -469,10 +469,10 @@ export default () => {
             </Box>
 
 
-            <Button  style={{backgroundColor:"#000052" , color:"#fff" , padding:"13px"}} variant="contained" fullWidth type="submit">
+            <Button  style={{backgroundColor:"#000052" , color:"#fff" , padding:"5px"}} variant="contained" fullWidth type="submit">
               Register
             </Button>
-            <Box sx={{mt:10}}></Box>
+            <Box sx={{mt:2}}></Box>
           </form>
         </div>
         <div className='col-md-2 col-sm-0' />
