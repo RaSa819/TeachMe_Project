@@ -44,11 +44,11 @@ export default (openDialog, id = null, type = 0, title, socket) => {
                 initialValue: '',
                 component: (
                     <FormControl component="fieldset">
-<<<<<<< HEAD
+
                         <FormLabel component="legend">Choose your Time </FormLabel>
-=======
+
                         <FormLabel component="legend">Choose time of lesson</FormLabel>
->>>>>>> 620c4e781784bd9871df258c48bc7d01ae8885cf
+
                         <Field
                             component={Select}
                             name="time"
