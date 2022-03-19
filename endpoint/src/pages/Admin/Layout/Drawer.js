@@ -85,10 +85,6 @@ export default function PersistentDrawerLeft(props) {
     let navigate = useNavigate();
 
     React.useEffect(() => {
-        var type = localStorage.getItem('type')
-
-        if (type != 2)
-            navigate('/login')
     }, [])
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
