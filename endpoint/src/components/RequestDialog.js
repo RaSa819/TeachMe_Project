@@ -46,7 +46,9 @@ export default (openDialog, id = null, type = 0, title, socket) => {
                     <FormControl component="fieldset">
 
                         <FormLabel component="legend">Choose your Time </FormLabel>
+
                         <FormLabel component="legend">Choose time of lesson</FormLabel>
+
                         <Field
                             component={Select}
                             name="time"
