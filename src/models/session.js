@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const session = mongoose.Schema({
   sessionInfo:mongoose.Schema.Types.Mixed,
   timestamp:{type:Date,default:Date.now},
-  startTime:Date,
-  endTime:Date,
+  startTime:{type:Date,default:Date.now},
+  endTime:{type:Date,default:Date.now},
 
   // The information of payment operation 
   TransactionPayInfo:mongoose.Schema.Types.Mixed,

@@ -52,9 +52,6 @@ export default function StudentFavoriteList() {
                     <ProgressBar />
                 }
             </div>
-
         </Drawer >
     )
 }
-
-

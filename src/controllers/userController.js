@@ -601,9 +601,14 @@ function addSession(idRequest) {
         idTransaction: '123-3242-431-23-2333',
     }
 
+    const info={
+        title:'this is title of session',
+
+    }
     const newSession = new session({
         request: objectID(idRequest),
-        TransactionPayInfo: dataOfPayment
+        TransactionPayInfo: dataOfPayment,
+        sessionInfo:info
     });
 
     newSession.save().then((data) => {

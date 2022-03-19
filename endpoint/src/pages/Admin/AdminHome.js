@@ -17,7 +17,7 @@ import Drawer from './Layout/Drawer'
 
 // notifications Dialog 
 import NotificationDialog from './../../components/NotificationDialog'
-import RequestDialogs from './../../components/RequestDialogs'
+
 import { useDialog } from 'react-mui-dialog';
 const Root = styled('div')`
   table {
@@ -80,6 +80,7 @@ function Content() {
   // one for adding 
 
   const [type, setType] = React.useState(1)
+
 
 
   const deleteDept = (id) => {

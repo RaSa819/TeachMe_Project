@@ -19,14 +19,13 @@ mongoose.connect("mongodb+srv://Mohammad:mm112233@cluster0.r3n4y.mongodb.net/tes
     throw err;
 })
 
-// var a=""
-// mongoose.connect('mongodb://localhost:27017/teachme');
+
 
 
 app.use(express.static('public'));
 
 
-// to allow to app to send and recieve data as json format 
+
 app.use(bodyParser.urlencoded({
   extended: true
 }))

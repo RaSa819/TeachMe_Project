@@ -24,6 +24,7 @@ export default (props) => {
   return (
 
     <Container id='card'>
+      
       <Row>
         <Col xs={2} lg={1}>
           <Avatar id='avatar' src="">
