@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import ProgressBar from './../components/ProgressBar'
 import { Box, display } from "@mui/system";
 import { Block } from "@mui/icons-material";
+import { BsPerson } from "react-icons/bs";
 
 // to align items in center 
 const styleCenter = {
@@ -61,7 +62,7 @@ export default () => {
         })
     }
     return (
-        <div className="row">
+        <div className="row" >
             {
                 isReady === 0 &&
                 <ProgressBar />
@@ -69,13 +70,12 @@ export default () => {
             <div className="col-md-2" />
             <div className="col-md-8">
                 <div style={{
-                    ...styleCenter, // for more style attributes
+                    ...styleCenter, 
+                    
+                    // for more style attributes
                 }} >
                     
-                    <BsFillPersonFill size={100}
-                        color="gray"
-                        
-                       />
+                    <BsPerson size="70" color="wihte black"></BsPerson>
                       
                 </div>
                 <Stack sx={{
@@ -88,7 +88,7 @@ export default () => {
                     <input type="text" style={{padding:"13px", backgroundColor:'#F8F8F8'}}  className="form-control mt-3"
                         placeholder="Username" 
                         ref={userName}
-
+                         
                         required={true}
                     />
 
@@ -118,9 +118,10 @@ export default () => {
                     </div>
 
                     <div style={styleCenter}>
-                        You don't have an account ? <Link to="/signup" style={{
-                            textDecoration: 'none'
-                        }}> Register </Link>
+                        You don't have an account ?  <Link to="/signup" style={{
+                            textDecoration: 'none',
+                            color:"#D90429"
+                        }} ><u> Sign up </u> </Link>
                     </div>
                     <div style={styleCenter}>
                         <input type="submit" className="btn mt-2" 
