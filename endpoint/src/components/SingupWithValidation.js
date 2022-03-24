@@ -80,6 +80,7 @@ const validationSchema = yup.object({
   phoneNumber: yup
     .number('Enter your phone number ')
     .required('The phone number is required'),
+
   gender: yup
     .string('Enter your gender ')
     .required('The gender is required'),
@@ -395,7 +396,7 @@ export default () => {
                 '& > :not(style)': { mt: 1 },
               }}>
               <TextField label="Phone Number" variant='filled' size='small'
-                name="phoneNumber"
+                name="phoneNumber" 
 
                 fullWidth
                 value={formik.values.phoneNumber}
@@ -473,7 +474,7 @@ export default () => {
 
 
             <Button  style={{backgroundColor:"#000052" , color:"#fff" , padding:"5px"}} variant="contained" fullWidth type="submit">
-              Register
+              Sign up
             </Button>
             <Box sx={{mt:2}}></Box>
           </form>

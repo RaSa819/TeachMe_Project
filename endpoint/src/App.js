@@ -55,8 +55,10 @@ import Redirect from "./auth/Redirect";
 import NotFound from "./auth/NotFound";
 import PendingRequest from './pages/User/PendingRequest'
 
-import HomePage from './pages/homePage/homePage.js';
+
 import IsTutor from "./auth/IsTutor";
+import homePage from "./pages/homePage/homePage.js";
+import home from "./pages/homePage/homePage.js";
 
 export default function App() {
 
@@ -205,7 +207,10 @@ export default function App() {
                   }
 
                 />
-
+                <Route
+                path="/homePage"
+                element={<homePage/>}
+                 />
 
                 {/* 
                 <Route
