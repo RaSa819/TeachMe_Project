@@ -31,7 +31,7 @@ export default function () {
                 <ul>
                   <li><a href='#'>Contact us</a></li>
                   <li><a href='#'>Customer Support</a></li>
-                  <li><a href='#'><InstagramIcon/></a> <a href='#'><TwitterIcon/></a></li>
+                  <li><a href='http://www.instagram.com/teachme.2022/'><InstagramIcon/></a> <a href='http://mobile.twitter.com/TeachMe2022'><TwitterIcon/></a></li>
 
                 </ul>
                 </div>
