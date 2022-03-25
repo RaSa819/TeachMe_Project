@@ -1,51 +1,36 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
+
+import react from 'react';
+import * as React from "react"; 
+import { useState } from 'react';
+import { height } from "@mui/system";
+import { Avatar } from "@mui/material";
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
-import LoginIcon from '@mui/icons-material/Login';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import './topBar.css';
+import { IconButton } from '@mui/material';
+import { Tooltip } from '@mui/material';
+import { Menu } from '@mui/material';
+import { MenuItem } from '@mui/material';
+import { Typography } from '@mui/material';
 
-import { useNavigate } from 'react-router';
-
-const pages = ['find tutors'];
-const settings = ['Dashboard', 'Logout'];
-const languages = ['English', 'Arabic']
-
-const ResponsiveAppBar = (props) => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [anchorElLanguage, setAnchorElLanguage] = React.useState(null);
+import "./topBar.css";
 
 
 
-  const { onDashClick } = props;
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
+//nav scroll effect
+window.addEventListener('scroll' , function(){
+    const header = this.document.querySelector('header');
+    header.classList.toggle('sticky' , window.scrollY>0)
+})
+
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const languages = ['English' , 'Arabic'];
+ 
+
+export default function Topnav() {
+const [anchorElUser, setAnchorElUser] = useState(null);
+
+
+const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleOpenLanguageMenu = (event) => {
-    setAnchorElLanguage(event.currentTarget)
-  }
-  const handleCloseLanguageMenu = (event) => {
-    setAnchorElLanguage(null)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -53,100 +38,44 @@ const ResponsiveAppBar = (props) => {
   };
 
   return (
-    <AppBar position="static" style={{ backgroundColor: '#F4F4F8' }}>
-      <Container fluid maxWidth="xxl" >
-        <Toolbar disableGutters >
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+    <header>
+            <a class="navbar-brand" href="#">
+      Teach me.
+    </a>
+        <nav class='nav navbar-expand-md'>
 
-            id='logo'
-          >
-            Teach me.
-          </Typography>
+  
+    <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#coll'>
+        <span class='navbar-toggler-icon'><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#d90429" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+</svg></span>
+    </button>
+    <div class='collapse navbar-collapse' id='coll'>
+        <ul class='navbar-nav'>
+            <li class='nav-item'>
+                <a href='#' class='nav-link'>Find tutors</a>
+                </li>
+                <li class='nav-item'>
+                <a href='#' class='nav-link'>Login</a>
+                </li>
+                <li class='nav-item'>
+                <a href='#' class='nav-link'>Language</a>
+                </li>
+        </ul>
+    </div>
+    <ul>
 
-          <Box sx={{ margin: 0, flexGrow: 1, display: { xs: 'flex', md: 'none', color: '#D90429' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-
-
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                margin: 0,
-                display: { xs: 'flex', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ color: "black" }} textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-              <MenuItem>
-                <Typography sx={{ color: "black" }} textAlign="center">language</Typography>
-              </MenuItem>
-              <MenuItem>
-                <Typography sx={{ color: "black" }} textAlign="center">Login<LoginIcon /></Typography>
-              </MenuItem>
-            </Menu>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-              id='logo'
-            >
-              Teach me.
-            </Typography>
-
-          </Box>
-
-
-          {/* empty box */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-
-
-          {/* language menu */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'none', sm: 'none', lg: 'flex' } }}>
-            <IconButton onClick={handleOpenLanguageMenu} sx={{ p: 0, marginRight: 2, color: '#D90429' }}>
-              <Typography sx={{ color: 'black' }}>English</Typography><KeyboardArrowDownIcon />
-            </IconButton>
+      {/* user icon */}
+      <li id='avatar' sx={{ flexGrow: 1 }}>
+      <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="user name" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
-              anchorEl={anchorElLanguage}
+              anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
@@ -156,76 +85,19 @@ const ResponsiveAppBar = (props) => {
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              open={Boolean(anchorElLanguage)}
-              onClose={handleCloseLanguageMenu}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
             >
-              {languages.map((language) => (
-                <MenuItem key={language} onClick={handleCloseLanguageMenu}>
-                  <Typography textAlign="center">{language}</Typography>
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="right">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
-
-
-
-
-
-            {/* login button */}
-            <IconButton sx={{ p: 0, marginRight: 5, color: '#D90429' }}>
-              <Typography sx={{ color: 'black' }}>Login</Typography><LoginIcon />
-            </IconButton>
-
-
-
-          </Box>
-
-
-          <Box>
-            <Tooltip title={
-              onDashClick ?
-                "Go To Profile" :
-                "Tool tips"
-            }
-            >
-              {/* user menu */}
-              <IconButton onClick={
-
-                onDashClick ? onDashClick :
-                  handleOpenUserMenu
-
-              } sx={{ p: 0 }}>
-                <Avatar id='navavatar' alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            {
-              !onDashClick &&
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            }
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
-};
-export default ResponsiveAppBar;
+      </li>
+    </ul>
+   
+    </nav>
+  </header>
+  )
+}
