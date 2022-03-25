@@ -8,6 +8,10 @@ import ProgressBar from './../components/ProgressBar'
 import { Box, display } from "@mui/system";
 import { Block } from "@mui/icons-material";
 import { BsPerson } from "react-icons/bs";
+import Footer from './../components/footer/footer.js'
+
+
+
 
 // to align items in center 
 const styleCenter = {
@@ -15,6 +19,9 @@ const styleCenter = {
     flexDirection: "row",
     justifyContent: "center"
 }
+ 
+  
+
 
 export default () => {
 
@@ -62,20 +69,24 @@ export default () => {
         })
     }
     return (
-        <div className="row" >
+
+        <div className="row"> 
             {
                 isReady === 0 &&
                 <ProgressBar />
             }
+            
+          
             <div className="col-md-2" />
             <div className="col-md-8">
-                <div style={{
+                <div  style={{
                     ...styleCenter, 
-                    
+                    mt:4
                     // for more style attributes
                 }} >
+                    <topBar/>
                     
-                    <BsPerson size="70" color="wihte black"></BsPerson>
+                    <BsPerson size="70" color="#000052" ></BsPerson>
                       
                 </div>
                 <Stack sx={{
@@ -137,6 +148,7 @@ export default () => {
                     </div>
                 </form>
             </div>
+            <Footer/>
         </div>
 
     )
