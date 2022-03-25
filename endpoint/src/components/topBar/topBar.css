@@ -1,13 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
-
-#logo{
-    font-family: 'Dongle', sans-serif;
-    color: #D90429;
-    font-size: 40px;
-    float: left;
-
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dongle&display=swap");
+header .navbar-brand {
+  position: relative;
+  font-family: "Dongle", sans-serif;
+  font-size: 45px;
+  color: #d90429;
+  text-decoration: none;
+  
 }
-#navavatar{
-    width: 40px;
-    height: 40px;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  /* font-family: 'Open Sans', sans-serif; */
+}
+
+body {
+  background-color: #f4f4f8;
+  min-height: 200vh;
+}
+header {
+  position: fixed;
+  max-height: 4em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.6s;
+  padding: 10px 25px;
+  z-index: 100000;
+}
+
+header ul {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  float: right;
+}
+
+header ul li {
+  position: relative;
+  list-style: none;
+}
+
+header .nav-link {
+  text-decoration: none;
+  position: relative;
+  margin: 0 15px;
+  color: #fff;
+  transition: 0.6;
+}
+.nav-link:hover {
+        color: #d90429;
+  }
+header.sticky {
+    padding: 0px 25px;
+    max-height: 4em;
+    background-color: #f4f4f8;
+  }
+  
+  header.sticky ul {
+    height: inherit;
+  }
+  header.sticky ul li a {
+    color: #000;
+  }
+nav{
+    width: 100%;
+    justify-content:end;
 }

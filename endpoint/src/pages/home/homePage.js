@@ -1,9 +1,8 @@
-import { height } from "@mui/system";
+
 import React from "react";
-import { Avatar } from "@mui/material";
-import TopBar from "../../components/topBar.js";
-import HomeBar from "../../components/homeBar.js";
-import Button from '@mui/material/Button';
+
+import Topbar from '../../components/topBar/topBar';
+
 import "./homePage.css";
 import Footer from '../../components/footer/footer.js'
 
@@ -12,31 +11,12 @@ window.addEventListener('scroll' , function(){
     header.classList.toggle('sticky' , window.scrollY>0)
 })
 
-export default function homePage() {
+export default function HomePage() {
   return (
     <div>
-      <header>
-        <a class="logo" href="#">
-          Teach me.
-        </a>
-        <ul>
-          <li>
-            <a href="#">Find Tutors</a>
-          </li>
-          <li>
-            <a href="#">Login</a>
-          </li>
-          <li>
-            <a href="#">
-              <Avatar
-                id="navavatar"
-                alt="Remy Sharp"
-                src="/static/images/avatar/2.jpg"
-              />
-            </a>
-          </li>
-        </ul>
-      </header>
+   
+      <Topbar/>
+  
       <section class="banner">
       <div class="container">
         <div class='content'>
