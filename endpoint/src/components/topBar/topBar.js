@@ -66,10 +66,10 @@ const handleOpenUserMenu = (event) => {
     <ul>
 
       {/* user icon */}
-      <li id='avatar' sx={{ flexGrow: 1 }}>
+      <li  sx={{ flexGrow: 1 }}>
       <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="user name" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0  , justifyContent:'center'}}>
+                <Avatar   alt="user name" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
