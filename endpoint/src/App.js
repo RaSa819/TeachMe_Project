@@ -82,7 +82,9 @@ export default function App() {
                 <TutorProvider>
                     <div className="container-fluid"
                         style={
-                            {height: '100%'}
+                            {height: '100%'
+                        ,margin:'0%',
+                    padding:'0%'}
                     }>
                         <Router>
                             <Routes>
