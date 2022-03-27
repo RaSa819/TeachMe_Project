@@ -8,6 +8,8 @@
     background-color: #F4F4F8;
     text-align: center;
     align-items: flex-end;
+    
+
 }
 
 .footer{
@@ -17,10 +19,8 @@
    min-height:50vh;
    text-align: left;
    color: #F4F4F8;
- 
-  
+   
 }
-
 .rights{
     margin-top: 5px;
     max-width: 30%;
