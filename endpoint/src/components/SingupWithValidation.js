@@ -412,7 +412,7 @@ export default () => {
             <Box component="form"
               fullWidth
               sx={{
-                '& > :not(style)': { mt: 0 },
+                '& > :not(style)': { mt: 1 },
               }}>
 
               <FormControl component="fieldset"

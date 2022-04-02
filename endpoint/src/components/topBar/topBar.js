@@ -53,10 +53,10 @@ const handleOpenUserMenu = (event) => {
     <div class='collapse navbar-collapse' id='coll'>
         <ul class='navbar-nav'>
             <li class='nav-item'>
-                <a href='#' class='nav-link'>Find tutors</a>
+                <a href='#' class='nav-link'>Find tutors</a> 
                 </li>
                 <li class='nav-item'>
-                <a href='#' class='nav-link'>Login</a>
+                <a href='/Login' class='nav-link'> Login</a>
                 </li>
                 <li class='nav-item'>
                 <a href='#' class='nav-link'>Language</a>
