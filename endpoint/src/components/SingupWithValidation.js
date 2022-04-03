@@ -23,6 +23,7 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { Typography } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
+import Footer from './footer/footer';
 
 
 
@@ -481,6 +482,7 @@ export default () => {
         </div>
         <div className='col-md-2 col-sm-0' />
       </div>
+      <Footer/>
     </div>
   );
 };

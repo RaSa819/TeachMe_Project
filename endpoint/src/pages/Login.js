@@ -145,12 +145,15 @@ export default () => {
                                  width:"100%",
                                  padding:"13px"  
                             }}/>
+                            
                     </div>
+                    
                 </form>
+               
             </div>
-            <Footer/>
+            <Footer style={{bottom:"0",position:"absolute" , hight:"100vh",position:"fixed",left:"0",right:"0",hight:"30px"}}></Footer>
         </div>
-
+    
     )
 }
 
