@@ -29,7 +29,7 @@ export default function () {
                 </div>
                 <div class='col-lg-3 col-xm-12 contact'>contact
                 <ul>
-                  <li><a href='#'>Contact us</a></li>
+                  <li><a href='mailto:tmprojectsrrm@gmail.com'>Contact us</a></li>
                   <li><a href='#'>Customer Support</a></li>
                   <li><a href='http://www.instagram.com/teachme.2022/'><InstagramIcon/></a> <a href='http://mobile.twitter.com/TeachMe2022'><TwitterIcon/></a></li>
 
