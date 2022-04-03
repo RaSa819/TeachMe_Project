@@ -91,6 +91,6 @@ export default (props) => {
                     {renderRow}
                 </FixedSizeList>
             </Box>
-        </div >
+        </div>
     )
 }

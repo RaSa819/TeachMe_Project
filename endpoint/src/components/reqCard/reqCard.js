@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import Button from '@mui/material/Button';
 import Image from "react-bootstrap/Image";
@@ -6,20 +6,28 @@ import { Avatar } from "@mui/material";
 import Rating from '../rating'
 import axios from "axios";
 
+
+import { SocketContext } from "../../Socket";
 import "./reqCard.css";
 export default (props) => {
 
   const { title, name, rate, id, enable } = props;
-
+  const socket =  useContext(SocketContext)
   let push = (status) => {
-    axios.post('http://localhost:4000/tutor/editRequestStatus', {
-      id: id,
-      status: status
-    }).then((data) => {
-      window.location.reload();
-    }).catch((error) => {
 
-    })
+    
+    socket.emit('editRequestStatus',{
+      id:id,
+      status:status
+    });
+//     axios.post('http://localhost:4000/tutor/editRequestStatus', {
+//       id: id,
+//       status: status
+//     }).then((data) => {
+//       window.location.reload();
+//     }).catch((error) => {
+// 
+//     })
   }
   return (
 

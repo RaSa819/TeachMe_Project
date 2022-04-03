@@ -29,29 +29,34 @@ export default function StudentFavoriteList() {
     return (
         <Drawer>
 
-            <div style={{
-                marginTop: '50px',
-                overflowX: 'auto'
-            }}>
+            <div style={
                 {
-                    data.length > 0 && isReady === 1 &&
-                    data.map((item, index) => (
-                        <ReqCard title={item.requestInfo.title} 
-                            name={item.info.name.firstName}
-                            id={item._id}
-                            enable={true}
-                        />
-                    ))
+                    marginTop: '50px',
+                    overflowX: 'auto'
                 }
+            }>
                 {
-                    isReady === 1 && data.length <= 0 &&
-                    < h1 > You dont have pending request </h1>
-                }
+                data.length > 0 && isReady === 1 && data.map((item, index) => (
+                    <ReqCard title={
+                            item.requestInfo.title
+                        }
+                        name={
+                            item.info.name.firstName
+                        }
+                        id={
+                            item._id
+                        }
+                        enable={true}/>
+                ))
+            }
                 {
-                    isReady === 0 &&
-                    <ProgressBar />
-                }
-            </div>
-        </Drawer >
+                isReady === 1 && data.length <= 0 && <h1>
+                    You dont have pending request
+                </h1>
+            }
+                {
+                isReady === 0 && <ProgressBar/>
+            } </div>
+        </Drawer>
     )
 }
