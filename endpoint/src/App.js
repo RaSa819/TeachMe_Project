@@ -89,19 +89,6 @@ export default function App() {
                         <SocketProvider>
                             <Routes> {/* <Route path="/"
                                     element={<HomePage/>}/> */}
-        <SocketProvider>
-            <DialogProvider>
-                <TutorProvider>
-                    <div className="container-fluid"
-                        style={
-                            {height: '100%'
-                        ,margin:'0%',
-                    padding:'0%'}
-                    }>
-                        <Router>
-                            <Routes>
-                                <Route path="/"
-                                    element={<HomePage/>}/>
 
                                 <Route path="/Login"
                                     element={<Login/>}/>
