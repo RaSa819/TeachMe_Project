@@ -30,7 +30,6 @@ import StudentFavoriteList from "./pages/User/StudentFavoriteList";
 import PrepareRequest from "./pages/User/PrepareRequest";
 
 
-import SessionPage from "./pages/User/SessionPage";
 
 // Admin side
 import Drawer from './pages/Admin/Layout/Drawer'
@@ -54,7 +53,9 @@ import PendingRequest from './pages/User/PendingRequest'
 
 
 import IsTutor from "./auth/IsTutor";
-import HomePage from "./pages/home/homePage.js";
+// import HomePage from "./pages/home/homePage.js";
+
+import Session from './pages/Session'
 
 export default function App() {
 
@@ -77,17 +78,17 @@ export default function App() {
 
     return (
 
-        <SocketProvider>
-            <DialogProvider>
-                <TutorProvider>
-                    <div className="container-fluid"
-                        style={
-                            {height: '100%'}
-                    }>
-                        <Router>
-                            <Routes>
-                                <Route path="/"
-                                    element={<HomePage/>}/>
+
+        <DialogProvider>
+            <TutorProvider>
+                <div className="container-fluid"
+                    style={
+                        {height: '100%'}
+                }>
+                    <Router>
+                        <SocketProvider>
+                            <Routes> {/* <Route path="/"
+                                    element={<HomePage/>}/> */}
 
                                 <Route path="/Login"
                                     element={<Login/>}/>
@@ -134,7 +135,7 @@ export default function App() {
                                         }/>
 
                                     <Route path="session"
-                                        element={<SessionPage/>}/>
+                                        element={<Session/>}/>
                                 </Route>
 
                                 <Route path="tutor">
@@ -190,10 +191,11 @@ export default function App() {
 
                 /> */}
                                 {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */} </Routes>
-                        </Router>
+                        </SocketProvider>
+                    </Router>
 
 
-                        {/* <Router>
+                    {/* <Router>
             <Routes>
               <Route path="/" element={<Signup />} />
               
@@ -201,8 +203,8 @@ export default function App() {
               
             </Routes>
           </Router> */} </div>
-                </TutorProvider>
-            </DialogProvider>
-        </SocketProvider>
+            </TutorProvider>
+        </DialogProvider>
+
     )
 }

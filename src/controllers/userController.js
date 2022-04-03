@@ -374,7 +374,7 @@ exports.fetchTutorRequest = (req, res) => {
     ]).exec((error, result) => {
         if (!error) {
             res.json(result)
-            console.log(result)
+            //console.log(result)
         }
         else
             res.json('the error', error)
@@ -431,7 +431,7 @@ exports.fetchTutorHistory = (req, res) => {
     ]).exec((error, result) => {
         if (!error) {
             res.json(result)
-            console.log(result)
+            //console.log(result)
         }
         else
             res.json('the error', error)
@@ -480,7 +480,7 @@ exports.fetchStudentHistory = (req, res) => {
     ]).exec((error, result) => {
         if (!error) {
             res.json(result)
-            console.log(result)
+            //console.log(result)
         }
         else
             res.json('the error', error)
@@ -558,7 +558,7 @@ exports.getFavortieListInfo = (req, res) => {
         ]).exec((error, data) => {
             if (!error) {
                 res.json(data)
-                console.log(data)
+                //console.log(data)
             }
             else {
                 console.log('the error is ' + error)
