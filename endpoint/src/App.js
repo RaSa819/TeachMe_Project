@@ -37,7 +37,7 @@ import AllUser from "./pages/Admin/AllUser";
 import AdminActivity from "./pages/Admin/AdminActivity";
 import AdminSupport from "./pages/Admin/AdminSupport"; // the real time
 
-
+import HomePage from './pages/home/homePage'
 import TutorProvider from "./components/Data/TutorProvider";
 import SingupWithValidation from './components/SingupWithValidation'
 
@@ -86,8 +86,8 @@ export default function App() {
                 }>
                     <Router>
                         <SocketProvider>
-                            <Routes> {/* <Route path="/"
-                                    element={<HomePage/>}/> */}
+                            <Routes> <Route path="/"
+                                    element={<HomePage/>}/>
 
                                 <Route path="/Login"
                                     element={<Login/>}/>
