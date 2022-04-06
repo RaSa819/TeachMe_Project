@@ -65,38 +65,89 @@ app.use((req, res, next) => {
 })
 
 
-const users = Array()
+var users = Array()
+var usersZoom = Array()
 // socket io
 io.on('connection', socket => {
     // to get the IP of client
     // console.log(socket.request.connection.remoteAddress)
     // console.log(socket.conn.remoteAddress);
 
-    // The query of client
-    // console.log(socket.handshake.query);
-    // The header of client
-    // console.log(socket.handshake.headers);
+   
 
 
-    var handshakeData = socket.request;
-    var token = handshakeData._query['token'];
-    if (token == null) 
-        socket.disconnect();
-     else if (token) {
-        var temp = {
-            id: socket.id,
-            token: token
-        }
-        users.push(temp)
-        socket.token = token;
-        // console.log(socket.token);
-        // console.log(io.eio.clientsCount);
-        var list = Object.keys(io.engine.clients);
-        //         console.log(list)
-        //
-        //         console.log(users)
+    var handshakeData = socket.request._query;
+    // var data= socket.handshake.query.data;
+
+    let token = null
+    let data = null
+    let start = null
+
+    var dt = handshakeData;
+    if (dt['token']) {
+        token = dt['token']
     }
 
+    if (dt['data']) {
+        data = dt['data'].split(';')
+        start = data[4]
+        token = data[0]
+
+        
+      
+        // 
+        // console.log(users)
+    }
+    var temp = {
+        id: socket.id,
+        token: token
+    }
+    users.push(temp)
+    //users = users.filter((item) => item.token != token );
+    console.log(users);
+
+
+    socket.on('getIDOf',(data)=>{
+
+        let count = users.length;
+        for(var i = count-1; i>=0; i--)
+        {
+            if(users[i].token==data)
+               {socket.emit('res1',users[i].id);
+               break;
+            }
+        }
+    })
+
+
+    socket.on('EndSession',(data)=>{
+        let count = users.length;
+        for(var i = count-1; i>=0; i--)
+        {
+            if(users[i].token==data)
+               {
+                   io.to(users[i].id).emit('EndSession');
+                   console.log('hello')
+                   break;
+            }
+        }
+    })
+    //console.log(token)
+   
+    //console.log(users);
+    // var token = handshakeData._query['token'];
+    // var studentID = handshakeData._query['studentID'];
+    // var tutorID = handshakeData._query['tutorID'];
+    // var sessionID = handshakeData._query['sessionID'];
+    // var start = handshakeData._query['start'];
+    socket.emit('me', socket.id)  
+    if (start == 'true') {
+        socket.emit('me', socket.id)        
+    }
+
+    socket.on('send', () => {
+        console.log('welcome')
+    })
 
     socket.on('disconnect', () => { // socket.broadcast.emit('callEnded') // when end the calling, the socket will emit to all connected sockets except itself
 
@@ -150,63 +201,31 @@ io.on('connection', socket => {
         })
     })
 
+    // start session
+    /* here all event about session will happend  */
 
-    socket.on('callUser', (data)=>{
-        console.log('hey')
-        io.to(data.userToCall).emit('hey', {signal: data.signalData, from: 'student'})
+
+    socket.on('callUser', (data) => {
+        io.to(data.userToCall).emit('callUser', {
+            signal: data.signalData,
+            from: data.from,
+            name: data.name
+        })
     })
 
-    socket.on('acceptCall', (data)=>{
+
+    socket.on('answerCall', (data) => {
         io.to(data.to).emit('callAccepted', data.signal)
     })
 
-    socket.on('callTutor', (getData) => { // console.log({data})
-        users.map((data) => {
-            if (data.token == getData.tutorID) {
-                io.to(data.id).emit('callTutor', {signal: getData.signalData})
-            }
-        })
-    })
-
-
-
-    socket.on('answerCallTutor', (getData) => {
-        users.map((data) => {
-            if (data.token == getData.to) {
-                io.to(data.id).emit('callAccepted', getData.signal);
-            }
-        })
-    })
-
-
-    socket.on('startCallWithTutor', (data) => {
-        console.log({data})
-        let {sessionID} = data;
-        let {tutorID} = data;
-        let {studentID} = data;
-
-        let id = null;
-        users.map((data) => {
-            if (data.token == tutorID) 
-               { id = data.id;
-                io.to(id).emit('myIDGet',id);
-            }
-            
-        })
-        users.map((data) => {
-
-            if (data.token == studentID) 
-                io.to(data.id).emit('letStart',id);
-            
-        })
-
-    })
+    // end session
 
     socket.on('editRequestStatus', (data) => {
         let {id, status} = data;
 
 
         id = ObjectId(id)
+
 
         request.findOne({_id: id}).then((data) => {
 
@@ -232,22 +251,17 @@ io.on('connection', socket => {
                 }
 
                 if (checkStudent === true && checkTutor === true) {
-                    io.to(tutorID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
+                    
                     io.to(studentID).emit('openSession', {
                         student: student,
                         tutor: tutor,
                         sessionID: id
                     });
-
-                    // student request to call tutor
-                    // io.to(studentID).emit('startCallWithTutor');
-                    // // send request to student to call with tutor
-                    // // student
-                    // io.to(tutorID).emit('answerCallOfStudent');  // tutor
+                    io.to(tutorID).emit('openSession', {
+                        student: student,
+                        tutor: tutor,
+                        sessionID: id
+                    });
                 }
             })
 

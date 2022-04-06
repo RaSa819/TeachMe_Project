@@ -16,7 +16,7 @@ import Login from "./pages/Login";
 import Users from "./pages/Users";
 import Depts from "./pages/Depts";
 import RequestInfo from "./components/RequestInfo";
-import Filter from "./pages/Filter";
+
 import axios from "axios";
 
 import {DialogProvider} from 'react-mui-dialog'
@@ -30,7 +30,6 @@ import StudentFavoriteList from "./pages/User/StudentFavoriteList";
 import PrepareRequest from "./pages/User/PrepareRequest";
 
 
-
 // Admin side
 import Drawer from './pages/Admin/Layout/Drawer'
 import AdminHome from "./pages/Admin/AdminHome";
@@ -38,7 +37,7 @@ import AllUser from "./pages/Admin/AllUser";
 import AdminActivity from "./pages/Admin/AdminActivity";
 import AdminSupport from "./pages/Admin/AdminSupport"; // the real time
 
-
+import HomePage from './pages/home/homePage'
 import TutorProvider from "./components/Data/TutorProvider";
 import SingupWithValidation from './components/SingupWithValidation'
 
@@ -87,8 +86,8 @@ export default function App() {
                 }>
                     <Router>
                         <SocketProvider>
-                            <Routes> {/* <Route path="/"
-                                    element={<HomePage/>}/> */}
+                            <Routes> <Route path="/"
+                                    element={<HomePage/>}/>
 
                                 <Route path="/Login"
                                     element={<Login/>}/>
@@ -183,26 +182,11 @@ export default function App() {
 
                                     }/>
                                 <Route path="/homePage"
-                                    element={<homePage/>}/> {/* 
-                <Route
-                  path="/home" element={
-                    <HomePage />
-                  }
-
-                /> */}
-                                {/* <Route path='/tutor/dashboard' element={<tutorDashboard/>}></Route> */} </Routes>
+                                    element={<homePage/>}/>
+                            </Routes>
                         </SocketProvider>
                     </Router>
-
-
-                    {/* <Router>
-            <Routes>
-              <Route path="/" element={<Signup />} />
-              
-
-              
-            </Routes>
-          </Router> */} </div>
+                </div>
             </TutorProvider>
         </DialogProvider>
 
