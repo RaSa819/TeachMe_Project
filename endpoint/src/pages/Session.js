@@ -70,6 +70,11 @@ function App() {
 
     // will run when the page load or refresh
     useEffect(() => {
+        let flag = localStorage.getItem('flag')
+        if (flag == '0') {
+            window.location.reload()
+            localStorage.setItem('flag', '1')
+        }
         navigator.mediaDevices.getUserMedia({video: true, audio: true}). // this which allows to use Camera and microphone of the device
         then((stream) => { // the video or audio (strean) which coming from the browser
             setStream(stream) // sign the stream to state stream
@@ -77,11 +82,6 @@ function App() {
 
         })
 
-        let flag = localStorage.getItem('flag')
-        if (flag == '0') {
-            window.location.reload()
-            localStorage.setItem('flag', '1')
-        }
 
         // the connection between socket and client to get the id
         socket.on('me', (id) => {
