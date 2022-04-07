@@ -12,21 +12,12 @@ window.addEventListener('scroll', function () {
 })
 
 export default function HomePage() {
-<<<<<<< HEAD
 
- 
-
-=======
     let navigate = useNavigate()
->>>>>>> ac089c177efc5efa0077f332a91368147cf80171
+
     return (
         <div>
             <Topbar/>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ac089c177efc5efa0077f332a91368147cf80171
             <section class="banner">
                 <div class="container">
                     <div class='content'>
@@ -80,17 +71,7 @@ export default function HomePage() {
                 </a>
             </section>
 
-<<<<<<< HEAD
-            
-      <section class='section-4' id='section-4'>
-        <div class='container'>
-          <h1>Are you a Specialized  Tutor Who’s Looking for Extra Income Resources?</h1>
-          <h4>we are looking for tutors with an experience and passion about teaching ! </h4>
-   <button type="button" class="btn btn-light tutorJoin ">Join as Tutor</button>
 
- 
-
-=======
             <section class='section-4' id='section-4'>
                 <div class='container'>
                     <h1>Are you a Specialized  Tutor Who’s Looking for Extra Income Resources?</h1>
@@ -102,7 +83,7 @@ export default function HomePage() {
                                 navigate('/signup')
                             }
                     }>Join as Tutor</button>
->>>>>>> ac089c177efc5efa0077f332a91368147cf80171
+
                 </div>
             </section>
             <Footer/>
