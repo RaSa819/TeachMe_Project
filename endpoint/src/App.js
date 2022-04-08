@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -50,7 +50,7 @@ import Redirect from "./auth/Redirect";
 import NotFound from "./auth/NotFound";
 import PendingRequest from './pages/User/PendingRequest'
 
-
+import { io } from "socket.io-client";
 import IsTutor from "./auth/IsTutor";
 // import HomePage from "./pages/home/homePage.js";
 
@@ -73,6 +73,19 @@ export default function App() {
             })
         }
     }, [])
+
+    
+    const[socket,setSocket] = useState(false)
+    React.useEffect(()=>{
+        let token = localStorage.getItem('token');
+        const client = io.connect('http://localhost:4000', {
+        query: `token=${token}`,
+          'reconnect': false
+        })
+
+        setSocket(client)
+    },[])
+
 
 
     return (
@@ -134,13 +147,13 @@ export default function App() {
                                         }/>
 
                                     <Route path="session"
-                                        element={<Session/>}/>
+                                        element={<Session socket={socket}/>}/>
                                 </Route>
 
                                 <Route path="tutor">
                                     <Route path="pendingRequest"
                                         element={
-                                            <IsTutor><PendingRequest/></IsTutor>
+                                            <IsTutor><PendingRequest socket={socket} /></IsTutor>
                                         }/>
                                 </Route>
                                 <Route path="student"

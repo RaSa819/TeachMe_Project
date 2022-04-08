@@ -261,6 +261,7 @@ export default function Card() {
 
     let user_id = localStorage.getItem('token')
     const { state } = useLocation();
+    
     let id = state.id;
     const fetchData = async () => {
 

@@ -76,6 +76,12 @@ io.on('connection', socket => {
    
 
 
+    console.log('the socket is connect '+socket.id);
+    
+    socket.on('hi',()=>{
+        console.log('hi event is emitted ')
+    })
+
     var handshakeData = socket.request._query;
     // var data= socket.handshake.query.data;
 
@@ -104,7 +110,7 @@ io.on('connection', socket => {
     }
     users.push(temp)
     //users = users.filter((item) => item.token != token );
-    console.log(users);
+    //console.log(users);
 
 
     socket.on('getIDOf',(data)=>{

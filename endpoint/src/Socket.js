@@ -3,15 +3,18 @@ import {io} from 'socket.io-client';
 import {useNavigate} from 'react-router-dom'
 import {useState} from 'react';
 let token = localStorage.getItem('token');
+
 const client = io.connect('http://localhost:4000', {
     query: `token=${token}`,
     'reconnect': false
 })
+
 const SocketContext = createContext(client);
 
 localStorage.setItem('socket', client);
 
 const SocketProvider = ({children}) => {
+
 
 
     let navigate = useNavigate();

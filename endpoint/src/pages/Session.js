@@ -23,12 +23,13 @@ let sessionID = localStorage.getItem('sessionID');
 let start = true;
 let data = token + ';' + studentID + ';' + tutorID + ';' + sessionID + ';' + start;
 console.log(data);
-const socket = io.connect('http://localhost:4000', {query: `data=${data}`});
-function App() {
+//const socket = io.connect('http://localhost:4000', {query: `data=${data}`});
+function App(props) {
 
 
     const [me, setMe] = useState("") // my id
     const [stream, setStream] = useState() // My stream
+
     const [receiveCall, setReceiveCall] = useState(false)
     const [caller, setCaller] = useState() // caller ID
     const [callerSignal, setCallerSignal] = useState() // The Stream which coming from the caller
@@ -47,6 +48,8 @@ function App() {
     const connectionRef = useRef()
     const myPeer = useRef()
 
+
+    const {socket} = props
 
     let type = localStorage.getItem('type');
     if (type == 1) {
@@ -306,6 +309,7 @@ function App() {
     </div>
     )
 }
+
 // return (
 //     <div>
 //         <h1 style={

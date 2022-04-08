@@ -4,10 +4,20 @@ import ReqCard from '../../components/reqCard/reqCard'
 import axios from 'axios'
 import ProgressBar from './../../components/ProgressBar'
 
-export default function StudentFavoriteList() {
+export default function StudentFavoriteList(props) {
 
     const [data, setData] = React.useState([])
     const [isReady, setReady] = React.useState(0)
+
+    const {socket} = props
+
+    React.useEffect(()=>{
+
+       // socket.on('con',{})
+
+       socket.emit('hi')
+    },[])
+
 
     let token = localStorage.getItem('token')
     const fetchData = async () => {

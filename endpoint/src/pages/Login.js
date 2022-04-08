@@ -41,6 +41,7 @@ export default () => {
     }, [])
 
     const [error, setError] = React.useState(0)
+
     const login = (event) => {
         setReady(0)
         event.preventDefault();
@@ -57,8 +58,7 @@ export default () => {
                 var type = data.data.type;
                 var token = data.data.id;
 
-                localStorage.removeItem('token')
-                localStorage.removeItem('type')
+                
 
                 localStorage.setItem('token', token)
                 localStorage.setItem('type', type);
@@ -68,6 +68,8 @@ export default () => {
             console.log("There is some error " + error)
         })
     }
+
+
     return (
 
         <div className="row"> 
