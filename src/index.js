@@ -79,11 +79,15 @@ io.on('connection', socket => {
 
 
 
+
+   
     console.log('the socket is connect '+socket.id);
     
     socket.on('hi',()=>{
         console.log('hi event is emitted ')
     })
+
+  
 
     var handshakeData = socket.request._query;
     // var data= socket.handshake.query.data;
