@@ -156,7 +156,7 @@ const Item = (props) => {
                 backgroundColor: '#FFFFFF',
                 borderRadius: '10px',
                 border: '1px solid black',
-
+                margin:"10px"
             }}
         >
             <div className='row'>
@@ -294,15 +294,15 @@ export default function Card() {
     let navigate = useNavigate();
     //console.log(favoriteList)
     return (
-        <div className='container-fluid'>
-
-            <div className='row'>
-                <TopBar 
+        <div  className='container-fluid'>
+            <TopBar 
                 
                 onDashClick={()=>{
                     navigate('/user/profile')
                 }}
                 />
+            <div style={{marginTop:"60px"}} className='row'>
+                
                 {
                     tutors.map((item) => {
                         let flag = 0;

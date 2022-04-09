@@ -68,12 +68,15 @@ app.use((req, res, next) => {
 var users = Array()
 var usersZoom = Array()
 // socket io
+// let Chat= io.of("/chat")
+// Chat.on('connection', socket => {
+//     console.log("hayyyyyy")
+// })
 io.on('connection', socket => {
     // to get the IP of client
     // console.log(socket.request.connection.remoteAddress)
     // console.log(socket.conn.remoteAddress);
 
-   
 
 
     console.log('the socket is connect '+socket.id);
@@ -84,6 +87,8 @@ io.on('connection', socket => {
 
     var handshakeData = socket.request._query;
     // var data= socket.handshake.query.data;
+    // console.log("handshakeData",handshakeData.id)
+    socket.join(handshakeData.id)
 
     let token = null
     let data = null
@@ -223,9 +228,32 @@ io.on('connection', socket => {
     socket.on('answerCall', (data) => {
         io.to(data.to).emit('callAccepted', data.signal)
     })
-
+    socket.on('NewMeessage',(message)=>{
+        io.to(message.to).emit('NewMeessage', message)
+    })
     // end session
+    // socket.on('NewMeessage',(daata)=>{
+    //     let {id, status} = daata;
 
+
+    //     id = ObjectId(id)
+    //     users.map((data) => {
+    //         console.log(data)
+    //         console.log(users)
+    //             io.to(data.id).emit('NewMeessage', {
+    //                 student: student,
+    //                 sessionID: id,
+    //                 m:daata.m
+    //             });
+    //             // io.to(data.id).emit('NewMeessage', {
+    //             //     student: student,
+    //             //     sessionID: id,
+    //             //     m:daata.m
+    //             // });
+            
+    //     })
+        
+    // })
     socket.on('editRequestStatus', (data) => {
         let {id, status} = data;
 
