@@ -15,6 +15,8 @@ import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import CallEndIcon from '@mui/icons-material/CallEnd';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
+import Chat from './chat'
+// import { Chat } from '@mui/icons-material'
 
 let token = localStorage.getItem('token');
 let studentID = localStorage.getItem('studentID');
@@ -78,12 +80,12 @@ function App(props) {
             window.location.reload()
             localStorage.setItem('flag', '1')
         }
-        navigator.mediaDevices.getUserMedia({video: true, audio: true}). // this which allows to use Camera and microphone of the device
-        then((stream) => { // the video or audio (strean) which coming from the browser
-            setStream(stream) // sign the stream to state stream
-            myVideo.current.srcObject = stream; // here to show the stream in the video element
+        // navigator.mediaDevices.getUserMedia({video: true, audio: true}). // this which allows to use Camera and microphone of the device
+        // then((stream) => { // the video or audio (strean) which coming from the browser
+        //     setStream(stream) // sign the stream to state stream
+        //     myVideo.current.srcObject = stream; // here to show the stream in the video element
 
-        })
+        // })
 
 
         // the connection between socket and client to get the id
@@ -189,123 +191,128 @@ function App(props) {
 
     return (
         <div style={
-            {boxSizing: 'border-box'}
+            {display:"flex",flexDirection: "row",flexWrap:"nowrap"}
         }>
             <div style={
-                {
-                    width: '100%',
-                    height: window.innerHeight - 60,
-                    backgroundColor: 'black',
-                    position: 'relative',
-                    margin: '0'
-                }
+                {width: '70%',boxSizing: 'border-box'}
             }>
-                {
-                stream && <video playsInline muted
-                    ref={myVideo}
-                    autoPlay
-                    style={
-                        {
-                            width: '200px',
-                            position: 'absolute'
-                        }
-                }></video>
-            }
-                {
-                callAccepted && !callEnded ? <video playsInline
-                    ref={userVideo}
-                    autoPlay
-                    style={
-                        {
-                            width: '100%',
-                            height: '100%',
-                            position: 'absolute',
-                            left: 0,
-                            top: 0
-                        }
-                }></video> : null
-            }
-                {/* <div>
-                    <h1 style={{
-                        color:'balck'
-                    }}></h1>
-                </div> */} </div>
-            <div style={
-                {
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    backgroundColor: 'black'
+                <div style={
+                    {
+                        width: '100%',
+                        height: window.innerHeight - 60,
+                        backgroundColor: 'black',
+                        position: 'relative',
+                        margin: '0'
+                    }
+                }>
+                    {
+                    stream && <video playsInline muted
+                        ref={myVideo}
+                        autoPlay
+                        style={
+                            {
+                                width: '200px',
+                                position: 'absolute'
+                            }
+                    }></video>
                 }
-            }>
-                <div>
-                    <ScreenShareIcon fontSize="large"
+                    {
+                    callAccepted && !callEnded ? <video playsInline
+                        ref={userVideo}
+                        autoPlay
+                        style={
+                            {
+                                width: '100%',
+                                height: '100%',
+                                position: 'absolute',
+                                left: 0,
+                                top: 0
+                            }
+                    }></video> : null
+                }
+                    {/* <div>
+                        <h1 style={{
+                            color:'balck'
+                        }}></h1>
+                    </div> */} </div>
+                <div style={
+                    {
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        backgroundColor: 'black'
+                    }
+                }>
+                    <div>
+                        <ScreenShareIcon fontSize="large"
+                            sx={
+                                {color: 'white'}
+                            }
+                            onClick={
+                                () => {
+                                    shareScreen()
+                                }
+                            }/>
+                    </div>
+                <div> {
+                    isStop == true ? <VideoCallIcon fontSize="large"
                         sx={
                             {color: 'white'}
                         }
                         onClick={
                             () => {
-                                shareScreen()
+                                setStop(false)
+                                toggleMuteVideo()
+                            }
+                        }/> : <VideocamOffIcon fontSize="large"
+                        sx={
+                            {color: 'white'}
+                        }
+                        onClick={
+                            () => {
+                                setStop(true)
+                                toggleMuteVideo()
                             }
                         }/>
-                </div>
-            <div> {
-                isStop == true ? <VideoCallIcon fontSize="large"
-                    sx={
-                        {color: 'white'}
-                    }
-                    onClick={
-                        () => {
-                            setStop(false)
-                            toggleMuteVideo()
-                        }
-                    }/> : <VideocamOffIcon fontSize="large"
-                    sx={
-                        {color: 'white'}
-                    }
-                    onClick={
-                        () => {
-                            setStop(true)
-                            toggleMuteVideo()
-                        }
-                    }/>
-            } </div>
+                } </div>
 
-            <div> {
-                isMuted == true ? <MicOffIcon fontSize="large"
-                    sx={
-                        {color: 'white'}
-                    }
-                    onClick={
-                        () => {
-                            setMuted(false)
-                            toggleMuteAudio()
+                <div> {
+                    isMuted == true ? <MicOffIcon fontSize="large"
+                        sx={
+                            {color: 'white'}
                         }
-                    }/> : <KeyboardVoiceIcon fontSize="large"
-                    sx={
-                        {color: 'white'}
-                    }
+                        onClick={
+                            () => {
+                                setMuted(false)
+                                toggleMuteAudio()
+                            }
+                        }/> : <KeyboardVoiceIcon fontSize="large"
+                        sx={
+                            {color: 'white'}
+                        }
 
-                    onClick={
-                        () => {
-                            setMuted(true)
-                            toggleMuteAudio()
-                        }
-                    }/>
+                        onClick={
+                            () => {
+                                setMuted(true)
+                                toggleMuteAudio()
+                            }
+                        }/>
+                } </div>
+            </div>
+            <div> {
+                receiveCall && !callAccepted ? (
+                    <div className="caller">
+                        <h1> {name}
+                            is Calling ...
+                        </h1>
+                        <Button variant="contained" color="primary"
+                            onClick={answerCall}>
+                            Answer
+                        </Button>
+                    </div>
+                ) : null
             } </div>
         </div>
-        <div> {
-            receiveCall && !callAccepted ? (
-                <div className="caller">
-                    <h1> {name}
-                        is Calling ...
-                    </h1>
-                    <Button variant="contained" color="primary"
-                        onClick={answerCall}>
-                        Answer
-                    </Button>
-                </div>
-            ) : null
-        } </div>
+        <div style={{width:"28%" , marginLeft:"2%"}}><Chat socket={socket} /></div>
     </div>
     )
 }

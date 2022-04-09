@@ -79,7 +79,8 @@ export default function App() {
     React.useEffect(()=>{
         let token = localStorage.getItem('token');
         const client = io.connect('http://localhost:4000', {
-        query: `token=${token}`,
+            id:{id:window.localStorage.getItem("flag")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
+        query:{1: `token=${token}`,id:window.localStorage.getItem("type")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
           'reconnect': false
         })
 
@@ -147,7 +148,7 @@ export default function App() {
                                         }/>
 
                                     <Route path="session"
-                                        element={<Session socket={socket}/>}/>
+                                        element={!socket?<div>loding...</div>:<Session socket={socket}/>}/>
                                 </Route>
 
                                 <Route path="tutor">
@@ -178,7 +179,7 @@ export default function App() {
                                 }>
                                     <Route path="tutors"
                                         element={
-                                            <IsStudent><Card/></IsStudent>
+                                            <IsStudent><div ><Card/></div></IsStudent>
                                         }/>
 
                                 </Route>

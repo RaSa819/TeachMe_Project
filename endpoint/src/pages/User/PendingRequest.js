@@ -43,6 +43,7 @@ export default function StudentFavoriteList(props) {
                 {
                     marginTop: '50px',
                     overflowX: 'auto'
+                    
                 }
             }>
                 {

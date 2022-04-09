@@ -18,7 +18,7 @@ export default function HomePage() {
     return (
         <div>
             <Topbar/>
-            <section class="banner">
+            <section class="banner" >
                 <div class="container">
                     <div class='content'>
                         <h2>Save time and connect to the best tutors.</h2>
