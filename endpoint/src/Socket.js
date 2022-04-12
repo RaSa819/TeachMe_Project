@@ -5,8 +5,9 @@ import {useState} from 'react';
 let token = localStorage.getItem('token');
 
 const client = io.connect('http://localhost:4000', {
-    query: `token=${token}`,
-    'reconnect': false
+    id:{id:window.localStorage.getItem("flag")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
+query:{1: `token=${token}`,id:window.localStorage.getItem("type")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
+  'reconnect': false
 })
 
 const SocketContext = createContext(client);

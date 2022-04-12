@@ -48,7 +48,7 @@ export default (props) => {
                 console.log('there is error is' + err)
             })
     }
-    React.useEffect(() => {
+    React.useEffect(() => { 
         fetchDept()
     }, [])
     let navigate = useNavigate()

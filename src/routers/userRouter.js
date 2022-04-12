@@ -1,7 +1,7 @@
 const {default: mongoose} = require('mongoose');
 const userController = require('./../controllers/userController')
 const request = require('./../models/request')
-
+// const { sendTokenIfValid } = require('./agora')
 const student = require('./../models/student')
 const ObjectId = mongoose.Types.ObjectId
 
@@ -118,4 +118,5 @@ module.exports = (app, io) => { // event when the client connect to the server
     // app.post('/student/addToFavorite',userController.addToFavorite);
 
     app.get('/fetch', userController.fetchImage)
+    // app.get('/agora/:channel/:uid',  sendTokenIfValid)
 }

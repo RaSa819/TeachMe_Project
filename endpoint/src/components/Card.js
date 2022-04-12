@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { BsFillPersonFill } from 'react-icons/bs';
 import { MdFavorite } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
-
+import TextField from '@mui/material/TextField';
 import { useLocation } from 'react-router-dom';
 
 import TopBar from './topBar/topBar'
@@ -17,7 +17,12 @@ import { useNavigate } from 'react-router';
 
 import { SocketContext } from '../Socket';
 import TutorDialog from './TutorDialog';
-
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 const styleUnFavorite = {
     width: '20px',
     height: '20px',
@@ -229,7 +234,7 @@ const Item = (props) => {
                 <p >{
                     experience.slice(0, 40) + ' ... '
                 }
-                    <a href='#'>Read more</a> </p>
+                    <a >Read more</a> </p>
             </div>
 
             <div className='row' style={{
@@ -254,15 +259,33 @@ export default function Card() {
 
     const { openDialog } = useDialog();
     const [tutors, setTutor] = useState([])
-
+    const [ price,setPrice]=useState()
     const [isReady, setReady] = useState(false)
-
+    const [ dataTosSelect,setDataToSelect]=useState()
     const [favoriteList, setFavoriteList] = useState([])
-
+    const [ toSearsh,setToSearsh]=useState();
+    const [ toinner,setToinner]=useState("");
     let user_id = localStorage.getItem('token')
     const { state } = useLocation();
-    
+    useEffect(()=>{
+     
+            setToinner(tutors)
+        
+    },[tutors])
     let id = state.id;
+    const fetchDept = async () => {
+        axios.get('http://localhost:4000/fetchDept').
+            then((res) => {
+                setDataToSelect(res.data)
+                console.log("xx",res.data)
+            }).
+            catch((err) => {
+                console.log('there is error is' + err)
+            })
+    }
+    React.useEffect(() => { 
+        fetchDept()
+    }, [])
     const fetchData = async () => {
 
 
@@ -282,7 +305,18 @@ export default function Card() {
             alert(JSON.stringify(error, null, 0))
         })
     }
-
+    const handleChange = async (id)=>{
+        console.log(id)
+        const axio2 =await axios.get(`http://localhost:4000/user/fetchTutors/${id}`)
+        setTutor(axio2.data)
+        // console.log(axio2.data)
+        // setPrice(axio2.data.price)
+        let a =dataTosSelect.find((x)=>{
+            return x._id == id
+        })
+        console.log(a)
+        setPrice(a.price)
+    }
     React.useEffect(() => {
         fetchData()
 
@@ -290,21 +324,69 @@ export default function Card() {
 
     }, [])
 
+    const handelInnerToSearsh=(x)=>{
+        if(x==""){
+            setToinner(tutors)
+        }else {
 
+        
+        console.log(x)
+        console.log(tutors)
+        // setToSearsh
+        let a=tutors.filter(z=>{
+            return z.name.firstName.toLowerCase().includes(x.toLowerCase()) || z.name.lastName.toLowerCase().includes(x.toLowerCase())|| z.name.middleName.toLowerCase().includes(x.toLowerCase())
+        })
+        setToinner(a)
+        }
+        // console.log(a)
+    }
     let navigate = useNavigate();
     //console.log(favoriteList)
     return (
         <div  className='container-fluid'>
+            <div>
             <TopBar 
-                
+                style={{padding:"100px" }}
                 onDashClick={()=>{
                     navigate('/user/profile')
                 }}
                 />
+            </div>
+            <br />
+            <br />
+                <div style={{display:"flex",flexDirection:"row"}}>
+                    <div style={{width:"49%"}}>
+                        <TextField onChange={(e)=>handelInnerToSearsh(e.target.value)} label="searsh" />
+                    </div>
+                    <div style={{width:"49%"}}>
+                        <Box sx={{ minWidth: 120 }}>
+                            <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                            <FormControl fullWidth>
+                                <select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
+                                // value={age}
+                                // label="Age"
+                                onChange={(e)=>handleChange(e.target.value)}
+                                >
+                                    { dataTosSelect && dataTosSelect.map(x=>{
+                                        return (
+                                            <option  style={{height:"50px"}} value={x._id}>{x.name}</option>
+                                                    // <MenuItem value={x._id}>{x.name}</MenuItem>
+                                        )
+                                                    
+                                                })}
+                                
+                                </select>
+                            </FormControl>
+                            {price && <InputLabel id="demo-simple-select-label">price : <span>{price}$</span></InputLabel>}
+                        </Box>
+                    </div>
+                </div>
             <div style={{marginTop:"60px"}} className='row'>
                 
                 {
-                    tutors.map((item) => {
+                   toinner&& toinner.map((item) => {
                         let flag = 0;
                         let val = favoriteList.indexOf(item._id)
                         if (val >= 0)

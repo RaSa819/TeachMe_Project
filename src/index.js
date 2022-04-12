@@ -217,6 +217,7 @@ io.on('connection', socket => {
 
 
     socket.on('callUser', (data) => {
+        console.log("data bbb",data.userToCall)
         io.to(data.userToCall).emit('callUser', {
             signal: data.signalData,
             from: data.from,
@@ -224,8 +225,12 @@ io.on('connection', socket => {
         })
     })
 
-
+    socket.on("signalid",(data)=>{
+        // console.log("peer","data")
+        io.to(data.to).emit('signalid', data.data)
+    })
     socket.on('answerCall', (data) => {
+        console.log(data)
         io.to(data.to).emit('callAccepted', data.signal)
     })
     socket.on('NewMeessage',(message)=>{

@@ -15,7 +15,7 @@ export default function StudentFavoriteList(props) {
 
        // socket.on('con',{})
 
-       socket.emit('hi')
+    //    socket.emit('hi')
     },[])
 
 
