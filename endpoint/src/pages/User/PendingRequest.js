@@ -1,21 +1,21 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import Drawer from './Layout/Drawer'
 import ReqCard from '../../components/reqCard/reqCard'
 import axios from 'axios'
 import ProgressBar from './../../components/ProgressBar'
-
+import { SocketProvider } from '../../Socket'
 export default function StudentFavoriteList(props) {
 
     const [data, setData] = React.useState([])
     const [isReady, setReady] = React.useState(0)
 
-    const {socket} = props
+    const socket = useContext(SocketProvider)
 
     React.useEffect(()=>{
 
        // socket.on('con',{})
 
-       socket.emit('hi')
+       //socket.emit('hi')
     },[])
 
 

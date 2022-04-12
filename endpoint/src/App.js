@@ -7,7 +7,7 @@ import {
     Outlet
 } from "react-router-dom";
 
-
+import { useNavigate } from "react-router-dom";
 import {SocketProvider} from "./Socket";
 
 import Card from "./components/Card";
@@ -52,6 +52,8 @@ import PendingRequest from './pages/User/PendingRequest'
 
 import { io } from "socket.io-client";
 import IsTutor from "./auth/IsTutor";
+
+import BetSession from './pages/BetSession'
 // import HomePage from "./pages/home/homePage.js";
 
 import Session from './pages/Session'
@@ -75,17 +77,57 @@ export default function App() {
     }, [])
 
     
-    const[socket,setSocket] = useState(false)
-    React.useEffect(()=>{
-        let token = localStorage.getItem('token');
-        const client = io.connect('http://localhost:4000', {
-            id:{id:window.localStorage.getItem("flag")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
-        query:{1: `token=${token}`,id:window.localStorage.getItem("type")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
-          'reconnect': false
-        })
+    //const[socket,setSocket] = useState(false)
+    // React.useEffect(()=>{
+    //     let token = localStorage.getItem('token');
+    //     const client = io.connect('http://localhost:4000', {
+    //         id:{id:window.localStorage.getItem("flag")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
+    //     query:{1: `token=${token}`,id:window.localStorage.getItem("type")=="1"?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},
+    //       'reconnect': false
+    //     })
 
-        setSocket(client)
-    },[])
+    //     setSocket(client)
+
+    //     // socket.on('openSession',()=>{
+    //     //     alert(data)
+    //     // })
+
+    //     client.on('welcome',()=>{
+    //         alert('hello')
+    //     })
+
+    // },[])
+
+
+    
+    // let navigate = useNavigate();
+    //socket.on('openSession', (data) => {
+      //  alert('hello')
+        // let type = localStorage.getItem('type')
+        // if (type == 0) {
+        //     localStorage.setItem('studentID', data.student);
+        //     localStorage.setItem('tutorID', data.tutor);
+        //     localStorage.setItem('sessionID', data.sessionID);
+        //     localStorage.setItem('flag', '0');
+        //     navigate('/user/session');
+        // } else {
+            
+        //     setTimeout(() => {
+        //         localStorage.setItem('studentID', data.student);
+        //         localStorage.setItem('tutorID', data.tutor);
+        //         localStorage.setItem('sessionID', data.sessionID);
+        //         localStorage.setItem('flag', '0');
+        //         navigate('/user/session');
+        //     }, 3000)
+        // }
+
+   // })
+
+    // socket.on('endSession', (data) => {
+    //     localStorage.removeItem('studentID');
+    //     localStorage.removeItem('tutorID');
+    //     localStorage.removeItem('sessionID');
+    // })
 
 
 
@@ -99,9 +141,9 @@ export default function App() {
                         {height: '100%'}
                 }>
                     <Router>
-                        <SocketProvider>
+                       <SocketProvider>
                             <Routes> <Route path="/"
-                                    element={<HomePage/>}/>
+                                    element={<HomePage />}/>
 
                                 <Route path="/Login"
                                     element={<Login/>}/>
@@ -148,13 +190,13 @@ export default function App() {
                                         }/>
 
                                     <Route path="session"
-                                        element={!socket?<div>loding...</div>:<Session socket={socket}/>}/>
+                                        element={<Session />}/>
                                 </Route>
 
                                 <Route path="tutor">
                                     <Route path="pendingRequest"
                                         element={
-                                            <IsTutor><PendingRequest socket={socket} /></IsTutor>
+                                            <IsTutor><PendingRequest /></IsTutor>
                                         }/>
                                 </Route>
                                 <Route path="student"
@@ -197,8 +239,10 @@ export default function App() {
                                     }/>
                                 <Route path="/homePage"
                                     element={<homePage/>}/>
+
+                                <Route path="BetSession" element={<BetSession/>}    />
                             </Routes>
-                        </SocketProvider>
+                            </SocketProvider>
                     </Router>
                 </div>
             </TutorProvider>

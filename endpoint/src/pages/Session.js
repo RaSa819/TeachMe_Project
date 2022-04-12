@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useRef, useEffect,useContext} from 'react'
 import io from 'socket.io-client'
 import Peer from 'simple-peer'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
@@ -17,7 +17,8 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 import Chat from './chat'
 // import { Chat } from '@mui/icons-material'
-
+import {SocketContext} from './../Socket'
+import { exactProp } from '@mui/utils'
 let token = localStorage.getItem('token');
 let studentID = localStorage.getItem('studentID');
 let tutorID = localStorage.getItem('tutorID');
@@ -25,6 +26,55 @@ let sessionID = localStorage.getItem('sessionID');
 let start = true;
 let data = token + ';' + studentID + ';' + tutorID + ';' + sessionID + ';' + start;
 console.log(data);
+
+const height=window.innerHeight
+const width=window.innerWidth
+
+
+const styleMyVideoContainer={
+    height:'30%',
+    width:'100%',
+    display:'flex',
+    justifyContent:'space-between'
+}
+const styleMyVideo ={
+    //backgroundColor:'red',
+    width:'100%',
+    height:'100%'
+}
+
+const styleMyVideo1 ={
+    //backgroundColor:'red',
+    width:'50%',
+    height:'100%'
+}
+
+
+const styleTimer={
+    width:'70px',
+    padding:'30px',
+    color:'white'
+}
+
+
+
+const styleContainer={
+    height:height,
+    width:width,
+    marginTop:-30,
+    marginLeft:-20,
+    display:'flex',
+
+}
+
+const styleControlVideo={
+    width:'100%',
+    height:'10%',
+    display:'flex',
+    justifyContent:'space-around',
+    marginTop:10
+}
+
 //const socket = io.connect('http://localhost:4000', {query: `data=${data}`});
 function App(props) {
 
@@ -43,6 +93,8 @@ function App(props) {
     const [isMuted, setMuted] = useState(false)
     const [isStop, setStop] = useState(false)
 
+
+    const[expand,setExpand]=useState(false)
     // References
 
     const myVideo = useRef() // this my video which will represent in video element
@@ -51,22 +103,37 @@ function App(props) {
     const myPeer = useRef()
 
 
-    const {socket} = props
+    const socket = useContext(SocketContext)
+
+    //const {socket} = props
 
     let type = localStorage.getItem('type');
     if (type == 1) {
         socket.emit('getIDOf', studentID)
     }
 
-    if (type == 1) {
-        setTimeout(() => {
-            socket.emit('EndSession', studentID)
-            // leaveCall()
-        }, 20000)
+    // if (type == 1) {
+    //     setTimeout(() => {
+    //         socket.emit('EndSession', studentID)
+    //         // leaveCall()
+    //     }, 20000)
+    // }
+
+    const styleUserVideo={
+        width:'100%',
+        height:'55%'
+    }
+    
+    const styleVideoChat={
+        width:expand==true?'70%':'100%',
+        height:'100%',
+        backgroundColor:'black',
     }
 
     socket.on('res1', (data) => {
         callUser(data)
+
+       //alert('call user'+data)
     })
 
     socket.on('EndSession', () => { // leaveCall()
@@ -77,15 +144,15 @@ function App(props) {
     useEffect(() => {
         let flag = localStorage.getItem('flag')
         if (flag == '0') {
-            window.location.reload()
+          //  window.location.reload()
             localStorage.setItem('flag', '1')
         }
-        // navigator.mediaDevices.getUserMedia({video: true, audio: true}). // this which allows to use Camera and microphone of the device
-        // then((stream) => { // the video or audio (strean) which coming from the browser
-        //     setStream(stream) // sign the stream to state stream
-        //     myVideo.current.srcObject = stream; // here to show the stream in the video element
+        navigator.mediaDevices.getUserMedia({video: true, audio: true}). // this which allows to use Camera and microphone of the device
+        then((stream) => { // the video or audio (strean) which coming from the browser
+            setStream(stream) // sign the stream to state stream
+            myVideo.current.srcObject = stream; // here to show the stream in the video element
 
-        // })
+        })
 
 
         // the connection between socket and client to get the id
@@ -98,7 +165,7 @@ function App(props) {
             setCaller(data.from)
             setName(data.name)
             setCallerSignal(data.signal)
-
+            //setCallAccepted(false)
             // alert('call user is coming ')
         })
 
@@ -138,6 +205,7 @@ function App(props) {
         setCallAccepted(true)
         const peer = new Peer({initiator: false, trickle: false, stream: stream})
 
+        //alert(caller)
         peer.on('signal', (data) => {
             socket.emit('answerCall', {
                 signal: data,
@@ -160,8 +228,9 @@ function App(props) {
         setCallEnded(true)
         connectionRef.current.destroy()
         myPeer.current.destroy();
-    }
 
+        socket.emit('closeSession',caller)
+    }
 
     function shareScreen() {
         navigator.mediaDevices.getDisplayMedia({cursor: true}).then(screenStream => {
@@ -169,7 +238,8 @@ function App(props) {
             userVideo.current.srcObject = screenStream;
             screenStream.getTracks()[0].onended = () => {
                 myPeer.current.replaceTrack(screenStream.getVideoTracks()[0], stream.getVideoTracks()[0], stream)
-                userVideo.current.srcObject = stream
+                //userVideo.current.srcObject = stream
+                userVideo.current.srcObject = screenStream;
             }
         })
     }
@@ -180,43 +250,74 @@ function App(props) {
         }
     }
 
+    socket.on('closeSession',()=>{
+        alert('close Session event is emitted ')
+    })
     function toggleMuteVideo() {
         if (stream) {
             stream.getVideoTracks()[0].enabled = isStop
         }
     }
 
-    // if (receiveCall && !callAccepted) { // answerCall();
-    // }
+    if (receiveCall && !callAccepted) { 
+    //    var d = window.confirm('There is one need to call you')
+    //    if(d)
+    //     answerCall()
+    }
+
+    var timer = useRef(1000)
+    const[stimer,setTimer]=useState(timer.current)
 
     return (
-        <div style={
-            {display:"flex",flexDirection: "row",flexWrap:"nowrap"}
-        }>
-            <div style={
-                {width: '70%',boxSizing: 'border-box'}
-            }>
-                <div style={
-                    {
-                        width: '100%',
-                        height: window.innerHeight - 60,
-                        backgroundColor: 'black',
-                        position: 'relative',
-                        margin: '0'
-                    }
-                }>
-                    {
-                    stream && <video playsInline muted
+        <div style={styleContainer}>
+        {/* video div */}
+        <div style={styleVideoChat}>
+            {/* my container */}
+            
+            <div style={{
+                height:'50px',
+                float:'right'
+            }}>
+               <button style={{
+                   color:'white',
+                   marginTop:10,
+                   marginRight:10,
+                   backgroundColor:'black',
+                   width:'100px',
+                   border:'none'
+               }}
+               onClick={()=>setExpand(!expand)}
+               >
+                   {
+                       expand===false ?'Chat':'X'
+                   }
+               </button>
+            </div>
+
+            <div style={styleMyVideoContainer}>
+              <div style={styleTimer}>
+                 {timer.current}
+              </div>
+              
+              <div style={styleMyVideo1}>
+              {
+                    stream &&
+                     <video playsInline muted
                         ref={myVideo}
                         autoPlay
-                        style={
-                            {
-                                width: '200px',
-                                position: 'absolute'
-                            }
-                    }></video>
+                        style={styleMyVideo}
+                        >
+                            
+                    </video>
                 }
-                    {
+              </div>
+               
+            </div>
+            
+            {/* user container */}
+            
+            <div style={styleUserVideo}>
+                     {
                     callAccepted && !callEnded ? <video playsInline
                         ref={userVideo}
                         autoPlay
@@ -224,26 +325,17 @@ function App(props) {
                             {
                                 width: '100%',
                                 height: '100%',
-                                position: 'absolute',
-                                left: 0,
-                                top: 0
+                                
                             }
                     }></video> : null
                 }
-                    {/* <div>
-                        <h1 style={{
-                            color:'balck'
-                        }}></h1>
-                    </div> */} </div>
-                <div style={
-                    {
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        backgroundColor: 'black'
-                    }
-                }>
-                    <div>
-                        <ScreenShareIcon fontSize="large"
+                    </div>
+
+            {/* control style */}
+            <div style={styleControlVideo}>
+               
+               <div>
+                       <ScreenShareIcon fontSize="large"
                             sx={
                                 {color: 'white'}
                             }
@@ -252,7 +344,8 @@ function App(props) {
                                     shareScreen()
                                 }
                             }/>
-                    </div>
+                </div>
+                
                 <div> {
                     isStop == true ? <VideoCallIcon fontSize="large"
                         sx={
@@ -273,7 +366,18 @@ function App(props) {
                                 toggleMuteVideo()
                             }
                         }/>
-                } </div>
+                } 
+                </div>
+                
+                <div>
+                    
+                    <CallEndIcon fontSize="large" sx={
+                            {color: 'white'}
+                        }
+                        onClick={()=>leaveCall()}
+                    />
+
+                </div>
 
                 <div> {
                     isMuted == true ? <MicOffIcon fontSize="large"
@@ -296,12 +400,14 @@ function App(props) {
                                 toggleMuteAudio()
                             }
                         }/>
-                } </div>
+                } 
+                </div>
+
             </div>
-            <div> {
+                   <div> {
                 receiveCall && !callAccepted ? (
                     <div className="caller">
-                        <h1> {name}
+                        <h1> {caller}
                             is Calling ...
                         </h1>
                         <Button variant="contained" color="primary"
@@ -311,9 +417,157 @@ function App(props) {
                     </div>
                 ) : null
             } </div>
+
         </div>
-        <div style={{width:"28%" , marginLeft:"2%"}}><Chat socket={socket} /></div>
+
+
+        {/* chat div */}
+        <div style={{
+           width:'30%',
+           display:expand===true?'block':'none'
+        }}> 
+        <Chat socket={socket} height={height} caller={caller} />
+        </div>
     </div>
+    //     <div style={
+    //         {display:"flex",flexDirection: "row",flexWrap:"nowrap",
+    //         height:'700px'
+        
+    //     }
+    //     }>
+    //         <div style={
+    //             {width: '70%',boxSizing: 'border-box',height:'100%'}
+    //         }>
+    //             <div style={
+    //                 {
+    //                     width: '100%',
+    //                     height: window.innerHeight - 60,
+    //                     backgroundColor: 'black',
+    //                     position: 'relative',
+    //                     margin: '0'
+    //                 }
+    //             }>
+    //                 <div>
+    //                 {
+    //                 stream &&
+    //                  <video playsInline muted
+    //                     ref={myVideo}
+    //                     autoPlay
+    //                     style={
+    //                         {
+    //                             width: '200px',
+    //                             position: 'absolute'
+    //                         }
+    //                 }>
+
+    //                 </video>
+    //             }
+
+    //                 </div>
+                    
+    //                 <div>
+    //                 {
+    //                 callAccepted && !callEnded ? <video playsInline
+    //                     ref={userVideo}
+    //                     autoPlay
+    //                     style={
+    //                         {
+    //                             width: '100%',
+    //                             height: '100%',
+    //                             position: 'absolute',
+    //                             left: 0,
+    //                             top: 0
+    //                         }
+    //                 }></video> : null
+    //             }
+    //                 </div>
+                    
+    //                 {/* <div>
+    //                     <h1 style={{
+    //                         color:'balck'
+    //                     }}></h1>
+    //                 </div> */} </div>
+    //             <div style={
+    //                 {
+    //                     display: 'flex',
+    //                     justifyContent: 'space-around',
+    //                     backgroundColor: 'black'
+    //                 }
+    //             }>
+    //                 <div>
+    //                     <ScreenShareIcon fontSize="large"
+    //                         sx={
+    //                             {color: 'white'}
+    //                         }
+    //                         onClick={
+    //                             () => {
+    //                                 shareScreen()
+    //                             }
+    //                         }/>
+    //                 </div>
+    //             <div> {
+    //                 isStop == true ? <VideoCallIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+    //                     onClick={
+    //                         () => {
+    //                             setStop(false)
+    //                             toggleMuteVideo()
+    //                         }
+    //                     }/> : <VideocamOffIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+    //                     onClick={
+    //                         () => {
+    //                             setStop(true)
+    //                             toggleMuteVideo()
+    //                         }
+    //                     }/>
+    //             } </div>
+
+    //             <div> {
+    //                 isMuted == true ? <MicOffIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+    //                     onClick={
+    //                         () => {
+    //                             setMuted(false)
+    //                             toggleMuteAudio()
+    //                         }
+    //                     }/> : <KeyboardVoiceIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+
+    //                     onClick={
+    //                         () => {
+    //                             setMuted(true)
+    //                             toggleMuteAudio()
+    //                         }
+    //                     }/>
+    //             } </div>
+    //         </div>
+    //         <div> {
+    //             receiveCall && !callAccepted ? (
+    //                 <div className="caller">
+    //                     <h1> {name}
+    //                         is Calling ...
+    //                     </h1>
+    //                     <Button variant="contained" color="primary"
+    //                         onClick={answerCall}>
+    //                         Answer
+    //                     </Button>
+    //                 </div>
+    //             ) : null
+    //         } </div>
+    //     </div>
+
+
+    //     <div style={{width:"28%" , marginLeft:"2%"}}><Chat socket={socket} /></div>
+    // </div>
     )
 }
 

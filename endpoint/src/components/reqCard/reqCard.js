@@ -14,7 +14,6 @@ export default (props) => {
   const { title, name, rate, id, enable } = props;
   const socket =  useContext(SocketContext)
   let push = (status) => {
-
     
     socket.emit('editRequestStatus',{
       id:id,

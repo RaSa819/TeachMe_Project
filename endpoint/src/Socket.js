@@ -4,19 +4,27 @@ import {useNavigate} from 'react-router-dom'
 import {useState} from 'react';
 let token = localStorage.getItem('token');
 
-const client = io.connect('http://localhost:4000', {
-    query: `token=${token}`,
-    'reconnect': false
-})
+const client = io.connect('http://localhost:4000')
 
 const SocketContext = createContext(client);
 
-localStorage.setItem('socket', client);
+
 
 const SocketProvider = ({children}) => {
 
 
 
+
+    React.useEffect(() => {
+        let type = parseInt(localStorage.getItem('type'))
+        if (type >= 0)
+            {
+            let token = localStorage.getItem('token')
+            client.emit('sendID',token)
+    }
+
+          
+    }, [])
     let navigate = useNavigate();
 
     client.on('openSession', (data) => {
