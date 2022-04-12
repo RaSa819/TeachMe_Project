@@ -257,12 +257,14 @@ io.on('connection', socket => {
             name: data.name
         })
 
-        console.log('the one '+from +'want to call to '+data.userToCall)
+        console.log('the one '+data.from +'want to call to '+data.userToCall)
     })
 
 
     socket.on('answerCall', (data) => {
         io.to(data.to).emit('callAccepted', data.signal)
+
+        console.log('the one  answer :'+data.to)
     })
     socket.on('NewMeessage',(message)=>{
         io.to(message.to).emit('NewMeessage', message)

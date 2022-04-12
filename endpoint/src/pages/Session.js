@@ -238,8 +238,8 @@ function App(props) {
             userVideo.current.srcObject = screenStream;
             screenStream.getTracks()[0].onended = () => {
                 myPeer.current.replaceTrack(screenStream.getVideoTracks()[0], stream.getVideoTracks()[0], stream)
-                //userVideo.current.srcObject = stream
-                userVideo.current.srcObject = screenStream;
+                userVideo.current.srcObject = stream
+                //userVideo.current.srcObject = screenStream;
             }
         })
     }
