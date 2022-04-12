@@ -143,8 +143,13 @@ function App(props) {
     // will run when the page load or refresh
     useEffect(() => {
         let flag = localStorage.getItem('flag')
+<<<<<<< HEAD
         if (flag == '0') {
           //  window.location.reload()
+=======
+        if (flag == '1') {
+            window.location.reload()
+>>>>>>> cafd3ed88b3e1978a316aaf5ccdf818a81cc1ff1
             localStorage.setItem('flag', '1')
         }
         navigator.mediaDevices.getUserMedia({video: true, audio: true}). // this which allows to use Camera and microphone of the device
@@ -218,6 +223,7 @@ function App(props) {
         myPeer.current = peer;
         peer.on('stream', (stream) => {
             userVideo.current.srcObject = stream
+            alert('hello')
         })
 
         peer.signal(callerSignal)
@@ -238,8 +244,13 @@ function App(props) {
             userVideo.current.srcObject = screenStream;
             screenStream.getTracks()[0].onended = () => {
                 myPeer.current.replaceTrack(screenStream.getVideoTracks()[0], stream.getVideoTracks()[0], stream)
+<<<<<<< HEAD
                 //userVideo.current.srcObject = stream
                 userVideo.current.srcObject = screenStream;
+=======
+                userVideo.current.srcObject = stream
+                //userVideo.current.srcObject = screenStream;
+>>>>>>> cafd3ed88b3e1978a316aaf5ccdf818a81cc1ff1
             }
         })
     }
@@ -264,6 +275,12 @@ function App(props) {
     //    if(d)
     //     answerCall()
     }
+<<<<<<< HEAD
+=======
+
+    var timer = useRef(1000)
+    const[stimer,setTimer]=useState(timer.current)
+>>>>>>> cafd3ed88b3e1978a316aaf5ccdf818a81cc1ff1
 
     var timer = useRef(1000)
     const[stimer,setTimer]=useState(timer.current)
@@ -406,6 +423,12 @@ function App(props) {
                 </div>
 
             </div>
+<<<<<<< HEAD
+=======
+            <div>
+                <h1>{me}</h1>
+                </div>
+>>>>>>> cafd3ed88b3e1978a316aaf5ccdf818a81cc1ff1
                    <div> {
                 receiveCall && !callAccepted ? (
                     <div className="caller">
@@ -431,6 +454,145 @@ function App(props) {
         <Chat socket={socket} height={height} caller={caller} />
         </div>
     </div>
+    //     <div style={
+    //         {display:"flex",flexDirection: "row",flexWrap:"nowrap",
+    //         height:'700px'
+        
+    //     }
+    //     }>
+    //         <div style={
+    //             {width: '70%',boxSizing: 'border-box',height:'100%'}
+    //         }>
+    //             <div style={
+    //                 {
+    //                     width: '100%',
+    //                     height: window.innerHeight - 60,
+    //                     backgroundColor: 'black',
+    //                     position: 'relative',
+    //                     margin: '0'
+    //                 }
+    //             }>
+    //                 <div>
+    //                 {
+    //                 stream &&
+    //                  <video playsInline muted
+    //                     ref={myVideo}
+    //                     autoPlay
+    //                     style={
+    //                         {
+    //                             width: '200px',
+    //                             position: 'absolute'
+    //                         }
+    //                 }>
+
+    //                 </video>
+    //             }
+
+    //                 </div>
+                    
+    //                 <div>
+    //                 {
+    //                 callAccepted && !callEnded ? <video playsInline
+    //                     ref={userVideo}
+    //                     autoPlay
+    //                     style={
+    //                         {
+    //                             width: '100%',
+    //                             height: '100%',
+    //                             position: 'absolute',
+    //                             left: 0,
+    //                             top: 0
+    //                         }
+    //                 }></video> : null
+    //             }
+    //                 </div>
+                    
+    //                 {/* <div>
+    //                     <h1 style={{
+    //                         color:'balck'
+    //                     }}></h1>
+    //                 </div> */} </div>
+    //             <div style={
+    //                 {
+    //                     display: 'flex',
+    //                     justifyContent: 'space-around',
+    //                     backgroundColor: 'black'
+    //                 }
+    //             }>
+    //                 <div>
+    //                     <ScreenShareIcon fontSize="large"
+    //                         sx={
+    //                             {color: 'white'}
+    //                         }
+    //                         onClick={
+    //                             () => {
+    //                                 shareScreen()
+    //                             }
+    //                         }/>
+    //                 </div>
+    //             <div> {
+    //                 isStop == true ? <VideoCallIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+    //                     onClick={
+    //                         () => {
+    //                             setStop(false)
+    //                             toggleMuteVideo()
+    //                         }
+    //                     }/> : <VideocamOffIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+    //                     onClick={
+    //                         () => {
+    //                             setStop(true)
+    //                             toggleMuteVideo()
+    //                         }
+    //                     }/>
+    //             } </div>
+
+    //             <div> {
+    //                 isMuted == true ? <MicOffIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+    //                     onClick={
+    //                         () => {
+    //                             setMuted(false)
+    //                             toggleMuteAudio()
+    //                         }
+    //                     }/> : <KeyboardVoiceIcon fontSize="large"
+    //                     sx={
+    //                         {color: 'white'}
+    //                     }
+
+    //                     onClick={
+    //                         () => {
+    //                             setMuted(true)
+    //                             toggleMuteAudio()
+    //                         }
+    //                     }/>
+    //             } </div>
+    //         </div>
+    //         <div> {
+    //             receiveCall && !callAccepted ? (
+    //                 <div className="caller">
+    //                     <h1> {name}
+    //                         is Calling ...
+    //                     </h1>
+    //                     <Button variant="contained" color="primary"
+    //                         onClick={answerCall}>
+    //                         Answer
+    //                     </Button>
+    //                 </div>
+    //             ) : null
+    //         } </div>
+    //     </div>
+
+
+    //     <div style={{width:"28%" , marginLeft:"2%"}}><Chat socket={socket} /></div>
+    // </div>
     )
 }
 

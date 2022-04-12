@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dongle&display=swap");
 
@@ -8,10 +8,7 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: #f4f4f8;
-  min-height: 200vh;
-}
+
 /* header .logo {
   position: relative;
   font-family: "Dongle", sans-serif;
@@ -76,14 +73,15 @@ header.sticky ul li a {
   background-image: url("../../../public/second.jpg");
   background-size: cover;
   background-position: center;
+  margin-top: 100;
 }
 
 
-.container-fluid {
+/* .container-fluid {
   text-align: center;
-}
+} */
 
-h2 {
+.container h2 {
   font-size: 50px;
   color: #f4f4f8;
   font-family: "Open Sans", sans-serif;
@@ -94,7 +92,7 @@ h2 {
   flex-shrink: inherit;
 }
 
-h4 {
+.container h4 {
   margin-top: 2%;
   font-style: normal;
   font-size: 20px;

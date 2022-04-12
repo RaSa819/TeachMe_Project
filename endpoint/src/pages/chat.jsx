@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Button ,Input } from '@mui/material';
 import  io  from "socket.io-client";
 
-function Chat ({socket}){
+function Chat (props){
     const [allMessage,setallMessage]=useState([])
     const [allMessagee,setallMessagee]=useState([])
     const [message,setMessage]=useState("")
@@ -19,6 +19,8 @@ function Chat ({socket}){
     //     console.log(newSocket)
     //     return newSocket.close()
     // },[setSocket])
+    const {socket} = props
+    const{height} = props
     useEffect(()=>{
 
         if(window.localStorage.getItem("type") == 1){
@@ -66,7 +68,11 @@ function Chat ({socket}){
     const renderChat=()=>{
         // let myChat=
         return (
+<<<<<<< HEAD
             <div style={{width:"100%"}}>
+=======
+            <div>
+>>>>>>> cafd3ed88b3e1978a316aaf5ccdf818a81cc1ff1
                 {allMessage.length > 0 && allMessage.map(({m,to},index)=>{
                     return(
                         <div style={{width:"90%",height:"auto", padding:"3px",textAlign:`${to==1?"right":"left"}`}} key={index}>
@@ -79,14 +85,23 @@ function Chat ({socket}){
     }
     return (
         <div >
+<<<<<<< HEAD
             <div style={{height:"500px",marginTop:"50px",background:"#f9fafb",overflowY:"scroll",overflowX:"hidden",width:"100%"}}>
+=======
+            <div style={{height:height-60,background:"#f9fafb",overflow:"scroll"}}>
+>>>>>>> cafd3ed88b3e1978a316aaf5ccdf818a81cc1ff1
                 {renderChat()}
             </div>
+            <div style={{
+                display:'flex',
+                justifyContent:'space-between'
+            }}>
             <div>
-                <Input placeholder="send message..." value={message} onChange={(e)=>{setMessage(e.target.value)}} style={{width:"100%"}} type="text" />
+                <Input placeholder="send message..." value={message} onChange={(e)=>{setMessage(e.target.value)}} style={{width:"80%"}} type="text" />
             </div>
             <div>
-                <Button style={{background:"rgb(192 212 203)"}} onClick={handelSendMessage}>Send</Button>
+                <Button style={{background:"rgb(192 212 203)", width:'20%'}} onClick={handelSendMessage}>Send</Button>
+            </div>
             </div>
         </div>
     )

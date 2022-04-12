@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate, Link } from "react-router-dom";
@@ -10,7 +10,7 @@ import { Block } from "@mui/icons-material";
 import { BsPerson } from "react-icons/bs";
 import Footer from './../components/footer/footer.js'
 
-
+import { SocketProvider } from "../Socket";
 
 
 // to align items in center 
@@ -31,11 +31,14 @@ export default () => {
 
     const [isReady, setReady] = React.useState(null)
 
-
+    const socket = useContext(SocketProvider)
     React.useEffect(() => {
         let type = parseInt(localStorage.getItem('type'))
         if (type >= 0)
-            navigate('/home')
+            {navigate('/home')
+            let token = localStorage.getItem('token')
+            socket.emit('sendID',token)
+    }
 
           
     }, [])
@@ -62,7 +65,9 @@ export default () => {
 
                 localStorage.setItem('token', token)
                 localStorage.setItem('type', type);
+                
                 navigate('/home')
+                socket.emit('sendID',token)
             }
         }).catch((error) => {
             console.log("There is some error " + error)
