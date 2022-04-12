@@ -15,6 +15,7 @@ export default (props) => {
   const socket =  useContext(SocketContext)
   let push = (status) => {
     
+    localStorage.setItem('sessionID',id)
     socket.emit('editRequestStatus',{
       id:id,
       status:status

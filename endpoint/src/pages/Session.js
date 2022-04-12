@@ -143,8 +143,8 @@ function App(props) {
     // will run when the page load or refresh
     useEffect(() => {
         let flag = localStorage.getItem('flag')
-        if (flag == '0') {
-          //  window.location.reload()
+        if (flag == '1') {
+            window.location.reload()
             localStorage.setItem('flag', '1')
         }
         navigator.mediaDevices.getUserMedia({video: true, audio: true}). // this which allows to use Camera and microphone of the device
@@ -218,6 +218,7 @@ function App(props) {
         myPeer.current = peer;
         peer.on('stream', (stream) => {
             userVideo.current.srcObject = stream
+            alert('hello')
         })
 
         peer.signal(callerSignal)
@@ -404,6 +405,9 @@ function App(props) {
                 </div>
 
             </div>
+            <div>
+                <h1>{me}</h1>
+                </div>
                    <div> {
                 receiveCall && !callAccepted ? (
                     <div className="caller">

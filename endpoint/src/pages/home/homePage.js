@@ -39,6 +39,7 @@ export default function HomePage() {
                     <div class='scroll-down'></div>
                 </a>
             </section>
+            
             <section class='section-2' id='section-2'>
                 <div class='container'>
                     <h1>What is Teach me ?</h1>

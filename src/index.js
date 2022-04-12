@@ -92,6 +92,7 @@ io.on('connection', socket => {
 
     socket.on('closeSession',(data)=>{
         io.to(data).emit('closeSession')
+        console.log('the user want to close session is '+data)
     })
     var handshakeData = socket.request._query;
     // var data= socket.handshake.query.data;
@@ -257,7 +258,7 @@ io.on('connection', socket => {
             name: data.name
         })
 
-        console.log('the one '+data.from +'want to call to '+data.userToCall)
+        //console.log('the one '+data.from +'want to call to '+data.userToCall)
     })
 
 
@@ -296,6 +297,67 @@ io.on('connection', socket => {
     //     })
         
     // })
+
+    socket.on('ok',(id)=>{
+        id = ObjectId(id)
+        request.findOne({_id: id}).then((data) => {
+
+
+            //console.log({data})
+
+            let {student} = data;
+            student = ObjectId(student);
+            let {tutor} = data;
+            tutor = ObjectId(tutor);
+
+            let checkTutor = false; // when the tutor get the openSession the value will change to true
+            let checkStudent = false; // when the student get the openSession the value will change to true
+            let studentID = null;
+            let tutorID = null;
+           
+            users.map((item) => {
+               
+                if (item.token == tutor) {
+
+                    tutorID = data.id;
+                    checkTutor = true;
+                } else if (item.token == student) {
+                    studentID = data.id;
+                    checkStudent = true;
+                }
+
+                if (checkStudent === true && checkTutor === true) {
+                    
+                    console.log(tutorID)
+                    console.log('hello request')
+                    io.to(studentID).emit('openSession', {
+                        student: student,
+                        tutor: tutor,
+                        sessionID: id
+                    });
+
+                    //io.to(studentID).emit('gotoPayment',id)
+                    io.to(tutorID).emit('openSession', {
+                        student: student,
+                        tutor: tutor,
+                        sessionID: id
+                    });
+                }
+            })
+
+        }).catch((error) => {
+            console.log({error})
+        })
+
+        // users.map((data)=>{
+        //     if(data.token==tutorID)
+        //       {io.to(data.id).emit('paymentGood')
+        //       console.log(data.id)
+        // }
+        // })
+
+        // console.log("tutorID "+tutorID)
+    })
     socket.on('editRequestStatus', (data) => {
         let {id, status} = data;
 
@@ -315,6 +377,7 @@ io.on('connection', socket => {
             let checkStudent = false; // when the student get the openSession the value will change to true
             let studentID = null;
             let tutorID = null;
+           
             users.map((data) => {
 
                 if (data.token == tutor) {
@@ -333,6 +396,8 @@ io.on('connection', socket => {
                         tutor: tutor,
                         sessionID: id
                     });
+
+                    //io.to(studentID).emit('gotoPayment',id)
                     io.to(tutorID).emit('openSession', {
                         student: student,
                         tutor: tutor,

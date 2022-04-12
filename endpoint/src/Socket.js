@@ -48,6 +48,16 @@ const SocketProvider = ({children}) => {
 
     })
 
+    // client.on('gotoPayment',(data)=>{
+    //     localStorage.setItem('sessionID',data)
+    //     navigate('/payment');
+       
+    // })
+
+    // client.on('paymentGood',()=>{
+    //     alert('hello mohammed gamal ')
+    // })
+
     client.on('endSession', (data) => {
         localStorage.removeItem('studentID');
         localStorage.removeItem('tutorID');

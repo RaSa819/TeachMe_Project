@@ -57,6 +57,7 @@ import BetSession from './pages/BetSession'
 // import HomePage from "./pages/home/homePage.js";
 
 import Session from './pages/Session'
+import Payment from "./Payment";
 
 export default function App() {
 
@@ -226,6 +227,7 @@ export default function App() {
 
                                 </Route>
 
+                                <Route path="payment" element={<Payment/>}/>
 
                                 <Route path="*"
                                     element={<NotFound/>}/>
