@@ -269,6 +269,10 @@ function App(props) {
     var timer = useRef(1000)
     const[stimer,setTimer]=useState(timer.current)
 
+
+    if(!socket){
+        return <div>loding...</div>
+    }
     return (
         <div style={styleContainer}>
         {/* video div */}
