@@ -4,6 +4,7 @@ import  io  from "socket.io-client";
 
 function Chat (props){
     const [allMessage,setallMessage]=useState([])
+    const [allMessagee,setallMessagee]=useState([])
     const [message,setMessage]=useState("")
     const [type ,setType]=useState()
     // const [socket,setSocket]=useState(false)
@@ -20,6 +21,7 @@ function Chat (props){
     // },[setSocket])
     const {socket} = props
     const{height} = props
+    const {caller} = props
     useEffect(()=>{
 
         if(window.localStorage.getItem("type") == 1){
@@ -37,15 +39,19 @@ function Chat (props){
                 console.log("good day")
             })
         socket.on("NewMeessage",(message)=>{
+            
             setallMessage((perv =>{
                 console.log("perv",perv)
-                return [{...message},...perv]
+                return [...perv,{...message}]
             }))
             console.log("all",allMessage)
             console.log(message)
         })
     }
     },[socket])
+    // useEffect(()=>{
+    //     setallMessagee(allMessage.reverse())
+    // },[allMessage])
     if(!socket){
         return <div>lodin..</div>
     }
@@ -53,20 +59,25 @@ function Chat (props){
 
     const handelSendMessage=()=>{
 
-        socket.emit("NewMeessage",{m:message,to:type?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID"),id:type?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")})
+        let type = localStorage.getItem('type')
+        socket.emit("NewMeessage",
+        {m:message,to:type?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID"),id:type?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID"),
+        target:type==1?window.localStorage.getItem("studentID"):window.localStorage.getItem("tutorID")
+    })
         console.log("m",message,type)
         setallMessage((perv =>{
             console.log("perv",perv)
-            return [{m:message,to:1,id:type?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")},...perv]
+            return [...perv,{m:message,to:1,id:type?window.localStorage.getItem("tutorID"):window.localStorage.getItem("studentID")}]
         }))
         setMessage("")
     }
     const renderChat=()=>{
+        // let myChat=
         return (
             <div>
                 {allMessage.length > 0 && allMessage.map(({m,to},index)=>{
                     return(
-                        <div style={{ padding:"3px",textAlign:`${to==1?"right":"left"}`}} key={index}>
+                        <div style={{width:"90%",height:"auto", padding:"3px",textAlign:`${to==1?"right":"left"}`}} key={index}>
                             <span style={{ padding:"3px",margin:"10px",borderRadius:"10px", background:`${to==1?"#0a9cff":"#c2cad1"}`}}  >{m}</span>
                         </div>
                     )
