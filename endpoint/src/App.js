@@ -53,11 +53,10 @@ import PendingRequest from './pages/User/PendingRequest'
 import { io } from "socket.io-client";
 import IsTutor from "./auth/IsTutor";
 
-import BetSession from './pages/BetSession'
+
 // import HomePage from "./pages/home/homePage.js";
 
-import Session from './pages/Session'
-import Payment from "./Payment";
+
 
 export default function App() {
 
@@ -190,8 +189,7 @@ export default function App() {
                                             <IsAuth><UserSettings/></IsAuth>
                                         }/>
 
-                                    <Route path="session"
-                                        element={<Session />}/>
+        
                                 </Route>
 
                                 <Route path="tutor">
@@ -227,7 +225,7 @@ export default function App() {
 
                                 </Route>
 
-                                <Route path="payment" element={<Payment/>}/>
+                              
 
                                 <Route path="*"
                                     element={<NotFound/>}/>
@@ -242,7 +240,6 @@ export default function App() {
                                 <Route path="/homePage"
                                     element={<homePage/>}/>
 
-                                <Route path="BetSession" element={<BetSession/>}    />
                             </Routes>
                             </SocketProvider>
                     </Router>
