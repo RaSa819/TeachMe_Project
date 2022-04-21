@@ -1,5 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const { default: axios } = require('axios');
 
 const mongoose = require('mongoose');
 const user = require('./models/users.js');
@@ -13,13 +14,13 @@ const session = require('express-session')
 
 
 const request = require('./models/request')
-
+const tutors = require('./models/tutors');
 const student = require('./models/student')
 const ObjectId = mongoose.Types.ObjectId
 const server = require('http').Server(app);
 
 
-mongoose.connect("mongodb+srv://Mohammad:mm112233@cluster0.r3n4y.mongodb.net/test", (err) => {
+mongoose.connect("mongodb://localhost/test", (err) => {
     if (err) 
         throw err;
     
@@ -363,57 +364,65 @@ io.on('connection', socket => {
 
         // console.log("tutorID "+tutorID)
     })
-    socket.on('editRequestStatus', (data) => {
+    socket.on('editRequestStatus', async (data) => {
         let {id, status} = data;
 
 
         id = ObjectId(id)
 
         console.log('hello editRequest event and the id is '+socket.id)
-        request.findOne({_id: id}).then((data) => {
+        const { student, tutor } = await request.findOne({ _id: id });
+        const tutorObject = await tutors.findOne({ _id: tutor });
+        const departmentObject = await dept.findOne({ _id: tutor.dept_id });
 
+        let checkTutor = false; // when the tutor get the openSession the value will change to true
+        let checkStudent = false; // when the student get the openSession the value will change to true
+        let studentID = null;
+        let tutorID = null;
 
-            let {student} = data;
-            student = ObjectId(student);
-            let {tutor} = data;
-            tutor = ObjectId(tutor);
+        for (let i = 0; i < users.length; i += 1) {
+            if (users[i].token == tutor) {
+                tutorID = users[i].id;
+                checkTutor = true;
+            } else if (users[i].token == student) {
+                studentID = users[i].id;
+                checkStudent = true;
+            }
 
-            let checkTutor = false; // when the tutor get the openSession the value will change to true
-            let checkStudent = false; // when the student get the openSession the value will change to true
-            let studentID = null;
-            let tutorID = null;
-           
-            users.map((data) => {
+            if (checkStudent === true && checkTutor === true) {
+                const { data: paddleData } = await axios.post('product/generate_pay_link', new URLSearchParams({
+                    vendor_id: process.env.PADDLE_VENDOR_ID,
+                    vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
+                    product_id: process.env.PADDLE_PRODUCT_ID,
+                    prices: [`USD:${departmentObject.price.toFixed(2)}`],
+                    custom_message: `${request.timeLesson}-hour session with ExampleTutor`,
+                    return_url: 'http://localhost:4000/user/session',
+                    quantity: request.timeLesson,
+                    quantity_variable: 0,
+                }), {
+                    baseURL: process.env.PADDLE_BASE_URL,
+                });
 
-                if (data.token == tutor) {
-
-                    tutorID = data.id;
-                    checkTutor = true;
-                } else if (data.token == student) {
-                    studentID = data.id;
-                    checkStudent = true;
+                if (!paddleData.success) {
+                    throw new Error(paddleData.error.message);
                 }
 
-                if (checkStudent === true && checkTutor === true) {
-                    
-                    io.to(studentID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
+                io.to(studentID).emit('openSession', {
+                    student: student,
+                    tutor: tutor,
+                    sessionID: id,
+                    checkoutURL: paddleData.response.url,
+                });
 
-                    //io.to(studentID).emit('gotoPayment',id)
-                    io.to(tutorID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-                }
-            })
+                io.to(tutorID).emit('openSession', {
+                    student: student,
+                    tutor: tutor,
+                    sessionID: id
+                });
 
-        }).catch((error) => {
-            console.log({error})
-        })
+                break;
+            }
+        }
 
 
         // socket.emit('open')
