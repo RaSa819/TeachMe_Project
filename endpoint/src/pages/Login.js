@@ -10,7 +10,7 @@ import { Block } from "@mui/icons-material";
 import { BsPerson } from "react-icons/bs";
 import Footer from './../components/footer/footer.js'
 
-import { SocketProvider } from "../Socket";
+import { SocketContext, SocketProvider } from "../Socket";
 
 
 // to align items in center 
@@ -31,7 +31,7 @@ export default () => {
 
     const [isReady, setReady] = React.useState(null)
 
-    const socket = useContext(SocketProvider)
+    const socket = useContext(SocketContext)
     React.useEffect(() => {
         let type = parseInt(localStorage.getItem('type'))
         if (type >= 0)
