@@ -213,7 +213,12 @@ io.on('connection', socket => {
             description: data.description
         }
 
-        let newRequest = new request({student: from, tutor: to, requestInfo: info}).save((error, data) => {
+        let newRequest = new request({
+            student: from,
+            tutor: to,
+            requestInfo: info,
+            timeLesson: data.time,
+        }).save((error, data) => {
             const {_id} = data;
             const temp = {
                 socketId: socket.id,
