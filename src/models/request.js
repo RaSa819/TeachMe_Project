@@ -12,7 +12,8 @@ const request =new mongoose.Schema({
     timestap:{type:Date, default:Date.now},
     timeLesson:Number,
     tutor:mongoose.Schema.Types.ObjectId,
-    student:mongoose.Schema.Types.ObjectId
+    student:mongoose.Schema.Types.ObjectId,
+    checkoutID:mongoose.Schema.Types.String,
 })
 
 module.exports = mongoose.model('request',request);

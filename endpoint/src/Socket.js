@@ -29,36 +29,30 @@ const SocketProvider = ({children}) => {
             localStorage.setItem('studentID', data.student);
             localStorage.setItem('tutorID', data.tutor);
             localStorage.setItem('sessionID', data.sessionID);
-            localStorage.setItem('flag', '0');
-
-            window.open(data.checkoutURL);
-            
-            navigate('/user/session');
+            localStorage.setItem('flag', '0');            
+            window.location.href = data.checkoutURL;
         } else {
             setTimeout(() => {
                 localStorage.setItem('studentID', data.student);
                 localStorage.setItem('tutorID', data.tutor);
                 localStorage.setItem('sessionID', data.sessionID);
                 localStorage.setItem('flag', '0');
-                navigate('/user/session');
+                navigate('/user/Payment');
             }, 3000)
         }
     }, [navigate]);
 
+    const handleOpenSession = useCallback(() => navigate('/user/session'), [navigate]);
+
     React.useEffect(() => {
         client.on('gotoPayment', handleGotoPayment);
-        return () => client.off('gotoPayment', handleGotoPayment);
-    }, [handleGotoPayment]);
+        client.on('openSession', handleOpenSession);
 
-    // client.on('gotoPayment',(data)=>{
-    //     localStorage.setItem('sessionID',data)
-    //     navigate('/payment');
-       
-    // })
-
-    // client.on('paymentGood',()=>{
-    //     alert('hello mohammed gamal ')
-    // })
+        return () => {
+            client.off('gotoPayment', handleGotoPayment);
+            client.off('openSession', handleOpenSession);
+        }
+    }, [handleGotoPayment, handleOpenSession]);
 
     client.on('endSession', (data) => {
         localStorage.removeItem('studentID');

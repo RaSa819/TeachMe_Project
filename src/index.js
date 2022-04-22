@@ -337,7 +337,7 @@ io.on('connection', socket => {
                     product_id: process.env.PADDLE_PRODUCT_ID,
                     'prices[0]': `USD:${departmentObject.price.toFixed(2)}`,
                     custom_message: `${timeLesson}-hour session with ExampleTutor`,
-                    return_url: 'http://localhost:4000/user/session',
+                    return_url: `http://localhost:3000/user/Payment?request_id=${id}&checkout_hash={checkout_hash}`,
                     quantity: timeLesson,
                     quantity_variable: 0,
                 }), {
@@ -390,6 +390,23 @@ io.on('connection', socket => {
         //         })
     })
 
+    socket.on('verifyPayment', ({ checkoutHash, requestID }) => {
+        setTimeout(async () => {
+            const { data } = await axios.get('order', {
+                baseURL: process.env.PADDLE_CHECKOUT_BASE_URL,
+                params: new URLSearchParams({ checkout_id: checkoutHash }),
+            });
+            
+            if (data.state === 'processed') {
+                const { student, tutor } = await request.findById(requestID);
+                for (const { id, token } of users) {
+                    if (token == student || token == tutor) {
+                        io.to(id).emit('openSession')
+                    }
+                }
+            }
+        }, 1000)
+    })
 
     socket.on('endCall', (data) => {
         let id = ObjectId(data.sessionID);

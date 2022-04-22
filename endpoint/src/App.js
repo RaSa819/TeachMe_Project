@@ -13,6 +13,7 @@ import {SocketProvider} from "./Socket";
 import Card from "./components/Card";
 
 import Login from "./pages/Login";
+import Payment from './pages/Payment';
 import Users from "./pages/Users";
 import Depts from "./pages/Depts";
 import RequestInfo from "./components/RequestInfo";
@@ -52,6 +53,7 @@ import PendingRequest from './pages/User/PendingRequest'
 
 import { io } from "socket.io-client";
 import IsTutor from "./auth/IsTutor";
+import Session from "./pages/Session";
 
 
 // import HomePage from "./pages/home/homePage.js";
@@ -189,7 +191,15 @@ export default function App() {
                                             <IsAuth><UserSettings/></IsAuth>
                                         }/>
 
-        
+                                    <Route path="Payment"
+                                        element={
+                                            <IsAuth><Payment /></IsAuth>
+                                        }/>
+
+                                    <Route path="session"
+                                        element={
+                                            <IsAuth><Session /></IsAuth>
+                                        }/>
                                 </Route>
 
                                 <Route path="tutor">
