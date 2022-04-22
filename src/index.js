@@ -1,3 +1,4 @@
+require('dotenv/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { default: axios } = require('axios');
@@ -304,66 +305,6 @@ io.on('connection', socket => {
         
     // })
 
-    socket.on('ok',(id)=>{
-        id = ObjectId(id)
-        request.findOne({_id: id}).then((data) => {
-
-
-            //console.log({data})
-
-            let {student} = data;
-            student = ObjectId(student);
-            let {tutor} = data;
-            tutor = ObjectId(tutor);
-
-            let checkTutor = false; // when the tutor get the openSession the value will change to true
-            let checkStudent = false; // when the student get the openSession the value will change to true
-            let studentID = null;
-            let tutorID = null;
-           
-            users.map((item) => {
-               
-                if (item.token == tutor) {
-
-                    tutorID = data.id;
-                    checkTutor = true;
-                } else if (item.token == student) {
-                    studentID = data.id;
-                    checkStudent = true;
-                }
-
-                if (checkStudent === true && checkTutor === true) {
-                    
-                    console.log(tutorID)
-                    console.log('hello request')
-                    io.to(studentID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-
-                    //io.to(studentID).emit('gotoPayment',id)
-                    io.to(tutorID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-                }
-            })
-
-        }).catch((error) => {
-            console.log({error})
-        })
-
-        // users.map((data)=>{
-        //     if(data.token==tutorID)
-        //       {io.to(data.id).emit('paymentGood')
-        //       console.log(data.id)
-        // }
-        // })
-
-        // console.log("tutorID "+tutorID)
-    })
     socket.on('editRequestStatus', async (data) => {
         let {id, status} = data;
 
@@ -371,9 +312,9 @@ io.on('connection', socket => {
         id = ObjectId(id)
 
         console.log('hello editRequest event and the id is '+socket.id)
-        const { student, tutor } = await request.findOne({ _id: id });
-        const tutorObject = await tutors.findOne({ _id: tutor });
-        const departmentObject = await dept.findOne({ _id: tutor.dept_id });
+        const { student, tutor, timeLesson } = await request.findOne({ _id: id });
+        const tutorObject = await tutors.findOne({ user_id: tutor });
+        const departmentObject = await dept.findOne({ _id: tutorObject.dept_id });
 
         let checkTutor = false; // when the tutor get the openSession the value will change to true
         let checkStudent = false; // when the student get the openSession the value will change to true
@@ -394,10 +335,10 @@ io.on('connection', socket => {
                     vendor_id: process.env.PADDLE_VENDOR_ID,
                     vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
                     product_id: process.env.PADDLE_PRODUCT_ID,
-                    prices: [`USD:${departmentObject.price.toFixed(2)}`],
-                    custom_message: `${request.timeLesson}-hour session with ExampleTutor`,
+                    'prices[0]': `USD:${departmentObject.price.toFixed(2)}`,
+                    custom_message: `${timeLesson}-hour session with ExampleTutor`,
                     return_url: 'http://localhost:4000/user/session',
-                    quantity: request.timeLesson,
+                    quantity: timeLesson,
                     quantity_variable: 0,
                 }), {
                     baseURL: process.env.PADDLE_BASE_URL,
@@ -407,14 +348,14 @@ io.on('connection', socket => {
                     throw new Error(paddleData.error.message);
                 }
 
-                io.to(studentID).emit('openSession', {
+                io.to(studentID).emit('gotoPayment', {
                     student: student,
                     tutor: tutor,
                     sessionID: id,
                     checkoutURL: paddleData.response.url,
                 });
 
-                io.to(tutorID).emit('openSession', {
+                io.to(tutorID).emit('gotoPayment', {
                     student: student,
                     tutor: tutor,
                     sessionID: id

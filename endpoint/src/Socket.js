@@ -1,8 +1,6 @@
-import React, {createContext, useMemo} from 'react';
+import React, { createContext, useCallback } from 'react';
 import {io} from 'socket.io-client';
 import {useNavigate} from 'react-router-dom'
-import {useState} from 'react';
-let token = localStorage.getItem('token');
 
 const client = io.connect('http://localhost:4000')
 
@@ -17,26 +15,26 @@ const SocketProvider = ({children}) => {
 
     React.useEffect(() => {
         let type = parseInt(localStorage.getItem('type'))
-        if (type >= 0)
-            {
+        if (type >= 0) {
             let token = localStorage.getItem('token')
             client.emit('sendID',token)
-    }
-
-          
+        }
     }, [])
+
     let navigate = useNavigate();
 
-    client.on('openSession', (data) => {
+    const handleGotoPayment = useCallback((data) => {
         let type = localStorage.getItem('type')
         if (type == 0) {
             localStorage.setItem('studentID', data.student);
             localStorage.setItem('tutorID', data.tutor);
             localStorage.setItem('sessionID', data.sessionID);
             localStorage.setItem('flag', '0');
+
+            window.open(data.checkoutURL);
+            
             navigate('/user/session');
         } else {
-            
             setTimeout(() => {
                 localStorage.setItem('studentID', data.student);
                 localStorage.setItem('tutorID', data.tutor);
@@ -45,8 +43,12 @@ const SocketProvider = ({children}) => {
                 navigate('/user/session');
             }, 3000)
         }
+    }, [navigate]);
 
-    })
+    React.useEffect(() => {
+        client.on('gotoPayment', handleGotoPayment);
+        return () => client.off('gotoPayment', handleGotoPayment);
+    }, [handleGotoPayment]);
 
     // client.on('gotoPayment',(data)=>{
     //     localStorage.setItem('sessionID',data)
