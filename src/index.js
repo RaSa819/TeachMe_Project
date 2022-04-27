@@ -312,58 +312,8 @@ io.on('connection', socket => {
         id = ObjectId(id)
 
         console.log('hello editRequest event and the id is '+socket.id)
-        const { student, tutor, timeLesson } = await request.findOne({ _id: id });
-        const tutorObject = await tutors.findOne({ user_id: tutor });
-        const departmentObject = await dept.findOne({ _id: tutorObject.dept_id });
-
-        let checkTutor = false; // when the tutor get the openSession the value will change to true
-        let checkStudent = false; // when the student get the openSession the value will change to true
-        let studentID = null;
-        let tutorID = null;
-
-        for (let i = 0; i < users.length; i += 1) {
-            if (users[i].token == tutor) {
-                tutorID = users[i].id;
-                checkTutor = true;
-            } else if (users[i].token == student) {
-                studentID = users[i].id;
-                checkStudent = true;
-            }
-
-            if (checkStudent === true && checkTutor === true) {
-                const { data: paddleData } = await axios.post('product/generate_pay_link', new URLSearchParams({
-                    vendor_id: process.env.PADDLE_VENDOR_ID,
-                    vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
-                    product_id: process.env.PADDLE_PRODUCT_ID,
-                    'prices[0]': `USD:${departmentObject.price.toFixed(2)}`,
-                    custom_message: `${timeLesson}-hour session with ExampleTutor`,
-                    return_url: `http://localhost:3000/user/Payment?request_id=${id}&checkout_hash={checkout_hash}`,
-                    quantity: timeLesson,
-                    quantity_variable: 0,
-                }), {
-                    baseURL: process.env.PADDLE_BASE_URL,
-                });
-
-                if (!paddleData.success) {
-                    throw new Error(paddleData.error.message);
-                }
-
-                io.to(studentID).emit('gotoPayment', {
-                    student: student,
-                    tutor: tutor,
-                    sessionID: id,
-                    checkoutURL: paddleData.response.url,
-                });
-
-                io.to(tutorID).emit('gotoPayment', {
-                    student: student,
-                    tutor: tutor,
-                    sessionID: id
-                });
-
-                break;
-            }
-        }
+        await request.findByIdAndUpdate(id, { status });
+        
 
 
         // socket.emit('open')
@@ -390,22 +340,28 @@ io.on('connection', socket => {
         //         })
     })
 
-    socket.on('verifyPayment', ({ checkoutHash, requestID }) => {
-        setTimeout(async () => {
-            const { data } = await axios.get('order', {
+    socket.on('verifyPayment', async ({ checkoutHash, requestID }) => {
+        let { data } = await axios.get('order', {
+            baseURL: process.env.PADDLE_CHECKOUT_BASE_URL,
+            params: new URLSearchParams({ checkout_id: checkoutHash }),
+        });
+
+        while (data.state === 'processing') {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            ({ data } = await axios.get('order', {
                 baseURL: process.env.PADDLE_CHECKOUT_BASE_URL,
                 params: new URLSearchParams({ checkout_id: checkoutHash }),
-            });
-            
-            if (data.state === 'processed') {
-                const { student, tutor } = await request.findById(requestID);
-                for (const { id, token } of users) {
-                    if (token == student || token == tutor) {
-                        io.to(id).emit('openSession')
-                    }
+            }));
+        }
+        
+        if (data.state === 'processed') {
+            const { student, tutor } = await request.findById(requestID);
+            for (const { id, token } of users) {
+                if (token == student || token == tutor) {
+                    io.to(id).emit('openSession')
                 }
             }
-        }, 1000)
+        }
     })
 
     socket.on('endCall', (data) => {
@@ -454,6 +410,67 @@ io.on('connection', socket => {
 
     })
 
+});
+
+request.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationType, fullDocument, documentKey }) => {
+    if (operationType === 'update') {
+        if (fullDocument.status === 1) { // accepted
+            const id = documentKey._id.toString();
+            const { student, tutor, timeLesson } = fullDocument;
+            const tutorObject = await tutors.findOne({ user_id: tutor });
+            const departmentObject = await dept.findById(tutorObject.dept_id);
+            const tutorUser = await user.findById(tutorObject.user_id);
+
+            let checkTutor = false; // when the tutor get the openSession the value will change to true
+            let checkStudent = false; // when the student get the openSession the value will change to true
+            let studentID = null;
+            let tutorID = null;
+
+            for (let i = 0; i < users.length; i += 1) {
+                if (users[i].token == tutor) {
+                    tutorID = users[i].id;
+                    checkTutor = true;
+                } else if (users[i].token == student) {
+                    studentID = users[i].id;
+                    checkStudent = true;
+                }
+
+                if (checkStudent === true && checkTutor === true) {
+                    const { data: paddleData } = await axios.post('product/generate_pay_link', new URLSearchParams({
+                        vendor_id: process.env.PADDLE_VENDOR_ID,
+                        vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
+                        product_id: process.env.PADDLE_PRODUCT_ID,
+                        'prices[0]': `USD:${departmentObject.price.toFixed(2)}`,
+                        custom_message: `${timeLesson}-hour session with ${tutorUser.name.firstName} ${tutorUser.name.lastName}`,
+                        return_url: `http://localhost:3000/user/Payment?request_id=${id}&checkout_hash={checkout_hash}`,
+                        quantity: timeLesson,
+                        quantity_variable: 0,
+                    }), {
+                        baseURL: process.env.PADDLE_BASE_URL,
+                    });
+
+                    if (!paddleData.success) {
+                        throw new Error(paddleData.error.message);
+                    }
+
+                    io.to(studentID).emit('gotoPayment', {
+                        student: student,
+                        tutor: tutor,
+                        sessionID: id,
+                        checkoutURL: paddleData.response.url,
+                    });
+
+                    io.to(tutorID).emit('gotoPayment', {
+                        student: student,
+                        tutor: tutor,
+                        sessionID: id
+                    });
+
+                    break;
+                }
+            }
+        }
+    }
 });
 
 
