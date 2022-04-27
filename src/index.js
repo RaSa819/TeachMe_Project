@@ -435,7 +435,7 @@ request.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationT
                     checkStudent = true;
                 }
 
-                if (checkStudent === true && checkTutor === true) {
+                if (checkStudent || checkTutor) {
                     const { data: paddleData } = await axios.post('product/generate_pay_link', new URLSearchParams({
                         vendor_id: process.env.PADDLE_VENDOR_ID,
                         vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
