@@ -17,6 +17,7 @@ const session = require('express-session')
 const request = require('./models/request')
 const tutors = require('./models/tutors');
 const student = require('./models/student')
+const sessionModel = require('./models/session');
 const ObjectId = mongoose.Types.ObjectId
 const server = require('http').Server(app);
 
@@ -356,13 +357,50 @@ io.on('connection', socket => {
         
         if (data.state === 'processed') {
             const { student, tutor } = await request.findById(requestID);
+
+            const newSession = await sessionModel.create({
+                request: requestID,
+                studentICECandidates: [],
+                tutorICECandidates: [],
+            });
+
             for (const { id, token } of users) {
                 if (token == student || token == tutor) {
-                    io.to(id).emit('openSession')
+                    io.to(id).emit('openSession', {
+                        sessionID: newSession.id,
+                    });
                 }
             }
         }
     })
+
+    socket.on('new-ice-candidate', async ({ sessionID, type, candidate }) => {
+        if (type === 0) { // student
+            await sessionModel.updateOne({ _id: sessionID }, {
+                $push: {
+                    studentICECandidates: candidate,
+                },
+            });
+        } else { // tutor
+            await sessionModel.updateOne({ _id: sessionID }, {
+                $push: {
+                    tutorICECandidates: candidate,
+                },
+            });
+        }
+    });
+
+    socket.on('tutor-call-offer', async ({ sessionID, callOffer }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: { webRTCOffer: callOffer },
+        });
+    });
+
+    socket.on('student-call-answer', async ({ sessionID, callAnswer }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: { webRTCAnswer: callAnswer },
+        });
+    });
 
     socket.on('endCall', (data) => {
         let id = ObjectId(data.sessionID);
@@ -473,24 +511,30 @@ request.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationT
     }
 });
 
+sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationType, updateDescription, fullDocument }) => {
+    if (operationType !== 'update') return;
 
-function addSession(idRequest) {
-    const dataOfPayment = {
-        datePay: Date.now,
-        idTransaction: '123-3242-431-23-2333'
+    const { tutor, student } = await request.findById(fullDocument.request);
+    const tutorUser = users.find(({ token }) => token == tutor);
+    const studentUser = users.find(({ token }) => token == student);
+
+    if (updateDescription.updatedFields.studentICECandidates) {
+        io.to(tutorUser.id).emit('ice-candidates-update', updateDescription.updatedFields.studentICECandidates)
     }
 
-    const info = {
-        title: 'this is title of session'
-
+    if (updateDescription.updatedFields.tutorICECandidates) {
+        io.to(studentUser.id).emit('ice-candidates-update', updateDescription.updatedFields.tutorICECandidates);
     }
-    const newSession = new session({request: objectID(idRequest), TransactionPayInfo: dataOfPayment, sessionInfo: info});
 
-    newSession.save().then((data) => {
-        res.json(data)
-    }).catch((error) => {})
+    if (updateDescription.updatedFields.webRTCOffer) {
+        io.to(studentUser.id).emit('webrtc-offer', updateDescription.updatedFields.webRTCOffer);
+    }
 
-}
+    if (updateDescription.updatedFields.webRTCAnswer) {
+        io.to(tutorUser.id).emit('webrtc-answer', updateDescription.updatedFields.webRTCAnswer);
+    }
+});
+
 
 // -----------Router--------------
 

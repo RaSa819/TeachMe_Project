@@ -42,7 +42,7 @@ const SocketProvider = ({children}) => {
         }
     }, [navigate]);
 
-    const handleOpenSession = useCallback(() => navigate('/user/session'), [navigate]);
+    const handleOpenSession = useCallback(({ sessionID }) => navigate(`/user/session/${sessionID}`), [navigate]);
 
     React.useEffect(() => {
         client.on('gotoPayment', handleGotoPayment);

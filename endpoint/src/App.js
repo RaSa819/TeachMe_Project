@@ -196,7 +196,7 @@ export default function App() {
                                             <IsAuth><Payment /></IsAuth>
                                         }/>
 
-                                    <Route path="session"
+                                    <Route path="session/:sessionID"
                                         element={
                                             <IsAuth><Session /></IsAuth>
                                         }/>
