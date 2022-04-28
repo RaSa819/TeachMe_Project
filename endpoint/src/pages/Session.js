@@ -21,7 +21,10 @@ const Session = () => {
     const videoRef = useRef();
     useEffect(() => {
         (async () => {
-            localStream.current = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+            localStream.current = await navigator.mediaDevices.getUserMedia({
+              audio: true,
+              video: { width: window.innerWidth, height: window.innerHeight },
+            });
             localStream.current.getTracks().forEach((track) => {
                 peerConnection.current.addTrack(track, localStream.current);
             });
@@ -35,12 +38,6 @@ const Session = () => {
             videoRef.current.srcObject = remoteStream.current;
 
             const type = Number(localStorage.getItem('type'));
-            
-            peerConnection.current.onicecandidate = ({ candidate }) => {
-                if (candidate) {
-                    socket.emit('new-ice-candidate', { sessionID, type, candidate });
-                }
-            };
 
             if (type === 1) {
                 const offerDescription = await peerConnection.current.createOffer();
@@ -63,6 +60,7 @@ const Session = () => {
                     await peerConnection.current.setRemoteDescription(offerDescription);
 
                     const answerDescription = await peerConnection.current.createAnswer();
+                    await peerConnection.current.setLocalDescription(answerDescription);
                     const callAnswer = {
                         sdp: answerDescription.sdp,
                         type: answerDescription.type,
@@ -70,10 +68,27 @@ const Session = () => {
                     socket.emit('student-call-answer', { sessionID, callAnswer })
                 });
             }
+
+            const iceCandidates = [];
+            peerConnection.current.onicecandidate = ({ candidate }) => {
+                if (candidate) iceCandidates.push(candidate.toJSON());
+            };
+
+            peerConnection.current.onicegatheringstatechange = () => {
+                if (peerConnection.current.iceGatheringState === 'complete') {
+                    socket.emit('ice-candidates-update', { candidates: iceCandidates, sessionID });
+                }
+            };
+
+            socket.on('ice-candidates-update', (candidates) => {
+                candidates.forEach((candidate) => {
+                    peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
+                });
+            });
         })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <video ref={videoRef} style={{ width: '100vw', height: '100vh' }} />;
+    return <video ref={videoRef} style={{ width: window.innerWidth, height: window.innerHeight }} />;
 }
 export default Session;

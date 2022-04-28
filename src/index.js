@@ -374,17 +374,17 @@ io.on('connection', socket => {
         }
     })
 
-    socket.on('new-ice-candidate', async ({ sessionID, type, candidate }) => {
+    socket.on('ice-candidates-update', async ({ sessionID, type, candidates }) => {
         if (type === 0) { // student
             await sessionModel.updateOne({ _id: sessionID }, {
-                $push: {
-                    studentICECandidates: candidate,
+                $set: {
+                    studentICECandidates: candidates,
                 },
             });
         } else { // tutor
             await sessionModel.updateOne({ _id: sessionID }, {
-                $push: {
-                    tutorICECandidates: candidate,
+                $set: {
+                    tutorICECandidates: candidates,
                 },
             });
         }
@@ -518,19 +518,19 @@ sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ opera
     const tutorUser = users.find(({ token }) => token == tutor);
     const studentUser = users.find(({ token }) => token == student);
 
-    if (updateDescription.updatedFields.studentICECandidates) {
+    if (updateDescription.updatedFields.studentICECandidates && tutorUser) {
         io.to(tutorUser.id).emit('ice-candidates-update', updateDescription.updatedFields.studentICECandidates)
     }
 
-    if (updateDescription.updatedFields.tutorICECandidates) {
+    if (updateDescription.updatedFields.tutorICECandidates && studentUser) {
         io.to(studentUser.id).emit('ice-candidates-update', updateDescription.updatedFields.tutorICECandidates);
     }
 
-    if (updateDescription.updatedFields.webRTCOffer) {
+    if (updateDescription.updatedFields.webRTCOffer && studentUser) {
         io.to(studentUser.id).emit('webrtc-offer', updateDescription.updatedFields.webRTCOffer);
     }
 
-    if (updateDescription.updatedFields.webRTCAnswer) {
+    if (updateDescription.updatedFields.webRTCAnswer && tutorUser) {
         io.to(tutorUser.id).emit('webrtc-answer', updateDescription.updatedFields.webRTCAnswer);
     }
 });
