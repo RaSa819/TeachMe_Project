@@ -18,7 +18,11 @@ export default function useRTCSession() {
   const peerConnection = useRef(new RTCPeerConnection(servers));
   const localStream = useRef();
   const remoteStream = useRef(new MediaStream());
+  const localTracks = useRef([]);
+  const screenTrack = useRef();
+
   const videoRef = useRef();
+
   useEffect(() => {
     (async () => {
         localStream.current = await navigator.mediaDevices.getUserMedia({
@@ -26,7 +30,7 @@ export default function useRTCSession() {
           video: { width: window.innerWidth, height: window.innerHeight },
         });
         localStream.current.getTracks().forEach((track) => {
-            peerConnection.current.addTrack(track, localStream.current);
+            localTracks.current.push(peerConnection.current.addTrack(track, localStream.current));
         });
         
         peerConnection.current.ontrack = (event) => {
@@ -98,6 +102,23 @@ export default function useRTCSession() {
     localStream.current.getAudioTracks()[0].enabled = isEnabled;
   }, []);
 
+  const startScreenSharing = useCallback(async () => {
+    const displayStream = await navigator.mediaDevices.getDisplayMedia({ cursor: true });
+    screenTrack.current = displayStream.getTracks()[0];
+    localTracks.current.find(sender => sender.track.kind === 'video').replaceTrack(screenTrack.current);
+    screenTrack.current.onended = () => {
+      localTracks.current.find(sender => sender.track.kind === "video").replaceTrack(localStream.current.getVideoTracks()[0]);
+    };
+  }, []);
+
+  const stopScreenSharing = useCallback(async () => {
+    if (screenTrack.current) {
+      screenTrack.current.stop();
+      localTracks.current.find(sender => sender.track.kind === "video").replaceTrack(localStream.current.getVideoTracks()[0]);
+      screenTrack.current = null;
+    }
+  }, []);
+
   return {
     peerConnection: peerConnection.current,
     localStream: localStream.current,
@@ -105,5 +126,7 @@ export default function useRTCSession() {
     videoRef,
     toggleCamera,
     toggleMic,
+    startScreenSharing,
+    stopScreenSharing,
   };
 }
