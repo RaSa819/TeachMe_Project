@@ -55,6 +55,8 @@ import { io } from "socket.io-client";
 import IsTutor from "./auth/IsTutor";
 import Session from "./pages/Session";
 
+import Session from "./pages/Session/Session"
+
 
 // import HomePage from "./pages/home/homePage.js";
 
@@ -151,6 +153,8 @@ export default function App() {
                                     element={<Login/>}/>
                                 <Route path="/Signup"
                                     element={<SingupWithValidation/>}/>
+                                <Route path="/Session"
+                                        element={<Session/>}/>
 
 
                                 <Route path="Admin"
@@ -166,6 +170,8 @@ export default function App() {
                                     <Route path="Support"
                                         element={<AdminSupport/>}/>
                                 </Route>
+                                    
+                                
 
 
                                 <Route path="user"
