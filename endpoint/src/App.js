@@ -50,11 +50,7 @@ import IsAuth from "./auth/IsAuth";
 import Redirect from "./auth/Redirect";
 import NotFound from "./auth/NotFound";
 import PendingRequest from './pages/User/PendingRequest'
-
-import { io } from "socket.io-client";
 import IsTutor from "./auth/IsTutor";
-import Session from "./pages/Session";
-
 import Session from "./pages/Session/Session"
 
 

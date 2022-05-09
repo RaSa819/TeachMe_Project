@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SocketContext } from "../Socket";
 
@@ -21,13 +21,18 @@ export default function useRTCSession() {
   const localTracks = useRef([]);
   const screenTrack = useRef();
 
-  const videoRef = useRef();
+  const remoteVideoRef = useRef();
+  const localVideoRef = useRef();
+
+  const type = Number(localStorage.getItem('type'));
+
+  const [isRemoteSharingScreen, setIsRemoteSharingScreen] = useState(false)
 
   useEffect(() => {
     (async () => {
         localStream.current = await navigator.mediaDevices.getUserMedia({
           audio: true,
-          video: { width: window.innerWidth, height: window.innerHeight },
+          video: true,
         });
         localStream.current.getTracks().forEach((track) => {
             localTracks.current.push(peerConnection.current.addTrack(track, localStream.current));
@@ -39,9 +44,8 @@ export default function useRTCSession() {
             });
         };
 
-        videoRef.current.srcObject = remoteStream.current;
-
-        const type = Number(localStorage.getItem('type'));
+        remoteVideoRef.current.srcObject = remoteStream.current;
+        localVideoRef.current.srcObject = localStream.current;
 
         if (type === 1) {
             const offerDescription = await peerConnection.current.createOffer();
@@ -80,7 +84,7 @@ export default function useRTCSession() {
 
         peerConnection.current.onicegatheringstatechange = () => {
             if (peerConnection.current.iceGatheringState === 'complete') {
-                socket.emit('ice-candidates-update', { candidates: iceCandidates, sessionID });
+                socket.emit('ice-candidates-update', { candidates: iceCandidates, sessionID, type });
             }
         };
 
@@ -90,6 +94,9 @@ export default function useRTCSession() {
                 peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
             });
         });
+
+        socket.on('screen-sharing-start', () => setIsRemoteSharingScreen(true));
+        socket.on('screen-sharing-end', () => setIsRemoteSharingScreen(false));
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -109,7 +116,9 @@ export default function useRTCSession() {
     screenTrack.current.onended = () => {
       localTracks.current.find(sender => sender.track.kind === "video").replaceTrack(localStream.current.getVideoTracks()[0]);
     };
-  }, []);
+    
+    socket.emit('screen-sharing-start', { sessionID, type });
+  }, [sessionID, socket, type]);
 
   const stopScreenSharing = useCallback(async () => {
     if (screenTrack.current) {
@@ -117,13 +126,17 @@ export default function useRTCSession() {
       localTracks.current.find(sender => sender.track.kind === "video").replaceTrack(localStream.current.getVideoTracks()[0]);
       screenTrack.current = null;
     }
-  }, []);
+
+    socket.emit('screen-sharing-end', { sessionID, type });
+  }, [sessionID, socket, type]);
 
   return {
     peerConnection: peerConnection.current,
     localStream: localStream.current,
     remoteStream: remoteStream.current,
-    videoRef,
+    remoteVideoRef,
+    localVideoRef,
+    isRemoteSharingScreen,
     toggleCamera,
     toggleMic,
     startScreenSharing,

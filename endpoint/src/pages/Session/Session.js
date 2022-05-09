@@ -1,28 +1,52 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import img2 from '../../assets/images/Vector.svg';
+import useRTCSession from '../../hooks/useRTCSession';
 import './Session.css'
 
 export default function Session() {
+  const {
+    localVideoRef,
+    remoteVideoRef,
+    isRemoteSharingScreen,
+    toggleCamera,
+    toggleMic,
+    startScreenSharing,
+    stopScreenSharing,
+  } = useRTCSession();
+
+  const [isCameraEnabled, setIsCameraEnabled] = useState(true);
+  const [isMicEnabled, setIsMicEnabled] = useState(true);
+  const handleCameraToggle = useCallback(() => {
+    setIsCameraEnabled((isEnabled) => {
+      toggleCamera(!isEnabled);
+      return !isEnabled;
+    })
+  }, [toggleCamera]);
+  const handleMicToggle = useCallback(() => {
+    setIsMicEnabled((isEnabled) => {
+      toggleMic(!isEnabled);
+      return !isEnabled;
+    });
+  }, [toggleMic]);
+
   const [chatBtn, setChatBtn] = useState(false);
   const [screenBtn, setScreenBtn] = useState(false);
-  const [cameraBtn, setCameraBtn] = useState(false);
-  const [micBtn, setMicBtn] = useState(false);
+  const [isSharingScreen, setIsSharingScreen] = useState(false);
   const [quizBtn, setQuizBtn] = useState(false);
-  const [shareScreen, setShareScreen] = useState(false);
 
 
   let micRender;
-  if (micBtn) {
-    micRender = <button className='mic-btn active-btn' onClick={() => setMicBtn(false)} />
+  if (isMicEnabled) {
+    micRender = <button className='mic-btn active-btn' onClick={handleMicToggle} />
   } else {
-    micRender = <button className='mic-off-btn' onClick={() => setMicBtn(true)} />
+    micRender = <button className='mic-off-btn' onClick={handleMicToggle} />
   }
 
   let camRender;
-  if (cameraBtn) {
-    camRender = <button className='camera-active-btn active-btn' onClick={() => setCameraBtn(false)} />
+  if (isCameraEnabled) {
+    camRender = <button className='camera-active-btn active-btn' onClick={handleCameraToggle} />
   } else {
-    camRender = <button className='camera-btn' onClick={() => setCameraBtn(true)} />
+    camRender = <button className='camera-btn' onClick={handleCameraToggle} />
   }
 
   let chatRender;
@@ -41,7 +65,7 @@ export default function Session() {
 
   let shareRender;
   if (screenBtn) {
-    shareRender = <button className='upload-active-btn active-btn' onClick={() => {setScreenBtn(false); setShareScreen(false)}} />
+    shareRender = <button className='upload-active-btn active-btn' onClick={() => { stopScreenSharing(); setIsSharingScreen(false); setScreenBtn(false); }} />
   } else {
     shareRender = <button className='upload-btn' onClick={() => setScreenBtn(true)} />
   }
@@ -54,14 +78,14 @@ export default function Session() {
             <img src={img2} alt=""></img>
           </div>
 
-          {cameraBtn ? <div className='camera-section'>
+          <div className='camera-section'>
             <div>
-              <p>Camera for first party</p>
+              <video ref={remoteVideoRef} autoPlay />
             </div>
-            <div>
-              <p>Camera for second party</p>
+            <div style={{ display: isRemoteSharingScreen ? 'none' : 'block' }}>
+              <video ref={localVideoRef} autoPlay muted />
             </div>
-          </div> : ''}
+          </div>
         </div>
 
         {chatBtn ?
@@ -104,15 +128,15 @@ export default function Session() {
 
 
 
-        {shareScreen ? <div className='screen-share-dialog'>
+        {/* {isRemoteSharingScreen ? <div className='screen-share-dialog'>
           <p>Shared content fill the entire screen</p>
-        </div> : ''}
+        </div> : ''} */}
 
 
 
-        {screenBtn?<div className='screen-share'>
+        {(screenBtn && !isSharingScreen) ? <div className='screen-share'>
           <p className='mb-5'>You’re about to share your screen with the other party , Do you want to continue ?</p>
-          <button onClick={() => setShareScreen(true)}>Start sharing</button>
+          <button onClick={() => { startScreenSharing(); setIsSharingScreen(true); }}>Start sharing</button>
         </div>
         :''}
 

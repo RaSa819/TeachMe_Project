@@ -402,6 +402,18 @@ io.on('connection', socket => {
         });
     });
 
+    socket.on('screen-sharing-start', async ({ sessionID, type }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: type === 0 ? { isStudentSharingScreen: true } : { isTutorSharingScreen: true },
+        });
+    });
+
+    socket.on('screen-sharing-end', async ({ sessionID, type }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: type === 0 ? { isStudentSharingScreen: false } : { isTutorSharingScreen: false },
+        });
+    });
+
     socket.on('endCall', (data) => {
         let id = ObjectId(data.sessionID);
 
@@ -532,6 +544,22 @@ sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ opera
 
     if (updateDescription.updatedFields.webRTCAnswer && tutorUser) {
         io.to(tutorUser.id).emit('webrtc-answer', updateDescription.updatedFields.webRTCAnswer);
+    }
+
+    if (updateDescription.updatedFields.isStudentSharingScreen === true && tutorUser) {
+        io.to(tutorUser.id).emit('screen-sharing-start');
+    }
+
+    if (updateDescription.updatedFields.isStudentSharingScreen === false && tutorUser) {
+        io.to(tutorUser.id).emit('screen-sharing-end');
+    }
+
+    if (updateDescription.updatedFields.isTutorSharingScreen === true && studentUser) {
+        io.to(studentUser.id).emit('screen-sharing-start');
+    }
+
+    if (updateDescription.updatedFields.isTutorSharingScreen === false && studentUser) {
+        io.to(studentUser.id).emit('screen-sharing-end');
     }
 });
 

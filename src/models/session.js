@@ -10,6 +10,14 @@ const session = mongoose.Schema({
   webRTCAnswer: mongoose.Schema.Types.Mixed,
   studentICECandidates: [mongoose.Schema.Types.Mixed],
   tutorICECandidates: [mongoose.Schema.Types.Mixed],
+  isStudentSharingScreen: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false,
+  },
+  isTutorSharingScreen: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false,
+  },
 
   // The information of payment operation 
   TransactionPayInfo:mongoose.Schema.Types.Mixed,
