@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600");
+
+
+.main {
+    background-color: #F4F4F8;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+
+.main * {
+    font-family: "Open Sans", Helvetica;
+}
+
+.header {
+    color: #D90429;
+    margin-left: 50px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.btn {
+    display: block;
+    text-align: left !important;
+    padding-left: 30px !important;
+    width:100%;
+    color: grey !important;
+    justify-content: left !important;
+    text-transform: none !important;
+    
+   
+}
+
+.btn.active{
+    color: black !important;
+}
+
+.btn.top {
+    max-width: 122px;
+    color: #D90429 !important;
+    font-size: 12px;
+    font-weight: bold;
+    border: none !important;
+    text-transform: none !important;
+}
+.btn.arrow{
+    color: #D90429 !important;
+    padding-left: 10px !important;
+    font-weight: bold;
+    border: none !important;
+    text-transform: none !important;
+}
+.btn > * {
+  
+    display: inline-block;
+    text-transform: none !important;
+}
+
+.container {
+    display: inline-block;
+    height: 75%;
+    vertical-align: top;
+    margin-top: 30px;
+    margin-left: 30px;
+    border-radius: 15px !important;
+
+}
+.sidebarBtn{
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    text-transform: none !important;
+}
+.sidebar{
+    width: 20%;
+    padding-top : 60px;
+}
+
+.content{
+    width: 70%;
+    
+}
