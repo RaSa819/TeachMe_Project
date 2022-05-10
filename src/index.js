@@ -471,53 +471,39 @@ request.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationT
             const departmentObject = await dept.findById(tutorObject.dept_id);
             const tutorUser = await user.findById(tutorObject.user_id);
 
-            let checkTutor = false; // when the tutor get the openSession the value will change to true
-            let checkStudent = false; // when the student get the openSession the value will change to true
-            let studentID = null;
-            let tutorID = null;
+            const tutorSocket = users.find(({ token }) => token == tutor);
+            const studentSocket = users.find(({ token }) => token == student);
 
-            for (let i = 0; i < users.length; i += 1) {
-                if (users[i].token == tutor) {
-                    tutorID = users[i].id;
-                    checkTutor = true;
-                } else if (users[i].token == student) {
-                    studentID = users[i].id;
-                    checkStudent = true;
+            if (tutorSocket || studentSocket) {
+                const { data: paddleData } = await axios.post('product/generate_pay_link', new URLSearchParams({
+                    vendor_id: process.env.PADDLE_VENDOR_ID,
+                    vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
+                    product_id: process.env.PADDLE_PRODUCT_ID,
+                    'prices[0]': `USD:${departmentObject.price.toFixed(2)}`,
+                    custom_message: `${timeLesson}-hour session with ${tutorUser.name.firstName} ${tutorUser.name.lastName}`,
+                    return_url: `http://localhost:3000/user/Payment?request_id=${id}&checkout_hash={checkout_hash}`,
+                    quantity: timeLesson,
+                    quantity_variable: 0,
+                }), {
+                    baseURL: process.env.PADDLE_BASE_URL,
+                });
+
+                if (!paddleData.success) {
+                    throw new Error(paddleData.error.message);
                 }
 
-                if (checkStudent || checkTutor) {
-                    const { data: paddleData } = await axios.post('product/generate_pay_link', new URLSearchParams({
-                        vendor_id: process.env.PADDLE_VENDOR_ID,
-                        vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
-                        product_id: process.env.PADDLE_PRODUCT_ID,
-                        'prices[0]': `USD:${departmentObject.price.toFixed(2)}`,
-                        custom_message: `${timeLesson}-hour session with ${tutorUser.name.firstName} ${tutorUser.name.lastName}`,
-                        return_url: `http://localhost:3000/user/Payment?request_id=${id}&checkout_hash={checkout_hash}`,
-                        quantity: timeLesson,
-                        quantity_variable: 0,
-                    }), {
-                        baseURL: process.env.PADDLE_BASE_URL,
-                    });
+                io.to(studentSocket.id).emit('gotoPayment', {
+                    student: student,
+                    tutor: tutor,
+                    sessionID: id,
+                    checkoutURL: paddleData.response.url,
+                });
 
-                    if (!paddleData.success) {
-                        throw new Error(paddleData.error.message);
-                    }
-
-                    io.to(studentID).emit('gotoPayment', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id,
-                        checkoutURL: paddleData.response.url,
-                    });
-
-                    io.to(tutorID).emit('gotoPayment', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-
-                    break;
-                }
+                io.to(tutorSocket.id).emit('gotoPayment', {
+                    student: student,
+                    tutor: tutor,
+                    sessionID: id
+                });
             }
         }
     }
