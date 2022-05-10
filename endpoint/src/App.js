@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import {SocketProvider} from "./Socket";
 
 import Card from "./components/Card";
-
+import StudentDashboard from "./pages/StudentDashboard";
 import Login from "./pages/Login";
 import Payment from './pages/Payment';
 import Users from "./pages/Users";
@@ -149,6 +149,12 @@ export default function App() {
 
                                 <Route path="/Login"
                                     element={<Login/>}/>
+
+
+                                        <Route path="/StudentDashboard"
+                                    element={ <StudentDashboard/>}/>
+
+
                                 <Route path="/Signup"
                                     element={<SingupWithValidation/>}/>
                                 <Route path="/Session"
