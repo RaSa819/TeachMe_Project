@@ -13,6 +13,7 @@ import {SocketProvider} from "./Socket";
 import Card from "./components/Card";
 
 import Login from "./pages/Login";
+import Payment from './pages/Payment';
 import Users from "./pages/Users";
 import Depts from "./pages/Depts";
 import RequestInfo from "./components/RequestInfo";
@@ -49,9 +50,8 @@ import IsAuth from "./auth/IsAuth";
 import Redirect from "./auth/Redirect";
 import NotFound from "./auth/NotFound";
 import PendingRequest from './pages/User/PendingRequest'
-
-import { io } from "socket.io-client";
 import IsTutor from "./auth/IsTutor";
+import Session from "./pages/Session/Session"
 
 
 // import HomePage from "./pages/home/homePage.js";
@@ -139,8 +139,8 @@ export default function App() {
                 <div className="container-fluid"
                     style={
                         {height: '100%',
-                    margin:'0%' , 
-                padding:'0%'}
+                        margin:'0%' , 
+                        padding:'0%'}
                 }>
                     <Router>
                        <SocketProvider>
@@ -151,6 +151,8 @@ export default function App() {
                                     element={<Login/>}/>
                                 <Route path="/Signup"
                                     element={<SingupWithValidation/>}/>
+                                <Route path="/Session"
+                                        element={<Session/>}/>
 
 
                                 <Route path="Admin"
@@ -166,6 +168,8 @@ export default function App() {
                                     <Route path="Support"
                                         element={<AdminSupport/>}/>
                                 </Route>
+                                    
+                                
 
 
                                 <Route path="user"
@@ -191,7 +195,15 @@ export default function App() {
                                             <IsAuth><UserSettings/></IsAuth>
                                         }/>
 
-        
+                                    <Route path="Payment"
+                                        element={
+                                            <IsAuth><Payment /></IsAuth>
+                                        }/>
+
+                                    <Route path="session/:sessionID"
+                                        element={
+                                            <IsAuth><Session /></IsAuth>
+                                        }/>
                                 </Route>
 
                                 <Route path="tutor">

@@ -1,5 +1,7 @@
+require('dotenv/config');
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const { default: axios } = require('axios');
 
 const mongoose = require('mongoose');
 const user = require('./models/users.js');
@@ -13,8 +15,9 @@ const session = require('express-session')
 
 
 const request = require('./models/request')
-
+const tutors = require('./models/tutors');
 const student = require('./models/student')
+const sessionModel = require('./models/session');
 const ObjectId = mongoose.Types.ObjectId
 const server = require('http').Server(app);
 
@@ -213,7 +216,12 @@ io.on('connection', socket => {
             description: data.description
         }
 
-        let newRequest = new request({student: from, tutor: to, requestInfo: info}).save((error, data) => {
+        let newRequest = new request({
+            student: from,
+            tutor: to,
+            requestInfo: info,
+            timeLesson: data.time,
+        }).save((error, data) => {
             const {_id} = data;
             const temp = {
                 socketId: socket.id,
@@ -298,117 +306,15 @@ io.on('connection', socket => {
         
     // })
 
-    socket.on('ok',(id)=>{
-        id = ObjectId(id)
-        request.findOne({_id: id}).then((data) => {
-
-
-            //console.log({data})
-
-            let {student} = data;
-            student = ObjectId(student);
-            let {tutor} = data;
-            tutor = ObjectId(tutor);
-
-            let checkTutor = false; // when the tutor get the openSession the value will change to true
-            let checkStudent = false; // when the student get the openSession the value will change to true
-            let studentID = null;
-            let tutorID = null;
-           
-            users.map((item) => {
-               
-                if (item.token == tutor) {
-
-                    tutorID = data.id;
-                    checkTutor = true;
-                } else if (item.token == student) {
-                    studentID = data.id;
-                    checkStudent = true;
-                }
-
-                if (checkStudent === true && checkTutor === true) {
-                    
-                    console.log(tutorID)
-                    console.log('hello request')
-                    io.to(studentID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-
-                    //io.to(studentID).emit('gotoPayment',id)
-                    io.to(tutorID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-                }
-            })
-
-        }).catch((error) => {
-            console.log({error})
-        })
-
-        // users.map((data)=>{
-        //     if(data.token==tutorID)
-        //       {io.to(data.id).emit('paymentGood')
-        //       console.log(data.id)
-        // }
-        // })
-
-        // console.log("tutorID "+tutorID)
-    })
-    socket.on('editRequestStatus', (data) => {
+    socket.on('editRequestStatus', async (data) => {
         let {id, status} = data;
 
 
         id = ObjectId(id)
 
         console.log('hello editRequest event and the id is '+socket.id)
-        request.findOne({_id: id}).then((data) => {
-
-
-            let {student} = data;
-            student = ObjectId(student);
-            let {tutor} = data;
-            tutor = ObjectId(tutor);
-
-            let checkTutor = false; // when the tutor get the openSession the value will change to true
-            let checkStudent = false; // when the student get the openSession the value will change to true
-            let studentID = null;
-            let tutorID = null;
-           
-            users.map((data) => {
-
-                if (data.token == tutor) {
-
-                    tutorID = data.id;
-                    checkTutor = true;
-                } else if (data.token == student) {
-                    studentID = data.id;
-                    checkStudent = true;
-                }
-
-                if (checkStudent === true && checkTutor === true) {
-                    
-                    io.to(studentID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-
-                    //io.to(studentID).emit('gotoPayment',id)
-                    io.to(tutorID).emit('openSession', {
-                        student: student,
-                        tutor: tutor,
-                        sessionID: id
-                    });
-                }
-            })
-
-        }).catch((error) => {
-            console.log({error})
-        })
+        await request.findByIdAndUpdate(id, { status });
+        
 
 
         // socket.emit('open')
@@ -435,6 +341,78 @@ io.on('connection', socket => {
         //         })
     })
 
+    socket.on('verifyPayment', async ({ checkoutHash, requestID }) => {
+        let { data } = await axios.get('order', {
+            baseURL: process.env.PADDLE_CHECKOUT_BASE_URL,
+            params: new URLSearchParams({ checkout_id: checkoutHash }),
+        });
+
+        while (data.state === 'processing') {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            ({ data } = await axios.get('order', {
+                baseURL: process.env.PADDLE_CHECKOUT_BASE_URL,
+                params: new URLSearchParams({ checkout_id: checkoutHash }),
+            }));
+        }
+        
+        if (data.state === 'processed') {
+            const { student, tutor } = await request.findById(requestID);
+
+            const newSession = await sessionModel.create({
+                request: requestID,
+                studentICECandidates: [],
+                tutorICECandidates: [],
+            });
+
+            for (const { id, token } of users) {
+                if (token == student || token == tutor) {
+                    io.to(id).emit('openSession', {
+                        sessionID: newSession.id,
+                    });
+                }
+            }
+        }
+    })
+
+    socket.on('ice-candidates-update', async ({ sessionID, type, candidates }) => {
+        if (type === 0) { // student
+            await sessionModel.updateOne({ _id: sessionID }, {
+                $set: {
+                    studentICECandidates: candidates,
+                },
+            });
+        } else { // tutor
+            await sessionModel.updateOne({ _id: sessionID }, {
+                $set: {
+                    tutorICECandidates: candidates,
+                },
+            });
+        }
+    });
+
+    socket.on('tutor-call-offer', async ({ sessionID, callOffer }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: { webRTCOffer: callOffer },
+        });
+    });
+
+    socket.on('student-call-answer', async ({ sessionID, callAnswer }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: { webRTCAnswer: callAnswer },
+        });
+    });
+
+    socket.on('screen-sharing-start', async ({ sessionID, type }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: type === 0 ? { isStudentSharingScreen: true } : { isTutorSharingScreen: true },
+        });
+    });
+
+    socket.on('screen-sharing-end', async ({ sessionID, type }) => {
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $set: type === 0 ? { isStudentSharingScreen: false } : { isTutorSharingScreen: false },
+        });
+    });
 
     socket.on('endCall', (data) => {
         let id = ObjectId(data.sessionID);
@@ -484,24 +462,93 @@ io.on('connection', socket => {
 
 });
 
+request.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationType, fullDocument, documentKey }) => {
+    if (operationType === 'update') {
+        if (fullDocument.status === 1) { // accepted
+            const id = documentKey._id.toString();
+            const { student, tutor, timeLesson } = fullDocument;
+            const tutorObject = await tutors.findOne({ user_id: tutor });
+            const departmentObject = await dept.findById(tutorObject.dept_id);
+            const tutorUser = await user.findById(tutorObject.user_id);
 
-function addSession(idRequest) {
-    const dataOfPayment = {
-        datePay: Date.now,
-        idTransaction: '123-3242-431-23-2333'
+            const tutorSocket = users.find(({ token }) => token == tutor);
+            const studentSocket = users.find(({ token }) => token == student);
+
+            if (tutorSocket || studentSocket) {
+                const { data: paddleData } = await axios.post('product/generate_pay_link', new URLSearchParams({
+                    vendor_id: process.env.PADDLE_VENDOR_ID,
+                    vendor_auth_code: process.env.PADDLE_VENDOR_AUTH_CODE,
+                    product_id: process.env.PADDLE_PRODUCT_ID,
+                    'prices[0]': `USD:${departmentObject.price.toFixed(2)}`,
+                    custom_message: `${timeLesson}-hour session with ${tutorUser.name.firstName} ${tutorUser.name.lastName}`,
+                    return_url: `http://localhost:3000/user/Payment?request_id=${id}&checkout_hash={checkout_hash}`,
+                    quantity: timeLesson,
+                    quantity_variable: 0,
+                }), {
+                    baseURL: process.env.PADDLE_BASE_URL,
+                });
+
+                if (!paddleData.success) {
+                    throw new Error(paddleData.error.message);
+                }
+
+                io.to(studentSocket.id).emit('gotoPayment', {
+                    student: student,
+                    tutor: tutor,
+                    sessionID: id,
+                    checkoutURL: paddleData.response.url,
+                });
+
+                io.to(tutorSocket.id).emit('gotoPayment', {
+                    student: student,
+                    tutor: tutor,
+                    sessionID: id
+                });
+            }
+        }
+    }
+});
+
+sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationType, updateDescription, fullDocument }) => {
+    if (operationType !== 'update') return;
+
+    const { tutor, student } = await request.findById(fullDocument.request);
+    const tutorUser = users.find(({ token }) => token == tutor);
+    const studentUser = users.find(({ token }) => token == student);
+
+    if (updateDescription.updatedFields.studentICECandidates && tutorUser) {
+        io.to(tutorUser.id).emit('ice-candidates-update', updateDescription.updatedFields.studentICECandidates)
     }
 
-    const info = {
-        title: 'this is title of session'
-
+    if (updateDescription.updatedFields.tutorICECandidates && studentUser) {
+        io.to(studentUser.id).emit('ice-candidates-update', updateDescription.updatedFields.tutorICECandidates);
     }
-    const newSession = new session({request: objectID(idRequest), TransactionPayInfo: dataOfPayment, sessionInfo: info});
 
-    newSession.save().then((data) => {
-        res.json(data)
-    }).catch((error) => {})
+    if (updateDescription.updatedFields.webRTCOffer && studentUser) {
+        io.to(studentUser.id).emit('webrtc-offer', updateDescription.updatedFields.webRTCOffer);
+    }
 
-}
+    if (updateDescription.updatedFields.webRTCAnswer && tutorUser) {
+        io.to(tutorUser.id).emit('webrtc-answer', updateDescription.updatedFields.webRTCAnswer);
+    }
+
+    if (updateDescription.updatedFields.isStudentSharingScreen === true && tutorUser) {
+        io.to(tutorUser.id).emit('screen-sharing-start');
+    }
+
+    if (updateDescription.updatedFields.isStudentSharingScreen === false && tutorUser) {
+        io.to(tutorUser.id).emit('screen-sharing-end');
+    }
+
+    if (updateDescription.updatedFields.isTutorSharingScreen === true && studentUser) {
+        io.to(studentUser.id).emit('screen-sharing-start');
+    }
+
+    if (updateDescription.updatedFields.isTutorSharingScreen === false && studentUser) {
+        io.to(studentUser.id).emit('screen-sharing-end');
+    }
+});
+
 
 // -----------Router--------------
 
