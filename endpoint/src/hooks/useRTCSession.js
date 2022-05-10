@@ -30,51 +30,24 @@ export default function useRTCSession() {
 
   useEffect(() => {
     (async () => {
-        localStream.current = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: true,
-        });
-        localStream.current.getTracks().forEach((track) => {
-            localTracks.current.push(peerConnection.current.addTrack(track, localStream.current));
-        });
-        
-        peerConnection.current.ontrack = (event) => {
-            event.streams[0].getTracks().forEach((track) => {
-                remoteStream.current.addTrack(track);
-            });
-        };
+        if (type === 0) {
+          socket.on('webrtc-offer', async (offer) => {
+            const offerDescription = new RTCSessionDescription(offer);
+            await peerConnection.current.setRemoteDescription(offerDescription);
 
-        remoteVideoRef.current.srcObject = remoteStream.current;
-        localVideoRef.current.srcObject = localStream.current;
-
-        if (type === 1) {
-            const offerDescription = await peerConnection.current.createOffer();
-            await peerConnection.current.setLocalDescription(offerDescription);
-
-            const callOffer = {
-                sdp: offerDescription.sdp,
-                type: offerDescription.type,
+            const answerDescription = await peerConnection.current.createAnswer();
+            await peerConnection.current.setLocalDescription(answerDescription);
+            const callAnswer = {
+                sdp: answerDescription.sdp,
+                type: answerDescription.type,
             };
-
-            socket.emit('tutor-call-offer', { sessionID, callOffer });
-
-            socket.on('webrtc-answer', (answer) => {
-                const answerDescription = new RTCSessionDescription(answer);
-                peerConnection.current.setRemoteDescription(answerDescription);
-            });
+            socket.emit('student-call-answer', { sessionID, callAnswer })
+          });
         } else {
-            socket.on('webrtc-offer', async (offer) => {
-                const offerDescription = new RTCSessionDescription(offer);
-                await peerConnection.current.setRemoteDescription(offerDescription);
-
-                const answerDescription = await peerConnection.current.createAnswer();
-                await peerConnection.current.setLocalDescription(answerDescription);
-                const callAnswer = {
-                    sdp: answerDescription.sdp,
-                    type: answerDescription.type,
-                };
-                socket.emit('student-call-answer', { sessionID, callAnswer })
-            });
+          socket.on('webrtc-answer', (answer) => {
+            const answerDescription = new RTCSessionDescription(answer);
+            peerConnection.current.setRemoteDescription(answerDescription);
+          });
         }
 
         const iceCandidates = [];
@@ -97,6 +70,35 @@ export default function useRTCSession() {
 
         socket.on('screen-sharing-start', () => setIsRemoteSharingScreen(true));
         socket.on('screen-sharing-end', () => setIsRemoteSharingScreen(false));
+
+        localStream.current = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        });
+        localStream.current.getTracks().forEach((track) => {
+            localTracks.current.push(peerConnection.current.addTrack(track, localStream.current));
+        });
+        
+        peerConnection.current.ontrack = (event) => {
+            event.streams[0].getTracks().forEach((track) => {
+                remoteStream.current.addTrack(track);
+            });
+        };
+
+        remoteVideoRef.current.srcObject = remoteStream.current;
+        localVideoRef.current.srcObject = localStream.current;
+
+        if (type === 1) {
+          const offerDescription = await peerConnection.current.createOffer();
+          await peerConnection.current.setLocalDescription(offerDescription);
+
+          const callOffer = {
+            sdp: offerDescription.sdp,
+            type: offerDescription.type,
+          };
+
+          socket.emit('tutor-call-offer', { sessionID, callOffer });
+        }
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
