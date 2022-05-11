@@ -12,7 +12,7 @@ import Edit from '../pages/Student/edit';
 import Tutors from '../pages/Student/tutors';
 import NavBar from '../components/topBar/navBar';
 
-const options = ['العربية', 'English'];
+
 
 export default function StudentDashboard(props) {
 
@@ -25,16 +25,20 @@ export default function StudentDashboard(props) {
       <Paper className={classes.container + " " + classes.sidebar} elevation={0} >
         <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'Profile') ? classes.active : "")}
           onClick={() => setPageSelected("Profile")}
-          variant="text" startIcon={<VisibilityIcon />} >View Profile</Button>
+          variant="text" startIcon={<VisibilityIcon/>}><span  className= {classes.hideText}>View Profile</span></Button>
+      
         <Divider light />
         <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'Edit') ? classes.active : "")} onClick={() => setPageSelected("Edit")}
-          variant="text" startIcon={<EditIcon />} >Edit Profile</Button>
+          variant="text" startIcon={<EditIcon />} ><span  className= {classes.hideText}>Edit Profile</span></Button>
+    
         <Divider light />
         <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'Tutors') ? classes.active : "")} onClick={() => setPageSelected("Tutors")}
-          variant="text" startIcon={<SummarizeIcon />} >Favorite Tutors List</Button>
+          variant="text" startIcon={<SummarizeIcon />} ><span  className= {classes.hideText}>Favorite Tutors List</span></Button>
+  
         <Divider light />
         <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'History') ? classes.active : "")} onClick={() => setPageSelected("History")}
-          variant="text" startIcon={<HistoryIcon />} >Previous Request History </Button>
+          variant="text" startIcon={<HistoryIcon />} ><span  className= {classes.hideText}>Previous Request History</span> </Button>
+     
 
       </Paper>
 
