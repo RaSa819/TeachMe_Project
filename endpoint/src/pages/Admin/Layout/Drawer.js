@@ -189,6 +189,7 @@ export default function PersistentDrawerLeft(props) {
                     <ListItem button onClick={() => {
                         localStorage.removeItem('token')
                         localStorage.removeItem('type')
+                        localStorage.removeItem('userDetail')
                         navigate('/login')
                     }}>
                         <ListItemIcon>

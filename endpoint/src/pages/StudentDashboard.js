@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import classes from './StudentDashboard.module.css';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AppBar from '@mui/material/AppBar';
@@ -27,6 +27,19 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import img from '../assets/flag.png';
 import Autocomplete from '@mui/material/Autocomplete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useDialog } from 'react-mui-dialog';
+import axios from 'axios'
+import { SocketContext } from '../Socket';
+import RequestDialog from '../components/RequestDialog';
+import { MdFavorite } from "react-icons/md";
+import * as yup from 'yup';
+import { useFormik } from 'formik';
+import { MessageBox } from '../components/MessageBox';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 const options = ['العربية', 'English'];
 
@@ -182,81 +195,390 @@ function Profile() {
   );
 }
 
+const validationSchema = yup.object({
+  firstName: yup.
+    string('Enter your first name').
+    required('The first name is required '),
+  middleName: yup.
+    string('Enter your middle name').
+    required('The middle name is required '),
+  lastName: yup.
+    string('Enter your last name').
+    required('The last name is required '),
+  country: yup
+    .string('Enter your country ')
+    .required('The country is required'),
+  city: yup.
+    string('Enter your city ').
+    required('The city is required'),
+  street: yup
+    .string('Enter your street ').
+    required('The street is required'),
+  ZIP: yup
+    .number('Enter your street ')
+    .required('The street is required'),
+  phoneNumber: yup
+    .number('Enter your phone number ')
+    .required('The phone number is required'),
+  gender: yup
+    .string('Enter your gender ')
+    .required('The gender is required')
+});
+
 function Edit() {
+  const { openDialog } = useDialog()
+  let userDetail = JSON.parse(localStorage.getItem('userDetail'))
+  console.log('userDetail::', userDetail)
+  const formik = useFormik({
+    initialValues: {
+      firstName: userDetail.name.firstName,
+      middleName: userDetail.name.middleName,
+      lastName: userDetail.name.lastName,
+      country: userDetail.address.country ? userDetail.address.country : '',
+      city: userDetail.address.city,
+      street: userDetail.address.street,
+      ZIP: userDetail.address.ZIP,
+      gender: userDetail.gender,
+      phoneNumber: userDetail.phoneNumber
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log('error:::', error)
+      if (error) {
+        MessageBox(openDialog, 'Errors ', "There is some error in the form", 'Okay');
+      } else {
+        values.type = localStorage.getItem('type')
+        values.id = localStorage.getItem('token')
+        axios.post('http://localhost:4000/user/updateProfile', {
+          data: values
+        }).
+          then((response) => {
+            localStorage.setItem('userDetail', JSON.stringify(response.data.data))
+            alert(response.data.msg)
+          }).catch((error) => {
+            alert(JSON.stringify(error, null, 2))
+          })
+      }
+    },
+  });
+
+  const [error, setError] = React.useState(false)
+
   return (
     <div style={{ marginTop: 50, marginLeft: 50 }}>
-
-      <div style={{ display: 'inline-block' }}>
-        <h6 style={{ display: 'inline-block', marginRight: 25 }}>Name: </h6>
-        <TextField sx={{ width: 200, display: 'inline-block' }} id="outlined-basic" label="Write new name here" variant="outlined" />
-      </div>
-
-
-      <div style={{ display: 'inline-block', marginLeft: 20 }}>
-        <h6 style={{ display: 'inline-block', marginRight: 25 }}>Country: </h6>
-        <Autocomplete
-          id="country-select-demo"
-          sx={{ width: 200, display: 'inline-block' }}
-          options={countries}
-          autoHighlight
-          getOptionLabel={(option) => option.label}
-          renderOption={(props, option) => (
-            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-
-              {option.label} ({option.code})
-            </Box>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Country"
-              inputProps={{
-                ...params.inputProps,
-                autoComplete: 'new-password', // disable autocomplete and autofill
+      <form onSubmit={formik.handleSubmit} className="row">
+      <Box component="form"
+              fullWidth
+              sx={{
+                '& > :not(style)': { mt: 1 },
               }}
-            />
-          )}
-        />
-      </div>
+            >
+              <TextField label="First Name" variant='filled' size='small'
+                name="firstName"
+                style={{
+                  width: '30%',
+                  marginRight: '5%'
+                }}
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                helperText={formik.touched.firstName && formik.errors.firstName}
+              />
+              <TextField label="Middle Name" variant='filled' size='small'
+                name="middleName"
+                style={{
+                  width: '30%',
+                  marginRight: '4%'
+                }}
+                value={formik.values.middleName}
+                onChange={formik.handleChange}
+                error={formik.touched.middleName && Boolean(formik.errors.middleName)}
+                helperText={formik.touched.middleName && formik.errors.middleName}
+              />
+
+              <TextField label="Last Name" variant='filled' size='small'
+                name="lastName"
+                style={{
+                  width: '30%',
+                  marginLeft: '1%'
+                }}
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
+                error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                helperText={formik.touched.lastName && formik.errors.lastName}
+              />
+
+            </Box>
+
+            <Box component="form"
+              fullWidth
+              sx={{
+                '& > :not(style)': { mt: 1 }
+              }}
+              autoComplete="off">
+                <Autocomplete
+                // value={formik.values.country}
+                  id="country-select-demo"
+                  sx={{ display: 'inline-block' }}
+                  style={{
+                    width: '47%',
+                    marginRight: '3%'
+                  }}
+                  options={countries}
+                  autoHighlight
+                  getOptionLabel={(option) => option.label}
+                  defaultValue={countries.find(v => v.code === formik.values.country)}
+                  renderOption={(props, option) => (
+                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                    
+                      {option.label} ({option.code})
+                    </Box>
+                  )}
+                  onChange={(e, value) => {
+                    formik.values.country = value.code
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      variant='filled' size='small'
+                      name="country"
+                      {...params}
+                      label="Country"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: 'new-password', // disable autocomplete and autofill
+                      }}
+                    />
+                  )}
+                />
+
+              <TextField label="City" variant='filled' size='small'
+                name="city"
+                style={{
+                  width: '47%',
+                  marginLeft: '3%'
+
+                }}
+                value={formik.values.city}
+                onChange={formik.handleChange}
+                error={formik.touched.city && Boolean(formik.errors.city)}
+                helperText={formik.touched.city && formik.errors.city}
+              />
+            </Box>
+
+            <Box component="form"
+              fullWidth
+              sx={{
+                '& > :not(style)': { mt: 1 },
 
 
+              }}
+              autoComplete="off">
+              <TextField label="Street" variant='filled' size='small'
+                name="street"
+                style={{
+                  width: '47%',
+                  marginRight: '3%'
+                }}
+                value={formik.values.street}
+                onChange={formik.handleChange}
+                error={formik.touched.street && Boolean(formik.errors.street)}
+                helperText={formik.touched.street && formik.errors.street}
+              />
+
+              <TextField label="ZIP" variant='filled' size='small'
+                name="ZIP"
+                style={{
+                  width: '47%',
+                  marginLeft: '3%'
+
+                }}
+                value={formik.values.ZIP}
+                onChange={formik.handleChange}
+                error={formik.touched.ZIP && Boolean(formik.errors.ZIP)}
+                helperText={formik.touched.ZIP && formik.errors.ZIP}
+              />
+            </Box>
+
+            <Box component="form"
+              fullWidth
+              sx={{
+                '& > :not(style)': { mt: 1 },
+              }}>
+              <TextField label="Phone Number" variant='filled' size='small'
+                name="phoneNumber" 
+
+                fullWidth
+                value={formik.values.phoneNumber}
+                onChange={formik.handleChange}
+                error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+              />
+            </Box>
+
+            <Box component="form"
+              fullWidth
+              sx={{
+                '& > :not(style)': { mt: 1 },
+              }}>
+
+              <FormControl component="fieldset"
+                error={formik.touched.gender && Boolean(formik.errors.gender)}
+                helperText={formik.touched.gender && formik.errors.gender}
+
+              >
+                <FormLabel component="legend">Gender</FormLabel>
+                <RadioGroup
+                  row
+                  name='gender'
+                  value={formik.values.gender}
+                  onChange={formik.handleChange}
+
+
+                >
+                  <FormControlLabel value={genderDt[0]} control={<Radio />} label="Male" />
+                  <FormControlLabel value={genderDt[1]} control={<Radio />} label="Female" />
+
+                </RadioGroup>
+              </FormControl>
+            </Box>
+
+            <Button  style={{backgroundColor:"#000052" , color:"#fff" , padding:"5px"}} variant="contained" fullWidth type="submit">
+              Update
+            </Button>
+      </form>
     </div>
   );
 }
-
-
-
 
 function Tutors() {
+  const socket = useContext(SocketContext)
+  const { openDialog } = useDialog();
+  let user_id = localStorage.getItem('token')
+  const [tutors, setTutor] = useState([])
+  const [favoriteList, setFavoriteList] = useState([])
+  const fetchData = async () => {
+      const axio1 = axios.get(`http://localhost:4000/student/fetchFavoriteList/${user_id}`)
+      const axio2 = axios.get(`http://localhost:4000/user/fetchTutors`)
+      await axios.all([axio1, axio2]).then(axios.spread((res1, res2) => {
+        setTutor(res2.data)
+        let arr = Array();
+        res1.data.favorit_list.map((item) => {
+            let m = item.toString();
+            arr.push(m)
+        })
+        setFavoriteList(arr);
+      })).catch((error) => {
+        alert(JSON.stringify(error, null, 0))
+      })
+  }
+  React.useEffect(() => {
+    fetchData()
+  }, [])
+
+  console.log('favoriteList:::', favoriteList)
+
   return (
     <div style={{textAlign: 'center'}}>
-      <TutorCard />
-      <TutorCard  />
-    
+      {
+        tutors.map((item) => {
+          let flag = 0;
+          let val = favoriteList.indexOf(item._id)
+          if (val>=0) {
+            let flag = 1
+            return (
+              <TutorCard
+                  name={
+                      item.name
+                  }
+                  dateJoined={
+                      item.date
+                  }
+  
+                  about={
+                      item.profile.about
+                  }
+                  experience={
+                      item.profile.experience
+                  }
+                  status={
+                      item.status
+                  }
+  
+                  type={item.type}
+  
+                  id={item._id}
+  
+                  openDialog={openDialog}
+  
+                  socket={socket}
+  
+                  isFavorite={flag}
+              />
+            )
+          }
+        })
+      }    
     </div>
   );
 }
+const styleUnFavorite = { color: 'gray', display: 'inline-block', fontSize: 20 }
 
+const styleFavorite = { color: 'red', display: 'inline-block', fontSize: 20 }
 
+const TutorCard = (props) => {
+  const { name, dateJoined, about, experience,
+    rate, type, id, openDialog, socket, isFavorite } = props;
+  const [favorite, setFavorite] = useState()
+  if(isFavorite)
+    console.log(isFavorite)
 
+  React.useEffect(()=>{
+    setFavorite(isFavorite)
+  },[isFavorite])
 
+  let pushFavorite = () => {
+    if (!favorite) {
+      socket.emit('addFavorite', {
+          tutor_id: id,
+          id: localStorage.getItem('token')
+      })
+    }
+    else {
+      socket.emit('removeFavorite', {
+          tutor_id: id,
+          id: localStorage.getItem('token')
+      })
+    }
+  }
+  
+  const [status, setStatus] = useState(props.status)
 
-function TutorCard() {
   return (
 
     <div style={{ textAlign: 'left', border: '1px solid lightgray', borderRadius: 10, margin: 5, width: '40%', display: 'inline-block'}}>
       <div style={{ padding: 10 }}>
-        <h6 style={{ display: 'inline-block', width: '90%' }}>Tutor Name</h6>
-        <FavoriteIcon sx={{ color: '#D90429', display: 'inline-block', fontSize: 20 }} />
-        <div><StarIcon sx={{ color: '#ffc700' }} /><StarIcon sx={{ color: '#ffc700' }} />
-          <StarIcon sx={{ color: '#ffc700' }} /><StarIcon sx={{ color: '#ffc700' }} /><StarBorderIcon sx={{ color: '#ffc700' }} />
-          <span style={{ marginLeft: 15, fontSize: 12 }}>Country Name</span></div>
+        <h6 style={{ display: 'inline-block', width: '90%' }}>{name.firstName + ' '} {name.lastName}</h6>
+        <MdFavorite style={favorite == 1 ? styleFavorite : styleUnFavorite}
+          onClick={() => {
+            setFavorite(!favorite)
+            pushFavorite()
+          }}
+        />
+        <div>
+          <StarIcon sx={{ color: '#ffc700' }} /><StarIcon sx={{ color: '#ffc700' }} />
+          <StarIcon sx={{ color: '#ffc700' }} /><StarIcon sx={{ color: '#ffc700' }} />
+          <StarBorderIcon sx={{ color: '#ffc700' }} />
+          {/* <span style={{ marginLeft: 15, fontSize: 12 }}>Country Name</span> */}
+        </div>
 
-        <p style={{ fontSize: 12, color: 'grey' }}>joined 20 May 2022</p>
-        <p style={{ fontSize: 12 }}>I have 3 years experience in Lorem ipsum dolor sit amet... <a href="">Learn more</a> </p>
+        <p style={{ fontSize: 12, color: 'grey' }}>Joined at {dateJoined}</p>
+        <p style={{ fontSize: 12 }}>{about.slice(0, 150)} <a href="">Learn more</a> </p>
         <div style={{ textAlign: 'right' }}>
           <Button sx={{ fontSize: 8, color: 'darkblue', background: '#f1f0f0', marginRight: '5px' }}>View profile</Button>
-          <Button sx={{ fontSize: 8, color: '#f1f0f0', background: 'darkblue' }}>Make request</Button>
+          <Button sx={{ fontSize: 8, color: '#f1f0f0', background: 'darkblue' }} 
+            onClick={() => {
+              RequestDialog(openDialog, id, type, 'Just moment, to be your request ready', socket)
+            }}>Make request</Button>
         </div>
       </div>
     </div>
@@ -264,6 +586,11 @@ function TutorCard() {
 
   );
 }
+
+const genderDt = [
+  1,
+  0
+]
 
 const countries = [
   { code: 'AD', label: 'Andorra', phone: '376' },

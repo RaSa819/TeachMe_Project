@@ -33,8 +33,10 @@ export default (openDialog, dt, dept,navigate) => {
                 console.log(response.data)
                 localStorage.removeItem('token')
                 localStorage.removeItem('type')
+                localStorage.removeItem('userDetail')
                 localStorage.setItem('token', response.data.token)
                 localStorage.setItem('type', 1);
+                localStorage.setItem('userDetail', JSON.stringify(response.data.data));
                 navigate('/home')
                 
 

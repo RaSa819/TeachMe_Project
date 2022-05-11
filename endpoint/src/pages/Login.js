@@ -59,12 +59,11 @@ export default () => {
             }
             else if (data.data.type != null) {
                 var type = data.data.type;
-                var token = data.data.id;
-
-                
+                var token = data.data._id;
 
                 localStorage.setItem('token', token)
                 localStorage.setItem('type', type);
+                localStorage.setItem('userDetail', JSON.stringify(data.data));
                 
                 navigate('/home')
                 socket.emit('sendID',token)

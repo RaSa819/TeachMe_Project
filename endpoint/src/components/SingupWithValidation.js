@@ -142,6 +142,7 @@ export default () => {
           then((response) => {
             localStorage.removeItem('token')
             localStorage.removeItem('type')
+            localStorage.removeItem('userDetail')
 
             var type = values.type
             var token = response.data.token;

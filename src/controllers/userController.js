@@ -15,25 +15,16 @@ const { resolve } = require('path');
 const objectID = mongoose.Types.ObjectId
 
 exports.registerTutor = (req, res) => {
-
-
-
     console.log(req.body)
-
-
-
-
     var { firstName, middleName, lastName,
         userName, password, email, phoneNumber,
         gender, country, city,
         street, ZIP, type
     } = req.body.data;
 
-
     type = parseInt(type)
 
     const hash = bcrypt.hashSync(password, 10);
-
 
     password = hash
 
@@ -96,8 +87,8 @@ exports.registerTutor = (req, res) => {
                 console.log(stackOperation)
             })
         }
-
-        res.json({ msg: stackOperation, token: response._id })
+        response.password = null
+        res.json({ msg: stackOperation, token: response._id, data: response})
     }).catch((error) => {
         console.log(error)
         res.json(error)
@@ -110,7 +101,8 @@ exports.Login = (req, res) => {
         if (data != null) {
             var a = bcrypt.compareSync(req.body.password, data.password)
             if (a === true) {
-                res.json({ id: data._id, type: data.type })
+                data.password = null
+                res.json(data)
             }
         }
         else {
@@ -199,7 +191,7 @@ exports.fetchTutors = async (req, res) => {
 
 
 
-    let id = req.params.id
+    let id = req.params.id ? req.params.id : null
     // fetch ID from the user collection 
     const getTutorsID = (ID) => {
         return new Promise((resolve, reject) => {
@@ -227,7 +219,8 @@ exports.fetchTutors = async (req, res) => {
     // Fetch data about tutor from the tutor collection
     const getTutor = () => {
         return new Promise((resolve, reject) => {
-            tutor.find({ dept_id: objectID(id) }, {
+            let filter = id ? { dept_id: objectID(id) } : {}
+            tutor.find(filter, {
                 status: 1,
                 _id: 0,
                 rate: 1,
@@ -637,4 +630,57 @@ exports.fetchFavoriteList = (req, res) => {
 
 function getFavoriteList(id) {
 
+}
+
+exports.updateProfile = async (req, res) => {
+    try {
+        console.log(req.body)
+        var { firstName, middleName, lastName,
+            phoneNumber,
+            gender, country, city,
+            street, ZIP, type
+        } = req.body.data;
+    
+        type = parseInt(type)
+    
+        // create document for user
+    
+        let updateObj = {
+            name: {
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName
+            },
+            address: {
+                country: country,
+                city: city,
+                street: street,
+                ZIP: ZIP
+            },
+            phoneNumber: phoneNumber,
+            gender: parseInt(gender),
+        }
+    
+        var stackOperation = "";
+
+        let userUpdate = await user.findOneAndUpdate({ _id: objectID(req.body.data.id) }, updateObj, { new: true });
+        if (type === 1) {
+            var tutorData = req.body.tutorData;
+            let updateTutor = await tutor.updateOne({user_id: objectID(req.body.data.id)}, 
+                {
+                    profile: {
+                        about: tutorData.about,
+                        certifications: tutorData.certifications,
+                        experience: tutorData.experience
+                    }
+                });
+            stackOperation += "The tutor has been  successfully added"
+        } else {
+            stackOperation += "The student has been successfully updated."
+        }
+        res.json({ msg: stackOperation, data: userUpdate})
+    } catch (err) {
+        console.log(error)
+        res.json(err)
+    }
 }

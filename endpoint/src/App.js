@@ -68,6 +68,7 @@ export default function App() {
                 if (response.data.res != true) {
                     localStorage.removeItem('token')
                     localStorage.removeItem('type')
+                    localStorage.removeItem('userDetail')
                 }
 
             }).catch((error) => {
