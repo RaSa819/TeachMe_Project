@@ -70,7 +70,7 @@ export default function Topnav() {
         <li  sx={{ flexGrow: 1 }}>
         <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0  , justifyContent:'center'}}>
-                  <Avatar   alt="user name" src="/static/images/avatar/2.jpg" />
+                 
                 </IconButton>
               </Tooltip>
               <Menu
