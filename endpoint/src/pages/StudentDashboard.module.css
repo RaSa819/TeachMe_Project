@@ -21,36 +21,38 @@
 .btn {
     display: block;
     text-align: left !important;
-    padding-left: 30px !important;
-    width:100%;
+
+    width: 100%;
     color: grey !important;
     justify-content: left !important;
     text-transform: none !important;
-    
-   
+
+
 }
 
-.btn.active{
+.btn.active {
     color: black !important;
 }
 
 .btn.top {
-    max-width: 122px;
+    max-width: 122px !important;
     color: #D90429 !important;
     font-size: 12px;
     font-weight: bold;
     border: none !important;
     text-transform: none !important;
 }
-.btn.arrow{
+
+.btn.arrow {
     color: #D90429 !important;
     padding-left: 10px !important;
     font-weight: bold;
     border: none !important;
     text-transform: none !important;
 }
-.btn > * {
-  
+
+.btn>* {
+
     display: inline-block;
     text-transform: none !important;
 }
@@ -64,17 +66,47 @@
     border-radius: 15px !important;
 
 }
-.sidebarBtn{
+
+.sidebarBtn {
     padding-top: 15px !important;
     padding-bottom: 15px !important;
     text-transform: none !important;
-}
-.sidebar{
-    width: 20%;
-    padding-top : 60px;
+    padding-left: 30px !important;
 }
 
-.content{
+.sidebar {
+    width: 20%;
+    padding-top: 60px;
+}
+
+.content {
     width: 70%;
-    
+    margin-left: 10px !important;
+}
+
+.profileDiv {
+    margin-top: 50;
+    margin-left: 50;
+  
+}
+
+
+
+
+
+
+@media (max-width: 760px) {
+    .hideText {
+        display: none;
+    }
+
+    .sidebar {
+        max-width: 76px;
+        margin-left: 15px;
+    }
+    .profileDiv {
+      font-size: smaller;
+      
+    }
+
 }
