@@ -492,18 +492,23 @@ request.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationT
                     throw new Error(paddleData.error.message);
                 }
 
-                io.to(studentSocket.id).emit('gotoPayment', {
-                    student: student,
-                    tutor: tutor,
-                    sessionID: id,
-                    checkoutURL: paddleData.response.url,
-                });
+                if (studentSocket) {
+                    io.to(studentSocket.id).emit('gotoPayment', {
+                        student: student,
+                        tutor: tutor,
+                        sessionID: id,
+                        checkoutURL: paddleData.response.url,
+                    });
+                }
+                
 
-                io.to(tutorSocket.id).emit('gotoPayment', {
-                    student: student,
-                    tutor: tutor,
-                    sessionID: id
-                });
+                if (tutorSocket) {
+                    io.to(tutorSocket.id).emit('gotoPayment', {
+                        student: student,
+                        tutor: tutor,
+                        sessionID: id
+                    });
+                }
             }
         }
     }
