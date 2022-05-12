@@ -103,6 +103,8 @@ exports.Login = (req, res) => {
             if (a === true) {
                 data.password = null
                 res.json(data)
+            } else {
+                res.json('no')
             }
         }
         else {
@@ -642,7 +644,6 @@ exports.updateProfile = async (req, res) => {
         } = req.body.data;
     
         type = parseInt(type)
-    
         // create document for user
     
         let updateObj = {
@@ -659,6 +660,11 @@ exports.updateProfile = async (req, res) => {
             },
             phoneNumber: phoneNumber,
             gender: parseInt(gender),
+        }
+
+        if (req.body.data.newPassword !== '') {
+            const hash = bcrypt.hashSync(req.body.data.newPassword, 10);
+            updateObj.password = hash
         }
     
         var stackOperation = "";
@@ -682,5 +688,31 @@ exports.updateProfile = async (req, res) => {
     } catch (err) {
         console.log(error)
         res.json(err)
+    }
+}
+
+exports.getTutor = async (req, res) => {
+    const objectID = mongoose.Types.ObjectId
+    let id = req.params.id ? req.params.id : null
+    let tutorDetail = await tutor.findOne({user_id: objectID(id)});
+    if (tutorDetail) {
+        let userD = await user.findOne({_id: objectID(id)});
+        let returnObj = {
+            found: true,
+            profile: tutorDetail.profile,
+            name: userD.name,
+            address: userD.address,
+            email: userD.email,
+            phoneNumber: userD.phoneNumber,
+            gender: userD.gender,
+            type: userD.type, // one => tutor . zero => student
+            date: userD.date,
+            img: userD.img,
+            rate: userD.rate,
+            reviews: userD.reviews
+        }
+        res.json(returnObj)
+    } else {
+        res.json({found: false})
     }
 }

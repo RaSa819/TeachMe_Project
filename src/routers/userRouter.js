@@ -99,6 +99,7 @@ module.exports = (app, io) => { // event when the client connect to the server
 
     app.post('/user/login', userController.Login);
     app.get('/user/fetchTutors/:id', userController.fetchTutors)
+    app.get('/user/getTutor/:id', userController.getTutor)
     app.get('/user/fetchTutors', userController.fetchTutors)
     app.get('/user/getSession', userController.getSession);
     app.post('/user/updateImage', userController.updateImg);

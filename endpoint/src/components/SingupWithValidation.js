@@ -24,20 +24,8 @@ import Stack from '@mui/material/Stack';
 import { Typography } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import Footer from './footer/footer';
-
-
-
-
-const genderDt = [
-  1,
-  0
-]
-
-const typeDt = [
-  0,
-  1
-]
-
+import Autocomplete from '@mui/material/Autocomplete';
+import { countries, genderDt, typeDt } from '../general/datas';
 
 const validationSchema = yup.object({
   userName: yup
@@ -331,17 +319,40 @@ export default () => {
                 '& > :not(style)': { mt: 1 }
               }}
               autoComplete="off">
-              <TextField label="Country" variant='filled' size='small'
-                name="country"
-                style={{
-                  width: '47%',
-                  marginRight: '3%'
-                }}
-                value={formik.values.country}
-                onChange={formik.handleChange}
-                error={formik.touched.country && Boolean(formik.errors.country)}
-                helperText={formik.touched.country && formik.errors.country}
-              />
+              <Autocomplete
+                // value={formik.values.country}
+                  id="country-select-demo"
+                  sx={{ display: 'inline-block' }}
+                  style={{
+                    width: '47%',
+                    marginRight: '3%'
+                  }}
+                  options={countries}
+                  autoHighlight
+                  getOptionLabel={(option) => option.label}
+                  defaultValue={countries.find(v => v.code === formik.values.country)}
+                  renderOption={(props, option) => (
+                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                    
+                      {option.label} ({option.code})
+                    </Box>
+                  )}
+                  onChange={(e, value) => {
+                    formik.values.country = value.code
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      variant='filled' size='small'
+                      name="country"
+                      {...params}
+                      label="Country"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: 'new-password', // disable autocomplete and autofill
+                      }}
+                    />
+                  )}
+                />
 
               <TextField label="City" variant='filled' size='small'
                 name="city"
