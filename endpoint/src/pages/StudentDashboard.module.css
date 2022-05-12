@@ -95,6 +95,12 @@
     font-size: 12px !important;
     margin-bottom: 10px !important;
  }
+  .cardButton{
+      font-size: 10px !important;
+      margin: 5px !important;
+      border-radius: 10px !important;
+      text-transform: none !important;
+  }
 
 
 
