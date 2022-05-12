@@ -189,12 +189,17 @@ export default function PersistentDrawerLeft(props) {
                     <ListItem button onClick={() => {
                         localStorage.removeItem('token')
                         localStorage.removeItem('type')
+                        localStorage.removeItem('userDetail')
                         navigate('/login')
                     }}>
                         <ListItemIcon>
                             <NotificationsActiveIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Sign out" />
+                        <ListItemText button onClick={() => {
+                            localStorage.removeItem('token')
+                            localStorage.removeItem('type')
+                            localStorage.removeItem('userDetail')
+                        }} primary="Sign out" />
                     </ListItem>
                 </List>
             </Drawer>

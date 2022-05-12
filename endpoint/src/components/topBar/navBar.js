@@ -19,13 +19,9 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
+import { useNavigate } from "react-router-dom";
+import { genderDt, languageOptions } from '../../general/datas';
 
-
-
-
-
-
-const language = ['العربية', 'English'];
 const pages = ['Logout',  'English','العربية'];
 
 export default function NavBar() {
@@ -33,7 +29,7 @@ export default function NavBar() {
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const handleClick = () => {
-        console.info(`You clicked ${language[selectedIndex]}`);
+        console.info(`You clicked ${languageOptions[selectedIndex]}`);
     };
 
     const handleMenuItemClick = (event, index) => {
@@ -64,7 +60,14 @@ export default function NavBar() {
         setAnchorElNav(null);
     };
 
+    let navigate = useNavigate();
 
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('type')
+        localStorage.removeItem('userDetail')
+        navigate('/login')
+    }
 
     return (
         <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block' }}>
@@ -117,7 +120,7 @@ export default function NavBar() {
                             <ButtonGroup>
                                 <React.Fragment>
                                     <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-                                        <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >{language[selectedIndex]}</Button>
+                                        <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >{languageOptions[selectedIndex]}</Button>
                                         <Button
                                             size="small"
                                             aria-controls={open ? 'split-button-menu' : undefined}
@@ -149,7 +152,7 @@ export default function NavBar() {
                                                 <Paper>
                                                     <ClickAwayListener onClickAway={handleClose}>
                                                         <MenuList id="split-button-menu" autoFocusItem>
-                                                            {language.map((option, index) => (
+                                                            {languageOptions.map((option, index) => (
                                                                 <MenuItem
                                                                     key={option}
                                                                     disabled={index === 2}
@@ -167,7 +170,7 @@ export default function NavBar() {
                                     </Popper>
                                 </React.Fragment>
 
-                                <Button className={classes.btn + " " + classes.top} onClick={handleCloseNavMenu} variant="text" endIcon={<LogoutIcon />} >Logout</Button>
+                                <Button className={classes.btn + " " + classes.top} onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >Logout</Button>
                             </ButtonGroup>
                        
                     </Box>

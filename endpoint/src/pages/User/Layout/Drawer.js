@@ -190,6 +190,7 @@ export default function PersistentDrawerLeft(props) {
                             onClick={() => {
                                 localStorage.removeItem('token')
                                 localStorage.removeItem('type')
+                                localStorage.removeItem('userDetail')
                                 navigate('/login')
                             }}>
 
