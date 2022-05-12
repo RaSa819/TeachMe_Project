@@ -88,6 +88,12 @@
     margin-left: 50;
   
 }
+
+.editForm{
+    display: inline-block ;
+    margin: 20px;
+}
+
  .addButton{
     background:#D90429 !important;
     color:white !important;
@@ -117,5 +123,11 @@
       font-size: smaller;
       
     }
+    .editForm{
+        margin:0 0 10px 0;
+    }
 
+    .content > div > div {
+        padding: 15px !important;
+    }
 }
