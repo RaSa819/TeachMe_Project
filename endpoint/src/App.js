@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { SocketProvider } from "./Socket";
 
 import Card from "./components/Card";
-import StudentDashboard from "./pages/StudentDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Payment from './pages/Payment';
 import Users from "./pages/Users";
@@ -55,10 +54,10 @@ import IsTutor from "./auth/IsTutor";
 import Session from "./pages/Session/Session"
 import ViewTutor from "./pages/view/Tutor"
 
-
 // import HomePage from "./pages/home/homePage.js";
 
-
+// Languages
+import Languages from "./languages.json"
 
 export default function App() {
 
@@ -78,6 +77,17 @@ export default function App() {
             })
         }
     }, [])
+
+
+    const [language, setLanguage] = React.useState(Languages.En);
+
+    const updateLanguage = (newLanguage) => {
+
+        if(Languages.Selected === 'En') Languages.Selected = 'Ar';   
+        else Languages.Selected = 'En';
+        
+        setLanguage(newLanguage);
+    }
 
 
     //const[socket,setSocket] = useState(false)
@@ -158,10 +168,10 @@ export default function App() {
 
 
                                 <Route path="/StudentDashboard"
-                                    element={<StudentDashboard />} />
+                                    element={<Dashboard name="Student" language={language} setLanguage={updateLanguage} />} />
 
                                 <Route path="/AdminDashboard"
-                                    element={<AdminDashboard />} />
+                                    element={<Dashboard name="Admin" language={language} setLanguage={updateLanguage} />} />
 
                                 <Route path="/Signup"
                                     element={<SingupWithValidation />} />

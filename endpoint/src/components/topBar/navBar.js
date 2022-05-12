@@ -19,26 +19,49 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
+import Languages from "../../languages.json";
 import { useNavigate } from "react-router-dom";
 import { genderDt, languageOptions } from '../../general/datas';
 
-const pages = ['Logout',  'English','العربية'];
 
-export default function NavBar() {
+export default function NavBar({ language, setLanguage}) {
+   const pages = [
+        'Logout',  
+        <span onClick={() => updateLanguage(1)} >English</span> ,
+        <span onClick={() => updateLanguage(0)} >العربية</span> ,
+        ];
+        
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const defaultLanguage = Languages.Selected === 'En' ? languageOptions[1] : languageOptions[0];
+    const [selectedLanguage, setSelectedLanguage] = React.useState(defaultLanguage);
     const handleClick = () => {
         console.info(`You clicked ${languageOptions[selectedIndex]}`);
+
     };
 
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setOpen(false);
+
+        updateLanguage(index);
     };
 
+    const updateLanguage = (index) => {
+        
+        if(index === 0) {
+            setLanguage(Languages.Ar);
+            setSelectedLanguage(languageOptions[0]);
+        }
+        else if(index === 1) {
+            setLanguage(Languages.En);
+            setSelectedLanguage(languageOptions[1]);
+        }
+    };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
+
     };
 
     const handleClose = (event) => {
@@ -70,11 +93,11 @@ export default function NavBar() {
     }
 
     return (
-        <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block' }}>
+        <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ padding: 0 }}>
 
-                    <a class="navbar-brand" style={{width:'80%'}} href="#">
+                    <a class="navbar-brand" style={{width:'80%', paddingTop: '0.6125rem'}} href="#">
                         Teach me.
                     </a>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -120,7 +143,9 @@ export default function NavBar() {
                             <ButtonGroup>
                                 <React.Fragment>
                                     <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-                                        <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >{languageOptions[selectedIndex]}</Button>
+                                        <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >
+                                            {selectedLanguage}
+                                        </Button>
                                         <Button
                                             size="small"
                                             aria-controls={open ? 'split-button-menu' : undefined}

@@ -1,4 +1,6 @@
 {
+    "Selected": "En",
+    
     "En": {
         "Language":"Language",
         "Login":"Login",
@@ -52,9 +54,9 @@
         "AreYouStudentorTutor":"Are You student or Tutor ?",
         "Student":"Student",
         "Tutor":"Tutor",
-        "SIGNUP":"SIGN UP"
-    }
-        ,
+        "SIGNUP":"SIGN UP",
+        "StudentDashboard":"Student Dashboard"
+    },
 
     "Ar": {
         "Language":"اللغة",
@@ -109,6 +111,7 @@
         "AreYouStudentorTutor":"هل انت طالب أم مدرس",
         "Student":"طالب",
         "Tutor":"مدرس",
-        "SIGNUP":"إنشاء حساب"
+        "SIGNUP":"إنشاء حساب",
+        "StudentDashboard": "لوحة تحكم الطالب"
     }
 }

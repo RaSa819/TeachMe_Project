@@ -10,14 +10,15 @@ import NavBar from '../components/topBar/navBar';
 
 
 
-export default function AdminDashboard(props) {
+export default function AdminDashboard({ language }) {
 
     const [pageSelected, setPageSelected] = React.useState("Department");
 
     return (
-        <div className={classes.main}>
-            <NavBar />
-            <h3 className={classes.header}>Admin Dashboard</h3>
+        <div style={{height: '100%'}}>
+            <h3 className={classes.header}>{language.AdminDashboard}</h3>
+
+
             <Paper className={classes.container + " " + classes.sidebar} elevation={0} >
 
                 <Button className={classes.btn + " " + classes.sidebarBtn +

@@ -42,7 +42,7 @@ export default function TutorCard(props) {
     
     return (
 
-        <div style={{ textAlign: 'left', border: '1px solid lightgray', borderRadius: 10, margin: 5, width: '40%', display: 'inline-block' }}>
+        <div style={{ textAlign: 'left', border: '1px solid lightgray', borderRadius: 10, margin: 5, maxWidth: '350px', display: 'inline-block' }}>
             <div style={{ padding: 10 }}>
                 <h6 style={{ display: 'inline-block', width: '90%' }}>{name.firstName + ' '} {name.middleName} {name.lastName}</h6>
                 {/* <FavoriteIcon sx={{ color: '#D90429', display: 'inline-block', fontSize: 20 }} /> */}
