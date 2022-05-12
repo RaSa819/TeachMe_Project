@@ -53,19 +53,19 @@ const validationSchema = yup.object({
 
 export default function Edit() {
   const { openDialog } = useDialog()
-  let userDetail = JSON.parse(localStorage.getItem('userDetail'))
+  let userDetail = JSON.parse(localStorage.getItem('userDetail')) || {};
   console.log('userDetail::', userDetail)
   const formik = useFormik({
     initialValues: {
-      firstName: userDetail.name.firstName,
-      middleName: userDetail.name.middleName,
-      lastName: userDetail.name.lastName,
+      firstName: userDetail.name?.firstName,
+      middleName: userDetail.name?.middleName,
+      lastName: userDetail.name?.lastName,
       newPassword: '',
       confirmPassword: '',
-      country: userDetail.address.country ? userDetail.address.country : '',
-      city: userDetail.address.city,
-      street: userDetail.address.street,
-      ZIP: userDetail.address.ZIP,
+      country: userDetail.address?.country ? userDetail.address.country : '',
+      city: userDetail.address?.city,
+      street: userDetail.address?.street,
+      ZIP: userDetail.address?.ZIP,
       gender: userDetail.gender,
       phoneNumber: userDetail.phoneNumber
     },
