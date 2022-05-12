@@ -53,6 +53,7 @@ import NotFound from "./auth/NotFound";
 import PendingRequest from './pages/User/PendingRequest'
 import IsTutor from "./auth/IsTutor";
 import Session from "./pages/Session/Session"
+import ViewTutor from "./pages/view/Tutor"
 
 
 // import HomePage from "./pages/home/homePage.js";
@@ -69,6 +70,7 @@ export default function App() {
                 if (response.data.res != true) {
                     localStorage.removeItem('token')
                     localStorage.removeItem('type')
+                    localStorage.removeItem('userDetail')
                 }
 
             }).catch((error) => {
@@ -266,6 +268,9 @@ export default function App() {
                                     } />
                                 <Route path="/homePage"
                                     element={<homePage />} />
+
+                                <Route path="/view/tutor/:id"
+                                    element={ <ViewTutor/>}/>     
 
                             </Routes>
                         </SocketProvider>
