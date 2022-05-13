@@ -44,7 +44,7 @@ import SingupWithValidation from './components/SingupWithValidation'
 
 
 // Tutor side
-import TutorDashboard from './pages/Tutor/tutorDashboard';
+// import TutorDashboard from './pages/Tutor/tutorDashboard';
 import IsStudent from "./auth/IsStudent";
 import IsAuth from "./auth/IsAuth";
 import Redirect from "./auth/Redirect";
@@ -247,10 +247,10 @@ export default function App() {
                                         } />
                                 </Route>
 
-                                <Route path="testAuth"
+                                {/* <Route path="testAuth"
                                     element={
                                         <IsStudent><p>hello just test</p></IsStudent>
-                                    } />
+                                    } /> */}
 
                                 <Route path="global"
                                     element={
@@ -269,8 +269,10 @@ export default function App() {
                                 <Route path="*"
                                     element={<NotFound />} />
 
-                                <Route path="testDash"
-                                    element={<TutorDashboard />} />
+
+                                {/* <Route path="testDash"
+                                    element={<TutorDashboard />} /> */}
+
 
                                 <Route path="home"
                                     element={
