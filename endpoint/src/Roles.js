@@ -3,7 +3,7 @@
 
 
 var role = (() => {
-    var data = 'hello mohammed'
+    var data = 'hello'
 
     return {
         setData: function (dt) {
