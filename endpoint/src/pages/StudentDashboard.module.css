@@ -86,28 +86,38 @@
 .profileDiv {
     margin-top: 50;
     margin-left: 50;
-  
+
 }
 
-.editForm{
-    display: inline-block ;
+.editForm {
+    display: inline-block;
     margin: 20px;
 }
 
- .addButton{
-    background:#D90429 !important;
-    color:white !important;
+.addButton {
+    background: #D90429 !important;
+    color: white !important;
     text-transform: none !important;
     font-size: 12px !important;
     margin-bottom: 10px !important;
- }
-  .cardButton{
-      font-size: 10px !important;
-      margin: 5px !important;
-      border-radius: 10px !important;
-      text-transform: none !important;
-  }
+}
 
+.cardButton {
+    font-size: 10px !important;
+    margin: 5px !important;
+    border-radius: 10px !important;
+    text-transform: none !important;
+}
+
+.cardDiv {
+    text-align: left;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin: 5px;
+    width: 40%;
+    display: inline-block;
+  
+}
 
 
 @media (max-width: 760px) {
@@ -119,15 +129,20 @@
         max-width: 76px;
         margin-left: 15px;
     }
+
     .profileDiv {
-      font-size: smaller;
-      
-    }
-    .editForm{
-        margin:0 0 10px 0;
+        font-size: smaller;
+
     }
 
-    .content > div > div {
+    .editForm {
+        margin: 0 0 10px 0;
+    }
+
+    .content>div>div {
         padding: 15px !important;
+    }
+    .cardDiv {
+        width:100%;
     }
 }

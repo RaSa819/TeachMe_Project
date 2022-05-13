@@ -83,9 +83,9 @@ export default function App() {
 
     const updateLanguage = (newLanguage) => {
 
-        if(Languages.Selected === 'En') Languages.Selected = 'Ar';   
+        if (Languages.Selected === 'En') Languages.Selected = 'Ar';
         else Languages.Selected = 'En';
-        
+
         setLanguage(newLanguage);
     }
 
@@ -159,7 +159,7 @@ export default function App() {
                     }>
                     <Router>
                         <SocketProvider>
-                            <Routes> 
+                            <Routes>
                                 <Route path="/"
                                     element={<HomePage />} />
 
@@ -175,7 +175,7 @@ export default function App() {
 
                                 <Route path="/Signup"
                                     element={<SingupWithValidation />} />
-                                    
+
                                 <Route path="/Session"
                                     element={<Session />} />
 
@@ -268,6 +268,7 @@ export default function App() {
 
                                 <Route path="*"
                                     element={<NotFound />} />
+
                                 <Route path="testDash"
                                     element={<TutorDashboard />} />
 
@@ -280,7 +281,7 @@ export default function App() {
                                     element={<homePage />} />
 
                                 <Route path="/view/tutor/:id"
-                                    element={ <ViewTutor/>}/>     
+                                    element={<ViewTutor />} />
 
                             </Routes>
                         </SocketProvider>

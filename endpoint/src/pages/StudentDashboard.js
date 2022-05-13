@@ -14,51 +14,62 @@ import NavBar from '../components/topBar/navBar';
 
 
 
-export default function StudentDashboard({language}) {
+export default function StudentDashboard({ language }) {
 
   const [pageSelected, setPageSelected] = React.useState("Profile");
 
   return (
-      <div style={{height: '100%'}}>
-        
-        <h3 className={classes.header}>{language.StudentDashboard}</h3>
+    <div style={{ height: '100%' }}>
 
-        <Paper className={classes.container + " " + classes.sidebar} elevation={0} >
-          <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'Profile') ? classes.active : "")}
-            onClick={() => setPageSelected("Profile")}
-            variant="text" startIcon={<VisibilityIcon />}><span className={classes.hideText}>View Profile</span></Button>
+      <h3 className={classes.header}>{language.StudentDashboard}</h3>
 
-          <Divider light />
-          <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'Edit') ? classes.active : "")} onClick={() => setPageSelected("Edit")}
-            variant="text" startIcon={<EditIcon />} ><span className={classes.hideText}>Edit Profile</span></Button>
+      <Paper className={classes.container + " " + classes.sidebar} elevation={0} >
+        <Button className={classes.btn + " " + classes.sidebarBtn +
+          " " + ((pageSelected === 'Profile') ? classes.active : "")}
+          onClick={() => setPageSelected("Profile")}
+          variant="text" startIcon={<VisibilityIcon />}>
+          <span className={classes.hideText}>View Profile</span></Button>
 
-          <Divider light />
-          <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'Tutors') ? classes.active : "")} onClick={() => setPageSelected("Tutors")}
-            variant="text" startIcon={<SummarizeIcon />} ><span className={classes.hideText}>Favorite Tutors List</span></Button>
+        <Divider light />
+        <Button className={classes.btn + " " + classes.sidebarBtn +
+          " " + ((pageSelected === 'Edit') ? classes.active : "")}
+          onClick={() => setPageSelected("Edit")}
+          variant="text" startIcon={<EditIcon />} >
+          <span className={classes.hideText}>Edit Profile</span></Button>
 
-          <Divider light />
-          <Button className={classes.btn + " " + classes.sidebarBtn + " " + ((pageSelected === 'History') ? classes.active : "")} onClick={() => setPageSelected("History")}
-            variant="text" startIcon={<HistoryIcon />} ><span className={classes.hideText}>Previous Request History</span> </Button>
+        <Divider light />
+        <Button className={classes.btn + " " + classes.sidebarBtn +
+          " " + ((pageSelected === 'Tutors') ? classes.active : "")}
+          onClick={() => setPageSelected("Tutors")}
+          variant="text" startIcon={<SummarizeIcon />} >
+          <span className={classes.hideText}>Favorite Tutors List</span></Button>
+
+        <Divider light />
+        <Button className={classes.btn + " " + classes.sidebarBtn +
+          " " + ((pageSelected === 'History') ? classes.active : "")}
+          onClick={() => setPageSelected("History")}
+          variant="text" startIcon={<HistoryIcon />} >
+          <span className={classes.hideText}>Previous Request History</span> </Button>
 
 
-        </Paper>
+      </Paper>
 
-        <Paper elevation={0} className={classes.container + " " + classes.content}>
-          <div style={{ padding: 10, height: '100%', width: '100%' }}>
-            <div style={{ border: '1px solid lightgray', padding: 40, height: '100%', width: '100%', borderRadius: 10, overflowY: 'auto' }}>
-              {(pageSelected === "Profile") && <Profile
-                name="Student name"
-                country="Saudi Arabia"
-                stars="3"
-                joinedDate="20 May 2022" />}
-              {(pageSelected === "Edit") && <Edit />}
-              {(pageSelected === "Tutors") && <Tutors />}
+      <Paper elevation={0} className={classes.container + " " + classes.content}>
+        <div style={{ padding: 10, height: '100%', width: '100%' }}>
+          <div style={{ border: '1px solid lightgray', padding: 40, height: '100%', width: '100%', borderRadius: 10, overflowY: 'auto' }}>
+            {(pageSelected === "Profile") && <Profile
+              name="Student name"
+              country="Saudi Arabia"
+              stars="3"
+              joinedDate="20 May 2022" />}
+            {(pageSelected === "Edit") && <Edit />}
+            {(pageSelected === "Tutors") && <Tutors />}
 
-            </div>
           </div>
+        </div>
 
-        </Paper>
-      </div>
+      </Paper>
+    </div>
   );
 }
 
