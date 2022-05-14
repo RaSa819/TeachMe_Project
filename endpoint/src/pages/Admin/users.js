@@ -261,13 +261,10 @@ export default function Users() {
                     userData.data.newPassword = values.password
                 }
             }
-            console.log('Here')
             if (error) {
-                console.log('THere')
                 alert("you can't completely signup, there are errors")
             //   MessageBox(openDialog, 'Errors ', "you can't completely signup, there are errors", 'Okay');
             } else {
-                
                 if (isTutor) {
                     userData.tutorData = {
                         dept: values.dept,
@@ -725,6 +722,7 @@ export default function Users() {
               rows.map((item) => {
                 return (
                     <UserCard
+                        fetchUser={fetchUser}
                         setEditDat={setEditDat}
                         data={item}
                         id={item.user_id}

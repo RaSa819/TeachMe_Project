@@ -716,3 +716,29 @@ exports.getTutor = async (req, res) => {
         res.json({found: false})
     }
 }
+
+exports.getUserStudent = async (req, res) => {
+    const objectID = mongoose.Types.ObjectId
+    let id = req.params.id ? req.params.id : null
+    let studentDetail = await student.findOne({user_id: objectID(id)});
+    if (studentDetail) {
+        let userD = await user.findOne({_id: objectID(id)});
+        let returnObj = {
+            found: true,
+            profile: studentDetail.profile,
+            name: userD.name,
+            address: userD.address,
+            email: userD.email,
+            phoneNumber: userD.phoneNumber,
+            gender: userD.gender,
+            type: userD.type, // one => tutor . zero => student
+            date: userD.date,
+            img: userD.img,
+            rate: userD.rate,
+            reviews: userD.reviews
+        }
+        res.json(returnObj)
+    } else {
+        res.json({found: false})
+    }
+}

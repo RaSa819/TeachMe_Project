@@ -37,7 +37,7 @@ const RedCapitalizedButton = withStyles((theme) => ({
 
 export default function UserCard(props) {
     const { openDialog, closeDialog } = useDialog();
-    const { name, country, joinedDate, description, stars, id, type, setEditDat, data } = props;
+    const { name, country, joinedDate, description, stars, id, type, setEditDat, data, fetchUser } = props;
     let countryName = ''
     if (country) {
         let countryItem = countries.find(v => v.code === country);
@@ -50,7 +50,8 @@ export default function UserCard(props) {
     const deleteUser = (id) => {
         axios.post('http://localhost:4000/admin/deleteUser', {
             id: id
-        }).then((res) => {
+        }).then(async (res) => {
+            await fetchUser()
             console.log(res)
         }).catch((error) => {
             console.log('the error is ' + error)
@@ -86,7 +87,7 @@ export default function UserCard(props) {
             },
             onSubmit: async () => {
                 deleteUser(id)
-                window.location.reload(false);
+                // window.location.reload(false);
             }
         });
     
@@ -118,7 +119,7 @@ export default function UserCard(props) {
 
                     <Button className={classes.cardButton}
                         sx={{ color: 'darkblue', background: '#f1f0f0' }}
-                        startIcon={<AccountCircleIcon />}  >View Profile</Button>
+                        startIcon={<AccountCircleIcon />}  ><a href={type===0 ? `/view/student/${id}` : (type===1 ? `/view/tutor/${id}` : ``)} target="_blank">View profile</a></Button>
 
                     <Button className={classes.cardButton}
                         sx={{ color: '#f1f0f0', background: '#D90429' }}
