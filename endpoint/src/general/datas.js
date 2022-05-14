@@ -2,7 +2,7 @@ export const languageOptions = ['العربية', 'English'];
 
 export const styleUnFavorite = { color: 'gray', display: 'inline-block', fontSize: 20 };
 
-export const styleFavorite = { color: 'red', display: 'inline-block', fontSize: 20 };
+export const styleFavorite = {  color: '#D90429', display: 'inline-block', fontSize: 20 };
 
 export const typeDt = [
     0,

@@ -29,7 +29,7 @@ export default function Tutors() {
       fetchData()
     }, [])
     return (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'left' }}>
             {
               tutors.map((item) => {
                 let flag = 0;
