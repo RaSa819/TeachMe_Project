@@ -16,28 +16,127 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import axios from 'axios';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 
-
-function createData(department, price, details, edit, del) {
-    return { department, price, details, edit, del };
-}
-
-const rows = [
-    createData('Department name', '- $'),
-    createData('Department name', '- $')
-];
+const validationSchema = yup.object({
+    _id: yup.
+      string('Enter your id'),
+    name: yup.
+      string('Enter department name').
+      required('The department name is required '),
+    price: yup.
+      string('Enter price').
+      required('The price is required ')
+  });
 
 export default function Department() {
+    const [rows, setRowData] = React.useState([])
+    const fetchDept = async () => {
+        await axios.get('http://localhost:4000/fetchDept').
+        //represnt data to state 
+        then((res) => {
+            setRowData(res.data)
+            setTimeout(() => {
+              console.log("The New Data")
+              console.log(res.data)
+            }, 1000);
+        }).
+        catch((err) => {
+          console.log('there is error is' + err)
+        })
+    }
+
+    const addDeptData = (e) => {
+        e.preventDefault();
+        let dataItem = formik.values
+        var errorCount = 0;
+        if (dataItem.name && dataItem.price) {
+            errorCount = 0;
+        } else {
+            errorCount++;
+        }
+
+        if (errorCount > 0)
+          return;
+        var url = ''
+      let data = {}
+      if (dataItem._id) {
+        url = 'http://localhost:4000/admin/EditDept'
+        data = {
+            deptName: dataItem.name,
+            deptPrice: dataItem.price,
+            id: dataItem._id
+        }
+      } else {
+        url = 'http://localhost:4000/admin/addDept'
+        data = {
+            deptName: dataItem.name,
+            deptPrice: dataItem.price
+        }
+      }
+      axios.post(url, {
+        data: data
+      }).then((response) => {
+          fetchDept()
+          setAddDepartment(false);
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+
+    const deleteDept = (id) => {
+      //alert(id)
+      axios.post('http://localhost:4000/admin/delDept',
+        { id: id }
+      ).then((response) => {
+        fetchDept()
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+
+    const formik = useFormik({
+        initialValues: {
+            _id: null,
+          name: '',
+          price: ''
+        },
+        validationSchema: validationSchema
+      });
+
+      const [error, setError] = React.useState(false)  
+
+    const setEditDat = (data) => {
+        openAddDepartment(data)    
+    }
+
     const [addDepartment, setAddDepartment] = React.useState(false);
 
-    const openAddDepartment = () => {
+    const openAddDepartment = (data) => {
+        if (data && data._id) {
+            formik.values._id = data._id
+            formik.values.name = data.name
+            formik.values.price = data.price
+        } else {
+            formik.values._id = null
+            formik.values.name = ''
+            formik.values.price = ''
+        }
         setAddDepartment(true);
     };
 
     const closeAddDepartment = () => {
         setAddDepartment(false);
     };
+
+    React.useEffect(async () => {
+      fetchDept()
+    }, [])
 
     return (
         <div>
@@ -49,32 +148,46 @@ export default function Department() {
             </Button>
 
             <Dialog open={addDepartment} onClose={closeAddDepartment}>
-
+            
                 <DialogContent>
-
+                <form className="row" onSubmit={addDeptData} id="myDepartmentform">
                     <TextField
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        error={formik.touched.name && Boolean(formik.errors.name)}
+                        helperText={formik.touched.name && formik.errors.name}
                         color="error"
                         margin="dense"
                         id="name"
+                        name="name"
                         label="Department Name"
                         type="text"
                         fullWidth
                         variant="outlined"
                     />
                     <TextField
+                        value={formik.values.price}
+                        onChange={formik.handleChange}
+                        error={formik.touched.price && Boolean(formik.errors.price)}
+                        helperText={formik.touched.price && formik.errors.price}
                         color="error"
                         margin="dense"
-                        id="name"
+                        id="price"
+                        name="price"
                         label="Price $"
                         type="text"
                         fullWidth
                         variant="outlined"
                     />
+                    </form>
                 </DialogContent>
                 <DialogActions>
+                    <Button type="submit"
+                        className={classes.addButton} form="myDepartmentform">
+                        { formik.values._id ? 'Edit Department': 'Add Department'}</Button>
                     <Button onClick={closeAddDepartment}
-                        className={classes.addButton}>
-                        Add department</Button>
+                        className={classes.closeButton}>
+                        Close</Button>
                 </DialogActions>
             </Dialog>
 
@@ -94,19 +207,23 @@ export default function Department() {
                     <TableBody>
                         {rows.map((row) => (
                             <TableRow
-                                key={row.department}
+                                key={row.name}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell component="th" scope="row">{row.department}</TableCell>
+                                <TableCell component="th" scope="row">{row.name}</TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
                                 <TableCell align="right">{row.details}</TableCell>
                                 <TableCell align="right">
-                                    <IconButton >
+                                    <IconButton onClick={() => {
+                                        setEditDat(row)
+                                    }}>
                                         <EditIcon sx={{ color: 'black', fontSize: '15px' }} />
                                     </IconButton>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <IconButton >
+                                    <IconButton onClick={() => {
+                                      deleteDept(row._id)
+                                    }}>
                                         <DeleteIcon sx={{ color: 'red', fontSize: '15px' }} />
                                     </IconButton>
                                 </TableCell>

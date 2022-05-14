@@ -65,7 +65,16 @@ export default () => {
                 localStorage.setItem('type', type);
                 localStorage.setItem('userDetail', JSON.stringify(data.data));
                 
-                navigate('/home')
+                if (type === 0) {
+                    navigate('/StudentDashboard')
+                } else if (type === 1) {
+                    navigate('/TutorDashboard')
+                } else if (type === 2) {
+                    navigate('/AdminDashboard')
+                } else {
+                    navigate('/home')
+                }
+                
                 socket.emit('sendID',token)
             }
         }).catch((error) => {

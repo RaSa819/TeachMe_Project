@@ -106,14 +106,14 @@ export default (openDialog, dt, dept,navigate) => {
                 name: 'experience',
 
             },
-            CardType: {
+            cardType: {
                 initialValue: '',
                 component: (
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Choose your card type</FormLabel>
                         <Field
                             component={Select}
-                            name="CardType"
+                            name="cardType"
                             inputProps={{
                                 id: "dept"
                             }}
@@ -142,7 +142,7 @@ export default (openDialog, dt, dept,navigate) => {
             about: Yup.string().required('You must talk about your self'),
             certifications: Yup.string().required('you must input your last certification'),
             experience: Yup.string().required('You must talk about your experiences'),
-            CardType: Yup.string().required('You must choose your card type'),
+            cardType: Yup.string().required('You must choose your card type'),
             cardID: Yup.string().required('You must choose your card ID'),
         }),
         cancelButton: { children: "Close" },

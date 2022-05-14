@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
     email: String,
     phoneNumber: [],
     gender: Number,
-    type: Number, // one => tutor . zero => student
+    type: Number, // one => tutor . zero => student . two => admin
     date: { type: Date, default: Date.now },
     token: String,
     img: { type: String, default: 'unknow.png' },

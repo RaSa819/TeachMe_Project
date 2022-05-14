@@ -101,6 +101,14 @@
     font-size: 12px !important;
     margin-bottom: 10px !important;
  }
+
+ .closeButton{
+    background:#fcfcfc !important;
+    color:rgb(4, 4, 4) !important;
+    text-transform: none !important;
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+ }
   .cardButton{
       font-size: 10px !important;
       margin: 5px !important;

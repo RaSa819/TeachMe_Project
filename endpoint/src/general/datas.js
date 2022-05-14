@@ -13,6 +13,19 @@ export const genderDt = [
     1,
     0
 ];
+
+export const certifications = [
+  "Bachelor",
+  "Master",
+  "Dector",
+  "Freelance and own experience",
+  "Another"
+]
+
+export const CardType = [
+  "master card",
+  "visa card"
+]
 export const countries = [
     { code: 'AD', label: 'Andorra', phone: '376' },
     {

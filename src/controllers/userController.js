@@ -223,6 +223,7 @@ exports.fetchTutors = async (req, res) => {
                 status: 1,
                 _id: 0,
                 rate: 1,
+                cardInfo: 1,
                 profile: 1,
                 user_id: 1,
             }, (err, data) => {
@@ -287,8 +288,6 @@ exports.updateStudentProfile = (req, res) => {
     const { userName, email } = req.body.data;
     const { address } = req.body.data.address
     const { country, city, street, ZIP } = req.body.data.address;
-
-
 
     user.updateOne({ _id: req.body.id },
         {
@@ -496,7 +495,6 @@ function getFavoriteListID(id) {
 exports.getFavortieListInfo = (req, res) => {
     var id = objectID(req.params.id);
 
-
     const getData = () => new Promise((resolve, reject) => {
         student.findOne({
             user_id: id
@@ -659,7 +657,7 @@ exports.updateProfile = async (req, res) => {
             gender: parseInt(gender),
         }
 
-        if (req.body.data.newPassword !== '') {
+        if (req.body.data.newPassword && req.body.data.newPassword != "") {
             const hash = bcrypt.hashSync(req.body.data.newPassword, 10);
             updateObj.password = hash
         }
@@ -671,6 +669,11 @@ exports.updateProfile = async (req, res) => {
             var tutorData = req.body.tutorData;
             let updateTutor = await tutor.updateOne({user_id: objectID(req.body.data.id)}, 
                 {
+                    dept_id: tutorData.dept,
+                    cardInfo: {
+                        cardID: tutorData.cardID,
+                        cardType: tutorData.cardType
+                    },
                     profile: {
                         about: tutorData.about,
                         certifications: tutorData.certifications,
@@ -683,7 +686,7 @@ exports.updateProfile = async (req, res) => {
         }
         res.json({ msg: stackOperation, data: userUpdate})
     } catch (err) {
-        console.log(error)
+        console.log(err)
         res.json(err)
     }
 }

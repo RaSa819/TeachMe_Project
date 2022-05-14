@@ -6,4 +6,4 @@ const admin =new mongoose.Schema({
 })
 
 
-molude.exports = mongoose.model('admin',admin);
+module.exports = mongoose.model('admin',admin);
