@@ -9,8 +9,9 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import HistoryIcon from '@mui/icons-material/History';
 import Profile from '../../pages/Tutor/profile';
 import Edit from '../../pages/Tutor/edit';
-import Tutors from '../../pages/Tutor/history';
+import History from '../../pages/Tutor/history';
 import { LanguageContext } from '../../App';
+import PendingRequest from "../../pages/Tutor/pendingRequest";
 
 
 export default function TutorDashboard() {
@@ -44,8 +45,8 @@ export default function TutorDashboard() {
                 <Divider light />
 
                 <Button className={classes.btn + " " + classes.sidebarBtn +
-                    " " + ((pageSelected === 'Tutors') ? classes.active : "")}
-                    onClick={() => setPageSelected("Tutors")}
+                    " " + ((pageSelected === 'PendingRequest') ? classes.active : "")}
+                    onClick={() => setPageSelected("PendingRequest")}
                     variant="text" startIcon={<SummarizeIcon />} >
                     <span className={classes.hideText}>Pending Request</span>
                 </Button>
@@ -67,7 +68,8 @@ export default function TutorDashboard() {
                     <div style={{ border: '1px solid lightgray', padding: 40, height: '100%', width: '100%', borderRadius: 10, overflowY: 'auto' }}>
                         {(pageSelected === "Profile") && <Profile />}
                         {(pageSelected === "Edit") && <Edit />}
-                        {(pageSelected === "Tutors") && <Tutors />}
+                        {(pageSelected === "PendingRequest") && <PendingRequest/>}
+                        {(pageSelected === "History") && <History/>}
 
                     </div>
                 </div>

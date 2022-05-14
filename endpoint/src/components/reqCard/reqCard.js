@@ -31,12 +31,12 @@ export default (props) => {
     <div className={classes.cardDiv}>
       <div style={{ padding: 10 }}>
 
-        <div>
-          <h6 style={{ display: 'inline-block', width: '90%' }}>{name}</h6>
-          <Rating name="read-only" value={stars} readOnly />
+        <div style={{ width: '90%',marginBottom:"10px" }}>
+          <span style={{fontSize:"14px",marginRight:"10px"}}>{name}</span>
+          <Rating  name="read-only" value={stars} readOnly />
         </div>
-        <Divider light />
-        <h3>{title}</h3>
+        <Divider light sx={{width:"40%",marginBottom:"10px"}} />
+        <span style={{fontWeight:"bold",fontSize:"14px"}}>{title}</span>
 
 
         <div style={{ textAlign: "right" }}>
@@ -45,8 +45,8 @@ export default (props) => {
             <Button className={classes.cardButton}
               sx={{ color: '#f1f0f0', background: 'darkblue' }}
               onClick={() => {
-                push(0)
-              }}>Decline</Button>
+              }} > 
+              View </Button>
           }
 
           {
@@ -59,7 +59,9 @@ export default (props) => {
           }
           <Button className={classes.cardButton}
             sx={{ color: '#f1f0f0', background: '#D90429' }}
-          >View</Button>
+            onClick={() => {
+                push(0)
+              }}>Decline</Button>
         </div>
 
       </div>
