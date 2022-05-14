@@ -55,7 +55,8 @@
         "Student":"Student",
         "Tutor":"Tutor",
         "SIGNUP":"SIGN UP",
-        "StudentDashboard":"Student Dashboard"
+        "StudentDashboard":"Student Dashboard",
+        "TutorDashboard":"Tutor Dashboard"
     },
 
     "Ar": {
@@ -112,6 +113,7 @@
         "Student":"طالب",
         "Tutor":"مدرس",
         "SIGNUP":"إنشاء حساب",
-        "StudentDashboard": "لوحة تحكم الطالب"
+        "StudentDashboard": "لوحة تحكم الطالب",
+        "TutorDashboard":"لوحة تحكم المدرس"
     }
 }

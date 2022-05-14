@@ -7,12 +7,12 @@ import Department from '../pages/Admin/department';
 import Users from '../pages/Admin/users';
 import Sessions from '../pages/Admin/sessions';
 import NavBar from '../components/topBar/navBar';
+import { LanguageContext } from '../App';
 
-
-
-export default function AdminDashboard({ language }) {
+export default function AdminDashboard() {
 
     const [pageSelected, setPageSelected] = React.useState("Department");
+    const language = React.useContext(LanguageContext);
 
     return (
         <div style={{height: '100%'}}>

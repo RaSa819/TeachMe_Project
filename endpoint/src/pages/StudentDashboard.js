@@ -10,13 +10,13 @@ import HistoryIcon from '@mui/icons-material/History';
 import Profile from '../pages/Student/profile';
 import Edit from '../pages/Student/edit';
 import Tutors from '../pages/Student/tutors';
-import NavBar from '../components/topBar/navBar';
+import { LanguageContext } from '../App';
 
 
-
-export default function StudentDashboard({ language }) {
+export default function StudentDashboard() {
 
   const [pageSelected, setPageSelected] = React.useState("Profile");
+  const language = React.useContext(LanguageContext);
 
   return (
     <div style={{ height: '100%' }}>
