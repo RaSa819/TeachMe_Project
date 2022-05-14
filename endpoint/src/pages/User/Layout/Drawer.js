@@ -70,7 +70,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
     backgroundColor: color[0],
-    marginBottom:50
+    marginBottom: 50
 }));
 
 export default function PersistentDrawerLeft(props) {
@@ -336,7 +336,7 @@ export default function PersistentDrawerLeft(props) {
                     <ListItem button onClick={() => {
                         navigate('/home')
                     }}
-                    sx={{ display: { xs: 'flex', md: 'none' } }}
+                        sx={{ display: { xs: 'flex', md: 'none' } }}
                     >
                         Git Tutor
                     </ListItem>
@@ -344,11 +344,12 @@ export default function PersistentDrawerLeft(props) {
                 </List>
             </Drawer>
             <Main open={open} style={
-                {height:'600px',
-                marginTop:50
-            
-            }}
-                >
+                {
+                    height: '600px',
+                    marginTop: 50
+
+                }}
+            >
                 {props.children}
             </Main>
         </Box>

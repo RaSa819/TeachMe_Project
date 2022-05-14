@@ -1,81 +1,68 @@
-import React,{useContext} from "react";
-import { Card, Container, Row, Col } from "react-bootstrap";
-import Button from '@mui/material/Button';
-import Image from "react-bootstrap/Image";
-import { Avatar } from "@mui/material";
-import Rating from '../rating'
+import React, { useContext } from "react";
 import axios from "axios";
-
-
+import Button from '@mui/material/Button';
+import Rating from '@mui/material/Rating';
+import classes from "./reqCard.module.css"
+import Divider from '@mui/material/Divider';
 import { SocketContext } from "../../Socket";
-import "./reqCard.css";
+
 export default (props) => {
 
-  const { title, name, rate, id, enable } = props;
-  const socket =  useContext(SocketContext)
+  const { title, name, stars, id, enable } = props;
+  const socket = useContext(SocketContext)
   let push = (status) => {
-    
-    localStorage.setItem('sessionID',id)
-    socket.emit('editRequestStatus',{
-      id:id,
-      status:status
+
+    localStorage.setItem('sessionID', id)
+    socket.emit('editRequestStatus', {
+      id: id,
+      status: status
     });
-//     axios.post('http://localhost:4000/tutor/editRequestStatus', {
-//       id: id,
-//       status: status
-//     }).then((data) => {
-//       window.location.reload();
-//     }).catch((error) => {
-// 
-//     })
+    //     axios.post('http://localhost:4000/tutor/editRequestStatus', {
+    //       id: id,
+    //       status: status
+    //     }).then((data) => {
+    //       window.location.reload();
+    //     }).catch((error) => {
+    // 
+    //     })
   }
   return (
 
-    <Container id='card'>
-      
-      <Row>
-        <Col xs={2} lg={1}>
-          <Avatar id='avatar' src="">
-          </Avatar></Col>
+    <div className={classes.cardDiv}>
+      <div style={{ padding: 10 }}>
 
-        <Col xs={3}>
-          <h4>{title}</h4>
-          <h6>{name} <Rating /></h6>
-        </Col>
+        <div>
+          <h6 style={{ display: 'inline-block', width: '90%' }}>{name}</h6>
+          <Rating name="read-only" value={stars} readOnly />
+        </div>
+        <Divider light />
+        <h3>{title}</h3>
 
-        <Col xs={7}>
+
+        <div style={{ textAlign: "right" }}>
           {
             enable === true &&
-            <Button id="button" variant="outlined" color="error"
-
+            <Button className={classes.cardButton}
+              sx={{ color: '#f1f0f0', background: 'darkblue' }}
               onClick={() => {
                 push(0)
-              }}
-            >
-              Decline
-            </Button>
+              }}>Decline</Button>
           }
 
           {
-            enable === true && <Button id="button" variant="contained" style={{
-
-              backgroundColor: '#000052'
-            }}
+            enable === true &&
+            <Button className={classes.cardButton}
+              sx={{ color: 'darkblue', background: '#f1f0f0' }}
               onClick={() => {
                 push(1)
-              }}
-            >
-              Accept
-            </Button>
-
+              }} >Accept</Button>
           }
-          <Button id="button" variant="primary" style={{
-            backgroundColor: 'gray'
-          }}>
-            View
-          </Button>
-        </Col>
-      </Row>
-    </Container>
+          <Button className={classes.cardButton}
+            sx={{ color: '#f1f0f0', background: '#D90429' }}
+          >View</Button>
+        </div>
+
+      </div>
+    </div>
   );
 }
