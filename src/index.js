@@ -363,14 +363,6 @@ io.on('connection', socket => {
                 studentICECandidates: [],
                 tutorICECandidates: [],
             });
-
-            for (const { id, token } of users) {
-                if (token == student || token == tutor) {
-                    io.to(id).emit('openSession', {
-                        sessionID: newSession.id,
-                    });
-                }
-            }
         }
     })
 
@@ -515,42 +507,54 @@ request.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationT
 });
 
 sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ operationType, updateDescription, fullDocument }) => {
-    if (operationType !== 'update') return;
-
     const { tutor, student } = await request.findById(fullDocument.request);
     const tutorUser = users.find(({ token }) => token == tutor);
     const studentUser = users.find(({ token }) => token == student);
 
-    if (updateDescription.updatedFields.studentICECandidates && tutorUser) {
-        io.to(tutorUser.id).emit('ice-candidates-update', updateDescription.updatedFields.studentICECandidates)
+    if (operationType === 'insert') {
+        if (studentUser) {
+            io.to(studentUser.id).emit('openSession', { sessionID: fullDocument._id });
+        }
+
+        if (tutorUser) {
+            setTimeout(() => {
+                io.to(tutorUser.id).emit('openSession', { sessionID: fullDocument._id });
+            }, 2000);
+        }
     }
 
-    if (updateDescription.updatedFields.tutorICECandidates && studentUser) {
-        io.to(studentUser.id).emit('ice-candidates-update', updateDescription.updatedFields.tutorICECandidates);
-    }
+    if (operationType === 'update') {
+        if (updateDescription.updatedFields.studentICECandidates && tutorUser) {
+            io.to(tutorUser.id).emit('ice-candidates-update', updateDescription.updatedFields.studentICECandidates)
+        }
 
-    if (updateDescription.updatedFields.webRTCOffer && studentUser) {
-        io.to(studentUser.id).emit('webrtc-offer', updateDescription.updatedFields.webRTCOffer);
-    }
+        if (updateDescription.updatedFields.tutorICECandidates && studentUser) {
+            io.to(studentUser.id).emit('ice-candidates-update', updateDescription.updatedFields.tutorICECandidates);
+        }
 
-    if (updateDescription.updatedFields.webRTCAnswer && tutorUser) {
-        io.to(tutorUser.id).emit('webrtc-answer', updateDescription.updatedFields.webRTCAnswer);
-    }
+        if (updateDescription.updatedFields.webRTCOffer && studentUser) {
+            io.to(studentUser.id).emit('webrtc-offer', updateDescription.updatedFields.webRTCOffer);
+        }
 
-    if (updateDescription.updatedFields.isStudentSharingScreen === true && tutorUser) {
-        io.to(tutorUser.id).emit('screen-sharing-start');
-    }
+        if (updateDescription.updatedFields.webRTCAnswer && tutorUser) {
+            io.to(tutorUser.id).emit('webrtc-answer', updateDescription.updatedFields.webRTCAnswer);
+        }
 
-    if (updateDescription.updatedFields.isStudentSharingScreen === false && tutorUser) {
-        io.to(tutorUser.id).emit('screen-sharing-end');
-    }
+        if (updateDescription.updatedFields.isStudentSharingScreen === true && tutorUser) {
+            io.to(tutorUser.id).emit('screen-sharing-start');
+        }
 
-    if (updateDescription.updatedFields.isTutorSharingScreen === true && studentUser) {
-        io.to(studentUser.id).emit('screen-sharing-start');
-    }
+        if (updateDescription.updatedFields.isStudentSharingScreen === false && tutorUser) {
+            io.to(tutorUser.id).emit('screen-sharing-end');
+        }
 
-    if (updateDescription.updatedFields.isTutorSharingScreen === false && studentUser) {
-        io.to(studentUser.id).emit('screen-sharing-end');
+        if (updateDescription.updatedFields.isTutorSharingScreen === true && studentUser) {
+            io.to(studentUser.id).emit('screen-sharing-start');
+        }
+
+        if (updateDescription.updatedFields.isTutorSharingScreen === false && studentUser) {
+            io.to(studentUser.id).emit('screen-sharing-end');
+        }
     }
 });
 
@@ -564,7 +568,7 @@ require('./routers/fetchDataRouter')(app)
 
 
 // The server will listen on 4000 port
-server.listen(4000, (req, res) => {
+server.listen(5000, (req, res) => {
     console.log("The server is running on 4000 port ");
 });
 
