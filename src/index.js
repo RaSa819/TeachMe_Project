@@ -568,7 +568,7 @@ require('./routers/fetchDataRouter')(app)
 
 
 // The server will listen on 4000 port
-server.listen(5000, (req, res) => {
+server.listen(4000, (req, res) => {
     console.log("The server is running on 4000 port ");
 });
 
