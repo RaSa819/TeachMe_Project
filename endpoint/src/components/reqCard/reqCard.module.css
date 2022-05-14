@@ -44,3 +44,8 @@
     display: inline-block;
   
 }
+.cardButton{
+    margin-right:10px !important;
+    font-size: 12px !important;
+    text-transform: none !important;
+}
