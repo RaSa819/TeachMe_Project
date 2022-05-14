@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+const admin = require('./../models/admin')
 const dept = require('./../models/department')
 const user = require('./../models/users')
 const tutor = require('./../models/tutors')
@@ -61,5 +63,62 @@ exports.deleteUser = (req, res) => {
         })
     }).catch((error) => {
         res.json('the error is' + error)
+    })
+}
+
+exports.createAdmin = (req, res) => {
+    console.log(req.body)
+
+    var { firstName, middleName, lastName,
+        userName, password, email, phoneNumber,
+        gender, country, city,
+        street, ZIP, type, adminInfo
+    } = req.body.data;
+
+    type = parseInt(type)
+
+    const hash = bcrypt.hashSync(password, 10);
+
+    password = hash
+
+    // create document for user 
+
+    const user1 = new user({
+        name: {
+            firstName,
+            middleName,
+            lastName,
+        },
+        userName,
+        password,
+        address: {
+            country,
+            city,
+            street,
+            ZIP
+        },
+        email,
+        phoneNumber,
+        gender: parseInt(gender),
+        type
+    })
+
+
+    var stackOperation = "";
+
+    user1.save().then((response) => {
+        new admin({
+            user_id: response._id,
+            adminInfo: adminInfo
+        }).save().then((adminResponse) => {
+            stackOperation += "The admin has been  successfully added"
+            console.log(stackOperation)
+            response.password = null
+            response.adminInfo = adminResponse.adminInfo
+            res.json({ msg: stackOperation, token: response._id, data: response })
+        })        
+    }).catch((error) => {
+        console.log(error)
+        res.json(error)
     })
 }

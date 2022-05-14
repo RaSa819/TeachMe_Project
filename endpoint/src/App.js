@@ -53,6 +53,7 @@ import PendingRequest from './pages/User/PendingRequest'
 import IsTutor from "./auth/IsTutor";
 import Session from "./pages/Session/Session"
 import ViewTutor from "./pages/view/Tutor"
+import ViewStudent from "./pages/view/Student"
 
 // import HomePage from "./pages/home/homePage.js";
 
@@ -289,6 +290,9 @@ export default function App() {
 
                                     <Route path="/view/tutor/:id"
                                         element={<ViewTutor />} />
+
+                                    <Route path="/view/student/:id"
+                                        element={ <ViewStudent/>}/>      
 
                                 </Routes>
                             </SocketProvider>
