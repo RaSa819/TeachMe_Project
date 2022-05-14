@@ -97,7 +97,7 @@ export default function NavBar({ language, setLanguage}) {
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ padding: 0 }}>
 
-                    <a class="navbar-brand" style={{width:'80%', paddingTop: '0.6125rem'}} href="#">
+                    <a className="navbar-brand" style={{width:'80%', paddingTop: '0.6125rem'}} href="#">
                         Teach me.
                     </a>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

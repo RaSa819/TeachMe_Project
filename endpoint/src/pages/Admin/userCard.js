@@ -96,7 +96,7 @@ export default function UserCard(props) {
 
     return (
 
-        <div style={{ textAlign: 'left', border: '1px solid lightgray', borderRadius: 10, margin: 5, maxWidth: 350, display: 'inline-block' }}>
+      <div className={classes.cardDiv} >
             <div style={{ padding: 10 }}>
                 <h6 style={{ display: 'inline-block', width: '90%' }}>{name.firstName + ' '} {name.middleName} {name.lastName}</h6>
 

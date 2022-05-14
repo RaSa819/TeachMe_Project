@@ -13,19 +13,21 @@ import Tutors from '../pages/Student/tutors';
 import NavBar from '../components/topBar/navBar';
 import StudentDashboard from "./StudentDashboard";
 import AdminDashboard from "./AdminDashboard";
+import TutorDashboard from "./User/TutorDashboardUpdated";
+import { LanguageContext } from '../App';
 
-
-export default function Dashboard({ name, language, setLanguage }) {
+export default function Dashboard({ name, setLanguage }) {
 
   const [pageSelected, setPageSelected] = React.useState("Profile");
+  const language = React.useContext(LanguageContext);
 
   return (
     <div className={classes.main}>
-      <NavBar language={language} setLanguage={setLanguage} />
-            
-      { (name === 'Student') && <StudentDashboard language={language} /> }
-      {/* { (name === 'Tutor') && <TutorDashboard /> } */}
-      { (name === 'Admin') && <AdminDashboard language={language} /> }
+      <NavBar setLanguage={setLanguage} />
+
+      {(name === 'Student') && <StudentDashboard />}
+      {(name === 'Tutor') && <TutorDashboard />}
+      {(name === 'Admin') && <AdminDashboard />}
     </div>
 
 

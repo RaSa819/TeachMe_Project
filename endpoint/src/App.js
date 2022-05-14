@@ -60,6 +60,8 @@ import ViewStudent from "./pages/view/Student"
 // Languages
 import Languages from "./languages.json"
 
+export const LanguageContext = React.createContext();
+
 export default function App() {
 
     console.log(localStorage.getItem('token'))
@@ -147,154 +149,157 @@ export default function App() {
 
     return (
 
+        <LanguageContext.Provider value={language}>
+            <DialogProvider>
+                <TutorProvider>
+                    <div className="container-fluid"
+                        style={
+                            {
+                                height: '100%',
+                                margin: '0%',
+                                padding: '0%'
+                            }
+                        }>
+                        <Router>
+                            <SocketProvider>
+                                <Routes>
+                                    <Route path="/"
+                                        element={<HomePage />} />
 
-        <DialogProvider>
-            <TutorProvider>
-                <div className="container-fluid"
-                    style={
-                        {
-                            height: '100%',
-                            margin: '0%',
-                            padding: '0%'
-                        }
-                    }>
-                    <Router>
-                        <SocketProvider>
-                            <Routes>
-                                <Route path="/"
-                                    element={<HomePage />} />
-
-                                <Route path="/Login"
-                                    element={<Login />} />
-
-
-                                <Route path="/StudentDashboard"
-                                    element={<Dashboard name="Student" language={language} setLanguage={updateLanguage} />} />
-
-                                <Route path="/AdminDashboard"
-                                    element={<Dashboard name="Admin" language={language} setLanguage={updateLanguage} />} />
-
-                                <Route path="/Signup"
-                                    element={<SingupWithValidation />} />
-
-                                <Route path="/Session"
-                                    element={<Session />} />
+                                    <Route path="/Login"
+                                        element={<Login />} />
 
 
-                                <Route path="Admin"
-                                    element={
-                                        <><Outlet /></>
-                                    }>
-                                    <Route path="Home"
-                                        element={<AdminHome />} />
-                                    <Route path="AllUsers"
-                                        element={<AllUser />} />
-                                    <Route path="Activity"
-                                        element={<AdminActivity />} />
-                                    <Route path="Support"
-                                        element={<AdminSupport />} />
-                                </Route>
+                                    <Route path="/StudentDashboard"
+                                        element={<Dashboard name="Student" setLanguage={updateLanguage} />} />
+
+                                    <Route path="/AdminDashboard"
+                                        element={<Dashboard name="Admin" setLanguage={updateLanguage} />} />
+
+                                    <Route path="/TutorDashboard"
+                                        element={<Dashboard name="Tutor" setLanguage={updateLanguage} />} />
+
+                                    <Route path="/Signup"
+                                        element={<SingupWithValidation />} />
+
+                                    <Route path="/Session"
+                                        element={<Session />} />
 
 
-
-
-                                <Route path="user"
-                                    element={
-                                        <><Outlet /></>
-                                    }>
-                                    <Route path="Profile"
+                                    <Route path="Admin"
                                         element={
-                                            <IsAuth><UserProfile /></IsAuth>
-                                        } />
-                                    <Route path="EditProfile"
+                                            <><Outlet /></>
+                                        }>
+                                        <Route path="Home"
+                                            element={<AdminHome />} />
+                                        <Route path="AllUsers"
+                                            element={<AllUser />} />
+                                        <Route path="Activity"
+                                            element={<AdminActivity />} />
+                                        <Route path="Support"
+                                            element={<AdminSupport />} />
+                                    </Route>
+
+
+
+
+                                    <Route path="user"
                                         element={
-                                            <IsAuth><UserEditProfile /></IsAuth>
-                                        } />
+                                            <><Outlet /></>
+                                        }>
+                                        <Route path="Profile"
+                                            element={
+                                                <IsAuth><UserProfile /></IsAuth>
+                                            } />
+                                        <Route path="EditProfile"
+                                            element={
+                                                <IsAuth><UserEditProfile /></IsAuth>
+                                            } />
 
-                                    <Route path="History"
+                                        <Route path="History"
+                                            element={
+                                                <IsAuth><UserHistory /></IsAuth>
+                                            } />
+
+                                        <Route path="Setting"
+                                            element={
+                                                <IsAuth><UserSettings /></IsAuth>
+                                            } />
+
+                                        <Route path="Payment"
+                                            element={
+                                                <IsAuth><Payment /></IsAuth>
+                                            } />
+
+                                        <Route path="session/:sessionID"
+                                            element={
+                                                <IsAuth><Session /></IsAuth>
+                                            } />
+                                    </Route>
+
+                                    <Route path="tutor">
+                                        <Route path="pendingRequest"
+                                            element={
+                                                <IsTutor><PendingRequest /></IsTutor>
+                                            } />
+                                    </Route>
+                                    <Route path="student"
                                         element={
-                                            <IsAuth><UserHistory /></IsAuth>
-                                        } />
+                                            <><Outlet /></>
+                                        }>
+                                        <Route path="FavoriteList"
+                                            element={
+                                                <IsStudent><StudentFavoriteList /></IsStudent>
+                                            } />
+                                    </Route>
 
-                                    <Route path="Setting"
+                                    {/* <Route path="testAuth"
                                         element={
-                                            <IsAuth><UserSettings /></IsAuth>
-                                        } />
+                                            <IsStudent><p>hello just test</p></IsStudent>
+                                        } /> */}
 
-                                    <Route path="Payment"
+                                    <Route path="global"
                                         element={
-                                            <IsAuth><Payment /></IsAuth>
-                                        } />
 
-                                    <Route path="session/:sessionID"
+                                            <><Outlet /></>
+                                        }>
+                                        <Route path="tutors"
+                                            element={
+                                                <IsStudent><div ><Card /></div></IsStudent>
+                                            } />
+
+                                    </Route>
+
+
+
+                                    <Route path="*"
+                                        element={<NotFound />} />
+
+
+                                    {/* <Route path="testDash"
+                                        element={<TutorDashboard />} /> */}
+
+
+                                    <Route path="home"
                                         element={
-                                            <IsAuth><Session /></IsAuth>
+                                            <Redirect><PrepareRequest /></Redirect>
+
                                         } />
-                                </Route>
+                                    <Route path="/homePage"
+                                        element={<homePage />} />
 
-                                <Route path="tutor">
-                                    <Route path="pendingRequest"
-                                        element={
-                                            <IsTutor><PendingRequest /></IsTutor>
-                                        } />
-                                </Route>
-                                <Route path="student"
-                                    element={
-                                        <><Outlet /></>
-                                    }>
-                                    <Route path="FavoriteList"
-                                        element={
-                                            <IsStudent><StudentFavoriteList /></IsStudent>
-                                        } />
-                                </Route>
+                                    <Route path="/view/tutor/:id"
+                                        element={<ViewTutor />} />
 
-                                {/* <Route path="testAuth"
-                                    element={
-                                        <IsStudent><p>hello just test</p></IsStudent>
-                                    } /> */}
+                                    <Route path="/view/student/:id"
+                                        element={ <ViewStudent/>}/>      
 
-                                <Route path="global"
-                                    element={
-
-                                        <><Outlet /></>
-                                    }>
-                                    <Route path="tutors"
-                                        element={
-                                            <IsStudent><div ><Card /></div></IsStudent>
-                                        } />
-
-                                </Route>
-
-
-
-                                <Route path="*"
-                                    element={<NotFound />} />
-
-
-                                {/* <Route path="testDash"
-                                    element={<TutorDashboard />} /> */}
-
-
-                                <Route path="home"
-                                    element={
-                                        <Redirect><PrepareRequest /></Redirect>
-
-                                    } />
-                                <Route path="/homePage"
-                                    element={<homePage />} />
-
-                                <Route path="/view/tutor/:id"
-                                    element={ <ViewTutor/>}/>
-
-                                <Route path="/view/student/:id"
-                                    element={ <ViewStudent/>}/>      
-
-                            </Routes>
-                        </SocketProvider>
-                    </Router>
-                </div>
-            </TutorProvider>
-        </DialogProvider>
-
+                                </Routes>
+                            </SocketProvider>
+                        </Router>
+                    </div>
+                </TutorProvider>
+            </DialogProvider>
+        </LanguageContext.Provider>
     )
 }
