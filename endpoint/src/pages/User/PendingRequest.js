@@ -4,16 +4,8 @@ import ReqCard from '../../components/reqCard/reqCard'
 import axios from 'axios'
 import ProgressBar from './../../components/ProgressBar'
 import { SocketProvider } from '../../Socket'
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import EditIcon from '@mui/icons-material/Edit';
-import SummarizeIcon from '@mui/icons-material/Summarize';
-import HistoryIcon from '@mui/icons-material/History';
-// import Profile from '../pages/Student/profile';
-// import Edit from '../pages/Student/edit';
-// import Tutors from '../pages/Student/tutors';
+
+
 
 
 export default function PendingRequest(props) {
