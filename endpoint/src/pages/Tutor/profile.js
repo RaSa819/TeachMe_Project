@@ -11,31 +11,38 @@ import PublicIcon from '@mui/icons-material/Public';
 export default function Profile() {
 
   // const [img, setImg] = React.useState('');
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = React.useState({name: {}, address: {}, profile: {}});
 
 
 
   React.useEffect(async () => {
-
-    const userData = await getUserData();
+    const userData = JSON.parse(localStorage.getItem('userDetail')) || {};
+    console.log('userData::', userData)
     setUserData(userData);
   }, []);
 
+  let countryName = ''
+  if (userData.address?.country) {
+      let country = countries.find(v => v.code === userData.address.country);
+      if (country) {
+          countryName = country.label
+      }
+  }
 
   return (
     <div className={classes.profileDiv} >
-      <h4>{userData.fullName}</h4>
+      <h4>{userData.name.firstName + ' '} {userData.name.middleName} {userData.name.lastName}</h4>
       <Rating name="read-only" value={userData.stars || 3} readOnly />
       <div>
         <PublicIcon />
         {/* <img src={img} style={{ display: "inline-block", width: 20 }}></img> */}
-        <p style={{ display: "inline-block", marginLeft: 10 }}>{userData.country}</p>
+        <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
       </div>
       <Divider sx={{ width: "50%" }} />
-      <p>joined {userData.date}</p>
-      <h6 className={classes.details}>About :   <span style={{ fontSize: '14px' }}>{userData.about || ''}</span></h6>
-      <h6 className={classes.details}>Certificate :  <span style={{ fontSize: '14px' }}>{userData.certificate || ''}</span></h6>
-      <h6 className={classes.details}>Experience  :   <span style={{ fontSize: '14px' }}>{userData.experience || ''}</span></h6>
+      <p>joined on {new Date(userData.date).toLocaleString()}</p>
+      <h6 className={classes.details}>About :   <span style={{ fontSize: '14px' }}>{userData.profile?.about || ''}</span></h6>
+      <h6 className={classes.details}>Certificate :  <span style={{ fontSize: '14px' }}>{userData.profile?.certifications || ''}</span></h6>
+      <h6 className={classes.details}>Experience  :   <span style={{ fontSize: '14px' }}>{userData.profile?.experience || ''}</span></h6>
 
     </div>
   );

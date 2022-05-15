@@ -59,7 +59,7 @@ export default () => {
             }
             else if (data.data.type != null) {
                 var type = data.data.type;
-                var token = data.data._id;
+                var token = data.data.user_id ? data.data.user_id : data.data._id;
 
                 localStorage.setItem('token', token)
                 localStorage.setItem('type', type);

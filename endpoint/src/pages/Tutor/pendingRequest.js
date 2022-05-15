@@ -50,7 +50,7 @@ export default function PendingRequest() {
                         id={
                             item._id
                         }
-                        enable={true} />
+                        enable={true} data={item}/>
                 ))
             }
             {
