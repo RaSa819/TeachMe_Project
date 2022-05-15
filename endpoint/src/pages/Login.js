@@ -66,7 +66,8 @@ export default () => {
                 localStorage.setItem('userDetail', JSON.stringify(data.data));
                 
                 if (type === 0) {
-                    navigate('/StudentDashboard')
+                    // navigate('/StudentDashboard')
+                    navigate('/home')
                 } else if (type === 1) {
                     navigate('/TutorDashboard')
                 } else if (type === 2) {
