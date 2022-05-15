@@ -97,13 +97,27 @@ exports.registerTutor = (req, res) => {
 }
 
 
-exports.Login = (req, res) => {
-    user.findOne({ userName: req.body.userName }).then((data) => {
+exports.Login = async (req, res) => {
+    user.findOne({ userName: req.body.userName }).then(async (data) => {
         if (data != null) {
             var a = bcrypt.compareSync(req.body.password, data.password)
             if (a === true) {
+                let userData = {}
                 data.password = null
-                res.json(data)
+                if (data.type === 1) {
+                    let tutorD = await tutor.findOne({user_id: data._id});
+                    if (tutorD) {
+                        userData = _.merge(data, tutorD)
+                    }
+                } else if (data.type === 0) {
+                    let studentD = await student.findOne({user_id: data._id});
+                    if (studentD) {
+                        userData = _.merge(data, studentD)
+                    }
+                } else {
+                    userData = data
+                }
+                res.json(userData)
             } else {
                 res.json('no')
             }
@@ -357,8 +371,11 @@ exports.fetchTutorRequest = (req, res) => {
                     },
                     rate: 1
                 },
+                timeLession: 1,
                 requestInfo: {
-                    title: 1
+                    title: 1,
+                    description: 1,
+                    time: 1
                 }
             }
         },
@@ -665,9 +682,11 @@ exports.updateProfile = async (req, res) => {
         var stackOperation = "";
 
         let userUpdate = await user.findOneAndUpdate({ _id: objectID(req.body.data.id) }, updateObj, { new: true });
+        let userData = {}
+        userUpdate.password = null
         if (type === 1) {
             var tutorData = req.body.tutorData;
-            let updateTutor = await tutor.updateOne({user_id: objectID(req.body.data.id)}, 
+            let updateTutor = await tutor.findOneAndUpdate({user_id: objectID(req.body.data.id)}, 
                 {
                     dept_id: tutorData.dept,
                     cardInfo: {
@@ -679,12 +698,19 @@ exports.updateProfile = async (req, res) => {
                         certifications: tutorData.certifications,
                         experience: tutorData.experience
                     }
-                });
+                }, { new: true });
+            userData = _.merge(userUpdate, updateTutor)
             stackOperation += "The tutor has been  successfully added"
-        } else {
+        } else if (type === 0) {
+            let studentD = await student.findOne({user_id: objectID(req.body.data.id)});
+            if (studentD) {
+                userData = _.merge(userUpdate, studentD)
+            }
             stackOperation += "The student has been successfully updated."
+        } else {
+            userData = userUpdate
         }
-        res.json({ msg: stackOperation, data: userUpdate})
+        res.json({ msg: stackOperation, data: userData})
     } catch (err) {
         console.log(err)
         res.json(err)

@@ -4,6 +4,13 @@ export const styleUnFavorite = { color: 'gray', display: 'inline-block', fontSiz
 
 export const styleFavorite = {  color: '#D90429', display: 'inline-block', fontSize: 20 };
 
+export const timeList = [
+  { label: "one houre", value: 1 },
+  { label: "tow houres", value: 2 },
+  { label: "three houres", value: 3 },
+  { label: "four houres", value: 4 }
+]
+
 export const typeDt = [
     0,
     1

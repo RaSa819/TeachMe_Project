@@ -231,8 +231,6 @@ export default function Users() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log('error:::', error)
-            console.log('values:::', values)
             let url = ''
             var userData = {
                 data: {
@@ -271,7 +269,7 @@ export default function Users() {
                         about: values.about,
                         certifications: values.certifications,
                         experience: values.experience,
-                        cardType: values.CardType,
+                        cardType: values.cardType,
                         cardID: values.cardID
                     }
                 }
@@ -667,7 +665,7 @@ export default function Users() {
                             options={CardType}
                             autoHighlight
                             getOptionLabel={(option) => option}
-                            defaultValue={CardType.find(v => v === formik.values.CardType)}
+                            defaultValue={CardType.find(v => v === formik.values.cardType)}
                             renderOption={(props, option) => (
                             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                                 {option}

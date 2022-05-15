@@ -82,6 +82,7 @@ export default (openDialog, id = null, type = 0, title, socket) => {
                     student: localStorage.getItem('token'),
                     time: values.time,
                     title: values.title,
+                    description: values.description,
                     to: 'all'
                 })
             else

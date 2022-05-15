@@ -5,10 +5,17 @@ import Rating from '@mui/material/Rating';
 import classes from "./reqCard.module.css"
 import Divider from '@mui/material/Divider';
 import { SocketContext } from "../../Socket";
+import RequestDialog from '../../components/RequestDialog';
+import { useDialog } from 'react-mui-dialog';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import ViewRequest from './viewRequest';
 
 export default (props) => {
-
+  const { openDialog } = useDialog();
   const { title, name, stars, id, enable } = props;
+  const data = props.data ? props.data : null
   const socket = useContext(SocketContext)
   let push = (status) => {
 
@@ -25,7 +32,19 @@ export default (props) => {
     //     }).catch((error) => {
     // 
     //     })
-  }
+    }; 
+    const [showRequest, setShowRequest] = React.useState(false);
+  
+    const openAddUser = () => {
+      setShowRequest(true);
+    };
+
+    const closeRequest = () => {
+        setShowRequest(false);
+    }
+  console.log('id:::', id)
+  // console.log('type:::', type)
+  const type = localStorage.getItem('type')
   return (
 
     <div className={classes.cardDiv}>
@@ -44,8 +63,7 @@ export default (props) => {
             enable === true &&
             <Button className={classes.cardButton}
               sx={{ color: '#f1f0f0', background: 'darkblue' }}
-              onClick={() => {
-              }} > 
+              onClick={openAddUser}> 
               View </Button>
           }
 
@@ -65,6 +83,16 @@ export default (props) => {
         </div>
 
       </div>
+      <Dialog open={showRequest} onClose={closeRequest}>
+        <DialogContent>
+          <ViewRequest data={data}/>
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={closeRequest}
+                className={classes.closeButton}>
+                Close</Button>    
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
