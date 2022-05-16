@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { SocketProvider } from "./Socket";
 
 import Card from "./components/Card";
-import Dashboard from "./pages/Dashboard";
+import ContentPage from "./pages/ContentPage";
 import Login from "./pages/Login";
 import Payment from './pages/Payment';
 import Users from "./pages/Users";
@@ -169,8 +169,7 @@ export default function App() {
                                         element={<HomePage />} />
 
                                     <Route path="/Login"
-                                        element={<Login />} />
-
+                                        element={<ContentPage name="Login" setLanguage={updateLanguage} />} />
 
                                     <Route path="/StudentDashboard"
                                         element={<IsStudent><Dashboard name="Student" setLanguage={updateLanguage} /></IsStudent>} />
@@ -294,7 +293,7 @@ export default function App() {
                                         element={<ViewTutor />} />
 
                                     <Route path="/view/student/:id"
-                                        element={ <ViewStudent/>}/>      
+                                        element={<ViewStudent />} />
 
                                 </Routes>
                             </SocketProvider>
