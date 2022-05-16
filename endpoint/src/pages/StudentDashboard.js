@@ -10,6 +10,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import Profile from '../pages/Student/profile';
 import Edit from '../pages/Student/edit';
 import Tutors from '../pages/Student/tutors';
+import History from '../pages/User/UserHistory';
 import { LanguageContext } from '../App';
 
 
@@ -64,6 +65,7 @@ export default function StudentDashboard() {
               joinedDate="20 May 2022" />}
             {(pageSelected === "Edit") && <Edit />}
             {(pageSelected === "Tutors") && <Tutors />}
+            {(pageSelected === "History") && <History />}
 
           </div>
         </div>
