@@ -9,7 +9,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import HistoryIcon from '@mui/icons-material/History';
 import Profile from '../../pages/Tutor/profile';
 import Edit from '../../pages/Tutor/edit';
-import History from '../../pages/Tutor/history';
+import History from '../../pages/User/UserHistory';
 import { LanguageContext } from '../../App';
 import PendingRequest from "../../pages/Tutor/pendingRequest";
 

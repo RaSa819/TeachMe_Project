@@ -3,6 +3,7 @@ import Drawer from './Layout/Drawer'
 import ReqCard from '../../components/reqCard/reqCard'
 import axios from 'axios'
 import ProgressBar from './../../components/ProgressBar'
+import HistoryCard from '../../components/reqCard/historyCard'
 
 
 export default()=> {
@@ -35,16 +36,13 @@ export default()=> {
   }, [])
 
   return (
-    <Drawer>
+  <div>
+   
 
-      <div style={{
-        marginTop: '50px',
-        overflowX: 'auto'
-      }}>
         {
           isReady === 1 && data.length > 0 &&
           data.map((item, index) => (
-            <ReqCard title={item.requestInfo.title} 
+            <HistoryCard title={item.requestInfo.title} 
             name={item.info.name.firstName}
               id={item._id}
             />
@@ -52,7 +50,7 @@ export default()=> {
         }
         {
           isReady === 1 && data.length <= 0 &&
-          <h1>You don't have any history yet</h1>
+          <h4>You don't have any history yet!</h4>
         }
         {
           isReady === 0 &&
@@ -60,7 +58,7 @@ export default()=> {
         }
       </div>
 
-    </Drawer>
+   
   )
 }
 
