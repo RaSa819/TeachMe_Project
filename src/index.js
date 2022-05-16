@@ -421,23 +421,9 @@ io.on('connection', socket => {
         });
     });
 
-    socket.on('endCall', (data) => {
-        let id = ObjectId(data.sessionID);
-
-        request.findOne({_id: id}).then((data, error) => {
-            let {student} = data;
-            let {tutor} = data;
-
-            users.map((data) => {
-                if (data.token == student) {
-                    io.to(data.id).emit('endCall');
-                }
-                if (data.token == tutor) {
-                    io.to(data.id).emit('endCall');
-                }
-            })
-        })
-    })
+    socket.on('end-call', async ({ sessionID }) => {
+        await sessionModel.updateOne({ _id: sessionID }, { $set: { isEnded: true } });
+    });
 
 
     socket.on('removeFavorite', (data) => {
@@ -569,6 +555,16 @@ sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ opera
 
         if (updateDescription.updatedFields.isTutorSharingScreen === false && studentUser) {
             io.to(studentUser.id).emit('screen-sharing-end');
+        }
+
+        if (updateDescription.updatedFields.isEnded === true) {
+            if (studentUser) {
+                io.to(studentUser.id).emit('end-call');
+            }
+
+            if (tutorUser) {
+                io.to(tutorUser.id).emit('end-call');
+            }
         }
     }
 });

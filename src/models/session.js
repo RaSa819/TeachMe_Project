@@ -18,6 +18,10 @@ const session = mongoose.Schema({
     type: mongoose.Schema.Types.Boolean,
     default: false,
   },
+  isEnded: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false,
+  },
 
   // The information of payment operation 
   TransactionPayInfo:mongoose.Schema.Types.Mixed,

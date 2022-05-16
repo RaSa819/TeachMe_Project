@@ -12,6 +12,7 @@ export default function Session() {
     toggleMic,
     startScreenSharing,
     stopScreenSharing,
+    endCall,
   } = useRTCSession();
 
   const [isCameraEnabled, setIsCameraEnabled] = useState(true);
@@ -143,7 +144,7 @@ export default function Session() {
 
         <div className='footer'>
           <div style={{ height: "100%" }}>
-            <button className='endC-btn'>End</button>
+            <button className='endC-btn' onClick={endCall}>End</button>
           </div>
 
           {quizRender}
