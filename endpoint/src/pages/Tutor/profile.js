@@ -40,6 +40,7 @@ export default function Profile() {
       </div>
       <Divider sx={{ width: "50%" }} />
       <p>joined on {new Date(userData.date).toLocaleString()}</p>
+      <h6 className={classes.details}>Email :   <span style={{ fontSize: '14px' }}>{userData.email || ''}</span></h6>
       <h6 className={classes.details}>About :   <span style={{ fontSize: '14px' }}>{userData.profile?.about || ''}</span></h6>
       <h6 className={classes.details}>Certificate :  <span style={{ fontSize: '14px' }}>{userData.profile?.certifications || ''}</span></h6>
       <h6 className={classes.details}>Experience  :   <span style={{ fontSize: '14px' }}>{userData.profile?.experience || ''}</span></h6>
