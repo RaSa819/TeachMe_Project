@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SocketContext } from "../Socket";
 
 const servers = {
@@ -13,6 +13,8 @@ const servers = {
 
 export default function useRTCSession() {
   const { sessionID } = useParams();
+  const navigate = useNavigate();
+
   const socket = useContext(SocketContext);
 
   const peerConnection = useRef(new RTCPeerConnection(servers));
@@ -30,6 +32,8 @@ export default function useRTCSession() {
 
   useEffect(() => {
     (async () => {
+      if (!sessionID) navigate('/login');
+
         if (type === 0) {
           socket.on('webrtc-offer', async (offer) => {
             const offerDescription = new RTCSessionDescription(offer);
@@ -97,7 +101,13 @@ export default function useRTCSession() {
             type: offerDescription.type,
           };
 
-          socket.emit('tutor-call-offer', { sessionID, callOffer });
+          socket.emit('tutor-call-offer', { sessionID, callOffer }, (sessionExists) => {
+            if (!sessionExists) navigate('/login');
+          });
+        } else {
+          socket.emit('check-session', { sessionID }, (sessionExists) => {
+            if (!sessionExists) navigate('/login');
+          });
         }
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps

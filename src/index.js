@@ -356,9 +356,7 @@ io.on('connection', socket => {
         }
         
         if (data.state === 'processed') {
-            const { student, tutor } = await request.findById(requestID);
-
-            const newSession = await sessionModel.create({
+            await sessionModel.create({
                 request: requestID,
                 studentICECandidates: [],
                 tutorICECandidates: [],
@@ -382,10 +380,27 @@ io.on('connection', socket => {
         }
     });
 
-    socket.on('tutor-call-offer', async ({ sessionID, callOffer }) => {
-        await sessionModel.updateOne({ _id: sessionID }, {
-            $set: { webRTCOffer: callOffer },
-        });
+    socket.on('tutor-call-offer', async ({ sessionID, callOffer }, callback) => {
+        try {
+          const updateResult = await sessionModel.updateOne({ _id: sessionID }, {
+                $set: { webRTCOffer: callOffer },
+            });
+            if (updateResult.matchedCount === 0) {
+                callback(false);
+            } else {
+                callback(true);
+            }  
+        } catch (err) {
+            callback(false);
+        }
+    });
+
+    socket.on('check-session', async ({ sessionID }, callback) => {
+        try {
+            callback(await sessionModel.exists({ _id: sessionID }));
+        } catch (err) {
+            callback(false);
+        }
     });
 
     socket.on('student-call-answer', async ({ sessionID, callAnswer }) => {
