@@ -172,13 +172,13 @@ export default function App() {
                                         element={<ContentPage name="Login" setLanguage={updateLanguage} />} />
 
                                     <Route path="/StudentDashboard"
-                                        element={<IsStudent><Dashboard name="Student" setLanguage={updateLanguage} /></IsStudent>} />
+                                        element={<IsStudent><ContentPage name="Student" setLanguage={updateLanguage} /></IsStudent>} />
 
                                     <Route path="/AdminDashboard"
-                                        element={<IsAdmin><Dashboard name="Admin" setLanguage={updateLanguage} /></IsAdmin>} />
+                                        element={<IsAdmin><ContentPage name="Admin" setLanguage={updateLanguage} /></IsAdmin>} />
 
                                     <Route path="/TutorDashboard"
-                                        element={<IsTutor><Dashboard name="Tutor" setLanguage={updateLanguage} /></IsTutor>} />
+                                        element={<IsTutor><ContentPage name="Tutor" setLanguage={updateLanguage} /></IsTutor>} />
 
                                     <Route path="/Signup"
                                         element={<SingupWithValidation />} />
