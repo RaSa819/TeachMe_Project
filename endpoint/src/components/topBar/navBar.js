@@ -25,7 +25,7 @@ import { genderDt, languageOptions } from '../../general/datas';
 
 
 
-export default function NavBar({ language, setLanguage,Login,Signup }) {
+export default function NavBar({ language, setLanguage, pageName }) {
     const pages = [
         'Logout',
         <span onClick={() => updateLanguage(1)} >English</span>,
@@ -94,234 +94,121 @@ export default function NavBar({ language, setLanguage,Login,Signup }) {
     }
 
     return (
-        <div>
-            {
-                (!Login && !Signup) &&
-                <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
-                    <Container maxWidth="xl">
-                        <Toolbar disableGutters sx={{ padding: 0 }}>
+        
+        <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
+            <Container maxWidth="xl">
+                <Toolbar disableGutters sx={{ padding: 0 }}>
 
-                            <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
-                                Teach me.
-                            </a>
-                            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                                <IconButton
-                                    size="large"
-                                    aria-label="account of current user"
-                                    aria-controls="menu-appbar"
-                                    aria-haspopup="true"
-                                    onClick={handleOpenNavMenu}
-                                    color="inherit"
-                                >
-                                    <MenuIcon />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorElNav}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                    open={Boolean(anchorElNav)}
-                                    onClose={handleCloseNavMenu}
-                                    sx={{
-                                        display: { xs: 'block', md: 'none' },
-                                    }}
-                                >
-                                    {pages.map((page) => (
-                                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center">{page}</Typography>
-                                        </MenuItem>
-                                    ))}
-                                </Menu>
-                            </Box>
+                    <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
+                        Teach me.
+                    </a>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {pages.map((page) => (
+                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">{page}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
 
-                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 
 
-                                <ButtonGroup>
-                                    <React.Fragment>
-                                        <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-                                            <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >
-                                                {selectedLanguage}
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                aria-controls={open ? 'split-button-menu' : undefined}
-                                                aria-expanded={open ? 'true' : undefined}
-                                                aria-label="select merge strategy"
-                                                aria-haspopup="menu"
-                                                onClick={handleToggle}
-                                                className={classes.btn + " " + classes.arrow}
+                        <ButtonGroup>
+                            <React.Fragment>
+                                <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
+                                    <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >
+                                        {selectedLanguage}
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        aria-controls={open ? 'split-button-menu' : undefined}
+                                        aria-expanded={open ? 'true' : undefined}
+                                        aria-label="select merge strategy"
+                                        aria-haspopup="menu"
+                                        onClick={handleToggle}
+                                        className={classes.btn + " " + classes.arrow}
 
-                                            >
-                                                <KeyboardArrowDownIcon />
-                                            </Button>
-                                        </ButtonGroup>
-                                        <Popper
-                                            open={open}
-                                            anchorEl={anchorRef.current}
-                                            role={undefined}
-                                            transition
-                                            disablePortal
-                                        >
-                                            {({ TransitionProps, placement }) => (
-                                                <Grow
-                                                    {...TransitionProps}
-                                                    style={{
-                                                        transformOrigin:
-                                                            placement === 'bottom' ? 'center top' : 'center bottom',
-                                                    }}
-                                                >
-                                                    <Paper>
-                                                        <ClickAwayListener onClickAway={handleClose}>
-                                                            <MenuList id="split-button-menu" autoFocusItem>
-                                                                {languageOptions.map((option, index) => (
-                                                                    <MenuItem
-                                                                        key={option}
-                                                                        disabled={index === 2}
-                                                                        selected={index === selectedIndex}
-                                                                        onClick={(event) => handleMenuItemClick(event, index)}
-                                                                    >
-                                                                        {option}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </MenuList>
-                                                        </ClickAwayListener>
-                                                    </Paper>
-                                                </Grow>
-                                            )}
-                                        </Popper>
-                                    </React.Fragment>
-
-                                    <Button className={classes.btn + " " + classes.top} onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >Logout</Button>
+                                    >
+                                        <KeyboardArrowDownIcon />
+                                    </Button>
                                 </ButtonGroup>
-
-                            </Box>
-
-                        </Toolbar>
-                    </Container>
-                </AppBar>
-            }
-            {
-                (Login || Signup) &&
-                <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
-                    <Container maxWidth="xl">
-                        <Toolbar disableGutters sx={{ padding: 0 }}>
-
-                            <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
-                                Teach me.
-                            </a>
-                            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                                <IconButton
-                                    size="large"
-                                    aria-label="account of current user"
-                                    aria-controls="menu-appbar"
-                                    aria-haspopup="true"
-                                    onClick={handleOpenNavMenu}
-                                    color="inherit"
+                                <Popper
+                                    open={open}
+                                    anchorEl={anchorRef.current}
+                                    role={undefined}
+                                    transition
+                                    disablePortal
                                 >
-                                    <MenuIcon />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorElNav}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                    open={Boolean(anchorElNav)}
-                                    onClose={handleCloseNavMenu}
-                                    sx={{
-                                        display: { xs: 'block', md: 'none' },
-                                    }}
-                                >
-                                    {pages.map((page) => (
-                                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center">{page}</Typography>
-                                        </MenuItem>
-                                    ))}
-                                </Menu>
-                            </Box>
-
-                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-
-
-                                <ButtonGroup>
-                                    <React.Fragment>
-                                        <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-                                            <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >
-                                                {selectedLanguage}
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                aria-controls={open ? 'split-button-menu' : undefined}
-                                                aria-expanded={open ? 'true' : undefined}
-                                                aria-label="select merge strategy"
-                                                aria-haspopup="menu"
-                                                onClick={handleToggle}
-                                                className={classes.btn + " " + classes.arrow}
-
-                                            >
-                                                <KeyboardArrowDownIcon />
-                                            </Button>
-                                        </ButtonGroup>
-                                        <Popper
-                                            open={open}
-                                            anchorEl={anchorRef.current}
-                                            role={undefined}
-                                            transition
-                                            disablePortal
+                                    {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            style={{
+                                                transformOrigin:
+                                                    placement === 'bottom' ? 'center top' : 'center bottom',
+                                            }}
                                         >
-                                            {({ TransitionProps, placement }) => (
-                                                <Grow
-                                                    {...TransitionProps}
-                                                    style={{
-                                                        transformOrigin:
-                                                            placement === 'bottom' ? 'center top' : 'center bottom',
-                                                    }}
-                                                >
-                                                    <Paper>
-                                                        <ClickAwayListener onClickAway={handleClose}>
-                                                            <MenuList id="split-button-menu" autoFocusItem>
-                                                                {languageOptions.map((option, index) => (
-                                                                    <MenuItem
-                                                                        key={option}
-                                                                        disabled={index === 2}
-                                                                        selected={index === selectedIndex}
-                                                                        onClick={(event) => handleMenuItemClick(event, index)}
-                                                                    >
-                                                                        {option}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </MenuList>
-                                                        </ClickAwayListener>
-                                                    </Paper>
-                                                </Grow>
-                                            )}
-                                        </Popper>
-                                    </React.Fragment>
+                                            <Paper>
+                                                <ClickAwayListener onClickAway={handleClose}>
+                                                    <MenuList id="split-button-menu" autoFocusItem>
+                                                        {languageOptions.map((option, index) => (
+                                                            <MenuItem
+                                                                key={option}
+                                                                disabled={index === 2}
+                                                                selected={index === selectedIndex}
+                                                                onClick={(event) => handleMenuItemClick(event, index)}
+                                                            >
+                                                                {option}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </MenuList>
+                                                </ClickAwayListener>
+                                            </Paper>
+                                        </Grow>
+                                    )}
+                                </Popper>
+                            </React.Fragment>
+                            {
+                                (pageName !== "Login" && pageName !== "Signup") && 
+                                    <Button className={classes.btn + " " + classes.top} 
+                                    onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >Logout</Button>
 
-                                 
-                                </ButtonGroup>
+                            }
+                        </ButtonGroup>
 
-                            </Box>
+                    </Box>
 
-                        </Toolbar>
-                    </Container>
-                </AppBar>
-            }
-        </div>
+                </Toolbar>
+            </Container>
+        </AppBar>
     );
 }
 

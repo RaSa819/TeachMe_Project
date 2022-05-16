@@ -23,7 +23,7 @@ const MenuProps = {
 };
 
 
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
+const CustomInput = styled(InputBase)(({ theme }) => ({
     'label + &': {
         marginTop: theme.spacing(3),
     },
@@ -89,7 +89,7 @@ export default function FormInput({ label, hint, value, onChange, textarea, drop
                     <InputLabel shrink >
                         {label}
                     </InputLabel>
-                    <BootstrapInput placeholder={hint} onChange={onChange} value={value} />
+                    <CustomInput placeholder={hint} onChange={onChange} value={value} />
                 </FormControl>
             }
             {

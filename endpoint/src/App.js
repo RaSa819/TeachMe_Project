@@ -40,7 +40,7 @@ import AdminSupport from "./pages/Admin/AdminSupport"; // the real time
 
 import HomePage from './pages/home/homePage'
 import TutorProvider from "./components/Data/TutorProvider";
-import SingupWithValidation from './components/SingupWithValidation'
+import SingupWithValidation from './pages/SingupWithValidation'
 
 
 // Tutor side
@@ -171,6 +171,9 @@ export default function App() {
                                     <Route path="/Login"
                                         element={<ContentPage name="Login" setLanguage={updateLanguage} />} />
 
+                                    <Route path="/Signup"
+                                        element={<ContentPage name="Signup" setLanguage={updateLanguage} />} />
+
                                     <Route path="/StudentDashboard"
                                         element={<IsStudent><ContentPage name="Student" setLanguage={updateLanguage} /></IsStudent>} />
 
@@ -180,8 +183,8 @@ export default function App() {
                                     <Route path="/TutorDashboard"
                                         element={<IsTutor><ContentPage name="Tutor" setLanguage={updateLanguage} /></IsTutor>} />
 
-                                    <Route path="/Signup"
-                                        element={<SingupWithValidation />} />
+                                    {/* <Route path="/Signup"
+                                        element={<SingupWithValidation />} /> */}
 
                                     <Route path="/Session"
                                         element={<Session />} />
@@ -200,8 +203,6 @@ export default function App() {
                                         <Route path="Support"
                                             element={<AdminSupport />} />
                                     </Route>
-
-
 
 
                                     <Route path="user"
