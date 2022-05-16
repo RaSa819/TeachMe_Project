@@ -17,6 +17,7 @@ html {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
   justify-content: space-between;
 }
 
@@ -71,7 +72,7 @@ html {
   background-color: transparent;
   border: none;
   flex-grow: 1;
-  background-size: 22px 22px;
+  background-size:39% 39%;
 }
 
 .btns-end>button:nth-child(2) {
@@ -110,34 +111,32 @@ html {
 
 .textBtnActive {
   background-color: #495057 !important;
-  width: 11.5vh;
-  height: 5.3vh;
-  margin-left: 54vh;
+  width: 70px;
+  height: 100%;
+  max-width: 12vh;
   border-radius: 13px;
   display: flex;
-  position: absolute;
   background-repeat: no-repeat;
   background-position: center;
   background-color: transparent;
   border: none;
   flex-grow: 1;
-  background-size: 22px 22px;
+  background-size:39% 39%;
 }
 
 .textBtn {
   background-color: #212529 !important;
-  width: 11.5vh;
-  height: 5.3vh;
-  margin-left: 54vh;
+  width: 70px;
+  height: 100%;
+  max-width: 12vh;
   border-radius: 13px;
   display: flex;
-  position: absolute;
   background-repeat: no-repeat;
   background-position: center;
   background-color: transparent;
   border: none;
   flex-grow: 1;
-  background-size: 22px 22px;
+  background-size:39% 39%;
 }
 
 .call-btns {
@@ -146,8 +145,10 @@ html {
   height: -webkit-fill-available;
   border-radius: 20px;
   display: flex;
-  margin: auto;
-  position: relative;
+  margin: 12px auto;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
 
 }
 
@@ -300,8 +301,9 @@ html {
 }
 
 .adjust{
-    margin-left: 28vh;
-    margin-top: -3.4vh;
+    margin-left: auto;
+    max-width: 60px;
+    margin-top: -19px;
   }
 
 .input-session {
@@ -354,18 +356,23 @@ html {
 .chat-btn {
   background: white;
   height: 100vh;
-  width: 50vh;
+  width: 26vw;
   overflow-x: 1;
-  margin-left: 169vh;
+right: 0px;
   position: absolute;
   display: block;
-  z-index: 10;
-
+  z-index: 89;
+}
+.h-40{
+  height: 40px;
 }
 
-.chatDiv {
+.chat-h {
   background: #F4F4F8;
-  height: 40px;
+  height: 7vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chatP {
@@ -380,11 +387,13 @@ html {
 
 .chatboxDiv {
   box-sizing: border-box;
-  height: 60px;
   background: #FFFFFF;
+  
   border: 1px solid #999999;
 }
-
+.h-83{
+  height: 83vh;
+}
 .chatUserName {
   font-family: 'Open Sans';
   font-style: normal;
@@ -419,9 +428,9 @@ html {
   padding: 16px;
   gap: 13px;
   height: 10%;
-  margin-top: 73vh;
-  width: 51vh;
-  margin-left: -1vh;
+  display: flex;
+  align-items: center;
+  background-color: #F4F4F8;
 }
 
 .chat-f button {
@@ -507,6 +516,9 @@ margin: auto;
   .quiz-header {
     font-size: 25px;
     line-height: 42px;
+  }
+  .chat-btn{
+    
   }
 }
 

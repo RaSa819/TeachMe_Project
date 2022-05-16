@@ -1,9 +1,5 @@
 import { OverridableComponent } from '@mui/types';
-import FormControlUnstyledProps, { FormControlUnstyledOwnProps, FormControlUnstyledTypeMap } from './FormControlUnstyledProps';
-declare type NonOptionalOwnerState = 'disabled' | 'error' | 'focused' | 'required';
-export declare type FormControlUnstyledOwnerState = Omit<FormControlUnstyledOwnProps, NonOptionalOwnerState> & Required<Pick<FormControlUnstyledProps, NonOptionalOwnerState>> & {
-    filled: boolean;
-};
+import { FormControlUnstyledTypeMap } from './FormControlUnstyled.types';
 /**
  * Provides context such as filled/focused/error/required for form inputs.
  * Relying on the context provides high flexibility and ensures that the state always stays
@@ -30,11 +26,11 @@ export declare type FormControlUnstyledOwnerState = Omit<FormControlUnstyledOwnP
  *
  * Demos:
  *
- * - [Text Fields](https://mui.com/components/text-fields/)
+ * - [Form control](https://mui.com/base/react-form-control/)
  *
  * API:
  *
- * - [FormControlUnstyled API](https://mui.com/api/form-control-unstyled/)
+ * - [FormControlUnstyled API](https://mui.com/base/api/form-control-unstyled/)
  */
 declare const FormControlUnstyled: OverridableComponent<FormControlUnstyledTypeMap<{}, "div">>;
 export default FormControlUnstyled;
