@@ -14,16 +14,19 @@ import ViewRequest from './viewRequest';
 
 export default (props) => {
   const { openDialog } = useDialog();
-  const { title, name, stars, id, enable } = props;
+  const { title, name, stars, id, enable, fetchData } = props;
   const data = props.data ? props.data : null
   const socket = useContext(SocketContext)
-  let push = (status) => {
+  let push = async (status) => {
 
     localStorage.setItem('sessionID', id)
     socket.emit('editRequestStatus', {
       id: id,
       status: status
     });
+    if (fetchData) {
+      await fetchData()
+    }
     //     axios.post('http://localhost:4000/tutor/editRequestStatus', {
     //       id: id,
     //       status: status
@@ -42,7 +45,6 @@ export default (props) => {
     const closeRequest = () => {
         setShowRequest(false);
     }
-  console.log('id:::', id)
   // console.log('type:::', type)
   const type = localStorage.getItem('type')
   return (

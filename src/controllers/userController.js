@@ -700,7 +700,7 @@ exports.updateProfile = async (req, res) => {
                     }
                 }, { new: true });
             userData = _.merge(userUpdate, updateTutor)
-            stackOperation += "The tutor has been  successfully added"
+            stackOperation += "The tutor has been successfully updated."
         } else if (type === 0) {
             let studentD = await student.findOne({user_id: objectID(req.body.data.id)});
             if (studentD) {

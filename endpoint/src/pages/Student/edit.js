@@ -57,6 +57,8 @@ export default function Edit() {
   console.log('userDetail::', userDetail)
   const formik = useFormik({
     initialValues: {
+      userName: userDetail.userName,
+      email: userDetail.email,
       firstName: userDetail.name?.firstName,
       middleName: userDetail.name?.middleName,
       lastName: userDetail.name?.lastName,
@@ -98,13 +100,46 @@ export default function Edit() {
   return (
     <div style={{ marginTop: 50, marginLeft: 50 }}>
       <form onSubmit={formik.handleSubmit} className="row">
+      <Box component="form"
+          fullWidth
+          sx={{
+            '& > :not(style)': { mt: 1 }
+          }}
+          autoComplete="off">
+          <TextField label="Username"  size='small'
+            name="username"
+            style={{
+              width: '47%',
+              marginRight: '3%'
+            }}
+            value={formik.values.userName}
+            onChange={formik.handleChange}
+            error={formik.touched.userName && Boolean(formik.errors.userName)}
+            helperText={formik.touched.userName && formik.errors.userName}
+            disabled
+          />
+
+          <TextField label="Email"  size='small'
+            name="email"
+            style={{
+              width: '47%',
+              marginLeft: '3%'
+
+            }}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            disabled
+          /> 
+        </Box>
         <Box component="form"
           fullWidth
           sx={{
             '& > :not(style)': { mt: 1 },
           }}
           >
-          <TextField label="First Name" variant='filled' size='small'
+          <TextField label="First Name"  size='small'
             name="firstName"
             style={{
               width: '30%',
@@ -115,7 +150,7 @@ export default function Edit() {
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
           />
-          <TextField label="Middle Name" variant='filled' size='small'
+          <TextField label="Middle Name"  size='small'
             name="middleName"
             style={{
               width: '30%',
@@ -127,7 +162,7 @@ export default function Edit() {
             helperText={formik.touched.middleName && formik.errors.middleName}
           />
 
-          <TextField label="Last Name" variant='filled' size='small'
+          <TextField label="Last Name"  size='small'
             name="lastName"
             style={{
               width: '30%',
@@ -145,7 +180,7 @@ export default function Edit() {
                 '& > :not(style)': { mt: 1 },
           }}
         >
-          <TextField label="New Password" variant='filled' size='small'
+          <TextField label="New Password"  size='small'
             name="newPassword"
             fullWidth
             style={{
@@ -158,7 +193,7 @@ export default function Edit() {
             error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
             helperText={formik.touched.newPassword && formik.errors.newPassword}
           />
-          <TextField label="Confirm Password" variant='filled' size='small'
+          <TextField label="Confirm Password"  size='small'
             name="confirmPassword"
             type="password"
             fullWidth
@@ -203,7 +238,7 @@ export default function Edit() {
               }}
               renderInput={(params) => (
                 <TextField
-                  variant='filled' size='small'
+                   size='small'
                   name="country"
                   {...params}
                   label="Country"
@@ -215,7 +250,7 @@ export default function Edit() {
               )}
             />
 
-          <TextField label="City" variant='filled' size='small'
+          <TextField label="City"  size='small'
             name="city"
             style={{
               width: '47%',
@@ -235,7 +270,7 @@ export default function Edit() {
             '& > :not(style)': { mt: 1 }
           }}
           autoComplete="off">
-          <TextField label="Street" variant='filled' size='small'
+          <TextField label="Street"  size='small'
             name="street"
             style={{
               width: '47%',
@@ -247,7 +282,7 @@ export default function Edit() {
             helperText={formik.touched.street && formik.errors.street}
           />
 
-          <TextField label="ZIP" variant='filled' size='small'
+          <TextField label="ZIP"  size='small'
             name="ZIP"
             style={{
               width: '47%',
@@ -266,7 +301,7 @@ export default function Edit() {
           sx={{
             '& > :not(style)': { mt: 1 },
           }}>
-          <TextField label="Phone Number" variant='filled' size='small'
+          <TextField label="Phone Number"  size='small'
             name="phoneNumber" 
 
             fullWidth

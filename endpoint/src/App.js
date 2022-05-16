@@ -46,6 +46,7 @@ import SingupWithValidation from './components/SingupWithValidation'
 // Tutor side
 // import TutorDashboard from './pages/Tutor/tutorDashboard';
 import IsStudent from "./auth/IsStudent";
+import IsAdmin from "./auth/IsAdmin";
 import IsAuth from "./auth/IsAuth";
 import Redirect from "./auth/Redirect";
 import NotFound from "./auth/NotFound";
@@ -172,13 +173,13 @@ export default function App() {
 
 
                                     <Route path="/StudentDashboard"
-                                        element={<Dashboard name="Student" setLanguage={updateLanguage} />} />
+                                        element={<IsStudent><Dashboard name="Student" setLanguage={updateLanguage} /></IsStudent>} />
 
                                     <Route path="/AdminDashboard"
-                                        element={<Dashboard name="Admin" setLanguage={updateLanguage} />} />
+                                        element={<IsAdmin><Dashboard name="Admin" setLanguage={updateLanguage} /></IsAdmin>} />
 
                                     <Route path="/TutorDashboard"
-                                        element={<Dashboard name="Tutor" setLanguage={updateLanguage} />} />
+                                        element={<IsTutor><Dashboard name="Tutor" setLanguage={updateLanguage} /></IsTutor>} />
 
                                     <Route path="/Signup"
                                         element={<SingupWithValidation />} />
