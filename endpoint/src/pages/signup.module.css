@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600");
+
+
+.formDiv {
+    text-align: center;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 30px;
+    width: 60%;
+    display: inline-block;
+    padding: 20px 0px;
+    background-color: white;
+    font-family: "Open Sans", Helvetica;
+
+}
+
+
+.formDiv>div {
+    margin: auto;
+    width: 70%;
+    margin-top: 20px;
+}
+
+@media (max-width: 760px) {
+    .formDiv {
+        width: 100%;
+    }
+
+    .TextField {
+        width: 100% !important;
+        margin: auto !important;
+    }
+
+}

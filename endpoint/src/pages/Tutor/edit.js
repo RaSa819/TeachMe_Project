@@ -67,13 +67,13 @@ export default function Edit() {
 
   const fetchDept = async () => {
     await axios.get('http://localhost:4000/fetchDept').
-    //represnt data to state 
-    then((res) => {
-      setDepartment(res.data)
-    }).
-    catch((err) => {
-      console.log('there is error is' + err)
-    })
+      //represnt data to state 
+      then((res) => {
+        setDepartment(res.data)
+      }).
+      catch((err) => {
+        console.log('there is error is' + err)
+      })
   }
   React.useEffect(() => {
     fetchDept();
@@ -105,10 +105,10 @@ export default function Edit() {
     onSubmit: (values) => {
       console.log('error:::', error)
       if (values.newPassword !== "" && values.confirmPassword === "") {
-        alert( "Please enter Confirm Password.")
+        alert("Please enter Confirm Password.")
       } else if (error) {
         // MessageBox(openDialog, 'Errors ', "There is some error in the form", 'Okay');
-        alert( "There is some error in the form")
+        alert("There is some error in the form")
       } else {
         var userData = {
           data: {
@@ -159,7 +159,7 @@ export default function Edit() {
         <Box component="form"
           fullWidth
           sx={{
-            '& > :not(style)': { mt: 1 },
+            '& > :not(style)': { mt: 2},
           }}
         >
           <TextField label="First Name" size='small'
@@ -224,31 +224,128 @@ export default function Edit() {
           />
           <Autocomplete
             // value={formik.values.country}
-              id="country-select-demo"
+            id="country-select-demo"
+            sx={{ display: 'inline-block' }}
+            style={{
+              width: '47%',
+              marginRight: '3%'
+            }}
+            options={countries}
+            autoHighlight
+            getOptionLabel={(option) => option.label}
+            defaultValue={countries.find(v => v.code === formik.values.country)}
+            renderOption={(props, option) => (
+              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+
+                {option.label} ({option.code})
+              </Box>
+            )}
+            onChange={(e, value) => {
+              formik.values.country = value.code
+            }}
+            renderInput={(params) => (
+              <TextField
+                size='small'
+                name="country"
+                {...params}
+                label="Country"
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: 'new-password', // disable autocomplete and autofill
+                }}
+              />
+            )}
+          />
+          <TextField label="City" size='small'
+            name="city"
+            style={{
+              width: '47%',
+              marginLeft: '3%'
+
+            }}
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            error={formik.touched.city && Boolean(formik.errors.city)}
+            helperText={formik.touched.city && formik.errors.city}
+          />
+          <TextField label="Street" size='small'
+            name="street"
+            style={{
+              width: '47%',
+              marginRight: '3%'
+            }}
+            value={formik.values.street}
+            onChange={formik.handleChange}
+            error={formik.touched.street && Boolean(formik.errors.street)}
+            helperText={formik.touched.street && formik.errors.street}
+          />
+
+          <TextField label="ZIP" size='small'
+            name="ZIP"
+            style={{
+              width: '47%',
+              marginLeft: '3%'
+
+            }}
+            value={formik.values.ZIP}
+            onChange={formik.handleChange}
+            error={formik.touched.ZIP && Boolean(formik.errors.ZIP)}
+            helperText={formik.touched.ZIP && formik.errors.ZIP}
+          />
+          <TextField label="Phone Number" size='small'
+            name="phoneNumber"
+            fullWidth
+            value={formik.values.phoneNumber}
+            onChange={formik.handleChange}
+            error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+          />
+          <FormControl sx={{ width: "50%" }}
+            error={formik.touched.gender && Boolean(formik.errors.gender)}
+            helperText={formik.touched.gender && formik.errors.gender}>
+            <FormLabel id="demo-row-radio-buttons-group-label"
+              required
+              color="error"
+            >Gender</FormLabel>
+            <RadioGroup row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="gender"
+              value={formik.values.gender}
+              onChange={formik.handleChange}
+            >
+              <FormControlLabel value={genderDt[0]} control={<Radio color="error" />} label="Female" />
+              <FormControlLabel value={genderDt[1]} control={<Radio color="error" />} label="Male" />
+            </RadioGroup>
+          </FormControl>
+          {
+            departments && departments.length > 0 &&
+            <Autocomplete
+              // value={formik.values.country}
+              id="dept-select-demo"
               sx={{ display: 'inline-block' }}
               style={{
                 width: '47%',
                 marginRight: '3%'
               }}
-              options={countries}
+              options={departments}
               autoHighlight
-              getOptionLabel={(option) => option.label}
-              defaultValue={countries.find(v => v.code === formik.values.country)}
+              getOptionLabel={(option) => option.name}
+              defaultValue={departments.find(v => v._id === formik.values.dept)}
               renderOption={(props, option) => (
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
 
-                  {option.label} ({option.code})
+                  {option.name}
                 </Box>
               )}
               onChange={(e, value) => {
-                formik.values.country = value.code
+                formik.values.dept = value._id
               }}
               renderInput={(params) => (
                 <TextField
                   size='small'
-                  name="country"
+                  name="dept"
                   {...params}
-                  label="Country"
+                  label="Department"
                   inputProps={{
                     ...params.inputProps,
                     autoComplete: 'new-password', // disable autocomplete and autofill
@@ -256,105 +353,8 @@ export default function Edit() {
                 />
               )}
             />
-            <TextField label="City" size='small'
-              name="city"
-              style={{
-                width: '47%',
-                marginLeft: '3%'
-
-              }}
-              value={formik.values.city}
-              onChange={formik.handleChange}
-              error={formik.touched.city && Boolean(formik.errors.city)}
-              helperText={formik.touched.city && formik.errors.city}
-            />
-            <TextField label="Street" size='small'
-              name="street"
-              style={{
-                width: '47%',
-                marginRight: '3%'
-              }}
-              value={formik.values.street}
-              onChange={formik.handleChange}
-              error={formik.touched.street && Boolean(formik.errors.street)}
-              helperText={formik.touched.street && formik.errors.street}
-            />
-
-            <TextField label="ZIP" size='small'
-              name="ZIP"
-              style={{
-                width: '47%',
-                marginLeft: '3%'
-
-              }}
-              value={formik.values.ZIP}
-              onChange={formik.handleChange}
-              error={formik.touched.ZIP && Boolean(formik.errors.ZIP)}
-              helperText={formik.touched.ZIP && formik.errors.ZIP}
-            />
-            <TextField label="Phone Number" size='small'
-              name="phoneNumber" 
-              fullWidth
-              value={formik.values.phoneNumber}
-              onChange={formik.handleChange}
-              error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-            />
-            <FormControl sx={{ width: "50%" }} 
-                error={formik.touched.gender && Boolean(formik.errors.gender)}
-                helperText={formik.touched.gender && formik.errors.gender}>
-                <FormLabel id="demo-row-radio-buttons-group-label"
-                    required
-                    color="error"
-                >Gender</FormLabel>
-                <RadioGroup row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="gender"
-                    value={formik.values.gender}
-                    onChange={formik.handleChange}
-                >
-                    <FormControlLabel value={genderDt[0]} control={<Radio color="error" />} label="Female" />
-                    <FormControlLabel value={genderDt[1]} control={<Radio color="error" />} label="Male" />
-                </RadioGroup>
-            </FormControl>
-            { 
-              departments && departments.length > 0 && 
-              <Autocomplete
-              // value={formik.values.country}
-              id="dept-select-demo"
-              sx={{ display: 'inline-block' }}
-              style={{
-              width: '47%',
-              marginRight: '3%'
-              }}
-              options={departments}
-              autoHighlight
-              getOptionLabel={(option) => option.name}
-              defaultValue={departments.find(v => v._id === formik.values.dept)}
-              renderOption={(props, option) => (
-              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-
-                  {option.name}
-              </Box>
-              )}
-              onChange={(e, value) => {
-                formik.values.dept = value._id
-              }}
-              renderInput={(params) => (
-              <TextField
-                  size='small'
-                  name="dept"
-                  {...params}
-                  label="Department"
-                  inputProps={{
-                  ...params.inputProps,
-                  autoComplete: 'new-password', // disable autocomplete and autofill
-                  }}
-              />
-              )}
-            />
           }
-            
+
           <TextField
             fullWidth
             required
@@ -370,37 +370,37 @@ export default function Edit() {
             helperText={formik.touched.about && formik.errors.about}
           />
           <Autocomplete
-              // value={formik.values.country}
-              id="certifications"
-              sx={{ display: 'inline-block' }}
-              style={{
+            // value={formik.values.country}
+            id="certifications"
+            sx={{ display: 'inline-block' }}
+            style={{
               width: '47%',
               marginRight: '3%'
-              }}
-              options={certifications}
-              autoHighlight
-              getOptionLabel={(option) => option}
-              defaultValue={certifications.find(v => v === formik.values.certifications)}
-              renderOption={(props, option) => (
+            }}
+            options={certifications}
+            autoHighlight
+            getOptionLabel={(option) => option}
+            defaultValue={certifications.find(v => v === formik.values.certifications)}
+            renderOption={(props, option) => (
               <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                  {option}
+                {option}
               </Box>
-              )}
-              onChange={(e, value) => {
+            )}
+            onChange={(e, value) => {
               formik.values.certifications = value
-              }}
-              renderInput={(params) => (
+            }}
+            renderInput={(params) => (
               <TextField
-                  size='small'
-                  name="certifications"
-                  {...params}
-                  label="Choose last certification you got"
-                  inputProps={{
+                size='small'
+                name="certifications"
+                {...params}
+                label="Choose last certification you got"
+                inputProps={{
                   ...params.inputProps,
                   autoComplete: 'new-password', // disable autocomplete and autofill
-                  }}
+                }}
               />
-              )}
+            )}
           />
           <TextField
             required
@@ -416,37 +416,37 @@ export default function Edit() {
             helperText={formik.touched.experience && formik.errors.experience}
           />
           <Autocomplete
-              // value={formik.values.country}
-              id="cardType-select-demo"
-              sx={{ display: 'inline-block' }}
-              style={{
+            // value={formik.values.country}
+            id="cardType-select-demo"
+            sx={{ display: 'inline-block' }}
+            style={{
               width: '47%',
               marginRight: '3%'
-              }}
-              options={CardType}
-              autoHighlight
-              getOptionLabel={(option) => option}
-              defaultValue={CardType.find(v => v === formik.values.cardType)}
-              renderOption={(props, option) => (
+            }}
+            options={CardType}
+            autoHighlight
+            getOptionLabel={(option) => option}
+            defaultValue={CardType.find(v => v === formik.values.cardType)}
+            renderOption={(props, option) => (
               <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                  {option}
+                {option}
               </Box>
-              )}
-              onChange={(e, value) => {
+            )}
+            onChange={(e, value) => {
               formik.values.CardType = value
-              }}
-              renderInput={(params) => (
+            }}
+            renderInput={(params) => (
               <TextField
-                  size='small'
-                  name="cardType"
-                  {...params}
-                  label="Choose your card type"
-                  inputProps={{
+                size='small'
+                name="cardType"
+                {...params}
+                label="Choose your card type"
+                inputProps={{
                   ...params.inputProps,
                   autoComplete: 'new-password', // disable autocomplete and autofill
-                  }}
+                }}
               />
-              )}
+            )}
           />
 
           <TextField
@@ -464,10 +464,10 @@ export default function Edit() {
           />
         </Box>
         <div style={{ textAlign: "center" }}>
-            <Button className={classes.formButton} variant="contained" fullWidth type="submit">
+          <Button className={classes.formButton} variant="contained" fullWidth type="submit">
             Update
           </Button>
-          </div>
+        </div>
       </form>
     </div>
   );
