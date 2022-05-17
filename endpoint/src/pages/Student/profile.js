@@ -25,6 +25,12 @@ export default function Profile() {
       <Divider sx={{ width: "50%" }} />
       <p>Joined on {new Date(student.date).toLocaleString()}</p>
       <Divider sx={{ width: 300 }} />
+      <p>Email: {student.email}</p>
+      <Divider sx={{ width: 300 }} />
+      <p>Phone Number: {student.phoneNumber}</p>
+      <Divider sx={{ width: 300 }} />
+      <p>Address: {student.address?.street} - {student.address?.city}</p>
+      <Divider sx={{ width: 300 }} />
     </div>
   );
 }
