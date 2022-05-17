@@ -58,11 +58,7 @@ export default function StudentDashboard() {
       <Paper elevation={0} className={classes.container + " " + classes.content}>
         <div style={{ padding: 10, height: '100%', width: '100%' }}>
           <div style={{ border: '1px solid lightgray', padding: 40, height: '100%', width: '100%', borderRadius: 10, overflowY: 'auto' }}>
-            {(pageSelected === "Profile") && <Profile
-              name="Student name"
-              country="Saudi Arabia"
-              stars="3"
-              joinedDate="20 May 2022" />}
+            {(pageSelected === "Profile") && <Profile />}
             {(pageSelected === "Edit") && <Edit />}
             {(pageSelected === "Tutors") && <Tutors />}
             {(pageSelected === "History") && <History />}

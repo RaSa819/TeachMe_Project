@@ -9,9 +9,6 @@ import Select from '@mui/material/Select';
 export default (props) => {
     const { data } = props;
     data.requestInfo.description = data.requestInfo.description ? data.requestInfo.description : ''
-    console.log('timeList::',timeList)
-    console.log('data.timeLession::',data.requestInfo.time)
-    console.log('timeList.find(v => v.value == data.timeLesson)?.label:::', timeList.find(v => v.value == data.requestInfo.time))
     return (
         <div>
             {data && data.requestInfo && 

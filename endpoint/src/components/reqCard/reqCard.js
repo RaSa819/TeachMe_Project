@@ -1,19 +1,15 @@
 import React, { useContext } from "react";
-import axios from "axios";
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import classes from "./reqCard.module.css"
 import Divider from '@mui/material/Divider';
 import { SocketContext } from "../../Socket";
-import RequestDialog from '../../components/RequestDialog';
-import { useDialog } from 'react-mui-dialog';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import ViewRequest from './viewRequest';
 
 export default (props) => {
-  const { openDialog } = useDialog();
   const { title, name, stars, id, enable, fetchData } = props;
   const data = props.data ? props.data : null
   const socket = useContext(SocketContext)
@@ -27,26 +23,16 @@ export default (props) => {
     if (fetchData) {
       await fetchData()
     }
-    //     axios.post('http://localhost:4000/tutor/editRequestStatus', {
-    //       id: id,
-    //       status: status
-    //     }).then((data) => {
-    //       window.location.reload();
-    //     }).catch((error) => {
-    // 
-    //     })
     }; 
     const [showRequest, setShowRequest] = React.useState(false);
   
-    const openAddUser = () => {
+    const openRequest = () => {
       setShowRequest(true);
     };
 
     const closeRequest = () => {
         setShowRequest(false);
     }
-  // console.log('type:::', type)
-  const type = localStorage.getItem('type')
   return (
 
     <div className={classes.cardDiv}>
@@ -58,17 +44,14 @@ export default (props) => {
         </div>
         <Divider light sx={{width:"40%",marginBottom:"10px"}} />
         <span style={{fontWeight:"bold",fontSize:"14px"}}>{title}</span>
-
-
         <div style={{ textAlign: "right" }}>
           {
             enable === true &&
             <Button className={classes.cardButton}
               sx={{ color: '#f1f0f0', background: 'darkblue' }}
-              onClick={openAddUser}> 
+              onClick={openRequest}> 
               View </Button>
           }
-
           {
             enable === true &&
             <Button className={classes.cardButton}
@@ -83,7 +66,6 @@ export default (props) => {
                 push(0)
               }}>Decline</Button>
         </div>
-
       </div>
       <Dialog open={showRequest} onClose={closeRequest}>
         <DialogContent>
