@@ -68,12 +68,12 @@ const validationSchema = yup.object({
   city: yup.
     string('Enter your city ').
     required('The city is required'),
-  street: yup
-    .string('Enter your street ').
-    required('The street is required'),
+  // street: yup
+  //   .string('Enter your street ').
+  //   required('The street is required'),
   ZIP: yup
-    .number('Enter your street ')
-    .required('The street is required'),
+    .number('Enter your ZIP code ')
+    .required('The ZIP code is required'),
   phoneNumber: yup
     .number('Enter your phone number ')
     .required('The phone number is required'),
@@ -104,7 +104,6 @@ export default () => {
       confirmPassword: '',
       country: '',
       city: '',
-      street: '',
       ZIP: '',
       gender: genderDt,
       phoneNumber: '',
