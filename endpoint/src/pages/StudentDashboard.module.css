@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600");
 
+a {
+    text-decoration: none;
 
+}
 .main {
     background-color: #F4F4F8;
     height: 100%;
@@ -124,11 +127,20 @@
     margin: 5px;
     width: 40%;
     display: inline-block;
-  
+    background: white !important;  
+    padding:10px;
 }
 
+.cardTDiv {
+    margin: 0 !important;
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+    width: 32.88% !important;
+
+}
 
 @media (max-width: 760px) {
+    
     .hideText {
         display: none;
     }
@@ -150,7 +162,9 @@
     .content>div>div {
         padding: 15px !important;
     }
-    .cardDiv {
-        width:100%;
+    .cardDiv , .cardTDiv {
+        width:100% !important;
     }
+
+ 
 }

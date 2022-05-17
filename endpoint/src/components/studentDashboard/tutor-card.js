@@ -8,7 +8,7 @@ import classes from "../../pages/StudentDashboard.module.css";
 
 export default function TutorCard(props) {
     const { name, joinedDate, about, experience, country,
-        rate, type, id, openDialog, socket, isFavorite } = props;
+        rate, type, id, openDialog, socket, isFavorite,cardType } = props;
 
     const [favorite, setFavorite] = useState()
 
@@ -41,9 +41,10 @@ export default function TutorCard(props) {
         }
     }
 
+    const cardStyle = cardType === 'TutorList' ? (classes.cardDiv + " " + classes.cardTDiv) : classes.cardDiv;
     return (
 
-        <div className={classes.cardDiv} >
+        <div className={cardStyle} >
             <div style={{ padding: 10 }}>
                 <h6 style={{ display: 'inline-block', width: '90%' }}>{name.firstName + ' '} {name.middleName} {name.lastName}</h6>
 
@@ -59,9 +60,12 @@ export default function TutorCard(props) {
                 </div>
 
                 <p style={{ fontSize: 12, color: 'grey' }}>joined on {new Date(joinedDate).toLocaleString()}</p>
-                <p style={{ fontSize: 12 }}>{about.slice(0, 150)}<a href={`/view/tutor/${id}`} target="_blank">Learn more</a></p>
+                <p style={{ fontSize: 12 }}>{about.slice(0, 35)}
+                <a href={`/view/tutor/${id}`} target="_blank">&nbsp; Learn more</a></p>
                 <div style={{ textAlign: 'right' }}>
-                    <Button sx={{ fontSize: 8, color: 'darkblue', background: '#f1f0f0', marginRight: '5px' }}><a href={`/view/tutor/${id}`} target="_blank">View profile</a></Button>
+                    <Button sx={{ fontSize: 8, color: 'darkblue', background: '#f1f0f0', marginRight: '5px' }}>
+                    <a href={`/view/tutor/${id}`} target="_blank" 
+                    >View profile</a></Button>
                     <Button sx={{ fontSize: 8, color: '#f1f0f0', background: 'darkblue' }}
                         onClick={() => {
                             RequestDialog(openDialog, id, type, 'Just moment, to be your request ready', socket)

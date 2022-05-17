@@ -3,20 +3,18 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { MdFavorite } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
-
-
+import TutorCard from './studentDashboard/tutor-card';
 import { useLocation } from 'react-router-dom';
-
 import TopBar from './topBar/topBar'
-
 import { useDialog } from 'react-mui-dialog';
 import axios from 'axios'
 import RequestDialog from './RequestDialog';
-
 import { useNavigate } from 'react-router';
-
 import { SocketContext } from '../Socket';
-import TutorDialog from './TutorDialog';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import SearchIcon from '@mui/icons-material/Search';
+import classes from './TutorList.module.css';
 
 const styleUnFavorite = {
     width: '20px',
@@ -121,12 +119,12 @@ const Item = (props) => {
 
     const [favorite, setFavorite] = useState()
 
-    if(isFavorite)
-       console.log(isFavorite)
+    if (isFavorite)
+        console.log(isFavorite)
 
-     React.useEffect(()=>{
-          setFavorite(isFavorite)
-     },[isFavorite])  
+    React.useEffect(() => {
+        setFavorite(isFavorite)
+    }, [isFavorite])
 
 
     let pushFavorite = () => {
@@ -156,7 +154,7 @@ const Item = (props) => {
                 backgroundColor: '#FFFFFF',
                 borderRadius: '10px',
                 border: '1px solid black',
-                margin:"10px"
+                margin: "10px"
             }}
         >
             <div className='row'>
@@ -261,7 +259,7 @@ export default function Card() {
 
     let user_id = localStorage.getItem('token')
     const { state } = useLocation();
-    
+
     let id = state.id;
     const fetchData = async () => {
 
@@ -291,31 +289,63 @@ export default function Card() {
     }, [])
 
 
+    const departments = ['Math', 'Arabic', 'CS'];
     let navigate = useNavigate();
     //console.log(favoriteList)
     return (
-        <div  className='container-fluid'>
-            <TopBar 
+        // style={{ padding: 10, height: '100%', width: '100%', background: "#F4F4F8" }}
+
+        <div 
+        style={{ padding: 40, height: '100%',  overflowY: 'auto',marginRight:"50px",marginLeft:"50px" }}>
+            <h3 
+            style={{ color: "#D90429",  marginTop: "20px", fontWeight: "bold" }}
+             >Select Department 
+             </h3>
+
+
+            <div className={classes.searchBoxes}>
+                <div>
+                    <Autocomplete
+                        disablePortal
+                        options={departments}
+                        size="small"
+                        sx={{width:"22rem"}}
+                        renderInput={(params) => <TextField {...params} label="Select department" />}
+                    />
+                </div>
+                <div>
+                    <TextField label="Search" variant="outlined" size="small"/>
+
+                </div>
+            </div>
+
+            <div >
+                {/* <TopBar 
                 
                 onDashClick={()=>{
                     navigate('/user/profile')
                 }}
-                />
-            <div style={{marginTop:"60px"}} className='row'>
-                
+                /> */}
+
+
                 {
-                    tutors.map((item) => {
+                    tutors?.map((item) => {
                         let flag = 0;
                         let val = favoriteList.indexOf(item._id)
                         if (val >= 0)
                             flag = 1;
                         //console.log(flag)    
                         return (
-                            <Item
+                            <TutorCard
+                                cardType="TutorList"
                                 name={
                                     item.name
                                 }
-                                dateJoined={
+                                country={
+                                    item.address?.country
+                                }
+
+                                joinedDate={
                                     item.date
                                 }
 
@@ -343,32 +373,32 @@ export default function Card() {
                     })
                 }
 
-            </div>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <div>
-                    {
-                        isReady && <button style={stylebtnRandomRequest}
-                            onClick={() => {
-                                RequestDialog(openDialog, null, 0, 'make sure that we will help you to be better', socket)
-                            }}
 
-                        >
-                            <GiPerspectiveDiceSixFacesRandom
-                                style={styleRandomRequestIcon}
-                            />
-                            Random Request
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <div>
+                        {
+                            isReady && <button style={stylebtnRandomRequest}
+                                onClick={() => {
+                                    RequestDialog(openDialog, null, 0, 'make sure that we will help you to be better', socket)
+                                }}
 
-
-                        </button>
-                    }
+                            >
+                                <GiPerspectiveDiceSixFacesRandom
+                                    style={styleRandomRequestIcon}
+                                />
+                                Random Request
+                            </button>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
 
-
     )
 }
+
+
