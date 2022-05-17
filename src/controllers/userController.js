@@ -648,7 +648,7 @@ function getFavoriteList(id) {
 exports.updateProfile = async (req, res) => {
     try {
         console.log(req.body)
-        var { firstName, middleName, lastName,
+        var { email, firstName, middleName, lastName,
             phoneNumber,
             gender, country, city,
             street, ZIP, type
@@ -658,6 +658,7 @@ exports.updateProfile = async (req, res) => {
         // create document for user
 
         let updateObj = {
+            email: email,
             name: {
                 firstName: firstName,
                 middleName: middleName,
