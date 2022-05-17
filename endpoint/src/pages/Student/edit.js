@@ -1,7 +1,6 @@
 
 import React from "react";
 import axios from 'axios';
-import { useDialog } from 'react-mui-dialog';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -52,7 +51,6 @@ const validationSchema = yup.object({
 });
 
 export default function Edit() {
-  const { openDialog } = useDialog()
   let userDetail = JSON.parse(localStorage.getItem('userDetail')) || {};
   console.log('userDetail::', userDetail)
   const formik = useFormik({
