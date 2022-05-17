@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { SocketProvider } from "./Socket";
 
-import Card from "./components/Card";
+import Card from "./components/TutorList";
 import ContentPage from "./pages/ContentPage";
 import Login from "./pages/Login";
 import Payment from './pages/Payment';
@@ -267,11 +267,11 @@ export default function App() {
                                         }>
                                         <Route path="tutors"
                                             element={
-                                                <IsStudent><div ><Card /></div></IsStudent>
+                                                <IsStudent><ContentPage name="TutorList" setLanguage={updateLanguage} /></IsStudent>
                                             } />
 
                                     </Route>
-
+                                  
 
 
                                     <Route path="*"

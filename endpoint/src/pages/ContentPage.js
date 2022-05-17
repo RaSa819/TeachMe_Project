@@ -7,8 +7,9 @@ import TutorDashboard from "./User/TutorDashboardUpdated";
 import { LanguageContext } from '../App';
 import Login from "./Login"
 import Signup from "./SingupWithValidation";
+import Card from "../components/TutorList";
 
-export default function Dashboard({ name, setLanguage }) {
+export default function ContentPage({ name, setLanguage }) {
 
   const [pageSelected, setPageSelected] = React.useState("Profile");
   const language = React.useContext(LanguageContext);
@@ -22,6 +23,7 @@ export default function Dashboard({ name, setLanguage }) {
       {(name === 'Admin') && <AdminDashboard />}
       {(name === 'Login') && <Login />}
       {(name === 'Signup') && <Signup />}
+      {(name === 'TutorList')&&<Card />}
 
     </div>
 

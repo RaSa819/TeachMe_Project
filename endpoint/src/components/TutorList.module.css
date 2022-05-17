@@ -1,0 +1,27 @@
+.searchBoxes {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+
+.searchBoxes div {
+    display: inline-block;
+    background-color: white;
+    margin: auto;
+    
+}
+
+.searchBoxes div:nth-child(2) {
+    float: right
+}
+
+
+@media (max-width: 760px) {
+    /* .searchBox1, .searchBox2 {
+        width: 100%;
+    } */
+    .searchBoxes div:nth-child(2) {
+        float:none;
+    }
+}
