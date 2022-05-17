@@ -43,8 +43,10 @@ export default()=> {
           isReady === 1 && data.length > 0 &&
           data.map((item, index) => (
             <HistoryCard title={item.requestInfo.title} 
-            name={item.info.name.firstName}
+              name={item.info.name.firstName}
               id={item._id}
+              status={item.status}
+              data={item}
             />
           ))
         }

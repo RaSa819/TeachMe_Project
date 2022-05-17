@@ -20,6 +20,10 @@ import FormInput from '../../components/formInput';
 import { MessageBox } from '../../components/MessageBox';
 
 const validationSchema = yup.object({
+  email: yup
+    .string('Enter your email')
+    .email("it's not Email Format")
+    .required('Your Email is Required'),
   firstName: yup.
     string('Enter your first name').
     required('The first name is required '),
@@ -83,6 +87,8 @@ export default function Edit() {
 
   const formik = useFormik({
     initialValues: {
+      userName: userDetail.userName,
+      email: userDetail.email,
       firstName: userDetail.name?.firstName,
       middleName: userDetail.name?.middleName,
       lastName: userDetail.name?.lastName,
@@ -162,6 +168,38 @@ export default function Edit() {
             '& > :not(style)': { mt: 2},
           }}
         >
+          <Box component="form"
+          fullWidth
+          sx={{
+            '& > :not(style)': { mt: 1 }
+          }}
+          autoComplete="off">
+          <TextField label="Username"  size='small'
+            name="username"
+            style={{
+              width: '47%',
+              marginRight: '3%'
+            }}
+            value={formik.values.userName}
+            onChange={formik.handleChange}
+            error={formik.touched.userName && Boolean(formik.errors.userName)}
+            helperText={formik.touched.userName && formik.errors.userName}
+            disabled
+          />
+
+          <TextField label="Email" size='small'
+            name="email"
+            style={{
+              width: '47%',
+              marginLeft: '3%'
+
+            }}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          /> 
+        </Box>
           <TextField label="First Name" size='small'
             name="firstName"
             style={{
@@ -433,7 +471,7 @@ export default function Edit() {
               </Box>
             )}
             onChange={(e, value) => {
-              formik.values.CardType = value
+              formik.values.cardType = value
             }}
             renderInput={(params) => (
               <TextField

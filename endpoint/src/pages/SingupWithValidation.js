@@ -10,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useDialog } from "react-mui-dialog";
-import TutorDialog from '../components/TutorDialog'
+import TutorDialog from '../components/TutorDialog';
 import axios from 'axios'
 import dtClouser from '../DataClouse';
 import { MessageBox } from '../components/MessageBox';
@@ -22,6 +22,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { countries, genderDt, typeDt } from '../general/datas';
 import classes from "./signup.module.css";
 import Divider from '@mui/material/Divider';
+import { useContext } from 'react';
+import TutorProvider , { TutorContext } from '../components/Data/TutorProvider';
+import role from '../Roles';
 
 
 const styleCenter = {
@@ -202,8 +205,8 @@ export default () => {
           <div >
             <form onSubmit={formik.handleSubmit}>
 
-              <Box component="form"
-                autoComplete="off"
+            
+            <Box 
                 sx={{
                   '& > :not(style)': { mt: 3 },
                 }}
@@ -445,23 +448,24 @@ export default () => {
 
                   </RadioGroup>
                 </FormControl>
-              </Box>
+             </Box>
 
               <Divider sx={{ margin: "10px", backgroundColor: "black !important" }} />
 
-              <div  style={{ textAlign: "left" }}>
-              <span  style={{marginRight:"200px" }}>
+             <div style={{textAlign:"left",width:"100%", display:"inline-block"}}>
+              <h6 style={{ width:"auto",display:"inline-block"}}>
                 Already have an account ?<Link to="/login" 
                 style={{
                   textDecoration: 'none',
-                  color: "#D90429"}} >
+                  color: "#D90429" }} >
                    &nbsp; <u>Login </u> </Link>
-                </span>
-                <Button style={{ backgroundColor: "#000052", color: "#fff", padding: "5px", width: "30%" }}
-                  variant="contained" fullWidth type="submit">
+                </h6>
+                <Button style={{ backgroundColor: "#000052", color: "#fff", padding: "5px",float:"right" , width:"30%"}}
+                  variant="contained"  type="submit">
                   Sign up
                 </Button>
-              </div>
+                </div>
+                
             </form>
 
 

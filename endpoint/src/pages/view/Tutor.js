@@ -71,7 +71,9 @@ function ViewTutor() {
                 {/* <img src={tutor.img} style={{ width: 20, marginLeft: 20 }}></img> */}
                 <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
                 <Divider sx={{ width: 300 }} />
-                <p>Joined on {new Date(tutor.date).toLocaleString()}</p> 
+                <p>Joined on {new Date(tutor.date).toLocaleString()}</p>
+                <Divider sx={{ width: 300 }} />
+                <p>Email: {tutor.email}</p> 
                 <Divider sx={{ width: 300 }} />
                 <p style={{ fontSize: 12 }}><b>About: </b>{tutor.profile.about} </p>
                 <Divider sx={{ width: 300 }} />

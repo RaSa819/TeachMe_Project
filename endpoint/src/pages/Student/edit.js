@@ -1,7 +1,6 @@
 
 import React from "react";
 import axios from 'axios';
-import { useDialog } from 'react-mui-dialog';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -16,6 +15,10 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 const validationSchema = yup.object({
+  email: yup.
+    string('Enter your email').
+    email("it's not Email Format").
+    required('Your Email is Required'),
   firstName: yup.
     string('Enter your first name').
     required('The first name is required '),
@@ -52,7 +55,6 @@ const validationSchema = yup.object({
 });
 
 export default function Edit() {
-  const { openDialog } = useDialog()
   let userDetail = JSON.parse(localStorage.getItem('userDetail')) || {};
   console.log('userDetail::', userDetail)
   const formik = useFormik({
@@ -119,7 +121,7 @@ export default function Edit() {
             disabled
           />
 
-          <TextField label="Email"  size='small'
+          <TextField label="Email" size='small'
             name="email"
             style={{
               width: '47%',
@@ -130,7 +132,6 @@ export default function Edit() {
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
-            disabled
           /> 
         </Box>
         <Box component="form"

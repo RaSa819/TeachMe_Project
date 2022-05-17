@@ -390,10 +390,6 @@ exports.fetchTutorRequest = (req, res) => {
 
 }
 
-function getNameOfStudent() {
-
-}
-
 exports.fetchTutorHistory = (req, res) => {
     let id = req.params.id;
     id = objectID(id)
@@ -423,6 +419,7 @@ exports.fetchTutorHistory = (req, res) => {
         {
             $project: {
                 _id: 1,
+                status: 1,
                 info: {
                     _id: 1,
                     name: {
@@ -432,7 +429,9 @@ exports.fetchTutorHistory = (req, res) => {
                     rate: 1
                 },
                 requestInfo: {
-                    title: 1
+                    title: 1,
+                    description: 1,
+                    time: 1
                 }
             }
         },
@@ -449,14 +448,11 @@ exports.fetchTutorHistory = (req, res) => {
 exports.fetchStudentHistory = (req, res) => {
     let id = req.params.id;
     id = objectID(id)
-
-
     request.aggregate([
         {
             $match: {
                 student: id
             }
-
         },
         {
             $lookup: {
@@ -472,6 +468,7 @@ exports.fetchStudentHistory = (req, res) => {
         {
             $project: {
                 _id: 1,
+                status: 1,
                 info: {
                     _id: 1,
                     name: {
@@ -481,7 +478,9 @@ exports.fetchStudentHistory = (req, res) => {
                     rate: 1
                 },
                 requestInfo: {
-                    title: 1
+                    title: 1,
+                    description: 1,
+                    time: 1
                 }
             }
         },
@@ -649,7 +648,7 @@ function getFavoriteList(id) {
 exports.updateProfile = async (req, res) => {
     try {
         console.log(req.body)
-        var { firstName, middleName, lastName,
+        var { email, firstName, middleName, lastName,
             phoneNumber,
             gender, country, city,
             street, ZIP, type
@@ -659,6 +658,7 @@ exports.updateProfile = async (req, res) => {
         // create document for user
 
         let updateObj = {
+            email: email,
             name: {
                 firstName: firstName,
                 middleName: middleName,
