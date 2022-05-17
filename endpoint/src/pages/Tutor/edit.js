@@ -433,7 +433,7 @@ export default function Edit() {
               </Box>
             )}
             onChange={(e, value) => {
-              formik.values.CardType = value
+              formik.values.cardType = value
             }}
             renderInput={(params) => (
               <TextField
