@@ -90,16 +90,17 @@ export default function Session() {
         </div>
 
         {chatBtn ?
-          <div className='chat-btn'>
-            <div className='chatDiv'><p className='chatP'>Chat</p></div>
+          <div className='chat-btn justify-content-between'>
+            <div className='chat-h'><p className='chatP m-0'>Chat</p></div>
 
+            <div className='h-83'>
             <div className='chatboxDiv'><span className='chatUserName'>username</span><span className='chatTime'>6:51 AM</span>
 
               <p className='chatText'>I have a question...</p>
             </div>
-
+            </div>
             <div className='chat-f d-flex'>
-              <input type="text" className='input-session' placeholder='Enter question here....'></input>
+              <input type="text" className='input-session h-40' placeholder='Enter question here....'></input>
               <button></button>
             </div>
           </div>
@@ -119,21 +120,13 @@ export default function Session() {
               <li className='list-item justify-content-between'>
                 Option 1
                 <div className='d-flex adjust'>
-                  <div className='edit-icon list-icon2 mx-2'></div>
+                  <div className='edit-icon list-icon2 mx-1'></div>
                   <div className='delete-icon list-icon2 mx-2'></div>
                 </div>
               </li>
             </ul>
           </div>
         : ''}
-
-
-
-        {/* {isRemoteSharingScreen ? <div className='screen-share-dialog'>
-          <p>Shared content fill the entire screen</p>
-        </div> : ''} */}
-
-
 
         {(screenBtn && !isSharingScreen) ? <div className='screen-share'>
           <p className='mb-5'>You’re about to share your screen with the other party , Do you want to continue ?</p>
@@ -143,11 +136,16 @@ export default function Session() {
 
 
         <div className='footer'>
-          <div style={{ height: "100%" }}>
-            <button className='endC-btn' onClick={endCall}>End</button>
+          <div style={{
+            height: "100%",
+            display: 'flex',
+            justifyContent:"space-between",
+            width:" 28.5%"
+          }}>
+            <button className='endC-btn'>End</button>
+            {quizRender}
           </div>
 
-          {quizRender}
           <div className='call-btns'>
             {micRender}
             {camRender}
