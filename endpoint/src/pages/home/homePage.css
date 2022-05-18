@@ -82,12 +82,22 @@ header.sticky ul li a {
   text-align: center;
 } */
 
+.container{
+  padding-top: 30%;
+}
+
+section.banner .container h2{
+  margin-top: -8%;
+}
+
+section .container h1{
+  margin-top: -30%;
+}
 .container h2 {
   font-size: 50px;
   color: #f4f4f8;
   font-family: "Open Sans", sans-serif;
   text-shadow: 0.2px 0.2px black;
-  padding-top: 30%;
   text-align: center;
   z-index: 10000;
   flex-shrink: inherit;
