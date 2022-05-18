@@ -41,6 +41,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
         console.info(`You clicked ${languageOptions[selectedIndex]}`);
 
     };
+    let type = localStorage.getItem('type')
 
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -102,6 +103,12 @@ export default function NavBar({ language, setLanguage, pageName }) {
                     <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
                         Teach me.
                     </a>
+                    {
+                        (pageName === 'TutorList' && type == 0) && 
+                        <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="/StudentDashboard">
+                            Student Dashboard
+                        </a>
+                    }
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
