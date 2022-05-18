@@ -4,6 +4,7 @@ a {
     text-decoration: none;
 
 }
+
 .main {
     background-color: #F4F4F8;
     height: 100%;
@@ -24,7 +25,6 @@ a {
 .btn {
     display: block;
     text-align: left !important;
-
     width: 100%;
     color: grey !important;
     justify-content: left !important;
@@ -38,7 +38,7 @@ a {
 }
 
 .btn.top {
-    max-width: 122px !important;
+    max-width: 300px !important;
     color: #D90429 !important;
     font-size: 12px;
     font-weight: bold;
@@ -103,15 +103,15 @@ a {
     text-transform: none !important;
     font-size: 12px !important;
     margin-bottom: 10px !important;
- }
+}
 
- .closeButton{
-    background:#fcfcfc !important;
-    color:rgb(4, 4, 4) !important;
+.closeButton {
+    background: #fcfcfc !important;
+    color: rgb(4, 4, 4) !important;
     text-transform: none !important;
     font-size: 12px !important;
     margin-bottom: 10px !important;
- }
+}
 
 .cardButton {
     font-size: 10px !important;
@@ -127,8 +127,8 @@ a {
     margin: 5px;
     width: 40%;
     display: inline-block;
-    background: white !important;  
-    padding:10px;
+    background: white !important;
+    padding: 10px;
     height: 200px;
 }
 
@@ -140,8 +140,15 @@ a {
 
 }
 
+.popperLi li{
+    color: white;
+    background-color: black;
+}
+
+
+
 @media (max-width: 760px) {
-    
+
     .hideText {
         display: none;
     }
@@ -163,9 +170,11 @@ a {
     .content>div>div {
         padding: 15px !important;
     }
-    .cardDiv , .cardTDiv {
-        width:100% !important;
+
+    .cardDiv,
+    .cardTDiv {
+        width: 100% !important;
     }
 
- 
+
 }

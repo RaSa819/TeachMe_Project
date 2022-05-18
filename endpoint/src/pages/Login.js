@@ -94,11 +94,6 @@ export default () => {
                 <ProgressBar />
             }
 
-{/* 
-            <div style={{ ...styleCenter, mt: 4 }} >
-                <NavBar />
-            </div> */}
-
             <Stack sx={{
                 width: '100%',
                 display: error === 404 ? 'block' : 'none'

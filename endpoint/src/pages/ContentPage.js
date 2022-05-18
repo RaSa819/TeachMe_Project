@@ -8,6 +8,8 @@ import { LanguageContext } from '../App';
 import Login from "./Login"
 import Signup from "./SingupWithValidation";
 import Card from "../components/TutorList";
+import HomePage from "./home/homePage";
+
 
 export default function ContentPage({ name, setLanguage }) {
 
@@ -16,14 +18,16 @@ export default function ContentPage({ name, setLanguage }) {
 
   return (
     <div className={classes.main}>
-      <NavBar setLanguage={setLanguage} pageName={name}/>
+      <NavBar setLanguage={setLanguage} pageName={name} />
 
       {(name === 'Student') && <StudentDashboard />}
       {(name === 'Tutor') && <TutorDashboard />}
       {(name === 'Admin') && <AdminDashboard />}
       {(name === 'Login') && <Login />}
       {(name === 'Signup') && <Signup />}
-      {(name === 'TutorList')&&<Card />}
+      {(name === 'TutorList') && <Card />}
+      {(name === 'HomePage') &&<HomePage />}
+      
 
     </div>
 
