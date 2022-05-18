@@ -181,34 +181,17 @@ exports.fetchTutorsByDeptID = (req, res) => {
 exports.fetchTutors = async (req, res) => {
 
     const objectID = mongoose.Types.ObjectId
-    // mongoose.model('users').aggregate([
-    //     {
-    //         $match:{
-    //             type:1
-    //         }
-    //     }
-    //     ,{
-    //         "$lookup": {
-    //             "from": "tutors",
-    //             "localField": "_id",
-    //             "foreignField": "user_id",
-    //             "as": "result"
-    //         }
-
-    //     },
-
-    // ]).exec((err, data) => {
-    //     if (!err)
-    //         res.json(data)
-    //     else
-    //         res.json(err)
-    // })
-
-    let id = req.params.id ? req.params.id : null
     // fetch ID from the user collection 
     const getTutorsID = (ID) => {
+        let userFilter = { type: 1 }
+        if (req.query.tutorName && req.query.tutorName !== '') {
+            userFilter.$or = []
+            userFilter.$or.push({"name.firstName": { $regex: req.query.tutorName + '.*' }})
+            userFilter.$or.push({"name.middleName": { $regex: req.query.tutorName + '.*' }})
+            userFilter.$or.push({"name.lastName": { $regex: req.query.tutorName + '.*' }})
+        }
         return new Promise((resolve, reject) => {
-            user.find({ type: 1 }, {
+            user.find(userFilter, {
                 _id: 1,
                 name: 1,
                 date: 1,
@@ -232,7 +215,10 @@ exports.fetchTutors = async (req, res) => {
     // Fetch data about tutor from the tutor collection
     const getTutor = () => {
         return new Promise((resolve, reject) => {
-            let filter = id ? { dept_id: objectID(id) } : {}
+            let filter = {}
+            if (req.query.department && req.query.department !== '') {
+                filter.dept_id = objectID(req.query.department)
+            }
             tutor.find(filter, {
                 status: 1,
                 _id: 0,
@@ -249,8 +235,6 @@ exports.fetchTutors = async (req, res) => {
         })
     }
 
-
-
     getTutor().then((data) => {
         var IDs = data.map(({ user_id }) => user_id)
 
@@ -259,12 +243,17 @@ exports.fetchTutors = async (req, res) => {
 
             var newData = []
             for (var i = 0; i < data.length; i++) {
-                {
-                    var row = _.merge(data[i], tutor[i])
+                const indexOfObject = tutor.findIndex((obj) => {
+                    if (obj._id.toString() ===data[i].user_id.toString()) {
+                      return true;
+                    }
+                });
+                if (indexOfObject >=0) {
+                    var row = _.merge(data[i], tutor[indexOfObject])
                     newData.push(row)
                 }
             }
-            console.log(newData)
+            // console.log(newData)
             res.json(newData)
         })
     })

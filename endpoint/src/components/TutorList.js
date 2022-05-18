@@ -9,7 +9,7 @@ import TopBar from './topBar/topBar'
 import { useDialog } from 'react-mui-dialog';
 import axios from 'axios'
 import RequestDialog from './RequestDialog';
-import { useNavigate } from 'react-router';
+import Box from '@mui/material/Box';
 import { SocketContext } from '../Socket';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -259,14 +259,18 @@ export default function Card() {
     const [favoriteList, setFavoriteList] = useState([])
 
     let user_id = localStorage.getItem('token')
-    const { state } = useLocation();
+    var filterParams = {
+        department: '',
+        tutorName: ''
+    }
 
-    let id = state.id;
+    const [department, setDepartment] = useState('')
+    const [tutorName, setTutorName] = useState('')
+
     const fetchData = async () => {
-
-
         const axio1 = axios.get(`http://localhost:4000/student/fetchFavoriteList/${user_id}`)
-        const axio2 = axios.get(`http://localhost:4000/user/fetchTutors/${id}`)
+        let fetchTutorsUrl = `http://localhost:4000/user/fetchTutors?department=${department}&tutorName=${tutorName}`
+        const axio2 = axios.get(fetchTutorsUrl)
 
         await axios.all([axio1, axio2]).then(axios.spread((res1, res2) => {
             setTutor(res2.data)
@@ -282,38 +286,81 @@ export default function Card() {
         })
     }
 
+    const [departments, setDepartments] = React.useState([])
+
+    const fetchDept = async () => {
+      await axios.get('http://localhost:4000/fetchDept').
+        //represnt data to state 
+        then((res) => {
+          setDepartments(res.data)
+        }).
+        catch((err) => {
+          console.log('there is error is' + err)
+        })
+    }
+
     React.useEffect(() => {
         fetchData()
-
-
-
+        fetchDept()
     }, [])
 
+    React.useEffect(() => {
+        fetchData()
+    }, [department]);
+    React.useEffect(() => {
+        fetchData()
+    }, [tutorName]);
 
-    const departments = ['Math', 'Arabic', 'CS'];
-    let navigate = useNavigate();
-    //console.log(favoriteList)
     return (
         <div style={{ padding: 40, height: '100%', width: "100%" }}>
-
             <div style={{marginLeft:"35px",marginRight:"40px"}}>
                 <h3 style={{ color: "#D90429", marginTop: "20px", fontWeight: "bold" }}
                 >Select Department </h3>
-
                 <div className={classes.searchBoxes}>
-
                     <div>
-                        <Autocomplete
-                            disablePortal
-                            options={departments}
-                            size="small"
-                            sx={{ width: "22rem" }}
-                            renderInput={(params) => <TextField {...params} label="Select department" />}
-                        />
+                    <Autocomplete
+                        // disablePortal
+                        // options={departments}
+                        // size="small"
+                        sx={{width:"22rem"}}
+                        // renderInput={(params) => <TextField {...params} label="Select department" />}
+                        options={departments}
+                        autoHighlight
+                        getOptionLabel={(option) => option.name}
+                        renderOption={(props, option) => (
+                            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                            {option.name}
+                            </Box>
+                        )}
+                        onChange={(e, value) => {
+                            setDepartment(value?value._id:'')
+                            // fetchData()
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                            size='small'
+                            name="department"
+                            {...params}
+                            label="Department"
+                            inputProps={{
+                                ...params.inputProps,
+                                autoComplete: 'new-password', // disable autocomplete and autofill
+                            }}
+                            />
+                        )}
+                    />
                     </div>
                     <div>
-                        <TextField label="Search" variant="outlined" size="small" />
-
+                        <TextField 
+                            label="Search" 
+                            variant="outlined" 
+                            size="small"
+                            onChange={async (e) => {
+                                // filterParams.department = filterParams.department
+                                setTutorName(e.target.value)
+                                // fetchData()                           
+                            }}
+                        />
                     </div>
                 </div>
             </div>
@@ -394,7 +441,6 @@ export default function Card() {
                 </div>
 
             </div>
-
             <Footer />
         </div>
 

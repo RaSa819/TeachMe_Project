@@ -14,6 +14,8 @@ const schema = new mongoose.Schema({
         ZIP: String
     },
     email: String,
+    // phoneExt: String,
+    // phoneNumber: String,
     phoneNumber: [],
     gender: Number,
     type: Number, // one => tutor . zero => student . two => admin

@@ -69,7 +69,7 @@ export default () => {
 
                 if (type === 0) {
                     // navigate('/StudentDashboard')
-                    navigate('/home')
+                    navigate('/global/tutors')
                 } else if (type === 1) {
                     navigate('/TutorDashboard')
                 } else if (type === 2) {
