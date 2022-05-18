@@ -9,17 +9,22 @@
     display: inline-block;
     background-color: white;
     margin: auto;
+   
 }
 
 .searchBoxes div:nth-child(2) {
     float: right
 }
+.mainSearchBox input{
+
+    width:400px !important;
+}
 
 
 @media (max-width: 760px) {
-    /* .searchBox1, .searchBox2 {
+    .searchBox1, .searchBox2 {
         width: 100%;
-    } */
+    }
     .searchBoxes div:nth-child(2) {
         float:none;
     }

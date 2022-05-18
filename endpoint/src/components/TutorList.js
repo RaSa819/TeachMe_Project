@@ -314,15 +314,17 @@ export default function Card() {
     return (
         <div style={{ padding: 40, height: '100%', width: "100%" }}>
             <div style={{marginLeft:"35px",marginRight:"40px"}}>
+
                 <h3 style={{ color: "#D90429", marginTop: "20px", fontWeight: "bold" }}
                 >Select Department </h3>
+
                 <div className={classes.searchBoxes}>
                     <div>
                     <Autocomplete
                         // disablePortal
                         // options={departments}
-                        // size="small"
-                        sx={{width:"22rem"}}
+                        size="small"
+                        sx={{width:"300px"}}
                         // renderInput={(params) => <TextField {...params} label="Select department" />}
                         options={departments}
                         autoHighlight
@@ -338,8 +340,10 @@ export default function Card() {
                         }}
                         renderInput={(params) => (
                             <TextField
+                            sx={{width:"400px"}}
                             size='small'
                             name="department"
+                            className={classes.mainSearchBox}
                             {...params}
                             label="Department"
                             inputProps={{
@@ -350,6 +354,8 @@ export default function Card() {
                         )}
                     />
                     </div>
+
+
                     <div>
                         <TextField 
                             label="Search" 
