@@ -29,28 +29,28 @@ export default function StudentDashboard() {
           " " + ((pageSelected === 'Profile') ? classes.active : "")}
           onClick={() => setPageSelected("Profile")}
           variant="text" startIcon={<VisibilityIcon />}>
-          <span className={classes.hideText}>View Profile</span></Button>
+          <span className={classes.hideText}>{language.ViewProfile}</span></Button>
 
         <Divider light />
         <Button className={classes.btn + " " + classes.sidebarBtn +
           " " + ((pageSelected === 'Edit') ? classes.active : "")}
           onClick={() => setPageSelected("Edit")}
           variant="text" startIcon={<EditIcon />} >
-          <span className={classes.hideText}>Edit Profile</span></Button>
+          <span className={classes.hideText}>{language.EditProfile}</span></Button>
 
         <Divider light />
         <Button className={classes.btn + " " + classes.sidebarBtn +
           " " + ((pageSelected === 'Tutors') ? classes.active : "")}
           onClick={() => setPageSelected("Tutors")}
           variant="text" startIcon={<SummarizeIcon />} >
-          <span className={classes.hideText}>Favorite Tutors List</span></Button>
+          <span className={classes.hideText}>{language.FavoriteTutor}</span></Button>
 
         <Divider light />
         <Button className={classes.btn + " " + classes.sidebarBtn +
           " " + ((pageSelected === 'History') ? classes.active : "")}
           onClick={() => setPageSelected("History")}
           variant="text" startIcon={<HistoryIcon />} >
-          <span className={classes.hideText}>Previous Request History</span> </Button>
+          <span className={classes.hideText}>{language.RequestHistory}</span> </Button>
 
 
       </Paper>
