@@ -19,13 +19,13 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Footer from '../components/footer/footer';
 import Autocomplete from '@mui/material/Autocomplete';
-import { countries, genderDt, typeDt } from '../general/datas';
+import { countries, genderDt, languageOptions, typeDt } from '../general/datas';
 import classes from "./signup.module.css";
 import Divider from '@mui/material/Divider';
 import { useContext } from 'react';
 import TutorProvider , { TutorContext } from '../components/Data/TutorProvider';
 import role from '../Roles';
-
+import { LanguageContext } from '../App';
 
 const styleCenter = {
   display: "flex",
@@ -181,7 +181,7 @@ export default () => {
   }
 
 
-
+  const language = React.useContext(LanguageContext);
 
   const [error, setError] = React.useState(false)
 
@@ -193,13 +193,13 @@ export default () => {
           width: '100%',
           display: error === 11000 ? 'block' : 'none'
         }} spacing={2}>
-          <Alert severity="error" variant='filled'>The user name is already exist, type Another</Alert>
+          <Alert severity="error" variant='filled'>{language.UserExist}</Alert>
         </Stack>
       </div>
       <div style={styleCenter} >
         <div className={classes.formDiv}>
-          <h3 style={{ color: "#000052", marginBottom: "20px" }}>Signup</h3>
-          <p>Create a new account</p>
+          <h3 style={{ color: "#000052", marginBottom: "20px" }}>{language.SignUp}</h3>
+          <p>{language.CreateAccount}</p>
 
           <div >
             <form onSubmit={formik.handleSubmit}>
@@ -211,7 +211,8 @@ export default () => {
                 }}
               >
 
-                <TextField className={classes.TextField} label="User name" size='small'
+                <TextField className={classes.TextField} label={language.Username}
+                 size='small'
                   name="userName"
                   style={{
                     width: '47%',
@@ -227,7 +228,8 @@ export default () => {
                 />
 
 
-                <TextField label="Email" size='small'
+                <TextField label={language.Email}
+                 size='small'
                   name="email"
                   className={classes.TextField}
                   style={{
@@ -242,7 +244,8 @@ export default () => {
                 />
 
 
-                <TextField label="Password" size='small'
+                <TextField label={language.Password}
+                size='small'
                   name="password"
                   className={classes.TextField}
                   fullWidth
@@ -257,7 +260,8 @@ export default () => {
                   helperText={formik.touched.password && formik.errors.password}
                 />
 
-                <TextField label="Confirm Password" size='small'
+                <TextField label={language.Confirm}
+                size='small'
                   name="confirmPassword"
                   className={classes.TextField}
                   type="password"
@@ -273,7 +277,8 @@ export default () => {
                 />
 
 
-                <TextField label="First Name" size='small'
+                <TextField label={language.FirstN} 
+                size='small'
                   name="firstName"
                   className={classes.TextField}
                   style={{
@@ -285,7 +290,7 @@ export default () => {
                   error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                   helperText={formik.touched.firstName && formik.errors.firstName}
                 />
-                <TextField label="Middle Name" size='small'
+                <TextField label={language.MiddleN} size='small'
                   name="middleName"
                   className={classes.TextField}
                   style={{
@@ -298,7 +303,7 @@ export default () => {
                   helperText={formik.touched.middleName && formik.errors.middleName}
                 />
 
-                <TextField label="Last Name" size='small'
+                <TextField label={language.LastN} size='small'
                   className={classes.TextField}
                   name="lastName"
                   style={{
@@ -340,7 +345,7 @@ export default () => {
                       size='small'
                       name="country"
                       {...params}
-                      label="Country"
+                      label={language.Country}
                       inputProps={{
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
@@ -348,8 +353,8 @@ export default () => {
                     />
                   )}
                 />
-                <TextField label="City" size='small'
-                  name="city"
+                <TextField label={language.City} size='small'
+                  name="City"
                   className={classes.TextField}
                   style={{
                     width: '47%',
@@ -363,7 +368,7 @@ export default () => {
                 />
 
 
-                <TextField label="ZIP" size='small'
+                <TextField label={language.ZIP} size='small'
                   name="ZIP"
                   className={classes.TextField}
                   style={{
@@ -376,7 +381,7 @@ export default () => {
                   helperText={formik.touched.ZIP && formik.errors.ZIP}
                 />
 
-                <TextField label="Phone Number" size='small'
+                <TextField label={language.Phone} size='small'
                   name="phoneNumber"
                   className={classes.TextField}
                   style={{
@@ -396,7 +401,7 @@ export default () => {
 
                 >
                   <FormLabel id="demo-row-radio-buttons-group-label"
-                  >Gender</FormLabel>
+                  >{language.Gender}</FormLabel>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -406,8 +411,8 @@ export default () => {
 
 
                   >
-                    <FormControlLabel value={genderDt[0]} control={<Radio />} label="Male" />
-                    <FormControlLabel value={genderDt[1]} control={<Radio />} label="Female" />
+                    <FormControlLabel value={genderDt[0]} control={<Radio />} label={language.Male} />
+                    <FormControlLabel value={genderDt[1]} control={<Radio />} label={language.Female}/>
 
                   </RadioGroup>
                 </FormControl>
@@ -421,7 +426,7 @@ export default () => {
                 >
                   <FormLabel id="demo-row-radio-buttons-group-label"
 
-                  >Are You student or Tutor ?</FormLabel>
+                  >{language.AreYouStudentorTutor}</FormLabel>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -435,7 +440,7 @@ export default () => {
                       onClick={() => {
                         setTutor(false)
                       }} />
-                    } label="Student"
+                    } label={language.Student}
 
                     />
                     <FormControlLabel value={typeDt[1]}
@@ -443,7 +448,7 @@ export default () => {
                         onClick={() => {
                           setTutor(true)
                         }}
-                      />} label="Tutor" />
+                      />} label={language.Tutor} />
 
                   </RadioGroup>
                 </FormControl>
@@ -453,15 +458,15 @@ export default () => {
 
              <div style={{textAlign:"left",width:"100%", display:"inline-block"}}>
               <h6 style={{ width:"auto",display:"inline-block"}}>
-                Already have an account ?<Link to="/login" 
+              {language.HaveAccount}<Link to="/login" 
                 style={{
                   textDecoration: 'none',
                   color: "#D90429" }} >
-                   &nbsp; <u>Login </u> </Link>
+                   &nbsp; <u>{language.Login} </u> </Link>
                 </h6>
                 <Button style={{ backgroundColor: "#000052", color: "#fff", padding: "5px",float:"right" , width:"30%"}}
                   variant="contained"  type="submit">
-                  Sign up
+                  {language.SignUp}
                 </Button>
                 </div>
                 
