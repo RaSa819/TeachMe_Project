@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import SearchIcon from '@mui/icons-material/Search';
 import classes from './TutorList.module.css';
+import Footer from './footer/footer';
 
 const styleUnFavorite = {
     width: '20px',
@@ -311,16 +312,12 @@ export default function Card() {
     }, [tutorName]);
 
     return (
-        <div 
-        style={{ padding: 40, height: '100%',  overflowY: 'auto',marginRight:"50px",marginLeft:"50px" }}>
-            <h3 
-            style={{ color: "#D90429",  marginTop: "20px", fontWeight: "bold" }}
-             >Select Department 
-             </h3>
-
-
-            <div className={classes.searchBoxes}>
-                <div>
+        <div style={{ padding: 40, height: '100%', width: "100%" }}>
+            <div style={{marginLeft:"35px",marginRight:"40px"}}>
+                <h3 style={{ color: "#D90429", marginTop: "20px", fontWeight: "bold" }}
+                >Select Department </h3>
+                <div className={classes.searchBoxes}>
+                    <div>
                     <Autocomplete
                         // disablePortal
                         // options={departments}
@@ -352,22 +349,22 @@ export default function Card() {
                             />
                         )}
                     />
-                </div>
-                <div>
-                    <TextField 
-                        label="Search" 
-                        variant="outlined" 
-                        size="small"
-                        onChange={async (e) => {
-                            // filterParams.department = filterParams.department
-                            setTutorName(e.target.value)
-                            // fetchData()                           
-                        }}
-                    />
+                    </div>
+                    <div>
+                        <TextField 
+                            label="Search" 
+                            variant="outlined" 
+                            size="small"
+                            onChange={async (e) => {
+                                // filterParams.department = filterParams.department
+                                setTutorName(e.target.value)
+                                // fetchData()                           
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
-
-            <div >
+            <div style={{ padding: 40, width: "100%" }}>
                 {/* <TopBar 
                 
                 onDashClick={()=>{
@@ -421,7 +418,6 @@ export default function Card() {
                     })
                 }
 
-
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -443,7 +439,9 @@ export default function Card() {
                         }
                     </div>
                 </div>
+
             </div>
+            <Footer />
         </div>
 
     )
