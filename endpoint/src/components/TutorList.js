@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import SearchIcon from '@mui/icons-material/Search';
 import classes from './TutorList.module.css';
+import Footer from './footer/footer';
 
 const styleUnFavorite = {
     width: '20px',
@@ -293,33 +294,30 @@ export default function Card() {
     let navigate = useNavigate();
     //console.log(favoriteList)
     return (
-        // style={{ padding: 10, height: '100%', width: '100%', background: "#F4F4F8" }}
+        <div style={{ padding: 40, height: '100%', width: "100%" }}>
 
-        <div 
-        style={{ padding: 40, height: '100%',  overflowY: 'auto',marginRight:"50px",marginLeft:"50px" }}>
-            <h3 
-            style={{ color: "#D90429",  marginTop: "20px", fontWeight: "bold" }}
-             >Select Department 
-             </h3>
+            <div style={{marginLeft:"35px",marginRight:"40px"}}>
+                <h3 style={{ color: "#D90429", marginTop: "20px", fontWeight: "bold" }}
+                >Select Department </h3>
 
+                <div className={classes.searchBoxes}>
 
-            <div className={classes.searchBoxes}>
-                <div>
-                    <Autocomplete
-                        disablePortal
-                        options={departments}
-                        size="small"
-                        sx={{width:"22rem"}}
-                        renderInput={(params) => <TextField {...params} label="Select department" />}
-                    />
-                </div>
-                <div>
-                    <TextField label="Search" variant="outlined" size="small"/>
+                    <div>
+                        <Autocomplete
+                            disablePortal
+                            options={departments}
+                            size="small"
+                            sx={{ width: "22rem" }}
+                            renderInput={(params) => <TextField {...params} label="Select department" />}
+                        />
+                    </div>
+                    <div>
+                        <TextField label="Search" variant="outlined" size="small" />
 
+                    </div>
                 </div>
             </div>
-
-            <div >
+            <div style={{ padding: 40, width: "100%" }}>
                 {/* <TopBar 
                 
                 onDashClick={()=>{
@@ -373,7 +371,6 @@ export default function Card() {
                     })
                 }
 
-
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -395,7 +392,10 @@ export default function Card() {
                         }
                     </div>
                 </div>
+
             </div>
+
+            <Footer />
         </div>
 
     )
