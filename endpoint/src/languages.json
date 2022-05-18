@@ -60,7 +60,12 @@
         "Tutor":"Tutor",
         "SIGNUP":"SIGN UP",
         "StudentDashboard":"Student Dashboard",
-        "TutorDashboard":"Tutor Dashboard"
+        "TutorDashboard":"Tutor Dashboard",
+        "PleaseEnter":"Please enter your information",
+        "DontHaveAccount":" You don't have an account ?",
+        "HaveAccount":"Already have an account ? ",
+        "UserExist":"The user name is already exist, type another one",
+        "CreateAccount":"Create a new account"
     },
 
     "Ar": {
@@ -108,7 +113,7 @@
         "Confirm":"تأكيد كلمة المرور",
         "FirstN":"الاسم الاول",
         "MiddleN":"الاسم الثاني",
-        "LastN":"الاسم الأخير",
+        "LastN":"اسم العائلة",
         "Country":"الدولة",
         "City":"المدينة",
         "Street":"الشارع",
@@ -122,6 +127,12 @@
         "Tutor":"مدرس",
         "SIGNUP":"إنشاء حساب",
         "StudentDashboard": "لوحة تحكم الطالب",
-        "TutorDashboard":"لوحة تحكم المدرس"
+        "TutorDashboard":"لوحة تحكم المدرس",
+        "PleaseEnter":"من فضلك أدخل بياناتك",
+        "DontHaveAccount":"لا يوجد لديك حساب ؟",
+        "HaveAccount":"هل لديك حساب؟",
+        "UserExist":"اسم المستخدم موجود مسبقاً ",
+        "CreateAccount":"قم بإنشاء حساب جديد"
+
     }
 }

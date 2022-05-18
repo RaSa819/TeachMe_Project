@@ -13,6 +13,7 @@ import NavBar from "../components/topBar/navBar";
 import { SocketContext, SocketProvider } from "../Socket";
 import classes from "./Login.module.css";
 import Divider from '@mui/material/Divider';
+import { LanguageContext } from '../App';
 
 // to align items in center 
 const styleCenter = {
@@ -26,6 +27,7 @@ const styleCenter = {
 
 
 export default () => {
+    const language = React.useContext(LanguageContext);
 
     let navigate = useNavigate();
     const userName = React.useRef();
@@ -88,7 +90,7 @@ export default () => {
 
     return (
 
-        <div style={{ background: "#F4F4F8", height: "100%" }}>
+        <div>
             {
                 isReady === 0 &&
                 <ProgressBar />
@@ -104,20 +106,20 @@ export default () => {
             <div style={styleCenter}>
 
                 <div className={classes.formDiv}>
-                    <h1 style={{ color: "#000052", marginBottom: "20px" }}>Login</h1>
-                    <p>Please enter your information</p>
+                    <h1 style={{ color: "#000052", marginBottom: "20px" }}>{language.Login}</h1>
+                    <p>{language.PleaseEnter}</p>
 
                     <div>
 
                         <form onSubmit={(event) => { login(event) }} style={{ width: "60%" }} >
                             <div style={{ marginBottom: "20px" }}>
                                 <input type="text" style={{ padding: "13px", backgroundColor: '#F8F8F8' }} className="form-control mt-2"
-                                    placeholder="Username"
+                                    placeholder={language.Username}
                                     ref={userName}
                                     required={true}
                                 />
                                 <input style={{ padding: "13px", backgroundColor: '#F8F8F8' }} type="password" className="form-control mt-2"
-                                    placeholder="Password"
+                                    placeholder={language.Password}
                                     ref={password}
                                     required={true}
                                 />
@@ -128,7 +130,7 @@ export default () => {
                             <div style={styleCenter}>
                                 <input type="submit" className="btn mt-2"
 
-                                    value="Login"
+                                    value={language.Login}
                                     style={{
                                         backgroundColor: color[0],
                                         color: color[2],
@@ -143,10 +145,10 @@ export default () => {
 
                             <Divider sx={{margin:"10px",backgroundColor:"black !important"}} />
                             <div style={styleCenter}>
-                                You don't have an account ?<Link to="/signup" style={{
+                            {language.DontHaveAccount} <Link to="/signup" style={{
                                     textDecoration: 'none',
                                     color: "#D90429"
-                                }} > &nbsp; <u>Sign up </u> </Link>
+                                }} > &nbsp; <u> {language.SignUp}</u> </Link>
                             </div>
 
                         </form>

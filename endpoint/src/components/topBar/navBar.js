@@ -240,7 +240,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                     <Container maxWidth="xl">
                         <Toolbar disableGutters sx={{ padding: 0 }}>
                             <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
-                                Teach me.
+                                {languagee.TeachMe}
                             </a>
                             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                                 <IconButton
