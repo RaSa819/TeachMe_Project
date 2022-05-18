@@ -21,7 +21,7 @@ export default function HomePage() {
     let navigate = useNavigate()
 
     return (
-        <div>
+        <div style={{height: '100vh'}}>
             <section class="banner" >
                 <div class="container">
                     <div class='content'>
@@ -90,7 +90,7 @@ export default function HomePage() {
 
                 </div>
             </section>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     );
 }

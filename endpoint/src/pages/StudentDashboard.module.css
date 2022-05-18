@@ -130,6 +130,7 @@ a {
     background: white !important;
     padding: 10px;
     height: 200px;
+    vertical-align: top;
 }
 
 .cardTDiv {

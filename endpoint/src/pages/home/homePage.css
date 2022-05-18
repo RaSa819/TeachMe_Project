@@ -73,7 +73,7 @@ header.sticky ul li a {
   background-image: url("../../../public/second.jpg");
   background-size: cover;
   background-position: center;
-  margin-top: 100;
+  /* margin-top: 100; */
   padding: 0%;
 }
 

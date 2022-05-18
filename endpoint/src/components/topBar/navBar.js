@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classes from '../../pages/StudentDashboard.module.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -23,7 +23,6 @@ import Languages from "../../languages.json";
 import { useNavigate } from "react-router-dom";
 import { genderDt, languageOptions } from '../../general/datas';
 import { LanguageContext } from '../../App';
-
 
 
 export default function NavBar({ language, setLanguage, pageName }) {
@@ -103,6 +102,18 @@ export default function NavBar({ language, setLanguage, pageName }) {
     }
     // const barStyle = pageName === 'HomePage' ? (classes.homeBar) : classes.defaultBar;
 
+
+ 
+
+    React.useEffect(()=>{
+
+        window.addEventListener('scroll', (e) => {
+            const appBar = window.document.getElementsByClassName('appBar')[0];
+
+            // if(window.scrollY > 0) alert('x');
+            appBar.classList.toggle('sticky', window.scrollY > 0)
+        }, true);
+    });
     return (
         <div>
 
@@ -110,18 +121,21 @@ export default function NavBar({ language, setLanguage, pageName }) {
 
 
                 <AppBar
+                    className="appBar"
                     sx={{
                         background: 'none',
                         textAlign: 'left',
                         color: '#D90429',
-                        position: 'absolute',
-                        maxHeight: '5em'
+                        position: 'fixed',
+                        maxHeight: '5em',
+                        boxShadow: 'none'
+                        // background: 'white'
                     }}
                     position="fix"
                 >
-                    <Container maxWidth="xl">
+                    <Container maxWidth="xl" >
                         <Toolbar disableGutters sx={{ padding: 0 }}>
-                            <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
+                            <a className="navbar-brand" style={{ width: '80%' }} href="#">
                                 {languagee.TeachMe}
                             </a>
                             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -161,7 +175,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                 </Menu>
                             </Box>
 
-                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            <Box sx={{flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <ButtonGroup>
                                     <React.Fragment>
                                         <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
@@ -237,7 +251,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
 
             {(pageName !== "HomePage") &&
                 <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
-                    <Container maxWidth="xl">
+                    <Container maxWidth="xl" >
                         <Toolbar disableGutters sx={{ padding: 0 }}>
                             <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
                                 {languagee.TeachMe}
@@ -337,7 +351,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                     {
                                         (pageName !== "Login" && pageName !== "Signup") &&
                                         <Button className={classes.btn + " " + classes.top}
-                                            onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >Logout</Button>
+                                            onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >{languagee.Logout}</Button>
 
                                     }
                                 </ButtonGroup>

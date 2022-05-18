@@ -158,8 +158,7 @@ export default function App() {
                             {
                                 height: '100%',
                                 margin: '0%',
-                                padding: '0%',
-                                overflow: 'auto'
+                                padding: '0%'
                             }
                         }>
                         <Router>
