@@ -30,7 +30,7 @@ export default function TutorDashboard() {
                     " " + ((pageSelected === 'Profile') ? classes.active : "")}
                     onClick={() => setPageSelected("Profile")}
                     variant="text" startIcon={<VisibilityIcon />}>
-                    <span className={classes.hideText}>View Profile</span>
+                    <span className={classes.hideText}>{language.ViewProfile}</span>
                 </Button>
 
                 <Divider light />
@@ -39,7 +39,7 @@ export default function TutorDashboard() {
                     " " + ((pageSelected === 'Edit') ? classes.active : "")}
                     onClick={() => setPageSelected("Edit")}
                     variant="text" startIcon={<EditIcon />} >
-                    <span className={classes.hideText}>Edit Profile</span>
+                    <span className={classes.hideText}>{language.EditProfile}</span>
                 </Button>
 
                 <Divider light />
@@ -48,7 +48,7 @@ export default function TutorDashboard() {
                     " " + ((pageSelected === 'PendingRequest') ? classes.active : "")}
                     onClick={() => setPageSelected("PendingRequest")}
                     variant="text" startIcon={<SummarizeIcon />} >
-                    <span className={classes.hideText}>Pending Request</span>
+                    <span className={classes.hideText}>{language.PendingRequest}</span>
                 </Button>
 
                 <Divider light />
@@ -57,7 +57,7 @@ export default function TutorDashboard() {
                     " " + ((pageSelected === 'History') ? classes.active : "")}
                     onClick={() => setPageSelected("History")}
                     variant="text" startIcon={<HistoryIcon />} >
-                    <span className={classes.hideText}>Previous Request History</span>
+                    <span className={classes.hideText}>{language.RequestHistory}</span>
                 </Button>
 
 

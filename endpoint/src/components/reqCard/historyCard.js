@@ -5,8 +5,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import ViewRequest from './viewRequest';
+import { LanguageContext } from '../../App';
+
+
 
 export default (props) => {
+  const language = React.useContext(LanguageContext);
   const { title, id, status } = props;
   const data = props.data ? props.data : null
   const [showRequest, setShowRequest] = React.useState(false);
@@ -29,7 +33,7 @@ export default (props) => {
             <Button className={classes.cardButton}
               sx={{ color: '#f1f0f0', background: 'darkblue',float:"right",padding:"3px 15px" }}
               onClick={openRequest}> 
-              View Details </Button>
+               {language.Details}</Button>
       </div>
       <div style={{ paddingLeft: "40px" }}>
         <h3 style={{fontWeight:"bold",fontSize:"16px", width:"auto",display:"inline-block", color: statusColor}}>{statusLabel}</h3>
@@ -41,7 +45,7 @@ export default (props) => {
         <DialogActions>
             <Button onClick={closeRequest}
                 className={classes.closeButton}>
-                Close</Button>    
+                {language.Close}</Button>    
         </DialogActions>
       </Dialog>
     </div>

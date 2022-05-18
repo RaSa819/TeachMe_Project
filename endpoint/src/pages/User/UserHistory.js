@@ -4,9 +4,11 @@ import ReqCard from '../../components/reqCard/reqCard'
 import axios from 'axios'
 import ProgressBar from './../../components/ProgressBar'
 import HistoryCard from '../../components/reqCard/historyCard'
+import { LanguageContext } from '../../App';
 
 
 export default()=> {
+  const language = React.useContext(LanguageContext);
   const [data, setData] = React.useState([])
 
   let token = localStorage.getItem('token')
@@ -37,7 +39,6 @@ export default()=> {
 
   return (
   <div>
-   
 
         {
           isReady === 1 && data.length > 0 &&
@@ -52,7 +53,7 @@ export default()=> {
         }
         {
           isReady === 1 && data.length <= 0 &&
-          <h4>You don't have any history yet!</h4>
+          <h4>{language.NoHistory}</h4>
         }
         {
           isReady === 0 &&
