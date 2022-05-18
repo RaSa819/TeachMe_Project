@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Dongle&display=swap");
 header .navbar-brand {
   position: relative;
-  font-family: "Dongle", sans-serif;
+  font-family: "Dongle", sans-serif !important;
   font-size: 45px;
   color: #d90429;
   text-decoration: none;

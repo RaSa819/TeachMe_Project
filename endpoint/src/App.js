@@ -166,7 +166,7 @@ export default function App() {
                             <SocketProvider>
                                 <Routes>
                                     <Route path="/"
-                                        element={<HomePage />} />
+                                        element={<ContentPage name="HomePage" setLanguage={updateLanguage} />} />
 
                                     <Route path="/Login"
                                         element={<ContentPage name="Login" setLanguage={updateLanguage} />} />
@@ -288,7 +288,7 @@ export default function App() {
 
                                         } />
                                     <Route path="/homePage"
-                                        element={<homePage />} />
+                                        element={<ContentPage name="HomePage" setLanguage={updateLanguage} /> }/>
 
                                     <Route path="/view/tutor/:id"
                                         element={<ViewTutor />} />
