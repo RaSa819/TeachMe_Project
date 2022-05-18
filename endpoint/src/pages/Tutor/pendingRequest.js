@@ -3,10 +3,10 @@ import axios from 'axios'
 import { SocketProvider } from '../../Socket'
 import ReqCard from '../../components/reqCard/reqCard'
 import ProgressBar from './../../components/ProgressBar'
-
+import { LanguageContext } from '../../App';
 
 export default function PendingRequest() {
-
+    const language = React.useContext(LanguageContext);
     const [data, setData] = React.useState([])
     const [isReady, setReady] = React.useState(0)
 
@@ -38,7 +38,7 @@ export default function PendingRequest() {
 
     return (
         <div>
-     
+        
             {
                 data.length > 0 && isReady === 1 && data.map((item, index) => (
                     <ReqCard title={
@@ -56,7 +56,7 @@ export default function PendingRequest() {
             }
             {
                 isReady === 1 && data.length <= 0 && <h3 style={{marginTop:"20px"}}>
-                    You don't have pending request!
+                 {language.NoRequest}
                 </h3>
             }
             {

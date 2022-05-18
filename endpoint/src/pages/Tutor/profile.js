@@ -1,15 +1,15 @@
 import React from "react";
 import Divider from '@mui/material/Divider';
 import Rating from '@mui/material/Rating';
-import img from '../../assets/flag.png';
 import classes from '../User/tutorDashboardUpdated.module.css';
 import axios from 'axios';
 import { countries } from '../../general/datas';
 import PublicIcon from '@mui/icons-material/Public';
-
+import { Language } from "@mui/icons-material";
+import { LanguageContext } from '../../App';
 
 export default function Profile() {
-
+  const language = React.useContext(LanguageContext);
   // const [img, setImg] = React.useState('');
   const [userData, setUserData] = React.useState({name: {}, address: {}, profile: {}});
 
@@ -39,11 +39,11 @@ export default function Profile() {
         <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
       </div>
       <Divider sx={{ width: "50%" }} />
-      <p>joined on {new Date(userData.date).toLocaleString()}</p>
-      <h6 className={classes.details}>Email :   <span style={{ fontSize: '14px' }}>{userData.email || ''}</span></h6>
-      <h6 className={classes.details}>About :   <span style={{ fontSize: '14px' }}>{userData.profile?.about || ''}</span></h6>
-      <h6 className={classes.details}>Certificate :  <span style={{ fontSize: '14px' }}>{userData.profile?.certifications || ''}</span></h6>
-      <h6 className={classes.details}>Experience  :   <span style={{ fontSize: '14px' }}>{userData.profile?.experience || ''}</span></h6>
+      <p> {language.Joined} : {userData.date?.split('T')?.[0]}</p>
+      <h6 className={classes.details}>{language.Email} : <span style={{ fontSize: '14px' }}>{userData.email || ''}</span></h6>
+      <h6 className={classes.details}>{language.About} : <span style={{ fontSize: '14px' }}>{userData.profile?.about || ''}</span></h6>
+      <h6 className={classes.details}>{language.Certificate} : <span style={{ fontSize: '14px' }}>{userData.profile?.certifications || ''}</span></h6>
+      <h6 className={classes.details}>{language.Experience} : <span style={{ fontSize: '14px' }}>{userData.profile?.experience || ''}</span></h6>
 
     </div>
   );

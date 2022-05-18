@@ -8,8 +8,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import ViewRequest from './viewRequest';
+import { LanguageContext } from '../../App';
 
 export default (props) => {
+  const language = React.useContext(LanguageContext);
   const { title, name, stars, id, enable, fetchData } = props;
   const data = props.data ? props.data : null
   const socket = useContext(SocketContext)
@@ -50,7 +52,7 @@ export default (props) => {
             <Button className={classes.cardButton}
               sx={{ color: '#f1f0f0', background: 'darkblue' }}
               onClick={openRequest}> 
-              View </Button>
+             {language.View}</Button>
           }
           {
             enable === true &&
@@ -58,13 +60,13 @@ export default (props) => {
               sx={{ color: 'darkblue', background: '#f1f0f0' }}
               onClick={() => {
                 push(1)
-              }} >Accept</Button>
+              }} >{language.Accept}</Button>
           }
           <Button className={classes.cardButton}
             sx={{ color: '#f1f0f0', background: '#D90429' }}
             onClick={() => {
                 push(0)
-              }}>Decline</Button>
+              }}>{language.Decline}</Button>
         </div>
       </div>
       <Dialog open={showRequest} onClose={closeRequest}>
@@ -74,7 +76,7 @@ export default (props) => {
         <DialogActions>
             <Button onClick={closeRequest}
                 className={classes.closeButton}>
-                Close</Button>    
+                {language.Close}</Button>    
         </DialogActions>
       </Dialog>
     </div>

@@ -28,13 +28,15 @@ import { LanguageContext } from '../../App';
 export default function NavBar({ language, setLanguage, pageName }) {
     const languagee = React.useContext(LanguageContext);
     const pages = [
-        'Logout',
+        <span onClick={() => handleLogout()}>{languagee.Logout}</span>,
         <span onClick={() => updateLanguage(1)} >English</span>,
         <span onClick={() => updateLanguage(0)} >العربية</span>,
     ];
+    if (pageName === "TutorList" ) pages.push(<span onClick={() => handleStd()}>{languagee.StudentDashboard}</span>);
+
     const pagesH = [
-        'Find tutors',
-        'Login',
+        <span>{languagee.FindTutors}</span>,
+        <span>{languagee.Login}</span>,
         <span onClick={() => updateLanguage(1)} >English</span>,
         <span onClick={() => updateLanguage(0)} >العربية</span>,
     ];
@@ -100,7 +102,10 @@ export default function NavBar({ language, setLanguage, pageName }) {
         localStorage.removeItem('userDetail')
         navigate('/login')
     }
-    // const barStyle = pageName === 'HomePage' ? (classes.homeBar) : classes.defaultBar;
+    const handleStd = () => {
+        navigate('/StudentDashboard')
+    }
+  
 
 
  
@@ -349,11 +354,17 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                         </Popper>
                                     </React.Fragment>
                                     {
+                                        (pageName === "TutorList" ) &&
+                                        <Button className={classes.btn + " " + classes.top}
+                                        sx={{ width: "300px" }}
+                                            onClick={handleStd} variant="text">{languagee.StudentDashboard}</Button>
+                                    }
+                                    {
                                         (pageName !== "Login" && pageName !== "Signup") &&
                                         <Button className={classes.btn + " " + classes.top}
                                             onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >{languagee.Logout}</Button>
-
                                     }
+                               
                                 </ButtonGroup>
                             </Box>
 

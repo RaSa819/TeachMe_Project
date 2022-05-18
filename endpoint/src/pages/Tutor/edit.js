@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import FormInput from '../../components/formInput';
 import { MessageBox } from '../../components/MessageBox';
+import { LanguageContext } from '../../App';
 
 const validationSchema = yup.object({
   email: yup
@@ -66,6 +67,7 @@ const validationSchema = yup.object({
 });
 
 export default function Edit() {
+  const language = React.useContext(LanguageContext);
   const { openDialog } = useDialog();
   const [departments, setDepartment] = React.useState([])
 
@@ -174,7 +176,7 @@ export default function Edit() {
             '& > :not(style)': { mt: 1 }
           }}
           autoComplete="off">
-          <TextField label="Username"  size='small'
+          <TextField label={language.Username}  size='small'
             name="username"
             style={{
               width: '47%',
@@ -187,7 +189,7 @@ export default function Edit() {
             disabled
           />
 
-          <TextField label="Email" size='small'
+          <TextField label={language.Email} size='small'
             name="email"
             style={{
               width: '47%',
@@ -200,7 +202,7 @@ export default function Edit() {
             helperText={formik.touched.email && formik.errors.email}
           /> 
         </Box>
-          <TextField label="First Name" size='small'
+          <TextField label={language.FirstN} size='small'
             name="firstName"
             style={{
               width: '30%',
@@ -211,7 +213,7 @@ export default function Edit() {
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
           />
-          <TextField label="Middle Name" size='small'
+          <TextField label={language.MiddleN}size='small'
             name="middleName"
             style={{
               width: '30%',
@@ -222,7 +224,7 @@ export default function Edit() {
             error={formik.touched.middleName && Boolean(formik.errors.middleName)}
             helperText={formik.touched.middleName && formik.errors.middleName}
           />
-          <TextField label="Last Name" size='small'
+          <TextField label={language.LastN} size='small'
             name="lastName"
             style={{
               width: '30%',
@@ -233,7 +235,7 @@ export default function Edit() {
             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
             helperText={formik.touched.lastName && formik.errors.lastName}
           />
-          <TextField label="New Password" size='small'
+          <TextField label={language.NPassword} size='small'
             name="newPassword"
             fullWidth
             style={{
@@ -246,7 +248,7 @@ export default function Edit() {
             error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
             helperText={formik.touched.newPassword && formik.errors.newPassword}
           />
-          <TextField label="Confirm Password" size='small'
+          <TextField label={language.Confirm} size='small'
             name="confirmPassword"
             type="password"
             fullWidth
@@ -286,7 +288,7 @@ export default function Edit() {
                 size='small'
                 name="country"
                 {...params}
-                label="Country"
+                label={language.Country}
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: 'new-password', // disable autocomplete and autofill
@@ -294,7 +296,7 @@ export default function Edit() {
               />
             )}
           />
-          <TextField label="City" size='small'
+          <TextField label={language.City} size='small'
             name="city"
             style={{
               width: '47%',
@@ -306,7 +308,7 @@ export default function Edit() {
             error={formik.touched.city && Boolean(formik.errors.city)}
             helperText={formik.touched.city && formik.errors.city}
           />
-          <TextField label="Street" size='small'
+          <TextField label={language.Street} size='small'
             name="street"
             style={{
               width: '47%',
@@ -318,7 +320,7 @@ export default function Edit() {
             helperText={formik.touched.street && formik.errors.street}
           />
 
-          <TextField label="ZIP" size='small'
+          <TextField label={language.ZIP} size='small'
             name="ZIP"
             style={{
               width: '47%',
@@ -330,7 +332,7 @@ export default function Edit() {
             error={formik.touched.ZIP && Boolean(formik.errors.ZIP)}
             helperText={formik.touched.ZIP && formik.errors.ZIP}
           />
-          <TextField label="Phone Number" size='small'
+          <TextField label={language.Phone} size='small'
             name="phoneNumber"
             fullWidth
             value={formik.values.phoneNumber}
@@ -344,15 +346,15 @@ export default function Edit() {
             <FormLabel id="demo-row-radio-buttons-group-label"
               required
               color="error"
-            >Gender</FormLabel>
+            >{language.Gender}</FormLabel>
             <RadioGroup row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="gender"
               value={formik.values.gender}
               onChange={formik.handleChange}
             >
-              <FormControlLabel value={genderDt[0]} control={<Radio color="error" />} label="Female" />
-              <FormControlLabel value={genderDt[1]} control={<Radio color="error" />} label="Male" />
+              <FormControlLabel value={genderDt[0]} control={<Radio color="error" />} label={language.Female} />
+              <FormControlLabel value={genderDt[1]} control={<Radio color="error" />} label={language.Male} />
             </RadioGroup>
           </FormControl>
           {
@@ -383,7 +385,7 @@ export default function Edit() {
                   size='small'
                   name="dept"
                   {...params}
-                  label="Department"
+                  label={language.Department}
                   inputProps={{
                     ...params.inputProps,
                     autoComplete: 'new-password', // disable autocomplete and autofill
@@ -398,7 +400,7 @@ export default function Edit() {
             required
             color="error"
             id="about"
-            label="About"
+            label={language.About}
             type="text"
             margin="dense"
             variant="outlined"
@@ -432,7 +434,7 @@ export default function Edit() {
                 size='small'
                 name="certifications"
                 {...params}
-                label="Choose last certification you got"
+                label={language.ChooseCertificate}
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: 'new-password', // disable autocomplete and autofill
@@ -444,7 +446,7 @@ export default function Edit() {
             required
             color="error"
             id="experience"
-            label="Experience"
+            label={language.Experience}
             type="text"
             variant="outlined"
             margin="dense"
@@ -478,7 +480,7 @@ export default function Edit() {
                 size='small'
                 name="cardType"
                 {...params}
-                label="Choose your card type"
+                label={language.ChooseCard}
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: 'new-password', // disable autocomplete and autofill
@@ -491,7 +493,7 @@ export default function Edit() {
             required
             color="error"
             id="cardID"
-            label="Card ID"
+            label={language.CardId}
             type="text"
             variant="outlined"
             margin="dense"
@@ -503,7 +505,7 @@ export default function Edit() {
         </Box>
         <div style={{ textAlign: "center" }}>
           <Button className={classes.formButton} variant="contained" fullWidth type="submit">
-            Update
+            {language.Update}
           </Button>
         </div>
       </form>
