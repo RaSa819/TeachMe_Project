@@ -8,6 +8,9 @@ import Users from '../pages/Admin/users';
 import Sessions from '../pages/Admin/sessions';
 import NavBar from '../components/topBar/navBar';
 import { LanguageContext } from '../App';
+import ArticleIcon from '@mui/icons-material/Article';
+import GroupIcon from '@mui/icons-material/Group';
+import ScreenshotMonitorIcon from '@mui/icons-material/ScreenshotMonitor';
 
 export default function AdminDashboard() {
 
@@ -24,22 +27,22 @@ export default function AdminDashboard() {
                 <Button className={classes.btn + " " + classes.sidebarBtn +
                     " " + ((pageSelected === 'Department') ? classes.active : "")}
                     onClick={() => setPageSelected("Department")}
-                    variant="text" >
-                    <span className={classes.hideText}>Department</span></Button>
+                    variant="text" startIcon={<ArticleIcon />}>
+                    <span className={classes.hideText}>{language.Departments}</span></Button>
 
                 <Divider light />
                 <Button className={classes.btn + " " + classes.sidebarBtn +
                     " " + ((pageSelected === 'Users') ? classes.active : "")}
                     onClick={() => setPageSelected("Users")}
-                    variant="text"  >
-                    <span className={classes.hideText}>Users</span></Button>
+                    variant="text" startIcon={<GroupIcon />} >
+                    <span className={classes.hideText}>{language.Users}</span></Button>
 
                 <Divider light />
                 <Button className={classes.btn + " " + classes.sidebarBtn +
                     " " + ((pageSelected === 'Sessions') ? classes.active : "")}
                     onClick={() => setPageSelected("Sessions")}
-                    variant="text"  >
-                    <span className={classes.hideText}>Sessions</span></Button>
+                    variant="text" startIcon={<ScreenshotMonitorIcon />} >
+                    <span className={classes.hideText}>{language.Sessions}</span></Button>
 
             </Paper>
             <Paper elevation={0} className={classes.container + " " + classes.content}>

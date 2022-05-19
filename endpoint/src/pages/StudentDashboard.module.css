@@ -132,7 +132,18 @@ a {
     height: 200px;
     vertical-align: top;
 }
-
+.cardUDiv {
+    text-align: left;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin: 5px;
+    width: 70%;
+    display: inline-block;
+    background: white !important;
+    padding: 10px;
+    height: 200px;
+    vertical-align: top;
+}
 .cardTDiv {
     margin: 0 !important;
     margin-right: 5px !important;
@@ -173,9 +184,9 @@ a {
     }
 
     .cardDiv,
-    .cardTDiv {
+    .cardTDiv, .cardUDiv {
         width: 100% !important;
+        height: auto !important;
     }
-
 
 }

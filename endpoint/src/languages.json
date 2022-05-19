@@ -60,7 +60,7 @@
         "ChooseCertificate":"Choose last certification you got",
         "ChooseCard":"Choose your card type",
         "CardId":"Card ID",
-        "AreYouStudentorTutor":"Are You student or Tutor ?",
+        "AreYouStudentorTutor":"Student or Tutor ?",
         "Student":"Student",
         "Tutor":"Tutor",
         "SIGNUP":"SIGN UP",
@@ -124,7 +124,19 @@
         "UsernameLength":"The minimum is 8 characters ",
         "TypeRequired":"The type is required",
         "LearnMore":"Learn more",
-        "MakeRequest":"Make Request"
+        "MakeRequest":"Make Request",
+        "Departments":"Departments",
+        "AddDep":"Add Department",
+        "EditDep":"Edit Department",
+        "DepName":"Department Name",
+        "Price":"Price",
+        "PriceRequired":"The Price is required",
+        "AddNewUser":"Add new user",
+        "AddUser":"Add user",
+        "EditUser":"Edit user",
+        "DeleteUser":"Delete user",
+        "Users":"Users",
+        "Sessions":"Sessions"
     },
 
     "Ar": {
@@ -186,7 +198,7 @@
         "ChooseCertificate":" اختر اخر شهادة حصلت عليها",
         "ChooseCard":"اختر نوع البطاقة",
         "CardId":"رقم البطاقة",
-        "AreYouStudentorTutor":"هل انت طالب أم معلم",
+        "AreYouStudentorTutor":"طالب أم معلم",
         "Student":"طالب",
         "Tutor":"معلم",
         "SIGNUP":"إنشاء حساب",
@@ -250,6 +262,18 @@
         "UsernameLength":"يجب أن يكون 8 أحرف على الأقل",
         "TypeRequired":"مطلوب",
         "LearnMore":"اقرأ المزيد",
-        "MakeRequest":"تقديم طلب"
+        "MakeRequest":"تقديم طلب",
+        "Departments":"الأقسام",
+        "AddDep":"إضافة قسم",
+        "EditDep":"تعديل القسم",
+        "DepName":"اسم القسم",
+        "Price":"السعر",
+        "PriceRequired":"السعر مطلوب",
+        "AddNewUser":"إضافة مستخدم جديد",
+        "AddUser":"إضافة مستخدم",
+        "EditUser":"تعديل المستخدم",
+        "DeleteUser":"حذف المستخدم",
+        "Users":"المستخدمين",
+        "Sessions":"المحاضرات"
     }
 }

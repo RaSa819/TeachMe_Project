@@ -177,7 +177,7 @@ export default function App() {
                                         element={<IsStudent><ContentPage name="Student" setLanguage={updateLanguage} /></IsStudent>} />
 
                                     <Route path="/AdminDashboard"
-                                        element={<IsAdmin><ContentPage name="Admin" setLanguage={updateLanguage} /></IsAdmin>} />
+                                        element={<ContentPage name="Admin" setLanguage={updateLanguage} />} />
 
                                     <Route path="/TutorDashboard"
                                         element={<IsTutor><ContentPage name="Tutor" setLanguage={updateLanguage} /></IsTutor>} />

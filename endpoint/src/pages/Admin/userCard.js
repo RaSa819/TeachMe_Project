@@ -9,6 +9,7 @@ import { countries } from '../../general/datas';
 import axios from 'axios'
 import Typography from '@mui/material/Typography';
 import { useDialog } from 'react-mui-dialog';
+import { LanguageContext } from '../../App';
 
 import {
     withStyles,
@@ -36,6 +37,7 @@ const RedCapitalizedButton = withStyles((theme) => ({
 }))(Button);
 
 export default function UserCard(props) {
+    const language = React.useContext(LanguageContext);
     const { openDialog, closeDialog } = useDialog();
     const { name, country, joinedDate, description, stars, id, type, setEditDat, data, fetchUser } = props;
     let countryName = ''
@@ -96,30 +98,32 @@ export default function UserCard(props) {
 
     return (
 
-      <div className={classes.cardDiv} >
+      <div className={classes.cardUDiv} >
             <div style={{ padding: 10 }}>
                 <h6 style={{ display: 'inline-block', width: '90%' }}>{name.firstName + ' '} {name.middleName} {name.lastName}</h6>
 
                 <div>
-
-
                     <Rating name="read-only" value={stars} readOnly />
 
                     <span style={{ marginLeft: 15, fontSize: 12 }}>{countryName}</span>
                 </div>
 
-                <p style={{ fontSize: 12, color: 'grey' }}>joined on {new Date(joinedDate).toLocaleString()}</p>
-                <p style={{ fontSize: 12 }}>{description.slice(0, 150)}<a href={type===0 ? `/view/student/${id}` : (type===1 ? `/view/tutor/${id}` : ``)} target="_blank">Learn more</a></p>
+                <p style={{ fontSize: 12, color: 'grey' }}> {language.Joined} :  {joinedDate?.split('T')?.[0]}</p>
+                <p style={{ fontSize: 12 }}>{description.slice(0, 150)}
+                <a href={type===0 ? `/view/student/${id}` : (type===1 ? `/view/tutor/${id}` : ``)} target="_blank"> &nbsp; {language.LearnMore}</a></p>
                 <div style={{ textAlign: "center" }}>
+
                     <Button className={classes.cardButton}
                         sx={{ color: '#f1f0f0', background: 'darkblue' }}
                         startIcon={<EditIcon />}  onClick={() => {
                             setEditDat(data)
-                        }}>Edit Info</Button>
+                        }}>{language.EditProfile}</Button>
 
                     <Button className={classes.cardButton}
                         sx={{ color: 'darkblue', background: '#f1f0f0' }}
-                        startIcon={<AccountCircleIcon />}  ><a href={type===0 ? `/view/student/${id}` : (type===1 ? `/view/tutor/${id}` : ``)} target="_blank">View profile</a></Button>
+                        startIcon={<AccountCircleIcon />}  >
+                        <a href={type===0 ? `/view/student/${id}` : (type===1 ? `/view/tutor/${id}` : ``)} target="_blank">
+                        {language.ViewProfile}</a></Button>
 
                     <Button className={classes.cardButton}
                         sx={{ color: '#f1f0f0', background: '#D90429' }}
@@ -130,7 +134,7 @@ export default function UserCard(props) {
                                 //deleteUser(row._id)
                                 //console.log(row._id)
                             }
-                        }>Delete User</Button>
+                        }>{language.DeleteUser}</Button>
                 </div>
             </div>
         </div>
