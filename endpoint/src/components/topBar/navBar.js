@@ -281,6 +281,13 @@ export default function NavBar({ language, setLanguage, pageName }) {
 
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <ButtonGroup>
+                                    {
+                                        (pageName === "TutorList" && type == 0) &&
+                                        <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem', fontSize: '22px' }} href="/StudentDashboard">
+                                            Student Dashboard
+                                        </a>
+
+                                    }
                                     <React.Fragment>
                                         <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
                                             <Button className={classes.btn + " " + classes.top} onClick={handleClick && handleCloseNavMenu}  >

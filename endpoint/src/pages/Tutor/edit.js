@@ -53,7 +53,8 @@ const validationSchema = yup.object({
     .required('The street is required'),
   phoneNumber: yup
     .number('Enter your phone number ')
-    .required('The phone number is required'),
+    .required('The phone number is required')
+    .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
   gender: yup
     .string('Enter your gender ')
     .required('The gender is required'),

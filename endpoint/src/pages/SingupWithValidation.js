@@ -76,8 +76,8 @@ const validationSchema = yup.object({
     .required('The ZIP code is required'),
   phoneNumber: yup
     .number('Enter your phone number ')
-    .required('The phone number is required'),
-
+    .required('The phone number is required')
+    .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
   gender: yup
     .string('Enter your gender ')
     .required('The gender is required'),
@@ -354,7 +354,7 @@ export default () => {
                   )}
                 />
                 <TextField label={language.City} size='small'
-                  name="City"
+                  name="city"
                   className={classes.TextField}
                   style={{
                     width: '47%',
