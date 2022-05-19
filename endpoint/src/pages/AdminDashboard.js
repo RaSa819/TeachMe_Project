@@ -48,9 +48,7 @@ export default function AdminDashboard() {
             <Paper elevation={0} className={classes.container + " " + classes.content}>
                 <div style={{ padding: 10, height: '100%', width: '100%' }}>
                     <div style={{ border: '1px solid lightgray', padding: 10, height: '100%', width: '100%', borderRadius: 10, overflowY: 'auto' }}>
-                        {(pageSelected === "Department") && <Department
-                           
-                          />}
+                        {(pageSelected === "Department") && <Department/>}
                         {(pageSelected === "Users") && <Users />}
                         {(pageSelected === "Sessions") && <Sessions />}
 

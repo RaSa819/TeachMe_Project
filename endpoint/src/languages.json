@@ -136,7 +136,9 @@
         "EditUser":"Edit user",
         "DeleteUser":"Delete user",
         "Users":"Users",
-        "Sessions":"Sessions"
+        "Sessions":"Sessions",
+        "SelectDep":"Select Department",
+        "Search":"Search"
     },
 
     "Ar": {
@@ -274,6 +276,9 @@
         "EditUser":"تعديل المستخدم",
         "DeleteUser":"حذف المستخدم",
         "Users":"المستخدمين",
-        "Sessions":"المحاضرات"
+        "Sessions":"المحاضرات",
+        "SelectDep":"اختر قسم",
+        "Search":"ابحث"
+
     }
 }

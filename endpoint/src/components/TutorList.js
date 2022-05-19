@@ -16,6 +16,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import SearchIcon from '@mui/icons-material/Search';
 import classes from './TutorList.module.css';
 import Footer from './footer/footer';
+import { LanguageContext } from '../App';
 
 const styleUnFavorite = {
     width: '20px',
@@ -248,9 +249,8 @@ const Item = (props) => {
 }
 export default function Card() {
 
-
+    const language = React.useContext(LanguageContext);
     const socket = useContext(SocketContext)
-
     const { openDialog } = useDialog();
     const [tutors, setTutor] = useState([])
 
@@ -316,7 +316,7 @@ export default function Card() {
             <div style={{marginLeft:"35px",marginRight:"40px"}}>
 
                 <h3 style={{ color: "#D90429", marginTop: "20px", fontWeight: "bold" }}
-                >Select Department </h3>
+                >{language.SelectDep}</h3>
 
                 <div className={classes.searchBoxes}>
                     <div>
@@ -345,7 +345,7 @@ export default function Card() {
                             name="department"
                             className={classes.mainSearchBox}
                             {...params}
-                            label="Department"
+                            label={language.Department}
                             inputProps={{
                                 ...params.inputProps,
                                 autoComplete: 'new-password', // disable autocomplete and autofill
@@ -358,7 +358,7 @@ export default function Card() {
 
                     <div>
                         <TextField 
-                            label="Search" 
+                            label={language.Search}
                             variant="outlined" 
                             size="small"
                             onChange={async (e) => {
