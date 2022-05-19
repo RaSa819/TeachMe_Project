@@ -20,57 +20,58 @@ import FormInput from '../../components/formInput';
 import { MessageBox } from '../../components/MessageBox';
 import { LanguageContext } from '../../App';
 
-const validationSchema = yup.object({
-  email: yup
-    .string('Enter your email')
-    .email("it's not Email Format")
-    .required('Your Email is Required'),
-  firstName: yup.
-    string('Enter your first name').
-    required('The first name is required '),
-  middleName: yup.
-    string('Enter your middle name').
-    required('The middle name is required '),
-  lastName: yup.
-    string('Enter your last name').
-    required('The last name is required '),
-  newPassword: yup
-    .string('Enter your password')
-    .min(8, 'Password should be of minimum 8 characters length'),
-  confirmPassword: yup
-    .string('Enter your password')
-    .oneOf([yup.ref('newPassword'), null], 'password must match'),
-  country: yup
-    .string('Enter your country ')
-    .required('The country is required'),
-  city: yup.
-    string('Enter your city ').
-    required('The city is required'),
-  street: yup
-    .string('Enter your street ').
-    required('The street is required'),
-  ZIP: yup
-    .number('Enter your street ')
-    .required('The street is required'),
-  phoneNumber: yup
-    .number('Enter your phone number ')
-    .required('The phone number is required'),
-  gender: yup
-    .string('Enter your gender ')
-    .required('The gender is required'),
-  dept: yup.string().required('the dept option is required'),
-  about: yup.string().required('You must talk about your self'),
-  certifications: yup.string().required('you must input your last certification'),
-  experience: yup.string().required('You must talk about your experiences'),
-  cardType: yup.string().required('You must choose your card type'),
-  cardID: yup.string().required('You must choose your card ID')
-});
+
 
 export default function Edit() {
   const language = React.useContext(LanguageContext);
   const { openDialog } = useDialog();
   const [departments, setDepartment] = React.useState([])
 
+  const validationSchema = yup.object({
+    email: yup
+      .string('Enter your email')
+      .email(language.NotEmailFormat)
+      .required(language.EmailRequired),
+    firstName: yup.
+      string('Enter your first name').
+      required(language.FirstNRequired),
+    middleName: yup.
+      string('Enter your middle name').
+      required(language.MiddleNRequired),
+    lastName: yup.
+      string('Enter your last name').
+      required(language.LastNRequired),
+    newPassword: yup
+      .string('Enter your password')
+      .min(8, language.PasswordLength),
+    confirmPassword: yup
+      .string('Enter your password')
+      .oneOf([yup.ref('newPassword'), null], language.PasswordMatch),
+    country: yup
+      .string('Enter your country ')
+      .required(language.CountryRequired),
+    city: yup.
+      string('Enter your city ').
+      required(language.CityRequired),
+    street: yup
+      .string('Enter your street ').
+      required(language.StreetRequired),
+    ZIP: yup
+      .number('Enter your street ')
+      .required(language.ZIPRequired),
+    phoneNumber: yup
+      .number('Enter your phone number ')
+      .required(language.PhoneRequired),
+    gender: yup
+      .string('Enter your gender ')
+      .required(language.GenderRequired),
+    dept: yup.string().required(language.DepRequired),
+    about: yup.string().required(language.AboutRequired),
+    certifications: yup.string().required(language.CertRequired),
+    experience: yup.string().required(language.ExperienceRequired),
+    cardType: yup.string().required(language.CardTypeRequired),
+    cardID: yup.string().required(language.CardIdRequired)
+  });
   const fetchDept = async () => {
     await axios.get('http://localhost:4000/fetchDept').
       //represnt data to state 
@@ -113,10 +114,10 @@ export default function Edit() {
     onSubmit: (values) => {
       console.log('error:::', error)
       if (values.newPassword !== "" && values.confirmPassword === "") {
-        alert("Please enter Confirm Password.")
+        alert(language.PleaseConfirmPassword)
       } else if (error) {
         // MessageBox(openDialog, 'Errors ', "There is some error in the form", 'Okay');
-        alert("There is some error in the form")
+        alert(language.FormError)
       } else {
         var userData = {
           data: {
@@ -167,41 +168,41 @@ export default function Edit() {
         <Box component="form"
           fullWidth
           sx={{
-            '& > :not(style)': { mt: 2},
+            '& > :not(style)': { mt: 2 },
           }}
         >
           <Box component="form"
-          fullWidth
-          sx={{
-            '& > :not(style)': { mt: 1 }
-          }}
-          autoComplete="off">
-          <TextField label={language.Username}  size='small'
-            name="username"
-            style={{
-              width: '47%',
-              marginRight: '3%'
+            fullWidth
+            sx={{
+              '& > :not(style)': { mt: 1 }
             }}
-            value={formik.values.userName}
-            onChange={formik.handleChange}
-            error={formik.touched.userName && Boolean(formik.errors.userName)}
-            helperText={formik.touched.userName && formik.errors.userName}
-            disabled
-          />
+            autoComplete="off">
+            <TextField label={language.Username} size='small'
+              name="username"
+              style={{
+                width: '47%',
+                marginRight: '3%'
+              }}
+              value={formik.values.userName}
+              onChange={formik.handleChange}
+              error={formik.touched.userName && Boolean(formik.errors.userName)}
+              helperText={formik.touched.userName && formik.errors.userName}
+              disabled
+            />
 
-          <TextField label={language.Email} size='small'
-            name="email"
-            style={{
-              width: '47%',
-              marginLeft: '3%'
+            <TextField label={language.Email} size='small'
+              name="email"
+              style={{
+                width: '47%',
+                marginLeft: '3%'
 
-            }}
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          /> 
-        </Box>
+              }}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+          </Box>
           <TextField label={language.FirstN} size='small'
             name="firstName"
             style={{
@@ -213,7 +214,7 @@ export default function Edit() {
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
           />
-          <TextField label={language.MiddleN}size='small'
+          <TextField label={language.MiddleN} size='small'
             name="middleName"
             style={{
               width: '30%',

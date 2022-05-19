@@ -4,8 +4,10 @@ import Rating from '@mui/material/Rating';
 import classes from '../StudentDashboard.module.css';
 import { countries } from '../../general/datas';
 import PublicIcon from '@mui/icons-material/Public';
+import { LanguageContext } from '../../App';
 
 export default function Profile() {
+  const language = React.useContext(LanguageContext);
   let student = JSON.parse(localStorage.getItem('userDetail')) || {};
   let countryName = ''
   if (student.address.country) {
@@ -23,13 +25,13 @@ export default function Profile() {
       <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
       </div>
       <Divider sx={{ width: "50%" }} />
-      <p>Joined on {new Date(student.date).toLocaleString()}</p>
+      <p>{language.Joined} :  {student.date?.split('T')?.[0]}</p>
       <Divider sx={{ width: 300 }} />
-      <p>Email: {student.email}</p>
+      <p>{language.Email} : {student.email}</p>
       <Divider sx={{ width: 300 }} />
-      <p>Phone Number: {student.phoneNumber}</p>
+      <p>{language.Phone}  : {student.phoneNumber}</p>
       <Divider sx={{ width: 300 }} />
-      <p>Address: {student.address?.street} - {student.address?.city}</p>
+      <p>{language.Address} : {student.address?.street} - {student.address?.city}</p>
       <Divider sx={{ width: 300 }} />
     </div>
   );
