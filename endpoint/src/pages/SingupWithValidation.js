@@ -9,22 +9,14 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { useDialog } from "react-mui-dialog";
-import TutorDialog from '../components/TutorDialog';
 import axios from 'axios'
-import dtClouser from '../DataClouse';
-import { MessageBox } from '../components/MessageBox';
 import { useNavigate, Link } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import Footer from '../components/footer/footer';
 import Autocomplete from '@mui/material/Autocomplete';
-import { countries, genderDt, languageOptions, typeDt } from '../general/datas';
+import { countries, genderDt, typeDt, certifications, CardType } from '../general/datas';
 import classes from "./signup.module.css";
 import Divider from '@mui/material/Divider';
-import { useContext } from 'react';
-import TutorProvider , { TutorContext } from '../components/Data/TutorProvider';
-import role from '../Roles';
 import { LanguageContext } from '../App';
 
 const styleCenter = {
@@ -83,15 +75,43 @@ const validationSchema = yup.object({
     .required('The gender is required'),
   type: yup
     .string('Enter your type ')
-    .required('The type is required')
+    .required('The type is required'),
+  dept: yup.string().when('type', {
+    is: '1',//just an e.g. you can return a function
+    then: yup.string().required('the dept option is required'),
+    otherwise: yup.string()
+  }),
+  about: yup.string().when('type', {
+      is: '1',//just an e.g. you can return a function
+      then: yup.string().required('You must talk about your self'),
+      otherwise: yup.string()
+  }),
+  certifications: yup.string().when('type', {
+      is: '1',//just an e.g. you can return a function
+      then: yup.string().required('you must input your last certification'),
+      otherwise: yup.string()
+  }),
+  experience: yup.string().when('type', {
+      is: '1',//just an e.g. you can return a function
+      then: yup.string().required('You must talk about your experiences'),
+      otherwise: yup.string()
+  }),
+  cardType: yup.string().when('type', {
+      is: '1',//just an e.g. you can return a function
+      then: yup.string().required('You must choose your card type'),
+      otherwise: yup.string()
+  }),
+  cardID: yup.string().when('type', {
+      is: '1',//just an e.g. you can return a function
+      then: yup.string().required('You must choose your card ID'),
+      otherwise: yup.string()
+  })
 });
 export default () => {
 
   let navigate = useNavigate();
-  const dt = dtClouser();
 
   const [isTutor, setTutor] = React.useState(false)
-  const { openDialog } = useDialog()
 
   const formik = useFormik({
     initialValues: {
@@ -107,35 +127,51 @@ export default () => {
       ZIP: '',
       gender: genderDt,
       phoneNumber: '',
-      type: typeDt
+      type: typeDt,
+      dept: '',
+      about: '',
+      certifications: '',
+      experience: '',
+      cardType: '',
+      cardID: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       isUsernameValid(values.userName)
+      if (error) {
+        alert("you can't completely signup, there are errors")
+      } else {
+        var userData = {
+          data: {
+              userName: values.userName,
+              email: values.email,
+              firstName: values.firstName,
+              middleName: values.middleName,
+              lastName: values.lastName,
+              country: values.country,
+              city: values.city,
+              street: values.street,
+              ZIP: values.ZIP,
+              gender: values.gender,
+              type: values.type,
+              phoneNumber: values.phoneNumber,
+              password: values.password
+          }
+        }
 
-      if (isTutor && error === 0) {
-        dt.setData(values)
-
-        axios.get('http://localhost:4000/fetchDept').
-          then((res) => {
-            let dept = res.data
-            TutorDialog(openDialog, dt, dept, navigate)
-          }).
-          catch((err) => {
-            console.log('there is error is' + err)
-          })
-      }
-
-      else if (error != 0) {
-        MessageBox(openDialog, 'Errors ', "you can't completely signup, there are errors", 'Okay');
-      }
-
-      else if (error === 0) {
-        axios.post('http://localhost:4000/user/register', {
-          data: values
-        }).
-          then((response) => {
-            localStorage.removeItem('token')
+        if (isTutor) {
+          userData.tutorData = {
+              dept: values.dept,
+              about: values.about,
+              certifications: values.certifications,
+              experience: values.experience,
+              cardType: values.cardType,
+              cardID: values.cardID
+          }
+        }
+        axios.post('http://localhost:4000/user/register', userData).
+        then(async (response) => {
+          localStorage.removeItem('token')
             localStorage.removeItem('type')
             localStorage.removeItem('userDetail')
 
@@ -143,27 +179,65 @@ export default () => {
             var token = response.data.token;
             localStorage.setItem('type', type);
             localStorage.setItem('token', token);
-            values.password = null
-            values.confirmPassword = null
-            localStorage.setItem('userDetail', values);
+            let userDetail = response.data.data;
+            userDetail.user_id = userDetail._id
+            if (type == 1) {
+              userDetail.cardInfo = {
+                cardID: values.cardID,
+                cardType: values.cardType
+              }
+              userDetail.dept_id = values.dept
+              userDetail.profile = {
+                about: values.about,
+                certifications: values.certifications,
+                experience: values.experience
+              }
+            }
+            localStorage.setItem('userDetail', JSON.stringify(userDetail));
             console.log(type)
-            navigate('/home')
-
-          }).catch((error) => {
-            alert(JSON.stringify(error, null, 2))
-          })
+            if (type == 0) {
+              // navigate('/StudentDashboard')
+              navigate('/global/tutors')
+            } else if (type == 1) {
+              navigate('/TutorDashboard')
+            } else if (type == 2) {
+              navigate('/AdminDashboard')
+            } else {
+              navigate('/home')
+            }
+        }).catch((error) => {
+          alert(JSON.stringify(error, null, 2))
+        })
       }
     },
   });
 
+  const [departments, setDepartment] = React.useState([])
+  const fetchDepartment = () => {
+      axios.get('http://localhost:4000/fetchDept').
+      //represnt data to state 
+      then((res) => {
+        setDepartment(res.data)
+      }).
+      catch((err) => {
+        console.log('there is error is' + err)
+      })
+  }
+  React.useEffect(() => {
+    fetchDepartment();
+  }, [])
 
 
   React.useEffect(() => {
     var type = localStorage.getItem('type')
-    if (type === 2)
-      navigate('/admin/home')
-    else if (type === 0)
-      navigate('/student/profile')
+    if (type === 0) {
+      // navigate('/StudentDashboard')
+      navigate('/global/tutors')
+    } else if (type === 1) {
+        navigate('/TutorDashboard')
+    } else if (type === 2) {
+        navigate('/AdminDashboard')
+    }
 
   }, [])
 
@@ -193,7 +267,7 @@ export default () => {
           width: '100%',
           display: error === 11000 ? 'block' : 'none'
         }} spacing={2}>
-          <Alert severity="error" variant='filled'>{language.UserExist}</Alert>
+          <Alert severity="error" >{language.UserExist}</Alert>
         </Stack>
       </div>
       <div style={styleCenter} >
@@ -235,7 +309,6 @@ export default () => {
                   style={{
                     width: '47%',
                     marginLeft: '3%',
-
                   }}
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -245,7 +318,7 @@ export default () => {
 
 
                 <TextField label={language.Password}
-                size='small'
+                  size='small'
                   name="password"
                   className={classes.TextField}
                   fullWidth
@@ -278,7 +351,7 @@ export default () => {
 
 
                 <TextField label={language.FirstN} 
-                size='small'
+                  size='small'
                   name="firstName"
                   className={classes.TextField}
                   style={{
@@ -452,6 +525,162 @@ export default () => {
 
                   </RadioGroup>
                 </FormControl>
+
+                {isTutor &&
+                  <Autocomplete
+                    // value={formik.values.country}
+                    id="dept-select-demo"
+                    sx={{ display: 'inline-block' }}
+                    className={classes.TextField}
+                    style={{
+                      width: '47%',
+                      marginRight: '3%'
+                    }}
+                    options={departments}
+                    autoHighlight
+                    getOptionLabel={(option) => option.name}
+                    renderOption={(props, option) => (
+                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+
+                        {option.name}
+                    </Box>
+                    )}
+                    onChange={(e, value) => {
+                    formik.values.dept = value._id
+                    }}
+                    renderInput={(params) => (
+                    <TextField
+                        size='small'
+                        name="dept"
+                        {...params}
+                        label={language.Department}
+                        inputProps={{
+                        ...params.inputProps,
+                        autoComplete: 'new-password', // disable autocomplete and autofill
+                        }}
+                    />
+                    )}
+                  />
+                }
+                {isTutor && 
+                  <TextField
+                    className={classes.TextField}
+                    size='small'
+                    name='about'
+                    label={language.About}
+                    style={{
+                      width: '47%',
+                      marginLeft: '1%'
+                    }}
+                    value={formik.values.about}
+                    onChange={formik.handleChange}
+                    error={formik.touched.about && Boolean(formik.errors.about)}
+                    helperText={formik.touched.about && formik.errors.about}
+                  />
+                }
+                {isTutor &&
+                  <Autocomplete
+                    // value={formik.values.country}
+                    id="certifications"
+                    sx={{ display: 'inline-block' }}
+                    className={classes.TextField}
+                    style={{
+                    width: '47%',
+                    marginRight: '3%'
+                    }}
+                    options={certifications}
+                    autoHighlight
+                    getOptionLabel={(option) => option}
+                    defaultValue={certifications.find(v => v === formik.values.certifications)}
+                    renderOption={(props, option) => (
+                    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                        {option}
+                    </Box>
+                    )}
+                    onChange={(e, value) => {
+                    formik.values.certifications = value
+                    }}
+                    renderInput={(params) => (
+                    <TextField
+                        size='small'
+                        name="certifications"
+                        {...params}
+                        label={language.ChooseCertificate}
+                        inputProps={{
+                        ...params.inputProps,
+                        autoComplete: 'new-password', // disable autocomplete and autofill
+                        }}
+                    />
+                    )}
+                  />
+                }
+                {isTutor &&
+                  <TextField
+                    className={classes.TextField}
+                    size='small'
+                    name='experience'
+                    label={language.Experience}
+                    style={{
+                      width: '47%',
+                      marginLeft: '1%'
+                    }}
+                    value={formik.values.experience}
+                    onChange={formik.handleChange}
+                    error={formik.touched.experience && Boolean(formik.errors.experience)}
+                    helperText={formik.touched.experience && formik.errors.experience}
+                  />
+                }
+                {isTutor &&
+                  <Autocomplete
+                      // value={formik.values.country}
+                      id="cardType-select-demo"
+                      sx={{ display: 'inline-block' }}
+                      className={classes.TextField}
+                      style={{
+                      width: '47%',
+                      marginRight: '3%'
+                      }}
+                      options={CardType}
+                      autoHighlight
+                      getOptionLabel={(option) => option}
+                      renderOption={(props, option) => (
+                      <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                          {option}
+                      </Box>
+                      )}
+                      onChange={(e, value) => {
+                        formik.values.cardType = value
+                      }}
+                      renderInput={(params) => (
+                      <TextField
+                          size='small'
+                          name="cardType"
+                          {...params}
+                          label={language.ChooseCard}
+                          inputProps={{
+                          ...params.inputProps,
+                          autoComplete: 'new-password', // disable autocomplete and autofill
+                          }}
+                      />
+                      )}
+                  />
+                }
+                {isTutor && 
+                  <TextField
+                    className={classes.TextField}
+                    size='small'
+                    name='cardID'
+                    label={language.CardId}
+                    style={{
+                      width: '47%',
+                      marginLeft: '1%'
+                    }}
+                    value={formik.values.cardID}
+                    onChange={formik.handleChange}
+                    error={formik.touched.cardID && Boolean(formik.errors.cardID)}
+                    helperText={formik.touched.cardID && formik.errors.cardID}
+                  />
+                }
              </Box>
 
               <Divider sx={{ margin: "10px", backgroundColor: "black !important" }} />

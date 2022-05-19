@@ -106,10 +106,6 @@ export default function NavBar({ language, setLanguage, pageName }) {
         navigate('/StudentDashboard')
     }
   
-
-
- 
-
     React.useEffect(()=>{
 
         window.addEventListener('scroll', (e) => {
@@ -301,11 +297,10 @@ export default function NavBar({ language, setLanguage, pageName }) {
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <ButtonGroup>
                                     {
-                                        (pageName === "TutorList" && type == 0) &&
-                                        <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem', fontSize: '22px' }} href="/StudentDashboard">
-                                            Student Dashboard
-                                        </a>
-
+                                        (pageName === "TutorList" ) &&
+                                        <Button className={classes.btn + " " + classes.top}
+                                        sx={{ width: "300px" }}
+                                            onClick={handleStd} variant="text">{languagee.StudentDashboard}</Button>
                                     }
                                     <React.Fragment>
                                         <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
@@ -360,12 +355,6 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                             )}
                                         </Popper>
                                     </React.Fragment>
-                                    {
-                                        (pageName === "TutorList" ) &&
-                                        <Button className={classes.btn + " " + classes.top}
-                                        sx={{ width: "300px" }}
-                                            onClick={handleStd} variant="text">{languagee.StudentDashboard}</Button>
-                                    }
                                     {
                                         (pageName !== "Login" && pageName !== "Signup") &&
                                         <Button className={classes.btn + " " + classes.top}
