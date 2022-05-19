@@ -35,58 +35,61 @@ const styleCenter = {
   marginTop: "20px"
 }
 
-const validationSchema = yup.object({
-  userName: yup
-    .string('Enter your username')
-    .required('username is required')
-    .min(8, 'The minimum is 8 characters '),
-  email: yup
-    .string('Enter your email')
-    .email("it's not Email Format")
-    .required('Your Email is Required'),
-  password: yup
-    .string('Enter your password')
-    .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
-  confirmPassword: yup
-    .string('Enter your password')
-    .required('Password is required')
-    .oneOf([yup.ref('password'), null], 'password must match')
-  ,
-  firstName: yup.
-    string('Enter your first name').
-    required('The first name is required '),
-  middleName: yup.
-    string('Enter your middle name').
-    required('The middle name is required '),
-  lastName: yup.
-    string('Enter your last name').
-    required('The last name is required '),
-  country: yup
-    .string('Enter your country ')
-    .required('The country is required'),
-  city: yup.
-    string('Enter your city ').
-    required('The city is required'),
-  // street: yup
-  //   .string('Enter your street ').
-  //   required('The street is required'),
-  ZIP: yup
-    .number('Enter your ZIP code ')
-    .required('The ZIP code is required'),
-  phoneNumber: yup
-    .number('Enter your phone number ')
-    .required('The phone number is required'),
 
-  gender: yup
-    .string('Enter your gender ')
-    .required('The gender is required'),
-  type: yup
-    .string('Enter your type ')
-    .required('The type is required')
-});
 export default () => {
+  const language = React.useContext(LanguageContext);
 
+  const validationSchema = yup.object({
+    userName: yup
+      .string('Enter your username')
+      .required(language.UsernameRequired)
+      .min(8, language.UsernameLength),
+    email: yup
+      .string('Enter your email')
+      .email(language.NotEmail)
+      .required(language.EmailRequired),
+    password: yup
+      .string('Enter your password')
+      .min(8, language.PasswordLength)
+      .required(language.PasswordLength),
+    confirmPassword: yup
+      .string('Enter your password')
+      .required(language.PasswordMatch)
+      .oneOf([yup.ref('password'), null], language.PasswordMatch)
+    ,
+    firstName: yup.
+      string('Enter your first name').
+      required(language.FirstNRequired),
+    middleName: yup.
+      string('Enter your middle name').
+      required(language.MiddleNRequired),
+    lastName: yup.
+      string('Enter your last name').
+      required(language.LastNRequired),
+    country: yup
+      .string('Enter your country ')
+      .required(language.CountryRequired),
+    city: yup.
+      string('Enter your city ').
+      required(language.CityRequired),
+    // street: yup
+    //   .string('Enter your street ').
+    //   required('The street is required'),
+    ZIP: yup
+      .number('Enter your ZIP code ')
+      .required(language.ZIPRequired),
+    phoneNumber: yup
+      .number('Enter your phone number ')
+      .required(language.PhoneRequired),
+  
+    gender: yup
+      .string('Enter your gender ')
+      .required(language.GenderRequired),
+    type: yup
+      .string('Enter your type ')
+      .required(language.TypeRequired)
+  });
+  
   let navigate = useNavigate();
   const dt = dtClouser();
 
@@ -181,7 +184,7 @@ export default () => {
   }
 
 
-  const language = React.useContext(LanguageContext);
+ 
 
   const [error, setError] = React.useState(false)
 
@@ -411,8 +414,8 @@ export default () => {
 
 
                   >
-                    <FormControlLabel value={genderDt[0]} control={<Radio />} label={language.Male} />
-                    <FormControlLabel value={genderDt[1]} control={<Radio />} label={language.Female}/>
+                    <FormControlLabel value={genderDt[0]} control={<Radio />} label={language.Female} />
+                    <FormControlLabel value={genderDt[1]} control={<Radio />} label={language.Male}/>
 
                   </RadioGroup>
                 </FormControl>

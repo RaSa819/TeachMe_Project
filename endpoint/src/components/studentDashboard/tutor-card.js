@@ -5,10 +5,12 @@ import RequestDialog from '../../components/RequestDialog';
 import { MdFavorite } from "react-icons/md";
 import { countries, styleFavorite, styleUnFavorite } from '../../general/datas';
 import classes from "../../pages/StudentDashboard.module.css";
+import { LanguageContext } from '../../App';
 
 export default function TutorCard(props) {
+    const language = React.useContext(LanguageContext);
     const { name, joinedDate, about, experience, country,
-        rate, type, id, openDialog, socket, isFavorite,cardType } = props;
+        rate, type, id, openDialog, socket, isFavorite, cardType } = props;
 
     const [favorite, setFavorite] = useState()
 
@@ -59,18 +61,18 @@ export default function TutorCard(props) {
                     <span style={{ marginLeft: 15, fontSize: 12 }}>{countryName}</span>
                 </div>
 
-                <p style={{ fontSize: 12, color: 'grey' }}>joined on {new Date(joinedDate).toLocaleString()}</p>
+                <p style={{ fontSize: 12, color: 'grey' }}> {language.Joined} :  {joinedDate?.split('T')?.[0]}</p>
                 <p style={{ fontSize: 12 }}>{about.slice(0, 35)}
-                <a href={`/view/tutor/${id}`} target="_blank">&nbsp; Learn more</a></p>
+                    <a href={`/view/tutor/${id}`} target="_blank">&nbsp;  {language.LearnMore}</a></p>
                 <div style={{ textAlign: 'right' }}>
                     <Button sx={{ fontSize: 8, color: 'darkblue', background: '#f1f0f0', marginRight: '5px' }}>
-                    <a href={`/view/tutor/${id}`} target="_blank" 
-                    >View profile</a></Button>
+                        <a href={`/view/tutor/${id}`} target="_blank"
+                        >{language.ViewProfile}</a></Button>
                     <Button sx={{ fontSize: 8, color: '#f1f0f0', background: 'darkblue' }}
                         onClick={() => {
                             RequestDialog(openDialog, id, type, 'Just moment, to be your request ready', socket)
                         }}
-                    >Make request</Button>
+                    >{language.MakeRequest}</Button>
                 </div>
             </div>
         </div>

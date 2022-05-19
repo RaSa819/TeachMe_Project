@@ -13,50 +13,52 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
-const validationSchema = yup.object({
-  email: yup.
-    string('Enter your email').
-    email("it's not Email Format").
-    required('Your Email is Required'),
-  firstName: yup.
-    string('Enter your first name').
-    required('The first name is required '),
-  middleName: yup.
-    string('Enter your middle name').
-    required('The middle name is required '),
-  lastName: yup.
-    string('Enter your last name').
-    required('The last name is required '),
-  newPassword: yup
-    .string('Enter your password')
-    .min(8, 'Password should be of minimum 8 characters length'),
-  confirmPassword: yup
-    .string('Enter your password')
-    .oneOf([yup.ref('newPassword'), null], 'password must match'),
-  country: yup
-    .string('Enter your country ')
-    .required('The country is required'),
-  city: yup.
-    string('Enter your city ').
-    required('The city is required'),
-  street: yup
-    .string('Enter your street ').
-    required('The street is required'),
-  ZIP: yup
-    .number('Enter your street ')
-    .required('The street is required'),
-  phoneNumber: yup
-    .number('Enter your phone number ')
-    .required('The phone number is required'),
-  gender: yup
-    .string('Enter your gender ')
-    .required('The gender is required')
-});
+import { LanguageContext } from '../../App';
 
 export default function Edit() {
+  const language = React.useContext(LanguageContext);
   let userDetail = JSON.parse(localStorage.getItem('userDetail')) || {};
-  console.log('userDetail::', userDetail)
+  console.log('userDetail::', userDetail);
+  const validationSchema = yup.object({
+    email: yup.
+      string("Enter your Email").
+      email(language.NotEmailFormat).
+      required(language.EmailRequired),
+    firstName: yup.
+      string('Enter your first name').
+      required(language.FirstNRequired),
+    middleName: yup.
+      string('Enter your middle name').
+      required(language.MiddleNRequired),
+    lastName: yup.
+      string('Enter your last name').
+      required(language.LastNRequired),
+    newPassword: yup
+      .string('Enter your password')
+      .min(8, language.PasswordLength),
+    confirmPassword: yup
+      .string('Enter your password')
+      .oneOf([yup.ref('newPassword'), null], language.PasswordMatch),
+    country: yup
+      .string('Enter your country ')
+      .required(language.CountryRequired),
+    city: yup.
+      string('Enter your city ').
+      required(language.CityRequired),
+    street: yup
+      .string('Enter your street ').
+      required(language.StreetRequired),
+    ZIP: yup
+      .number('Enter your ZIP')
+      .required(language.ZIPRequired),
+    phoneNumber: yup
+      .number('Enter your phone number ')
+      .required(language.PhoneRequired),
+    gender: yup
+      .string('Enter your gender ')
+      .required(language.GenderRequired)
+  });
+
   const formik = useFormik({
     initialValues: {
       userName: userDetail.userName,
@@ -77,10 +79,10 @@ export default function Edit() {
     onSubmit: (values) => {
       console.log('error:::', error)
       if (values.newPassword !== "" && values.confirmPassword === "") {
-        alert( "Please enter Confirm Password.")
+        alert(language.PleaseConfirmPassword)
       } else if (error) {
         // MessageBox(openDialog, 'Errors ', "There is some error in the form", 'Okay');
-        alert( "There is some error in the form")
+        alert(language.FormError)
       } else {
         values.type = localStorage.getItem('type')
         values.id = localStorage.getItem('token')
@@ -108,7 +110,7 @@ export default function Edit() {
             '& > :not(style)': { mt: 1 }
           }}
           autoComplete="off">
-          <TextField label="Username"  size='small'
+          <TextField label={language.Username}  size='small'
             name="username"
             style={{
               width: '47%',
@@ -121,7 +123,7 @@ export default function Edit() {
             disabled
           />
 
-          <TextField label="Email" size='small'
+          <TextField label={language.Email} size='small'
             name="email"
             style={{
               width: '47%',
@@ -140,7 +142,7 @@ export default function Edit() {
             '& > :not(style)': { mt: 1 },
           }}
           >
-          <TextField label="First Name"  size='small'
+          <TextField label={language.FirstN}  size='small'
             name="firstName"
             style={{
               width: '30%',
@@ -151,7 +153,7 @@ export default function Edit() {
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
           />
-          <TextField label="Middle Name"  size='small'
+          <TextField label={language.MiddleN}  size='small'
             name="middleName"
             style={{
               width: '30%',
@@ -163,7 +165,7 @@ export default function Edit() {
             helperText={formik.touched.middleName && formik.errors.middleName}
           />
 
-          <TextField label="Last Name"  size='small'
+          <TextField label={language.LastN} size='small'
             name="lastName"
             style={{
               width: '30%',
@@ -181,7 +183,7 @@ export default function Edit() {
                 '& > :not(style)': { mt: 1 },
           }}
         >
-          <TextField label="New Password"  size='small'
+          <TextField label={language.NPassword}  size='small'
             name="newPassword"
             fullWidth
             style={{
@@ -194,7 +196,7 @@ export default function Edit() {
             error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
             helperText={formik.touched.newPassword && formik.errors.newPassword}
           />
-          <TextField label="Confirm Password"  size='small'
+          <TextField label={language.Confirm}  size='small'
             name="confirmPassword"
             type="password"
             fullWidth
@@ -242,7 +244,7 @@ export default function Edit() {
                    size='small'
                   name="country"
                   {...params}
-                  label="Country"
+                  label={language.Country}
                   inputProps={{
                     ...params.inputProps,
                     autoComplete: 'new-password', // disable autocomplete and autofill
@@ -251,7 +253,7 @@ export default function Edit() {
               )}
             />
 
-          <TextField label="City"  size='small'
+          <TextField label={language.City}  size='small'
             name="city"
             style={{
               width: '47%',
@@ -271,7 +273,7 @@ export default function Edit() {
             '& > :not(style)': { mt: 1 }
           }}
           autoComplete="off">
-          <TextField label="Street"  size='small'
+          <TextField label={language.Street}  size='small'
             name="street"
             style={{
               width: '47%',
@@ -283,7 +285,7 @@ export default function Edit() {
             helperText={formik.touched.street && formik.errors.street}
           />
 
-          <TextField label="ZIP"  size='small'
+          <TextField label={language.ZIP}  size='small'
             name="ZIP"
             style={{
               width: '47%',
@@ -302,7 +304,7 @@ export default function Edit() {
           sx={{
             '& > :not(style)': { mt: 1 },
           }}>
-          <TextField label="Phone Number"  size='small'
+          <TextField label={language.Phone} size='small'
             name="phoneNumber" 
 
             fullWidth
@@ -323,24 +325,26 @@ export default function Edit() {
             error={formik.touched.gender && Boolean(formik.errors.gender)}
             helperText={formik.touched.gender && formik.errors.gender}
             >
-            <FormLabel component="legend">Gender</FormLabel>
+            <FormLabel component="legend">{language.Gender}</FormLabel>
             <RadioGroup
               row
               name='gender'
               value={formik.values.gender}
               onChange={formik.handleChange}
               >
-              <FormControlLabel value={genderDt[0]} control={<Radio />} label="Male" />
-              <FormControlLabel value={genderDt[1]} control={<Radio />} label="Female" />
+              <FormControlLabel value={genderDt[0]} control={<Radio />} label={language.Female} />
+              <FormControlLabel value={genderDt[1]} control={<Radio />} label={language.Male}  />
 
             </RadioGroup>
           </FormControl>
         </Box>
 
         <Button  style={{backgroundColor:"#000052" , color:"#fff" , padding:"5px"}} variant="contained" fullWidth type="submit">
-          Update
+        {language.Update}
         </Button>
       </form>
     </div>
   );
+
+
 }
