@@ -21,7 +21,6 @@ import { MessageBox } from '../../components/MessageBox';
 import { LanguageContext } from '../../App';
 
 
-
 export default function Edit() {
   const language = React.useContext(LanguageContext);
   const { openDialog } = useDialog();
@@ -61,7 +60,8 @@ export default function Edit() {
       .required(language.ZIPRequired),
     phoneNumber: yup
       .number('Enter your phone number ')
-      .required(language.PhoneRequired),
+      .required(language.PhoneRequired)
+      .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
     gender: yup
       .string('Enter your gender ')
       .required(language.GenderRequired),

@@ -66,7 +66,8 @@ const validationSchema = yup.object({
       .required('The street is required'),
     phoneNumber: yup
       .number('Enter your phone number ')
-      .required('The phone number is required'),
+      .required('The phone number is required')
+      .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
     gender: yup
       .string('Enter your gender ')
       .required('The gender is required'),
@@ -107,12 +108,9 @@ const validationSchema = yup.object({
 
 export default function Users() {
     const [rows, setRowData] = React.useState([])
-    let navigate = useNavigate();
-    const dt = dtClouser();
 
     const [isTutor, setTutor] = React.useState(false)
     const [departments, setDepartment] = React.useState([])
-    const { openDialog } = useDialog()
     const fetchUser = async () => {
         await axios.get('http://localhost:4000/fetchUser').
         //represnt data to state 
@@ -672,7 +670,7 @@ export default function Users() {
                             </Box>
                             )}
                             onChange={(e, value) => {
-                            formik.values.CardType = value
+                                formik.values.cardType = value
                             }}
                             renderInput={(params) => (
                             <TextField

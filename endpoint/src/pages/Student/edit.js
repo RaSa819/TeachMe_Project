@@ -18,7 +18,6 @@ import { LanguageContext } from '../../App';
 export default function Edit() {
   const language = React.useContext(LanguageContext);
   let userDetail = JSON.parse(localStorage.getItem('userDetail')) || {};
-  console.log('userDetail::', userDetail);
   const validationSchema = yup.object({
     email: yup.
       string("Enter your Email").
@@ -53,7 +52,8 @@ export default function Edit() {
       .required(language.ZIPRequired),
     phoneNumber: yup
       .number('Enter your phone number ')
-      .required(language.PhoneRequired),
+      .required(language.PhoneRequired)
+      .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
     gender: yup
       .string('Enter your gender ')
       .required(language.GenderRequired)
@@ -306,7 +306,6 @@ export default function Edit() {
           }}>
           <TextField label={language.Phone} size='small'
             name="phoneNumber" 
-
             fullWidth
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
