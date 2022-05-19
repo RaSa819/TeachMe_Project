@@ -32,7 +32,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
         <span onClick={() => updateLanguage(1)} >English</span>,
         <span onClick={() => updateLanguage(0)} >العربية</span>,
     ];
-    if (pageName === "TutorList" ) pages.push(<span onClick={() => handleStd()}>{languagee.StudentDashboard}</span>);
+    if (pageName === "TutorList") pages.push(<span onClick={() => handleStd()}>{languagee.StudentDashboard}</span>);
 
     const pagesH = [
         <span>{languagee.FindTutors}</span>,
@@ -90,6 +90,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
         setAnchorElNav(event.currentTarget);
     };
 
+
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
@@ -105,8 +106,11 @@ export default function NavBar({ language, setLanguage, pageName }) {
     const handleStd = () => {
         navigate('/StudentDashboard')
     }
-  
-    React.useEffect(()=>{
+    const goHome = () => {
+        navigate('/')
+    };
+
+    React.useEffect(() => {
 
         window.addEventListener('scroll', (e) => {
             const appBar = window.document.getElementsByClassName('appBar')[0];
@@ -136,7 +140,9 @@ export default function NavBar({ language, setLanguage, pageName }) {
                 >
                     <Container maxWidth="xl" >
                         <Toolbar disableGutters sx={{ padding: 0 }}>
-                            <a className="navbar-brand" style={{ width: '80%' }} href="#">
+                            <a className="navbar-brand" style={{ width: '80%' }}
+                                href="#"
+                                onClick={goHome}>
                                 {languagee.TeachMe}
                             </a>
                             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -176,7 +182,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                 </Menu>
                             </Box>
 
-                            <Box sx={{flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <ButtonGroup>
                                     <React.Fragment>
                                         <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
@@ -254,7 +260,9 @@ export default function NavBar({ language, setLanguage, pageName }) {
                 <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
                     <Container maxWidth="xl" >
                         <Toolbar disableGutters sx={{ padding: 0 }}>
-                            <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
+                            <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }}
+                                href="#"
+                                onClick={goHome}>
                                 {languagee.TeachMe}
                             </a>
                             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -297,9 +305,9 @@ export default function NavBar({ language, setLanguage, pageName }) {
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <ButtonGroup>
                                     {
-                                        (pageName === "TutorList" ) &&
+                                        (pageName === "TutorList") &&
                                         <Button className={classes.btn + " " + classes.top}
-                                        sx={{ width: "300px" }}
+                                            sx={{ width: "300px" }}
                                             onClick={handleStd} variant="text">{languagee.StudentDashboard}</Button>
                                     }
                                     <React.Fragment>
@@ -360,7 +368,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                         <Button className={classes.btn + " " + classes.top}
                                             onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >{languagee.Logout}</Button>
                                     }
-                               
+
                                 </ButtonGroup>
                             </Box>
 
