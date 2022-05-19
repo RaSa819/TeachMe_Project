@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classes from '../../pages/StudentDashboard.module.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -25,17 +25,18 @@ import { genderDt, languageOptions } from '../../general/datas';
 import { LanguageContext } from '../../App';
 
 
-
 export default function NavBar({ language, setLanguage, pageName }) {
     const languagee = React.useContext(LanguageContext);
     const pages = [
-        'Logout',
+        <span onClick={() => handleLogout()}>{languagee.Logout}</span>,
         <span onClick={() => updateLanguage(1)} >English</span>,
         <span onClick={() => updateLanguage(0)} >العربية</span>,
     ];
+    if (pageName === "TutorList" ) pages.push(<span onClick={() => handleStd()}>{languagee.StudentDashboard}</span>);
+
     const pagesH = [
-        'Find tutors',
-        'Login',
+        <span>{languagee.FindTutors}</span>,
+        <span>{languagee.Login}</span>,
         <span onClick={() => updateLanguage(1)} >English</span>,
         <span onClick={() => updateLanguage(0)} >العربية</span>,
     ];
@@ -101,8 +102,23 @@ export default function NavBar({ language, setLanguage, pageName }) {
         localStorage.removeItem('userDetail')
         navigate('/login')
     }
-    // const barStyle = pageName === 'HomePage' ? (classes.homeBar) : classes.defaultBar;
+    const handleStd = () => {
+        navigate('/StudentDashboard')
+    }
+  
 
+
+ 
+
+    React.useEffect(()=>{
+
+        window.addEventListener('scroll', (e) => {
+            const appBar = window.document.getElementsByClassName('appBar')[0];
+
+            // if(window.scrollY > 0) alert('x');
+            appBar.classList.toggle('sticky', window.scrollY > 0)
+        }, true);
+    });
     return (
         <div>
 
@@ -110,18 +126,21 @@ export default function NavBar({ language, setLanguage, pageName }) {
 
 
                 <AppBar
+                    className="appBar"
                     sx={{
                         background: 'none',
                         textAlign: 'left',
                         color: '#D90429',
-                        position: 'absolute',
-                        maxHeight: '5em'
+                        position: 'fixed',
+                        maxHeight: '5em',
+                        boxShadow: 'none'
+                        // background: 'white'
                     }}
                     position="fix"
                 >
-                    <Container maxWidth="xl">
+                    <Container maxWidth="xl" >
                         <Toolbar disableGutters sx={{ padding: 0 }}>
-                            <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
+                            <a className="navbar-brand" style={{ width: '80%' }} href="#">
                                 {languagee.TeachMe}
                             </a>
                             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -161,7 +180,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                 </Menu>
                             </Box>
 
-                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            <Box sx={{flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <ButtonGroup>
                                     <React.Fragment>
                                         <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
@@ -237,7 +256,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
 
             {(pageName !== "HomePage") &&
                 <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
-                    <Container maxWidth="xl">
+                    <Container maxWidth="xl" >
                         <Toolbar disableGutters sx={{ padding: 0 }}>
                             <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }} href="#">
                                 {languagee.TeachMe}
@@ -342,11 +361,17 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                         </Popper>
                                     </React.Fragment>
                                     {
+                                        (pageName === "TutorList" ) &&
+                                        <Button className={classes.btn + " " + classes.top}
+                                        sx={{ width: "300px" }}
+                                            onClick={handleStd} variant="text">{languagee.StudentDashboard}</Button>
+                                    }
+                                    {
                                         (pageName !== "Login" && pageName !== "Signup") &&
                                         <Button className={classes.btn + " " + classes.top}
-                                            onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >Logout</Button>
-
+                                            onClick={handleLogout} variant="text" endIcon={<LogoutIcon />} >{languagee.Logout}</Button>
                                     }
+                               
                                 </ButtonGroup>
                             </Box>
 
