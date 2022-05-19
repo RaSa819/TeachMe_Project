@@ -352,6 +352,8 @@ exports.fetchTutorRequest = (req, res) => {
         {
             $project: {
                 _id: 1,
+                status: 1,
+                randomID: 1,
                 info: {
                     _id: 1,
                     name: {
@@ -409,6 +411,7 @@ exports.fetchTutorHistory = (req, res) => {
             $project: {
                 _id: 1,
                 status: 1,
+                randomID: 1,
                 info: {
                     _id: 1,
                     name: {
@@ -458,6 +461,7 @@ exports.fetchStudentHistory = (req, res) => {
             $project: {
                 _id: 1,
                 status: 1,
+                randomID: 1,
                 info: {
                     _id: 1,
                     name: {

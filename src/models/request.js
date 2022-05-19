@@ -14,6 +14,7 @@ const request =new mongoose.Schema({
     tutor:mongoose.Schema.Types.ObjectId,
     student:mongoose.Schema.Types.ObjectId,
     checkoutID:mongoose.Schema.Types.String,
+    randomID:mongoose.Schema.Types.ObjectId,
 })
 
 module.exports = mongoose.model('request',request);

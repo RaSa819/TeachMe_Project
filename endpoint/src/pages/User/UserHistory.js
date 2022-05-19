@@ -21,7 +21,6 @@ export default()=> {
   else if (type === 1)
     url = `http://localhost:4000/tutor/fetchHistory/${token}`
 
-
   const fetchData = async () => {
     await axios.get(url).then((data) => {
       setData(data.data)
@@ -44,7 +43,7 @@ export default()=> {
           isReady === 1 && data.length > 0 &&
           data.map((item, index) => (
             <HistoryCard title={item.requestInfo.title} 
-              name={item.info.name.firstName}
+              name={item.info?.name.firstName}
               id={item._id}
               status={item.status}
               data={item}

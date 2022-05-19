@@ -431,9 +431,9 @@ export default function Card() {
                 }}>
                     <div>
                         {
-                            isReady && <button style={stylebtnRandomRequest}
+                            isReady && department != '' && <button style={stylebtnRandomRequest}
                                 onClick={() => {
-                                    RequestDialog(openDialog, null, 0, 'make sure that we will help you to be better', socket)
+                                    RequestDialog(openDialog, null, 0, 'make sure that we will help you to be better', socket, department)
                                 }}
 
                             >

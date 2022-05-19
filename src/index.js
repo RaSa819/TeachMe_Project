@@ -204,33 +204,41 @@ io.on('connection', socket => {
 
     })
     socket.emit('res', 'Hello mr mohammed');
-    socket.on('request', (data) => {
+    socket.on('request', async (data) => {
         console.log(data)
 
         let from = ObjectId(data.student)
-        let to = ObjectId(data.to)
 
-        let info = {
-            time: parseInt(data.time),
-            title: data.title,
-            description: data.description
+        let requestData = {
+            student: from,
+            requestInfo: {
+                time: parseInt(data.time),
+                title: data.title,
+                description: data.description
+            },
+            timeLesson: data.time
         }
 
-        let newRequest = new request({
-            student: from,
-            tutor: to,
-            requestInfo: info,
-            timeLesson: data.time,
-        }).save((error, data) => {
-            const {_id} = data;
-            const temp = {
-                socketId: socket.id,
-                requestId: _id
+        if (data.to === 'all' && data.departmentId) {
+            requestData.randomID = new ObjectId()
+            let departmentTutors = await tutors.find({dept_id: ObjectId(data.departmentId)});
+            for (var i=0; i<departmentTutors.length; i++) {
+                requestData.tutor = departmentTutors[i].user_id
+                let newRequestData = await request.create(requestData);
+                users.push({socketId: socket.id, requestId: newRequestData._id});
             }
-
-            users.push(temp);
-        })
-
+        } else {
+            requestData.tutor = ObjectId(data.to)
+            requestData.randomID = null
+            let newRequest = new request(requestData).save((error, data) => {
+                const {_id} = data;
+                const temp = {
+                    socketId: socket.id,
+                    requestId: _id
+                }
+                users.push(temp);
+            })
+        }
     })
 
     socket.on('addFavorite', (data) => {
@@ -307,15 +315,16 @@ io.on('connection', socket => {
     // })
 
     socket.on('editRequestStatus', async (data) => {
-        let {id, status} = data;
-
-
+        let {id, status, randomID} = data;
         id = ObjectId(id)
 
         console.log('hello editRequest event and the id is '+socket.id)
-        await request.findByIdAndUpdate(id, { status });
-        
 
+        await request.findByIdAndUpdate(id, { status });
+
+        if (status == 1 && randomID) {
+            await request.deleteMany({randomID: ObjectId(randomID), status: [0, 2]});
+        }
 
         // socket.emit('open')
         // users.map((data)=>data.requestId ==)

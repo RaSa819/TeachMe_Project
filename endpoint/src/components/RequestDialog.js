@@ -13,7 +13,7 @@ import { SocketContext } from '../Socket';
 
 
 
-export default (openDialog, id = null, type = 0, title, socket) => {
+export default (openDialog, id = null, type = 0, title, socket, departmentId) => {
     openDialog({
         title: title,
         contentText: 'This information is important to success your request',
@@ -83,6 +83,7 @@ export default (openDialog, id = null, type = 0, title, socket) => {
                     time: values.time,
                     title: values.title,
                     description: values.description,
+                    departmentId: departmentId,
                     to: 'all'
                 })
             else

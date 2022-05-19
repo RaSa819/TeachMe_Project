@@ -20,7 +20,8 @@ export default (props) => {
     localStorage.setItem('sessionID', id)
     socket.emit('editRequestStatus', {
       id: id,
-      status: status
+      status: status,
+      randomID: data && data.randomID ? data.randomID : null
     });
     if (fetchData) {
       await fetchData()
