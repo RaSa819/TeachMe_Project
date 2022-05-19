@@ -113,20 +113,17 @@ export default function UserCard(props) {
                 <a href={type===0 ? `/view/student/${id}` : (type===1 ? `/view/tutor/${id}` : ``)} target="_blank"> &nbsp; {language.LearnMore}</a></p>
                 <div style={{ textAlign: "center" }}>
 
-                    <Button className={classes.cardButton}
-                        sx={{ color: '#f1f0f0', background: 'darkblue' }}
+                    <Button className={classes.cardButton +" "+ classes.editBtn}
                         startIcon={<EditIcon />}  onClick={() => {
                             setEditDat(data)
                         }}>{language.EditProfile}</Button>
 
-                    <Button className={classes.cardButton}
-                        sx={{ color: 'darkblue', background: '#f1f0f0' }}
+                    <Button className={classes.cardButton +" "+ classes.viewBtn}
                         startIcon={<AccountCircleIcon />}  >
                         <a href={type===0 ? `/view/student/${id}` : (type===1 ? `/view/tutor/${id}` : ``)} target="_blank">
                         {language.ViewProfile}</a></Button>
 
-                    <Button className={classes.cardButton}
-                        sx={{ color: '#f1f0f0', background: '#D90429' }}
+                    <Button className={classes.delBtn +" "+ classes.cardButton}
                         startIcon={<DeleteIcon />}  onClick={
                             () => {
                                 MessageBoxDelete(openDialog, closeDialog, id);

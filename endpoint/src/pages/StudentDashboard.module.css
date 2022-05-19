@@ -118,6 +118,20 @@ a {
     margin: 5px !important;
     border-radius: 10px !important;
     text-transform: none !important;
+ 
+}
+
+.delBtn{
+    color: #f1f0f0 !important;
+    background-color: #D90429 !important;
+}
+.editBtn{ 
+    color: #f1f0f0 !important;
+    background-color: darkblue !important;
+}
+.viewBtn{
+    color: darkblue !important;
+    background-color: #f1f0f0 !important;
 }
 
 .cardDiv {
