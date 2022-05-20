@@ -64,15 +64,17 @@ export default function TutorCard(props) {
                 <p style={{ fontSize: 12, color: 'grey' }}> {language.Joined} :  {joinedDate?.split('T')?.[0]}</p>
                 <p style={{ fontSize: 12 }}>{about.slice(0, 35)}
                     <a href={`/view/tutor/${id}`} target="_blank">&nbsp;  {language.LearnMore}</a></p>
+
                 <div style={{ textAlign: 'right' }}>
+
                     <Button sx={{ fontSize: 8, color: 'darkblue', background: '#f1f0f0', marginRight: '5px' }}>
                         <a href={`/view/tutor/${id}`} target="_blank"
                         >{language.ViewProfile}</a></Button>
+
                     <Button sx={{ fontSize: 8, color: '#f1f0f0', background: 'darkblue' }}
-                        onClick={() => {
-                            RequestDialog(openDialog, id, type, 'Just moment, to be your request ready', socket)
-                        }}
+                        onClick={() => {RequestDialog(openDialog, id, type, language.JustMoment, socket,language)}}
                     >{language.MakeRequest}</Button>
+                    
                 </div>
             </div>
         </div>

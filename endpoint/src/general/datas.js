@@ -1,3 +1,4 @@
+
 export const languageOptions = ['العربية', 'English'];
 
 export const styleUnFavorite = { color: 'gray', display: 'inline-block', fontSize: 20 };
@@ -5,8 +6,8 @@ export const styleUnFavorite = { color: 'gray', display: 'inline-block', fontSiz
 export const styleFavorite = {  color: '#D90429', display: 'inline-block', fontSize: 20 };
 
 export const timeList = [
-  { label: "one houre", value: 1 },
-  { label: "tow houres", value: 2 },
+  { label: "one hour", value: 1 },
+  { label: "two houres", value: 2 },
   { label: "three houres", value: 3 },
   { label: "four houres", value: 4 }
 ]

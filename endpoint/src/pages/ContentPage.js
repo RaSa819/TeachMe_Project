@@ -9,6 +9,8 @@ import Login from "./Login"
 import Signup from "./SingupWithValidation";
 import Card from "../components/TutorList";
 import HomePage from "./home/homePage";
+import ViewTutor from "./view/Tutor";
+import Session from "./Session/Session";
 
 
 export default function ContentPage({ name, setLanguage }) {
@@ -27,7 +29,8 @@ export default function ContentPage({ name, setLanguage }) {
       {(name === 'Signup') && <Signup />}
       {(name === 'TutorList') && <Card />}
       {(name === 'HomePage') &&<HomePage />}
-      
+      {(name ==='ViewTutor')&&<ViewTutor/>}
+      {(name ==='Session')&&<Session/>}
 
     </div>
 

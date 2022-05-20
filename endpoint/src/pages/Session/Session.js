@@ -2,8 +2,10 @@ import React, { useCallback, useState } from 'react'
 import img2 from '../../assets/images/Vector.svg';
 import useRTCSession from '../../hooks/useRTCSession';
 import './Session.css'
+import { LanguageContext } from '../../App';
 
 export default function Session() {
+  const language = React.useContext(LanguageContext);
   const {
     localVideoRef,
     remoteVideoRef,
@@ -91,16 +93,16 @@ export default function Session() {
 
         {chatBtn ?
           <div className='chat-btn justify-content-between'>
-            <div className='chat-h'><p className='chatP m-0'>Chat</p></div>
+            <div className='chat-h'><p className='chatP m-0'>{language.Chat}</p></div>
 
             <div className='h-83'>
-            <div className='chatboxDiv'><span className='chatUserName'>username</span><span className='chatTime'>6:51 AM</span>
+            <div className='chatboxDiv'><span className='chatUserName'>{language.Username}</span><span className='chatTime'>6:51 AM</span>
 
-              <p className='chatText'>I have a question...</p>
+              <p className='chatText'>{language.HaveQuestion}</p>
             </div>
             </div>
             <div className='chat-f d-flex'>
-              <input type="text" className='input-session h-40' placeholder='Enter question here....'></input>
+              <input type="text" className='input-session h-40' placeholder={language.EnterQuestion}></input>
               <button></button>
             </div>
           </div>
@@ -110,15 +112,15 @@ export default function Session() {
 
         {quizBtn ?
           <div className='quiz-tutor'>
-            <h2 className='quiz-header'>Question1:</h2>
-            <input type="text" className='input-session mb-4' placeholder='Enter question here....'></input>
+            <h2 className='quiz-header'>{language.Question1}</h2>
+            <input type="text" className='input-session mb-4' placeholder={language.EnterQuestion}></input>
             <div className='d-flex justify-between align-items-center'>
-              <h2 className='quiz-header'>Options:</h2>
+              <h2 className='quiz-header'>{language.Options} : </h2>
               <button className='add-btn'></button>
             </div>
             <ul style={{ listStyleType: 'disc' }}>
               <li className='list-item justify-content-between'>
-                Option 1
+               {language.Option1}
                 <div className='d-flex adjust'>
                   <div className='edit-icon list-icon2 mx-1'></div>
                   <div className='delete-icon list-icon2 mx-2'></div>
@@ -129,8 +131,8 @@ export default function Session() {
         : ''}
 
         {(screenBtn && !isSharingScreen) ? <div className='screen-share'>
-          <p className='mb-5'>You’re about to share your screen with the other party , Do you want to continue ?</p>
-          <button onClick={() => { startScreenSharing(); setIsSharingScreen(true); }}>Start sharing</button>
+          <p className='mb-5'>{language.YouAreAboutToShare}</p>
+          <button onClick={() => { startScreenSharing(); setIsSharingScreen(true); }}>{language.StartSharing}</button>
         </div>
         :''}
 
@@ -142,7 +144,7 @@ export default function Session() {
             justifyContent:"space-between",
             width:" 28.5%"
           }}>
-            <button className='endC-btn'>End</button>
+            <button className='endC-btn'>{language.End}</button>
             {quizRender}
           </div>
 

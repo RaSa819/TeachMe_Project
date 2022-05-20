@@ -23,7 +23,7 @@ export default (props) => {
         setShowRequest(false);
     }
   // console.log('type:::', type)
-  let statusLabel = status===1?'Accepted':(status===2?'Waiting':'Declined')
+  let statusLabel = status===1? language.Accepted :(status===2? language.Waiting : language.Decline )
   let statusColor = status===1?'green':(status===2?'yellow':'red')
   return (
 

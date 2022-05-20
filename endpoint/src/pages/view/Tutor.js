@@ -9,12 +9,15 @@ import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import axios from 'axios'
 import { countries } from '../../general/datas';
-import NavBar from '../../components/topBar/navBar';
+import { Language } from "@mui/icons-material";
+import { LanguageContext } from '../../App';
+import Rating from '@mui/material/Rating';
+
 
 export default () => {
+    const language = React.useContext(LanguageContext);
     return (
     <div className={classes.main}>
-      <NavBar />
       <Paper elevation={0} className={classes.container + " " + classes.content}>
         <div style={{ padding: 10, height: '100%', width: '100%' }}>
           <div style={{ border: '1px solid lightgray', padding: 40, height: '100%', width: '100%', borderRadius: 10, overflowY: 'auto'}}>
@@ -45,17 +48,19 @@ function ViewTutor() {
     React.useEffect(() => {
         fetchData()
     }, [])
+    const language = React.useContext(LanguageContext);
 
     return (
       <div style={{ marginTop: 50 }}>
           {(tutor.found) && <TutorCard tutor={tutor}/> } 
-          {(!tutor.found) && <p>Tutor Not Found!</p>}       
+          {(!tutor.found) && <p>{Language.TutorNotFound}</p>}       
       </div>
     );
   }
 
   const TutorCard = (props) => {
-      const { tutor } = props;
+    const language = React.useContext(LanguageContext);
+      const { tutor ,rate} = props;
       let countryName = ''
       if (tutor.address.country) {
           let country = countries.find(v => v.code === tutor.address.country);
@@ -66,20 +71,19 @@ function ViewTutor() {
       return (
           <div>
               <h4>{tutor.name.firstName + ' '} {tutor.name.middleName} {tutor.name.lastName}</h4>
-                <StarIcon sx={{ color: '#f5de2f' }} /><StarIcon sx={{ color: '#f5de2f' }} />
-                <StarIcon sx={{ color: '#f5de2f' }} /><StarIcon sx={{ color: '#f5de2f' }} /><StarBorderIcon sx={{ color: '#f5de2f' }} />
-                {/* <img src={tutor.img} style={{ width: 20, marginLeft: 20 }}></img> */}
+              <Rating name="read-only" value={rate ? rate : 4} readOnly />
+
                 <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
                 <Divider sx={{ width: 300 }} />
-                <p>Joined on {new Date(tutor.date).toLocaleString()}</p>
+                <p>{language.Joined} :  {tutor.date?.split('T')?.[0]}</p>
                 <Divider sx={{ width: 300 }} />
-                <p>Email: {tutor.email}</p> 
+                <p>{language.Email} : {tutor.email}</p> 
                 <Divider sx={{ width: 300 }} />
-                <p style={{ fontSize: 12 }}><b>About: </b>{tutor.profile.about} </p>
+                <p >{language.About} : {tutor.profile.about} </p>
                 <Divider sx={{ width: 300 }} />
-                <p style={{ fontSize: 12 }}><b>Certification: </b>{tutor.profile.certifications} </p>
+                <p >{language.Certificate} : {tutor.profile.certifications} </p>
                 <Divider sx={{ width: 300 }} />
-                <p style={{ fontSize: 12 }}><b>Work Experience: </b>{tutor.profile.experience} </p>
+                <p >{language.Experience} : {tutor.profile.experience} </p>
           </div>
       )
   }
