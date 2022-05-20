@@ -1,4 +1,4 @@
-html {
+/* html { */
   /* padding: 0%;
   display: block;
   position: fixed;
@@ -7,13 +7,13 @@ html {
   margin-top: -2%;
   margin-left: -12px;
   margin-right: -1%; */
-}
+/* } */
 
 
 .bg-session {
   background: #212529;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -517,9 +517,7 @@ margin: auto;
     font-size: 25px;
     line-height: 42px;
   }
-  .chat-btn{
-    
-  }
+
 }
 
 @media (max-width: 840px) {

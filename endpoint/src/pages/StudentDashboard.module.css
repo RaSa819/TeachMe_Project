@@ -167,8 +167,25 @@ a {
 }
 
 .popperLi li{
-    color: white;
-    background-color: black;
+    /* color: white; */
+    background-color: white !important;
+    border: 1px solid rgb(211, 210, 210);
+    
+}
+
+.popperLi li:hover{
+
+    background-color: rgb(228, 223, 223) !important;
+    
+}
+
+.popperLi li:first-child{
+    border-radius: 10px 0 0 10px;
+    
+}
+.popperLi li:nth-child(2){
+    border-radius: 0 10px 10px 0;
+    
 }
 
 
