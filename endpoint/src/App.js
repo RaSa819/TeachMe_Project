@@ -161,6 +161,7 @@ export default function App() {
                                 padding: '0%'
                             }
                         }>
+
                         <Router>
                             <SocketProvider>
                                 <Routes>
@@ -177,16 +178,14 @@ export default function App() {
                                         element={<IsStudent><ContentPage name="Student" setLanguage={updateLanguage} /></IsStudent>} />
 
                                     <Route path="/AdminDashboard"
-                                        element={<IsAdmin><ContentPage name="Admin" setLanguage={updateLanguage} /></IsAdmin>} />
+                                        element={<ContentPage name="Admin" setLanguage={updateLanguage} />} />
 
                                     <Route path="/TutorDashboard"
                                         element={<IsTutor><ContentPage name="Tutor" setLanguage={updateLanguage} /></IsTutor>} />
 
-                                    {/* <Route path="/Signup"
-                                        element={<SingupWithValidation />} /> */}
 
                                     <Route path="/Session"
-                                        element={<Session />} />
+                                        element={<ContentPage name="Session" setLanguage={updateLanguage} />} />
 
 
                                     <Route path="Admin"
@@ -270,7 +269,7 @@ export default function App() {
                                             } />
 
                                     </Route>
-                                  
+
 
 
                                     <Route path="*"
@@ -287,10 +286,10 @@ export default function App() {
 
                                         } />
                                     <Route path="/homePage"
-                                        element={<ContentPage name="HomePage" setLanguage={updateLanguage} /> }/>
+                                        element={<ContentPage name="HomePage" setLanguage={updateLanguage} />} />
 
                                     <Route path="/view/tutor/:id"
-                                        element={<ViewTutor />} />
+                                        element={<ContentPage name="ViewTutor" setLanguage={updateLanguage} />} />
 
                                     <Route path="/view/student/:id"
                                         element={<ViewStudent />} />

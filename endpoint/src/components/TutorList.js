@@ -433,14 +433,15 @@ export default function Card() {
                         {
                             isReady && department != '' && <button style={stylebtnRandomRequest}
                                 onClick={() => {
-                                    RequestDialog(openDialog, null, 0, 'make sure that we will help you to be better', socket, department)
+                                   
+                                    RequestDialog(openDialog, null, 0, language.MakeSure, socket, department,language)
                                 }}
 
                             >
                                 <GiPerspectiveDiceSixFacesRandom
                                     style={styleRandomRequestIcon}
                                 />
-                                Random Request
+                               {language.RandomRequest}
                             </button>
                         }
                     </div>
