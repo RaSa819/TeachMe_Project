@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import img2 from '../../assets/images/Vector.svg';
 import './Session.css'
+import Rate from "./Rate.js"
+import img3 from './newrate.svg'
 
 export default function Session() {
 
@@ -10,6 +12,7 @@ export default function Session() {
   const [micBtn, setMicBtn] = useState(false);
   const [quizBtn, setQuizBtn] = useState(false);
   const [shareScreen, setShareScreen] = useState(false);
+  const [rateScreen, setRateScreen] = useState(false);
 
 
   let micRender;
@@ -149,9 +152,23 @@ export default function Session() {
 :''}
 
 
+
+{rateScreen? <div className='screen-share'>
+                <p className='mb-5'>How was your experince</p>
+          <img style={{
+            marginBottom: "20px",
+            marginTop: "-40px",
+            width: "50%",
+            alignSelf: "center"
+          }} src={img3}></img>
+                <button>Submit</button>
+              </div> : '' }
         <div className='footer'>
           <div style={{ height: "100%",display: 'flex',justifyContent:"space-between",width:" 28.5%" }}>
-           <button className='endC-btn'>End</button>
+          
+          
+          
+            <button className='endC-btn' onClick={() => setRateScreen(!rateScreen)}>End</button>
           {quizRender}
             </div>
           
