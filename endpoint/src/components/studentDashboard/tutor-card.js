@@ -10,10 +10,11 @@ import { LanguageContext } from '../../App';
 export default function TutorCard(props) {
     const language = React.useContext(LanguageContext);
     const { name, joinedDate, about, experience, country,
-        rate, type, id, openDialog, socket, isFavorite, cardType } = props;
+        rate, type, id, openDialog, socket, isFavorite, cardType,department} = props;
 
     const [favorite, setFavorite] = useState()
-
+    let user_id = localStorage.getItem('token')
+   
     React.useEffect(() => {
         setFavorite(isFavorite)
     }, [isFavorite])
@@ -72,7 +73,7 @@ export default function TutorCard(props) {
                         >{language.ViewProfile}</a></Button>
 
                     <Button sx={{ fontSize: 8, color: '#f1f0f0', background: 'darkblue' }}
-                        onClick={() => {RequestDialog(openDialog, id, type, language.JustMoment, socket,language)}}
+                        onClick={() => {RequestDialog(openDialog, id, type, language.JustMoment, socket,department,language)}}
                     >{language.MakeRequest}</Button>
                     
                 </div>
