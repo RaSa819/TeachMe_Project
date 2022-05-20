@@ -167,6 +167,7 @@
         "Option1":"Option 1",
         "YouAreAboutToShare":"You’re about to share your screen with the other party , Do you want to continue ?",
         "StartSharing":"Start sharing",
+        "PaymentPleaseWait": "Please wait, processing payment from the student...",
         "End":"End"
 
 
@@ -338,7 +339,8 @@
         "Option1":"الخيار 1",
         "YouAreAboutToShare":"أنت على وشك مشاركة شاشتك مع الطرف الآخر ، هل تريد المتابعة؟",
         "StartSharing":"ابدأ بالمشاركة",
-        "End":"انتهى"
+        "PaymentPleaseWait": "يرجى الانتظار ، لحين انتهاء عملية الدفع من قبل الطالب",
+        "End":"انهاء"
         
 
     }

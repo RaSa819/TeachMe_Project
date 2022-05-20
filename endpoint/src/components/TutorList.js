@@ -304,9 +304,9 @@ export default function Card() {
         fetchDept()
     }, [])
 
-    // React.useEffect(() => {
-    //     fetchData()
-    // }, [department]);
+    React.useEffect(() => {
+        fetchData()
+    }, [department]);
     React.useEffect(() => {
         fetchData()
     }, [tutorName]);
@@ -335,7 +335,7 @@ export default function Card() {
                             </Box>
                         )}
                         onChange={(e, value) => {
-                            setDepartment(value?value._id:'')
+                            setDepartment(value?._id || '')
                             // fetchData()
                         }}
                         renderInput={(params) => (

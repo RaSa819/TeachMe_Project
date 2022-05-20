@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SocketContext } from '../Socket';
 
-const Payment = () => {
+const Payment = ({ language }) => {
     const socket = useContext(SocketContext);
 
     const [searchParams] = useSearchParams();
@@ -17,7 +17,7 @@ const Payment = () => {
 
     return (
         <div>
-            <h1>Please wait, processing payment from the student...</h1>
+            <h1>{language.PaymentPleaseWait}</h1>
         </div>
     );
 };

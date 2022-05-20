@@ -74,7 +74,7 @@ export default function Session() {
   }
 
   return (
-    <div>
+    <div style={{height: 'calc(100vh - 80px)', marginTop: '80px'}}>
       <div className='bg-session'>
         <div className='contain'>
           <div className='img-set' >
