@@ -304,9 +304,9 @@ export default function Card() {
         fetchDept()
     }, [])
 
-    React.useEffect(() => {
-        fetchData()
-    }, [department]);
+    // React.useEffect(() => {
+    //     fetchData()
+    // }, [department]);
     React.useEffect(() => {
         fetchData()
     }, [tutorName]);
