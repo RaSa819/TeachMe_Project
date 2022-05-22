@@ -3,6 +3,7 @@ const user = require('./../models/users')
 const tutor = require('./../models/tutors')
 const student = require('./../models/student')
 const request = require('./../models/request')
+const ratings = require('./../models/ratings')
 const session = require('./../models/session')
 const mongoose = require('mongoose')
 
@@ -637,4 +638,38 @@ exports.fetchFavoriteList = (req, res) => {
 
 function getFavoriteList(id) {
 
+}
+
+exports.rateUser = async (req, res) => {
+    try {
+        let { studentID, tutorID, rate, ratingTo, requestID } = req.body;
+        studentID = objectID(studentID);
+        tutorID = objectID(tutorID);
+        requestID = objectID(requestID);
+        await ratings.create({
+            student: studentID,
+            tutor: tutorID,
+            request: requestID,
+            rate: rate,
+            ratingTo: ratingTo
+        })
+        if (ratingTo === 'tutor') {
+            const averageRate = await ratings.aggregate([
+                { $match: { tutor: tutorID } },
+                { $match: { ratingTo: 'tutor' } },
+                { $group: { _id: null, average: { $avg: '$rate' } } },
+              ]);
+            await user.findOneAndUpdate({_id: tutorID}, {rate: averageRate[0].average});
+        } else if (ratingTo === 'student') {
+            const averageRate = await ratings.aggregate([
+                { $match: { student: studentID } },
+                { $match: { ratingTo: 'student' } },
+                { $group: { _id: null, average: { $avg: '$rate' } } },
+              ]);
+            await user.findOneAndUpdate({_id: studentID}, {rate: averageRate[0].average});
+        }
+        res.json({msg: 'Successfully rated'})
+    } catch (error) {
+        res.json(error)  
+    }
 }
