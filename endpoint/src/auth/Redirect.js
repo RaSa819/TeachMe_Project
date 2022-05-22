@@ -9,11 +9,12 @@ export default ({ children }) => {
     // if the user is tutor, it well redirect to the profile
     // if he student, it will redirect to home page 
     var type =parseInt(localStorage.getItem('type'))
-    
-
     return type === 0 ?
-        children :
+        <Navigate to="/global/tutors" /> :
+        // children :
         type === 1 ?
-            <Navigate to="/user/profile" /> :
-            <Navigate to="/UnknowUser"/>
+            <Navigate to="/TutorDashboard" /> :
+                type === 2 ?    
+                <Navigate to="/AdminDashboard"/> :
+                    <Navigate to="/UnknowUser"/>
 }

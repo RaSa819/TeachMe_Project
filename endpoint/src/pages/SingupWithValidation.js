@@ -46,8 +46,7 @@ export default () => {
     confirmPassword: yup
       .string('Enter your password')
       .required(language.PasswordMatch)
-      .oneOf([yup.ref('password'), null], language.PasswordMatch)
-    ,
+      .oneOf([yup.ref('password'), null], language.PasswordMatch),
     firstName: yup.
       string('Enter your first name').
       required(language.FirstNRequired),
@@ -70,9 +69,10 @@ export default () => {
       .number('Enter your ZIP code ')
       .required(language.ZIPRequired),
     phoneNumber: yup
-      .number('Enter your phone number ')
-      .required(language.PhoneRequired)
-      .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
+      .string('Enter your phone number')
+      .length(10, 'Must be exactly 10 numbers')
+      .matches(/[0-9]+/gi, "Enter number only")
+      .required(language.PhoneRequired),
     gender: yup
       .string('Enter your gender ')
       .required(language.GenderRequired),
@@ -196,17 +196,19 @@ export default () => {
               }
             }
             localStorage.setItem('userDetail', JSON.stringify(userDetail));
-            console.log(type)
-            if (type == 0) {
-              // navigate('/StudentDashboard')
-              navigate('/global/tutors')
-            } else if (type == 1) {
-              navigate('/TutorDashboard')
-            } else if (type == 2) {
-              navigate('/AdminDashboard')
-            } else {
-              navigate('/home')
+            if (type >= 0) {
+                navigate('/home')
             }
+            // if (type == 0) {
+            //   // navigate('/StudentDashboard')
+            //   navigate('/global/tutors')
+            // } else if (type == 1) {
+            //   navigate('/TutorDashboard')
+            // } else if (type == 2) {
+            //   navigate('/AdminDashboard')
+            // } else {
+            //   navigate('/home')
+            // }
         }).catch((error) => {
           alert(JSON.stringify(error, null, 2))
         })
@@ -232,13 +234,10 @@ export default () => {
 
   React.useEffect(() => {
     var type = localStorage.getItem('type')
-    if (type === 0) {
+    console.log('type::', type)
+    if (type && type >= 0) {
       // navigate('/StudentDashboard')
-      navigate('/global/tutors')
-    } else if (type === 1) {
-        navigate('/TutorDashboard')
-    } else if (type === 2) {
-        navigate('/AdminDashboard')
+      navigate('/home')
     }
 
   }, [])
