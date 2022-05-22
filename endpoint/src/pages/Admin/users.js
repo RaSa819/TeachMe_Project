@@ -32,83 +32,6 @@ import {
     FormLabel,
 } from "@material-ui/core";
 
-const validationSchema = yup.object({
-    userName: yup
-        .string('Enter your username')
-        .required('username is required')
-        .min(8, 'The minimum is 8 characters '),
-    email: yup
-        .string('Enter your email')
-        .email("it's not Email Format")
-        .required('Your Email is Required'),
-    firstName: yup.
-        string('Enter your first name').
-        required('The first name is required '),
-    middleName: yup.
-        string('Enter your middle name').
-        required('The middle name is required '),
-    lastName: yup.
-        string('Enter your last name').
-        required('The last name is required '),
-    password: yup
-        .string('Enter your password')
-        .min(8, 'Password should be of minimum 8 characters length'),
-    confirmPassword: yup
-        .string('Enter your password')
-        .oneOf([yup.ref('password'), null], 'password must match'),
-    country: yup
-        .string('Enter your country ')
-        .required('The country is required'),
-    city: yup.
-        string('Enter your city ').
-        required('The city is required'),
-    street: yup
-        .string('Enter your street ').
-        required('The street is required'),
-    ZIP: yup
-        .number('Enter your street ')
-        .required('The street is required'),
-    phoneNumber: yup
-        .number('Enter your phone number ')
-        .required('The phone number is required')
-        .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
-    gender: yup
-        .string('Enter your gender ')
-        .required('The gender is required'),
-    type: yup
-        .string('Enter your type ')
-        .required('The type is required'),
-    dept: yup.string().when('type', {
-        is: 1,//just an e.g. you can return a function
-        then: yup.string().required('the dept option is required'),
-        otherwise: yup.string()
-    }),
-    about: yup.string().when('type', {
-        is: 1,//just an e.g. you can return a function
-        then: yup.string().required('You must talk about your self'),
-        otherwise: yup.string()
-    }),
-    certifications: yup.string().when('type', {
-        is: 1,//just an e.g. you can return a function
-        then: yup.string().required('you must input your last certification'),
-        otherwise: yup.string()
-    }),
-    experience: yup.string().when('type', {
-        is: 1,//just an e.g. you can return a function
-        then: yup.string().required('You must talk about your experiences'),
-        otherwise: yup.string()
-    }),
-    cardType: yup.string().when('type', {
-        is: 1,//just an e.g. you can return a function
-        then: yup.string().required('You must choose your card type'),
-        otherwise: yup.string()
-    }),
-    cardID: yup.string().when('type', {
-        is: 1,//just an e.g. you can return a function
-        then: yup.string().required('You must choose your card ID'),
-        otherwise: yup.string()
-    })
-});
 
 export default function Users() {
     const language = React.useContext(LanguageContext);
@@ -116,6 +39,86 @@ export default function Users() {
     const [isReady, setReady] = React.useState(0)
     const [isTutor, setTutor] = React.useState(false)
     const [departments, setDepartment] = React.useState([])
+
+    const validationSchema = yup.object({
+        userName: yup
+            .string('Enter your username')
+            .required('username is required')
+            .min(8, 'The minimum is 8 characters '),
+        email: yup
+            .string('Enter your email')
+            .email("it's not Email Format")
+            .required('Your Email is Required'),
+        firstName: yup.
+            string('Enter your first name').
+            required('The first name is required '),
+        middleName: yup.
+            string('Enter your middle name').
+            required('The middle name is required '),
+        lastName: yup.
+            string('Enter your last name').
+            required('The last name is required '),
+        password: yup
+            .string('Enter your password')
+            .min(8, 'Password should be of minimum 8 characters length'),
+        confirmPassword: yup
+            .string('Enter your password')
+            .oneOf([yup.ref('password'), null], 'password must match'),
+        country: yup
+            .string('Enter your country ')
+            .required('The country is required'),
+        city: yup.
+            string('Enter your city ').
+            required('The city is required'),
+        street: yup
+            .string('Enter your street ').
+            required('The street is required'),
+        ZIP: yup
+            .number('Enter your street ')
+            .required('The street is required'),
+        phoneNumber: yup
+            .string('Enter your phone number')
+            .length(10, 'Must be exactly 10 numbers')
+            .matches(/[0-9]+/gi, "Enter number only")
+            .required(language.PhoneRequired),
+        gender: yup
+            .string('Enter your gender ')
+            .required('The gender is required'),
+        type: yup
+            .string('Enter your type ')
+            .required('The type is required'),
+        dept: yup.string().when('type', {
+            is: 1,//just an e.g. you can return a function
+            then: yup.string().required('the dept option is required'),
+            otherwise: yup.string()
+        }),
+        about: yup.string().when('type', {
+            is: 1,//just an e.g. you can return a function
+            then: yup.string().required('You must talk about your self'),
+            otherwise: yup.string()
+        }),
+        certifications: yup.string().when('type', {
+            is: 1,//just an e.g. you can return a function
+            then: yup.string().required('you must input your last certification'),
+            otherwise: yup.string()
+        }),
+        experience: yup.string().when('type', {
+            is: 1,//just an e.g. you can return a function
+            then: yup.string().required('You must talk about your experiences'),
+            otherwise: yup.string()
+        }),
+        cardType: yup.string().when('type', {
+            is: 1,//just an e.g. you can return a function
+            then: yup.string().required('You must choose your card type'),
+            otherwise: yup.string()
+        }),
+        cardID: yup.string().when('type', {
+            is: 1,//just an e.g. you can return a function
+            then: yup.string().required('You must choose your card ID'),
+            otherwise: yup.string()
+        })
+    });
+    
     const fetchUser = async () => {
         await axios.get('http://localhost:4000/fetchUser').
             //represnt data to state 

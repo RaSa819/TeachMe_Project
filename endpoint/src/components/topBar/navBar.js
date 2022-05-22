@@ -243,8 +243,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                         variant="text">{languagee.FindTutors}</Button>
 
                                     <Button className={classes.btn + " " + classes.top}
-                                        onClick={handleLogout} variant="text" >{languagee.Login}</Button>
-
+                                        onClick={() => navigate('/login')} variant="text" >{languagee.Login}</Button>
 
                                 </ButtonGroup>
                             </Box>
