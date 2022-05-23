@@ -3,6 +3,8 @@ import img2 from '../../assets/images/Vector.svg';
 import useRTCSession from '../../hooks/useRTCSession';
 import './Session.css'
 import { LanguageContext } from '../../App';
+import useTutorQuiz from '../../hooks/useTutorQuiz';
+import useStudentQuiz from '../../hooks/useStudentQuiz';
 
 export default function Session() {
   const language = React.useContext(LanguageContext);
@@ -36,6 +38,30 @@ export default function Session() {
   const [screenBtn, setScreenBtn] = useState(false);
   const [isSharingScreen, setIsSharingScreen] = useState(false);
   const [quizBtn, setQuizBtn] = useState(false);
+
+  const {
+    question,
+    onQuestionChange,
+    options,
+    addOption,
+    editOption,
+    editedOptionIndex,
+    onEditedOptionChange,
+    saveEditedOption,
+    deleteOption,
+    saveQuiz,
+    answer,
+  } = useTutorQuiz();
+
+  const { quiz, saveQuizAnswer, onAnswerChange } = useStudentQuiz();
+
+  React.useEffect(() => {
+    if (quiz) setQuizBtn(true);
+  }, [quiz]);
+
+  React.useEffect(() => {
+    if (answer) setQuizBtn(true);
+  }, [answer]);
 
 
   let micRender;
@@ -110,25 +136,64 @@ export default function Session() {
         }
 
 
-        {quizBtn ?
+        {quizBtn && localStorage.getItem('type') === '1' && (
           <div className='quiz-tutor'>
             <h2 className='quiz-header'>{language.Question1}</h2>
-            <input type="text" className='input-session mb-4' placeholder={language.EnterQuestion}></input>
+            <input
+              type="text"
+              className='input-session mb-4'
+              placeholder={language.EnterQuestion}
+              onChange={onQuestionChange}
+              value={question}
+            />
             <div className='d-flex justify-between align-items-center'>
               <h2 className='quiz-header'>{language.Options} : </h2>
-              <button className='add-btn'></button>
+              <button className='add-btn' onClick={addOption}></button>
             </div>
             <ul style={{ listStyleType: 'disc' }}>
-              <li className='list-item justify-content-between'>
-               {language.Option1}
-                <div className='d-flex adjust'>
-                  <div className='edit-icon list-icon2 mx-1'></div>
-                  <div className='delete-icon list-icon2 mx-2'></div>
-                </div>
-              </li>
+              {options.map((option, i) => (
+                <li
+                  className='list-item justify-content-between'
+                  key={option}
+                  style={{ color: answer === i ? 'green' : 'currentcolor', fontWeight: answer === i ? 'bold' : 'normal' }}
+                >
+                  {editedOptionIndex === i ? <input onChange={onEditedOptionChange} defaultValue={option} /> : option}
+                  <div className='d-flex adjust'>
+                    <button
+                      className='edit-icon list-icon2 mx-1'
+                      onClick={editedOptionIndex === i ? saveEditedOption : editOption(i)}
+                    />
+                    <button className='delete-icon list-icon2 mx-2' onClick={deleteOption(i)}></button>
+                  </div>
+                </li>
+              ))}
             </ul>
+            <button className='btn-primary' onClick={() => {
+              setQuizBtn(false)
+              saveQuiz()
+            }}>OK</button>
           </div>
-        : ''}
+        )}
+
+        {quizBtn && quiz && localStorage.getItem('type') === '0' && (
+          <div className="quiz-tutor">
+            <h2 className='quiz-header'>{quiz.question}</h2>
+            <div className='d-flex justify-between align-items-center'>
+              <h2 className='quiz-header'>{language.Options} : </h2>
+            </div>
+            <ul style={{ listStyleType: 'disc' }}>
+              {quiz.options.map((option, i) => (
+                <li className='list-item justify-content-between' key={option}>
+                  <label>
+                    <input type="radio" name="answer" value={i} onChange={onAnswerChange} />
+                    {option}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <button className='btn-primary' onClick={saveQuizAnswer}>OK</button>
+          </div>
+        )}
 
         {(screenBtn && !isSharingScreen) ? <div className='screen-share'>
           <p className='mb-5'>{language.YouAreAboutToShare}</p>
@@ -144,7 +209,7 @@ export default function Session() {
             justifyContent:"space-between",
             width:" 28.5%"
           }}>
-            <button className='endC-btn'>{language.End}</button>
+            <button className='endC-btn' onClick={endCall}>{language.End}</button>
             {quizRender}
           </div>
 

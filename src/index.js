@@ -434,6 +434,14 @@ io.on('connection', socket => {
         await sessionModel.updateOne({ _id: sessionID }, { $set: { isEnded: true } });
     });
 
+    socket.on('send-quiz', async ({ sessionID, type, quiz }) => {
+        await sessionModel.updateOne({ _id: sessionID }, { $set: { quiz } });
+    });
+
+    socket.on('send-quiz-answer', async ({ sessionID, type, quizAnswer }) => {
+        await sessionModel.updateOne({ _id: sessionID }, { $set: { 'quiz.answer': quizAnswer } });
+    });
+
 
     socket.on('removeFavorite', (data) => {
 
@@ -574,6 +582,14 @@ sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ opera
             if (tutorUser) {
                 io.to(tutorUser.id).emit('end-call');
             }
+        }
+
+        if (updateDescription.updatedFields.quiz && studentUser) {
+            io.to(studentUser.id).emit('quiz', updateDescription.updatedFields.quiz);
+        }
+
+        if (typeof updateDescription.updatedFields['quiz.answer'] === 'number' && tutorUser) {
+            io.to(tutorUser.id).emit('quiz-answer', updateDescription.updatedFields['quiz.answer']);
         }
     }
 });

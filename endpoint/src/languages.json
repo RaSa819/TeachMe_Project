@@ -164,7 +164,7 @@
         "EnterQuestion":"Enter question here....",
         "Question1:":"Question1:",
         "Options":"Options",
-        "Option1":"Option 1",
+        "Option1":"Option",
         "YouAreAboutToShare":"You’re about to share your screen with the other party , Do you want to continue ?",
         "StartSharing":"Start sharing",
         "End":"End"
@@ -335,7 +335,7 @@
         "EnterQuestion":"أدخل السؤال هنا ....",
         "Question1:":"السؤال رقم 1:",
         "Options":"خيارات",
-        "Option1":"الخيار 1",
+        "Option":"الخيار",
         "YouAreAboutToShare":"أنت على وشك مشاركة شاشتك مع الطرف الآخر ، هل تريد المتابعة؟",
         "StartSharing":"ابدأ بالمشاركة",
         "End":"انتهى"

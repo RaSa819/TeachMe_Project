@@ -23,6 +23,15 @@ const session = mongoose.Schema({
     default: false,
   },
 
+  quiz: {
+    required: false,
+    type: {
+      question: mongoose.Schema.Types.String,
+      options: [mongoose.Schema.Types.String],
+      answer: mongoose.Schema.Types.Number,
+    },
+  },
+
   // The information of payment operation 
   TransactionPayInfo:mongoose.Schema.Types.Mixed,
   request:mongoose.Schema.Types.ObjectId,
