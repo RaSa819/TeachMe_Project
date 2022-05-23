@@ -48,10 +48,10 @@
 }
 
 .endC-btn {
-  background: #D90429;
+  background: #D90429 !important;
   border-radius: 10px;
   height: 100%;
-  color: white;
+  color: white !important;
   border: none;
   font-size: 16px;
   max-width: 12vh;
@@ -222,7 +222,7 @@
   left: 0px;
   height: 100%;
   top: 0px;
-  width: 37%;
+  width: 28%;
   max-width: 706px;
   background: #999999;
   display: flex;
@@ -391,8 +391,8 @@ right: 0px;
   
   border: 1px solid #999999;
 }
-.h-83{
-  height: 83vh;
+.h-70{
+  height: 70vh;
 }
 .chatUserName {
   font-family: 'Open Sans';
