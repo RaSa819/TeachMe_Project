@@ -86,20 +86,6 @@ export default function Session() {
   }, [answer]);
 
 
-  
-  const handleStopSharing = () => {
-    stopScreenSharing(); 
-    setIsSharingScreen(false); 
-    setScreenBtn(false); 
-  }
-
-
-  const handleStartSharing = () => {
-    startScreenSharing(handleStopSharing); 
-    setIsSharingScreen(true);
-  }
-
-
   let micRender;
   if (isMicEnabled) {
     micRender = <button className='mic-btn active-btn' onClick={handleMicToggle} />
@@ -130,50 +116,33 @@ export default function Session() {
 
   let shareRender;
   if (screenBtn) {
-    shareRender = <button className='upload-active-btn active-btn' onClick={handleStopSharing} />
+    shareRender = <button className='upload-active-btn active-btn' onClick={() => { stopScreenSharing(); setIsSharingScreen(false); setScreenBtn(false); }} />
   } else {
     shareRender = <button className='upload-btn' onClick={() => setScreenBtn(true)} />
   }
   const [rateValue, setRateValue] = React.useState(3);
 
+
+
+
   return (
-    <div style={{ height: 'calc(100vh - 80px)', marginTop: '80px', overflow: 'none' }}>
+    <div style={{ height: 'calc(100vh - 80px)', marginTop: '80px' }}>
       <div className='bg-session'>
+        <div className='contain'>
+          <div className='img-set' >
+            <img src={img2} alt=""></img>
+          </div>
 
-<div className='main-content'>
-
-{!isSharingScreen && <div className='camera-section'>
+          <div className='camera-section'>
             <div>
               <video ref={remoteVideoRef} autoPlay style={{ height: "230px" }} />
             </div>
-            <div >
+            <div style={{ display: isRemoteSharingScreen ? 'none' : 'block' }}>
               <video ref={localVideoRef} autoPlay muted style={{ width: "100%", height: "265px" }} />
             </div>
-          </div>}
-
-        <div className={'contain ' + (isSharingScreen ? 'sharingScreen' : '')} >
-          {!isSharingScreen && <div className='img-set' >
-            <img src={img2} alt=""></img>
-          </div>}
-
-          {
-            isSharingScreen && <div className='sharingText'> You are now sharing your screen...</div>
-          }
-          {/* {
-            <video 
-              id="screenSharingContainer" 
-              style={{ display: !isSharingScreen ? 'none' : 'block' }}  
-              autoPlay 
-                
-              />
-          } */}
+          </div>
         </div>
 
-</div>
-    
-
-
-          
         {chatBtn ?
           <div className='chat-btn justify-content-between'>
             <div className='chat-h'><p className='chatP m-0'>{language.Chat}</p></div>
@@ -255,7 +224,7 @@ export default function Session() {
 
         {(screenBtn && !isSharingScreen) ? <div className='screen-share'>
           <p className='mb-5'>{language.YouAreAboutToShare}</p>
-          <button onClick={handleStartSharing}>{language.StartSharing}</button>
+          <button onClick={() => { startScreenSharing(); setIsSharingScreen(true); }}>{language.StartSharing}</button>
         </div>
           : ''}
 
@@ -281,7 +250,7 @@ export default function Session() {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleCloseRate} className='endC-btn'>{language.Submit}</Button>
+                <Button onClick={handleCloseRate}  className='endC-btn'>{language.Submit}</Button>
               </DialogActions>
             </Dialog>
             {quizRender}

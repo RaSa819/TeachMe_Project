@@ -19,7 +19,7 @@ header .navbar-brand {
 
 body {
   background-color: #f4f4f8;
-  /* min-height: 200vh; */
+  min-height: 200vh;
 }
 header {
   position: fixed;

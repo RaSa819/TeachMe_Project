@@ -135,16 +135,12 @@ export default function useRTCSession() {
     localStream.current.getAudioTracks()[0].enabled = isEnabled;
   }, []);
 
-  const startScreenSharing = useCallback(async (endedCallback) => {
-    // const videoElem = document.getElementById("screenSharingContainer");
-    // videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia({ cursor: true });
+  const startScreenSharing = useCallback(async () => {
     const displayStream = await navigator.mediaDevices.getDisplayMedia({ cursor: true });
-
     screenTrack.current = displayStream.getTracks()[0];
     localTracks.current.find(sender => sender.track.kind === 'video').replaceTrack(screenTrack.current);
     screenTrack.current.onended = () => {
       localTracks.current.find(sender => sender.track.kind === "video").replaceTrack(localStream.current.getVideoTracks()[0]);
-      endedCallback?.();
     };
     
     socket.emit('screen-sharing-start', { sessionID, type });
