@@ -243,8 +243,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                         variant="text">{languagee.FindTutors}</Button>
 
                                     <Button className={classes.btn + " " + classes.top}
-                                        onClick={handleLogout} variant="text" >{languagee.Login}</Button>
-
+                                        onClick={() => navigate('/login')} variant="text" >{languagee.Login}</Button>
 
                                 </ButtonGroup>
                             </Box>
@@ -257,7 +256,17 @@ export default function NavBar({ language, setLanguage, pageName }) {
 
 
             {(pageName !== "HomePage") &&
-                <AppBar position="static" sx={{ background: 'white', textAlign: 'left', color: '#D90429', display: 'block', maxHeight: '5em' }}>
+                <AppBar 
+                position="static" 
+                
+                sx={{ 
+                    background: 'white', 
+                    textAlign: 'left', 
+                    color: '#D90429', 
+                    display: 'block', 
+                    maxHeight: '5em',
+                    position: (pageName === 'Session' ? 'absolute': 'static')
+                }}>
                     <Container maxWidth="xl" >
                         <Toolbar disableGutters sx={{ padding: 0 }}>
                             <a className="navbar-brand" style={{ width: '80%', paddingTop: '0.6125rem' }}
@@ -329,6 +338,7 @@ export default function NavBar({ language, setLanguage, pageName }) {
                                             </Button>
                                         </ButtonGroup>
                                         <Popper
+                                            className={classes.popperLi}
                                             open={open}
                                             anchorEl={anchorRef.current}
                                             role={undefined}

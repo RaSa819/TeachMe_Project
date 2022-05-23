@@ -51,9 +51,10 @@ export default function Edit() {
       .number('Enter your ZIP')
       .required(language.ZIPRequired),
     phoneNumber: yup
-      .number('Enter your phone number ')
-      .required(language.PhoneRequired)
-      .test('len', 'Must be exactly 10 numbers', val => val.toString().length === 10),
+      .string('Enter your phone number')
+      .length(10, 'Must be exactly 10 numbers')
+      .matches(/[0-9]+/gi, "Enter number only")
+      .required(language.PhoneRequired),
     gender: yup
       .string('Enter your gender ')
       .required(language.GenderRequired)

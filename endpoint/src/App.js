@@ -228,12 +228,12 @@ export default function App() {
 
                                         <Route path="Payment"
                                             element={
-                                                <IsAuth><Payment /></IsAuth>
+                                                <IsAuth><Payment language={language} /></IsAuth>
                                             } />
 
                                         <Route path="session/:sessionID"
                                             element={
-                                                <IsAuth><Session /></IsAuth>
+                                                <IsAuth><ContentPage name="Session" setLanguage={updateLanguage} /></IsAuth>
                                             } />
                                     </Route>
 
