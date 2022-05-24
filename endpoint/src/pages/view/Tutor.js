@@ -35,7 +35,8 @@ function ViewTutor() {
     const [tutor, setTutor] = useState({
         name: {},
         address: {},
-        profile: {}
+        profile: {},
+        rate: 0
     })
     const fetchData = async () => {
         const axio1 = axios.get(`http://localhost:4000/user/getTutor/${id}`)
@@ -60,7 +61,7 @@ function ViewTutor() {
 
   const TutorCard = (props) => {
     const language = React.useContext(LanguageContext);
-      const { tutor ,rate} = props;
+      const { tutor } = props;
       let countryName = ''
       if (tutor.address.country) {
           let country = countries.find(v => v.code === tutor.address.country);
@@ -71,7 +72,7 @@ function ViewTutor() {
       return (
           <div>
               <h4>{tutor.name.firstName + ' '} {tutor.name.middleName} {tutor.name.lastName}</h4>
-              <Rating name="read-only" value={rate ? rate : 4} readOnly />
+              <Rating name="read-only" value={tutor.rate ? tutor.rate : 0} precision={0.5} readOnly />
 
                 <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
                 <Divider sx={{ width: 300 }} />

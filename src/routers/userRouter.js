@@ -118,6 +118,8 @@ module.exports = (app, io) => { // event when the client connect to the server
 
     app.get('/student/getFavortieListInfo/:id', userController.getFavortieListInfo)
 
+    app.post('/user/rate', userController.rateUser)
+
     // app.post('/student/addToFavorite',userController.addToFavorite);
 
     app.get('/fetch', userController.fetchImage)

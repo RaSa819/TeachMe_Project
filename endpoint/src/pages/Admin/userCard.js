@@ -39,7 +39,7 @@ const RedCapitalizedButton = withStyles((theme) => ({
 export default function UserCard(props) {
     const language = React.useContext(LanguageContext);
     const { openDialog, closeDialog } = useDialog();
-    const { name, country, joinedDate, description, stars, id, type, setEditDat, data, fetchUser } = props;
+    const { name, country, joinedDate, description, id, type, setEditDat, data, fetchUser } = props;
     let countryName = ''
     if (country) {
         let countryItem = countries.find(v => v.code === country);
@@ -103,7 +103,7 @@ export default function UserCard(props) {
                 <h6 style={{ display: 'inline-block', width: '90%' }}>{name.firstName + ' '} {name.middleName} {name.lastName}</h6>
 
                 <div>
-                    <Rating name="read-only" value={stars} readOnly />
+                    <Rating name="read-only" value={data.rate ? data.rate : 0} precision={0.5} readOnly />
 
                     <span style={{ marginLeft: 15, fontSize: 12 }}>{countryName}</span>
                 </div>

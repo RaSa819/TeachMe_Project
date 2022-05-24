@@ -74,7 +74,7 @@ export default function Edit() {
       street: userDetail.address?.street,
       ZIP: userDetail.address?.ZIP,
       gender: userDetail.gender,
-      phoneNumber: userDetail.phoneNumber
+      phoneNumber: userDetail.phoneNumber[0]
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {

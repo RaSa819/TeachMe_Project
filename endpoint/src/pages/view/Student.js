@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios'
 import { countries } from '../../general/datas';
 import NavBar from '../../components/topBar/navBar';
+import Rating from '@mui/material/Rating';
 
 export default () => {
     return (
@@ -32,7 +33,8 @@ function ViewStudent() {
     const [student, setStudent] = useState({
         name: {},
         address: {},
-        profile: {}
+        profile: {},
+        rate: 0
     })
     const fetchData = async () => {
         const axio1 = axios.get(`http://localhost:4000/user/getUserStudent/${id}`)
@@ -66,8 +68,7 @@ function ViewStudent() {
       return (
           <div>
               <h4>{student.name.firstName + ' '} {student.name.middleName} {student.name.lastName}</h4>
-                <StarIcon sx={{ color: '#f5de2f' }} /><StarIcon sx={{ color: '#f5de2f' }} />
-                <StarIcon sx={{ color: '#f5de2f' }} /><StarIcon sx={{ color: '#f5de2f' }} /><StarBorderIcon sx={{ color: '#f5de2f' }} />
+                <Rating name="read-only" value={student.rate ? student.rate : 0} precision={0.5} readOnly />
                 {/* <img src={tutor.img} style={{ width: 20, marginLeft: 20 }}></img> */}
                 <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
                 <Divider sx={{ width: 300 }} />

@@ -5,15 +5,17 @@ import './Session.css'
 import { LanguageContext } from '../../App';
 import useTutorQuiz from '../../hooks/useTutorQuiz';
 import useStudentQuiz from '../../hooks/useStudentQuiz';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Rating from '@mui/material/Rating';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import axios from 'axios'
 
 export default function Session() {
+  let { sessionID } = useParams();
   const language = React.useContext(LanguageContext);
   let navigate = useNavigate();
   const [openRates, setOpenRates] = React.useState(false);
@@ -37,6 +39,23 @@ export default function Session() {
   const handleCloseRate = () => {
     setOpenRates(false);
     navigate('/homePage')
+  };
+
+  const handleRate = () => {
+    let ratingObj = {
+      sessionID: sessionID,
+      rate: rateValue,
+      ratingTo: localStorage.getItem('type') === '1' ? 'student' : 'tutor',
+      userID: localStorage.getItem('token')
+    }
+    console.log('ratingObj::', ratingObj)
+    setOpenRates(false);
+    axios.post('http://localhost:4000/user/rate', ratingObj).then((data) => {
+      console.log(data)
+      navigate('/home')
+    }).catch((error) => {
+        console.log("There is some error " + error)
+    })
   };
 
 
@@ -281,7 +300,7 @@ export default function Session() {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleCloseRate} className='endC-btn'>{language.Submit}</Button>
+                <Button onClick={handleRate} className='endC-btn'>{language.Submit}</Button>
               </DialogActions>
             </Dialog>
             {quizRender}

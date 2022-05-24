@@ -11,15 +11,21 @@ import { LanguageContext } from '../../App';
 export default function Profile() {
   const language = React.useContext(LanguageContext);
   // const [img, setImg] = React.useState('');
-  const [userData, setUserData] = React.useState({name: {}, address: {}, profile: {}});
+  const [userData, setUserData] = React.useState({name: {}, address: {}, profile: {}, rate: 0});
 
-
-
-  React.useEffect(async () => {
-    const userData = JSON.parse(localStorage.getItem('userDetail')) || {};
-    console.log('userData::', userData)
-    setUserData(userData);
-  }, []);
+  const fetchData = async () => {
+    const axio1 = axios.get(`http://localhost:4000/user/getTutor/${localStorage.getItem('token')}`)
+    await axios.all([axio1]).then(axios.spread((res1) => {
+      setUserData(res1.data);
+      // localStorage.removeItem('userDetail')
+      // localStorage.setItem('userDetail', JSON.stringify(res1.data))
+    })).catch((error) => {
+        alert(JSON.stringify(error, null, 0))
+    })
+  }
+  React.useEffect(() => {
+    fetchData()
+  }, [])
 
   let countryName = ''
   if (userData.address?.country) {
@@ -32,7 +38,7 @@ export default function Profile() {
   return (
     <div className={classes.profileDiv} >
       <h4>{userData.name.firstName + ' '} {userData.name.middleName} {userData.name.lastName}</h4>
-      <Rating name="read-only" value={userData.stars || 3} readOnly />
+      <Rating name="read-only" value={userData.rate || 3} precision={0.5} readOnly />
       <div>
         <PublicIcon />
         {/* <img src={img} style={{ display: "inline-block", width: 20 }}></img> */}

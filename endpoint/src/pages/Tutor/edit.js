@@ -103,7 +103,7 @@ export default function Edit() {
       street: userDetail.address?.street,
       ZIP: userDetail.address?.ZIP,
       gender: userDetail.gender,
-      phoneNumber: userDetail.phoneNumber,
+      phoneNumber: userDetail.phoneNumber[0],
       dept: userDetail.dept_id,
       about: userDetail.profile?.about,
       certifications: userDetail.profile?.certifications,
