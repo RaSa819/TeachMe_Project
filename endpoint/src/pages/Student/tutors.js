@@ -60,6 +60,9 @@ export default function Tutors() {
                 experience={
                   item.profile.experience
                 }
+                rate={
+                  item.rate
+                }
                 status={
                   item.status
                 }

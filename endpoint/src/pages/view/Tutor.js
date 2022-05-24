@@ -72,7 +72,7 @@ function ViewTutor() {
       return (
           <div>
               <h4>{tutor.name.firstName + ' '} {tutor.name.middleName} {tutor.name.lastName}</h4>
-              <Rating name="read-only" value={tutor.rate ? tutor.rate : 0} precision={0.5} readOnly />
+              <Rating name="read-only" value={tutor.rate ? tutor.rate : 0} precision={0.25} readOnly />
 
                 <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
                 <Divider sx={{ width: 300 }} />

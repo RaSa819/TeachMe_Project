@@ -403,6 +403,10 @@ export default function Card() {
                                 about={
                                     item.profile.about
                                 }
+                                
+                                rate={
+                                    item.rate
+                                }
                                 experience={
                                     item.profile.experience
                                 }

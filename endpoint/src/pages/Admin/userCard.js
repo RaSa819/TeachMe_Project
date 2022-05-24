@@ -103,7 +103,7 @@ export default function UserCard(props) {
                 <h6 style={{ display: 'inline-block', width: '90%' }}>{name.firstName + ' '} {name.middleName} {name.lastName}</h6>
 
                 <div>
-                    <Rating name="read-only" value={data.rate ? data.rate : 0} precision={0.5} readOnly />
+                    <Rating name="read-only" value={data.rate ? data.rate : 0} precision={0.25} readOnly />
 
                     <span style={{ marginLeft: 15, fontSize: 12 }}>{countryName}</span>
                 </div>

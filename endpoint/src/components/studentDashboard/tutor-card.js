@@ -58,7 +58,7 @@ export default function TutorCard(props) {
                     }}
                 />
                 <div>
-                    <Rating name="read-only" value={rate ? rate : 0} readOnly />
+                    <Rating name="read-only" value={rate ? rate : 0}  precision={0.25} readOnly />
                     <span style={{ marginLeft: 15, fontSize: 12 }}>{countryName}</span>
                 </div>
 
