@@ -176,16 +176,14 @@ export default function Session() {
     <div style={{ height: 'calc(100vh - 80px)', marginTop: '80px', overflow: 'none' }}>
       <div className='bg-session'>
         <div className='main-content'>
-          {!isSharingScreen && (
-            <div className='camera-section'>
-              <div>
-                <video ref={remoteVideoRef} autoPlay style={{ height: "230px" }} />
-              </div>
-              <div >
-                <video ref={localVideoRef} autoPlay muted style={{ width: "100%", height: "265px" }} />
-              </div>
+          <div className='camera-section' style={{ display: isSharingScreen ? 'none' : 'initial' }}>
+            <div>
+              <video ref={remoteVideoRef} autoPlay style={{ height: "230px" }} />
             </div>
-          )}
+            <div >
+              <video ref={localVideoRef} autoPlay muted style={{ width: "100%", height: "265px" }} />
+            </div>
+          </div>
 
           <div className={'contain ' + (isSharingScreen ? 'sharingScreen' : '')} >
             {!isSharingScreen && <div className='img-set' ><img src={img2} alt="" /></div>}
