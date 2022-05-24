@@ -170,8 +170,8 @@
         "PaymentPleaseWait": "Please wait, processing payment from the student...",
         "End":"End",
         "HowWasYourExperience":"How was your experience?",
-        "Submit":"Submit"
-
+        "Submit":"Submit",
+        "YouAreSharingScreen": "You are now sharing your screen..."
 
     },
 
@@ -344,8 +344,8 @@
         "PaymentPleaseWait": "يرجى الانتظار ، لحين انتهاء عملية الدفع من قبل الطالب",
         "End":"انهاء",
         "HowWasYourExperience":"كيف كانت تجربتك ؟",
-        "Submit":"إرسال"
-        
+        "Submit":"إرسال",
+        "YouAreSharingScreen": "جاري مشاركة الشاشة"
 
     }
 }

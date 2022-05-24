@@ -51,9 +51,9 @@
 .endC-btn {
   background: #D90429 !important;
   border-radius: 10px;
-  height: 100%;
+  height: 39px;
   color: white !important;
-  border: none;
+  /* border: none; */
   font-size: 16px;
   max-width: 12vh;
   min-width: 12vh;
@@ -75,6 +75,7 @@
 
 .sharingText{
   margin-top: 15%;
+  color: white;
 }
 
 .call-btns button {
@@ -85,6 +86,8 @@
   border: none;
   flex-grow: 1;
   background-size:39% 39%;
+  background-color: #212529;
+  border: 1px solid #212529;
 }
 
 .btns-end>button:nth-child(2) {
@@ -117,14 +120,14 @@
   background-color: #212529;
   background-size: 28px 28px;
   border-radius: 20px;
-  height: 100%;
+  height: 37px;
   width: 100%;
 }
 
 .textBtnActive {
   background-color: #495057 !important;
   width: 70px;
-  /* height: 100%; */
+  height: 37px;
   max-width: 12vh;
   border-radius: 13px;
   display: flex;
@@ -139,7 +142,7 @@
 .textBtn {
   background-color: #212529 !important;
   width: 70px;
-  /* height: 100%; */
+  height: 37px;
   max-width: 12vh;
   border-radius: 13px;
   display: flex;
@@ -166,37 +169,49 @@
 
 .mic-btn {
   background-image: url(../../assets/images/mic.svg);
+  border-radius: 10px 0 0 10px;
 }
 
 .mic-off-btn {
   background-image: url(../../assets/images/mic-off.svg);
+  border-radius: 10px 0 0 10px;
 }
 
 .camera-btn {
   background-image: url(../../assets/images/camera.svg);
+  border-radius: 0;
 }
 
 .upload-btn {
   background-image: url(../../assets/images/upload.svg);
+  border-radius: 0;
 }
 .upload-active-btn{
   background-image: url(../../assets/images/upload-active.svg);
+  border-radius: 0;
 }
 
 .text-btn {
   background-image: url(../../assets/images/text.svg);
+  border-radius:  10px;
 }
 
 .text-active-btn {
   background-image: url(../../assets/images/text-active.svg);
+  border-radius:  10px;
+
 }
 
 .message-btn {
   background-image: url(../../assets/images/messages.svg);
+  border-radius:  0 10px 10px 0 !important;
+
 }
 
 .message-active-btn {
   background-image: url(../../assets/images/messages-active.svg);
+  border-radius:  0 10px 10px 0 !important;
+
 }
 
 .camera-active-btn {
@@ -213,7 +228,8 @@
 
 .active-btn {
   background-color: #495057 !important;
-  border-radius: 20px;
+  /* border-radius: 20px; */
+  border: 1px solid #3f3f3f !important;
 }
 
 .btns-end {
@@ -237,14 +253,15 @@
 .camera-section {
   position: absolute;
   left: 0px;
-  height: 100%;
+  height: calc(100% - 10vh);
   top: 0px;
-  width: 28%;
+  /* width: 28%; */
   max-width: 706px;
   background: #999999;
   display: flex;
   flex-direction: column;
-  min-width: 350px;
+  min-width: 200px;
+  max-width: 320px;
 }
 
 
@@ -271,7 +288,8 @@
   align-items: center;
 }
 
-.camera-section>div:nth-child(2) {
+.camera-section > div {
+  height: 50%;
   border: 1px solid black;
 }
 

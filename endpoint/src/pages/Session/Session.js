@@ -189,7 +189,7 @@ export default function Session() {
 
           <div className={'contain ' + (isSharingScreen ? 'sharingScreen' : '')} >
             {!isSharingScreen && <div className='img-set' ><img src={img2} alt="" /></div>}
-            {isSharingScreen && <div className='sharingText'> You are now sharing your screen...</div>}
+            {isSharingScreen && <div className='sharingText'> {language.YouAreSharingScreen} </div>}
           </div>
         </div>
 
