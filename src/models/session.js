@@ -32,6 +32,16 @@ const session = mongoose.Schema({
     },
   },
 
+  chatMessages: {
+    default: [],
+    type: [{
+      _id: mongoose.Schema.Types.ObjectId,
+      userName: mongoose.Schema.Types.String,
+      time: mongoose.Schema.Types.Date,
+      message: mongoose.Schema.Types.String,
+    }],
+  },
+
   // The information of payment operation 
   TransactionPayInfo:mongoose.Schema.Types.Mixed,
   request:mongoose.Schema.Types.ObjectId,
