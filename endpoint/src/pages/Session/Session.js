@@ -1,29 +1,24 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import img2 from '../../assets/images/Vector.svg';
 import useRTCSession from '../../hooks/useRTCSession';
 import './Session.css'
 import { LanguageContext } from '../../App';
 import useTutorQuiz from '../../hooks/useTutorQuiz';
 import useStudentQuiz from '../../hooks/useStudentQuiz';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Rating from '@mui/material/Rating';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import axios from 'axios'
-import { SocketContext } from "../../Socket";
 
 export default function Session() {
-  let { sessionID } = useParams();
   const language = React.useContext(LanguageContext);
   let navigate = useNavigate();
   const [openRates, setOpenRates] = React.useState(false);
-  const socket = useContext(SocketContext);
 
   const {
-    peerConnection,
     localVideoRef,
     remoteVideoRef,
     isRemoteSharingScreen,
@@ -35,40 +30,13 @@ export default function Session() {
   } = useRTCSession();
 
   const endCallOpenRates = () => {
+    endCall();
     setOpenRates(true);
   };
-
-  const [fromOtherPeer, setFromOtherPeer] = React.useState(false);
-
-  socket.on('end-call', () => {
-    setOpenRates(true);
-    setFromOtherPeer(true)
-  })
 
   const handleCloseRate = () => {
     setOpenRates(false);
     navigate('/homePage')
-  };
-
-  const handleRate = () => {
-    let ratingObj = {
-      sessionID: sessionID,
-      rate: rateValue,
-      ratingTo: localStorage.getItem('type') === '1' ? 'student' : 'tutor',
-      userID: localStorage.getItem('token')
-    }
-    setOpenRates(false);
-    axios.post('http://localhost:4000/user/rate', ratingObj).then((data) => {
-      console.log(data)
-      if (fromOtherPeer) {
-        peerConnection.close()
-      } else {
-        endCall();
-      }
-      navigate('/home')
-    }).catch((error) => {
-        console.log("There is some error " + error)
-    })
   };
 
 
@@ -118,16 +86,16 @@ export default function Session() {
   }, [answer]);
 
 
-  
+
   const handleStopSharing = () => {
-    stopScreenSharing(); 
-    setIsSharingScreen(false); 
-    setScreenBtn(false); 
+    stopScreenSharing();
+    setIsSharingScreen(false);
+    setScreenBtn(false);
   }
 
 
   const handleStartSharing = () => {
-    startScreenSharing(handleStopSharing); 
+    startScreenSharing(handleStopSharing);
     setIsSharingScreen(true);
   }
 
@@ -172,9 +140,9 @@ export default function Session() {
     <div style={{ height: 'calc(100vh - 80px)', marginTop: '80px', overflow: 'none' }}>
       <div className='bg-session'>
 
-<div className='main-content'>
+        <div className='main-content'>
 
-{!isSharingScreen && <div className='camera-section'>
+          {!isSharingScreen && <div className='camera-section'>
             <div>
               <video ref={remoteVideoRef} autoPlay style={{ height: "230px" }} />
             </div>
@@ -183,15 +151,15 @@ export default function Session() {
             </div>
           </div>}
 
-        <div className={'contain ' + (isSharingScreen ? 'sharingScreen' : '')} >
-          {!isSharingScreen && <div className='img-set' >
-            <img src={img2} alt=""></img>
-          </div>}
+          <div className={'contain ' + (isSharingScreen ? 'sharingScreen' : '')} >
+            {!isSharingScreen && <div className='img-set' >
+              <img src={img2} alt=""></img>
+            </div>}
 
-          {
-            isSharingScreen && <div className='sharingText'> You are now sharing your screen...</div>
-          }
-          {/* {
+            {
+              isSharingScreen && <div className='sharingText'> You are now sharing your screen...</div>
+            }
+            {/* {
             <video 
               id="screenSharingContainer" 
               style={{ display: !isSharingScreen ? 'none' : 'block' }}  
@@ -199,13 +167,13 @@ export default function Session() {
                 
               />
           } */}
+          </div>
+
         </div>
 
-</div>
-    
 
 
-          
+
         {chatBtn ?
           <div className='chat-btn justify-content-between'>
             <div className='chat-h'><p className='chatP m-0'>{language.Chat}</p></div>
@@ -313,7 +281,7 @@ export default function Session() {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleRate} className='endC-btn'>{language.Submit}</Button>
+                <Button onClick={handleCloseRate} className='endC-btn'>{language.Submit}</Button>
               </DialogActions>
             </Dialog>
             {quizRender}
