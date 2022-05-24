@@ -39,7 +39,7 @@ export default function Profile() {
   return (
     <div className={classes.profileDiv} >
       <h4>{student.name.firstName + ' '} {student.name.middleName} {student.name.lastName}</h4>
-      <Rating name="read-only" value= {student.rate} precision={0.5} readOnly />
+      <Rating name="read-only" value= {student.rate ? student.rate : 0} precision={0.25} readOnly />
       <div>
      <PublicIcon/>
       <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>

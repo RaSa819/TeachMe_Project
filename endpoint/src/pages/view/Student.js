@@ -68,7 +68,7 @@ function ViewStudent() {
       return (
           <div>
               <h4>{student.name.firstName + ' '} {student.name.middleName} {student.name.lastName}</h4>
-                <Rating name="read-only" value={student.rate ? student.rate : 0} precision={0.5} readOnly />
+                <Rating name="read-only" value={student.rate ? student.rate : 0} precision={0.25} readOnly />
                 {/* <img src={tutor.img} style={{ width: 20, marginLeft: 20 }}></img> */}
                 <p style={{ display: "inline-block", marginLeft: 10 }}>{countryName}</p>
                 <Divider sx={{ width: 300 }} />

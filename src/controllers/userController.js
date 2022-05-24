@@ -195,6 +195,7 @@ exports.fetchTutors = async (req, res) => {
             user.find(userFilter, {
                 _id: 1,
                 name: 1,
+                rate: 1,
                 date: 1,
                 gender: 1,
                 type: 1

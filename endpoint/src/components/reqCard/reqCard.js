@@ -12,7 +12,7 @@ import { LanguageContext } from '../../App';
 
 export default (props) => {
   const language = React.useContext(LanguageContext);
-  const { title, name, stars, id, enable, fetchData } = props;
+  const { title, name, rate, id, enable, fetchData } = props;
   const data = props.data ? props.data : null
   const socket = useContext(SocketContext)
   let push = async (status) => {
@@ -43,7 +43,7 @@ export default (props) => {
 
         <div style={{ width: '90%',marginBottom:"10px" }}>
           <span style={{fontSize:"14px",marginRight:"10px"}}>{name}</span>
-          <Rating  name="read-only" value={stars} readOnly />
+          <Rating  name="read-only" value={rate ? rate : 0}  precision={0.25} readOnly />
         </div>
         <Divider light sx={{width:"40%",marginBottom:"10px"}} />
         <span style={{fontWeight:"bold",fontSize:"14px"}}>{title}</span>

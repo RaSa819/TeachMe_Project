@@ -38,7 +38,7 @@ export default function Profile() {
   return (
     <div className={classes.profileDiv} >
       <h4>{userData.name.firstName + ' '} {userData.name.middleName} {userData.name.lastName}</h4>
-      <Rating name="read-only" value={userData.rate || 3} precision={0.5} readOnly />
+      <Rating name="read-only" value={userData.rate || 0} precision={0.25} readOnly />
       <div>
         <PublicIcon />
         {/* <img src={img} style={{ display: "inline-block", width: 20 }}></img> */}
