@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import img2 from '../../assets/images/Vector.svg';
 import useRTCSession from '../../hooks/useRTCSession';
 import './Session.css'
@@ -13,14 +13,17 @@ import Rating from '@mui/material/Rating';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import axios from 'axios'
+import { SocketContext } from "../../Socket";
 
 export default function Session() {
   let { sessionID } = useParams();
   const language = React.useContext(LanguageContext);
   let navigate = useNavigate();
   const [openRates, setOpenRates] = React.useState(false);
+  const socket = useContext(SocketContext);
 
   const {
+    peerConnection,
     localVideoRef,
     remoteVideoRef,
     isRemoteSharingScreen,
@@ -32,9 +35,15 @@ export default function Session() {
   } = useRTCSession();
 
   const endCallOpenRates = () => {
-    endCall();
     setOpenRates(true);
   };
+
+  const [fromOtherPeer, setFromOtherPeer] = React.useState(false);
+
+  socket.on('end-call', () => {
+    setOpenRates(true);
+    setFromOtherPeer(true)
+  })
 
   const handleCloseRate = () => {
     setOpenRates(false);
@@ -48,10 +57,14 @@ export default function Session() {
       ratingTo: localStorage.getItem('type') === '1' ? 'student' : 'tutor',
       userID: localStorage.getItem('token')
     }
-    console.log('ratingObj::', ratingObj)
     setOpenRates(false);
     axios.post('http://localhost:4000/user/rate', ratingObj).then((data) => {
       console.log(data)
+      if (fromOtherPeer) {
+        peerConnection.close()
+      } else {
+        endCall();
+      }
       navigate('/home')
     }).catch((error) => {
         console.log("There is some error " + error)

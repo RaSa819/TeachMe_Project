@@ -101,7 +101,7 @@ export default function useRTCSession() {
       remoteVideoRef.current.srcObject = remoteStream.current;
       localVideoRef.current.srcObject = localStream.current;
 
-      socket.on('end-call', () => {
+      socket.on('end-call-test', () => {
         try { peerConnection.current.close() } catch {}
         navigate('/login')
       })
