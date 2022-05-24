@@ -434,12 +434,27 @@ io.on('connection', socket => {
         await sessionModel.updateOne({ _id: sessionID }, { $set: { isEnded: true } });
     });
 
-    socket.on('send-quiz', async ({ sessionID, type, quiz }) => {
+    socket.on('send-quiz', async ({ sessionID, quiz }) => {
         await sessionModel.updateOne({ _id: sessionID }, { $set: { quiz } });
     });
 
-    socket.on('send-quiz-answer', async ({ sessionID, type, quizAnswer }) => {
+    socket.on('send-quiz-answer', async ({ sessionID, quizAnswer }) => {
         await sessionModel.updateOne({ _id: sessionID }, { $set: { 'quiz.answer': quizAnswer } });
+    });
+
+    socket.on('send-chat-message', async ({ sessionID, type, message }) => {
+        const session = await sessionModel.findById(sessionID);
+        const requestObj = await request.findById(session.request);
+        const userObj = await user.findById(type === 0 ? requestObj.student : requestObj.tutor);
+        await sessionModel.updateOne({ _id: sessionID }, {
+            $push: {
+                chatMessages: {
+                    message,
+                    time: new Date(),
+                    userName: userObj.userName
+                },
+            },
+        });
     });
 
 
@@ -590,6 +605,18 @@ sessionModel.watch({ fullDocument: 'updateLookup' }).on('change', async ({ opera
 
         if (typeof updateDescription.updatedFields['quiz.answer'] === 'number' && tutorUser) {
             io.to(tutorUser.id).emit('quiz-answer', updateDescription.updatedFields['quiz.answer']);
+        }
+
+        for (const [key, value] of Object.entries(updateDescription.updatedFields)) {
+            if (key.startsWith('chatMessages.')) {
+                if (tutorUser) {
+                    io.to(tutorUser.id).emit('chat-message', value);
+                }
+    
+                if (studentUser) {
+                    io.to(studentUser.id).emit('chat-message', value);
+                }
+            }
         }
     }
 });
