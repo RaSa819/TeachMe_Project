@@ -20,6 +20,7 @@ export default function useRTCSession() {
   const peerConnection = useRef(new RTCPeerConnection(servers));
   const localStream = useRef();
   const remoteStream = useRef(new MediaStream());
+
   const localTracks = useRef([]);
   const screenTrack = useRef();
 
@@ -81,8 +82,8 @@ export default function useRTCSession() {
           });
       });
 
-      socket.on('screen-sharing-start', () => setIsRemoteSharingScreen(true));
-      socket.on('screen-sharing-end', () => setIsRemoteSharingScreen(false));
+      // socket.on('screen-sharing-start', () => setIsRemoteSharingScreen(true));
+      // socket.on('screen-sharing-end', () => setIsRemoteSharingScreen(false));
 
       localStream.current = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -142,6 +143,7 @@ export default function useRTCSession() {
 
     screenTrack.current = displayStream.getTracks()[0];
     localTracks.current.find(sender => sender.track.kind === 'video').replaceTrack(screenTrack.current);
+    
     screenTrack.current.onended = () => {
       localTracks.current.find(sender => sender.track.kind === "video").replaceTrack(localStream.current.getVideoTracks()[0]);
       endedCallback?.();
@@ -168,6 +170,7 @@ export default function useRTCSession() {
     peerConnection: peerConnection.current,
     localStream: localStream.current,
     remoteStream: remoteStream.current,
+    screenTrack,
     remoteVideoRef,
     localVideoRef,
     isRemoteSharingScreen,
