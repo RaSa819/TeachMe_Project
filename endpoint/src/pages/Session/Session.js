@@ -22,12 +22,13 @@ export default function Session() {
   let navigate = useNavigate();
   const [openRates, setOpenRates] = React.useState(false);
   const socket = useContext(SocketContext);
-
+  const [screenSharingFomRemote, setScreenSharingFomRemote] = useState(false);
   const {
     peerConnection,
     localVideoRef,
     remoteVideoRef,
-    // isRemoteSharingScreen,
+    isRemoteSharingScreen,
+    screenTrack,
     toggleCamera,
     toggleMic,
     startScreenSharing,
@@ -45,6 +46,14 @@ export default function Session() {
     setOpenRates(true);
     setFromOtherPeer(true)
   })
+
+
+  socket.on('screen-sharing-start', () => {
+    setScreenSharingFomRemote(true);
+  });
+  socket.on('screen-sharing-end', () => {
+    setScreenSharingFomRemote(false);
+  });
 
   const handleCloseRate = () => {
     setOpenRates(false);
@@ -68,7 +77,7 @@ export default function Session() {
       }
       navigate('/home')
     }).catch((error) => {
-        console.log("There is some error " + error)
+      console.log("There is some error " + error)
     })
   };
 
@@ -122,16 +131,16 @@ export default function Session() {
   }, [answer]);
 
 
-  
+
   const handleStopSharing = () => {
-    stopScreenSharing(); 
-    setIsSharingScreen(false); 
-    setScreenBtn(false); 
+    stopScreenSharing();
+    setIsSharingScreen(false);
+    setScreenBtn(false);
   }
 
 
   const handleStartSharing = () => {
-    startScreenSharing(handleStopSharing); 
+    startScreenSharing(handleStopSharing);
     setIsSharingScreen(true);
   }
 
@@ -176,18 +185,21 @@ export default function Session() {
     <div style={{ height: 'calc(100vh - 80px)', marginTop: '80px', overflow: 'none' }}>
       <div className='bg-session'>
         <div className='main-content'>
-          <div className='camera-section' style={{ display: isSharingScreen ? 'none' : 'initial' }}>
+          <div className={screenSharingFomRemote ? "screenShareActive camera-section" : "camera-section"}
+            style={{ display: isSharingScreen ? 'none' : 'initial' }}>
             <div>
-              <video ref={remoteVideoRef} autoPlay style={{ height: "230px" }} />
+              <video ref={remoteVideoRef} className="screenShareVideo" autoPlay style={{ height: "230px" }} />
             </div>
             <div >
-              <video ref={localVideoRef} autoPlay muted style={{ width: "100%", height: "265px" }} />
+              <video ref={localVideoRef} autoPlay muted style={{ width: "100%", height: "265px", display: (isSharingScreen || screenSharingFomRemote) ? 'none' : 'initial' }} />
             </div>
           </div>
 
           <div className={'contain ' + (isSharingScreen ? 'sharingScreen' : '')} >
-            {!isSharingScreen && <div className='img-set' ><img src={img2} alt="" /></div>}
+            {!isSharingScreen && !screenSharingFomRemote && <div className='img-set' ><img src={img2} alt="" /></div>}
             {isSharingScreen && <div className='sharingText'> {language.YouAreSharingScreen} </div>}
+            {/* <video ref={remoteVideoRef} id="sharedScreenVideo" autoPlay style={{ display: (isSharingScreen || isRemoteSharingScreen) ? 'none' : 'initial' }}/> */}
+
           </div>
         </div>
 
@@ -290,12 +302,7 @@ export default function Session() {
 
 
         <div className='footer'>
-          <div style={{
-            height: "100%",
-            display: 'flex',
-            justifyContent: "space-between",
-            width: " 28.5%"
-          }}>
+          <div className='call-btns'>
             <button className='endC-btn'
               onClick={endCallOpenRates}>{language.End}</button>
             <Dialog open={openRates} onClose={handleCloseRate} disableEscapeKeyDown>
@@ -314,9 +321,6 @@ export default function Session() {
               </DialogActions>
             </Dialog>
             {quizRender}
-          </div>
-
-          <div className='call-btns'>
             {micRender}
             {camRender}
             {shareRender}
