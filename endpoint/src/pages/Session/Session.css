@@ -294,7 +294,6 @@
 }
 
 .quiz-tutor {
-  z-index: 3;
   background: #F4F4F8;
   border-radius: 7px;
   width: 48vh;
@@ -568,7 +567,6 @@
     font-size: 25px;
     line-height: 42px;
   }
-
   .endC-btn {font-size: 12px !important;}
 
 }
