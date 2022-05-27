@@ -631,12 +631,10 @@ require('./routers/fetchDataRouter')(app)
 
 
 // The server will listen on 4000 port
-// server.listen(4000, (req, res) => {
-//     console.log("The server is running on 4000 port ");
-// });
+server.listen(4000, (req, res) => {
+    console.log("The server is running on 4000 port ");
+});
 
-if(process.env.NODE_ENV ==='test') app.set('port' , 3001);
-else app.set('port' , process.env.PORT ||3000 );
 app.get('/add/:id', (req, res) => {
     res.json(req.params.id)
 })
