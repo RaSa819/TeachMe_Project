@@ -20,7 +20,6 @@ const student = require('./models/student')
 const sessionModel = require('./models/session');
 const ObjectId = mongoose.Types.ObjectId
 const server = require('http').Server(app);
-const path = require('path');
 
 
 mongoose.connect("mongodb+srv://raghad8:rasa112233@cluster0.r3n4y.mongodb.net/test", (err) => {
@@ -631,24 +630,13 @@ require('./routers/adminRouter')(app)
 require('./routers/fetchDataRouter')(app)
 
 
+// The server will listen on 4000 port
+// server.listen(4000, (req, res) => {
+//     console.log("The server is running on 4000 port ");
+// });
 
-server.listen(4000, (req, res) => {
-    console.log("The server is running on 4000 port ");
-});
-
-// if(process.env.NODE_ENV ==='test') app.set('port' , 3001);
-// else app.set('port' , process.env.PORT ||3000 );
-
-// DEPLOYMENT
-
-__dirname = path.resolve();
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(__dirname , '../endpoint/build')));
-    app.get('*',(req,res)=>{
-        res.sendFile(path.resolve(__dirname , 'endpoint' , 'build' , 'index.html'));
-    })
-}
-
+if(process.env.NODE_ENV ==='test') app.set('port' , 3001);
+else app.set('port' , process.env.PORT ||3000 );
 app.get('/add/:id', (req, res) => {
     res.json(req.params.id)
 })
